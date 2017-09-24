@@ -79,13 +79,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			//wanna quit?
-			if (msg.message == WM_QUIT)
-				done = 1;
 
 			//Translate message and dispatch to WinProc
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			//wanna quit?
+			if (msg.message == WM_QUIT)
+				done = 1;
 		}
 
 		DWORD now = GetTickCount();
@@ -94,7 +95,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			frame_start = now;
 			Game_Run(hWnd);
 		}
-
 
 	}
 
@@ -157,7 +157,7 @@ int Game_Init(HWND hwnd)
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	
-	d3dpp.Windowed = false; //full screen or not?
+	d3dpp.Windowed = true; //full screen or not?
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
