@@ -47,6 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hWnd = CreateWindowEx(NULL,
 		APPTITLE,	//nam of window class
 		APPTITLE,	//title bar
+		//WS_OVERLAPPEDWINDOW,
 		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,	//window style
 		CW_USEDEFAULT, //x position of window
 		CW_USEDEFAULT, //y position of window
@@ -87,19 +88,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else
-		{
-			/*DWORD now = GetTickCount();
-			if (now - frame_start >= count_per_frame)
-			{
-				frame_start = now;*/
-				Game_Run(hWnd);
-			//}
-			//else
-			//{
-			//	Sleep(count_per_frame - now);
-			//}
 
+		DWORD now = GetTickCount();
+		if (now - frame_start >= count_per_frame)
+		{
+			frame_start = now;
+			Game_Run(hWnd);
 		}
 
 	}
@@ -223,7 +217,7 @@ void Game_Run(HWND hwnd)
 	}
 
 	//clear the backbuffer to black
-	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	RECT rect;
 	int r, g, b;
@@ -257,7 +251,10 @@ void Game_Run(HWND hwnd)
 
 	//check for escape key (to exit program)
 	if (KEY_DOWN(VK_ESCAPE))
+	{
 		PostMessage(hwnd, WM_DESTROY, 0, 0);
+		
+	}
 }
 
 void Game_End(HWND hwnd)
