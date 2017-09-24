@@ -1,12 +1,12 @@
-#include <d3d9.h>
-#include <d3dx9.h>
-#include <time.h>
+#include "stdafx.h"
 
 
-//application title
-#define APPTITLE L"SourceCode"
+//application title 
+//(since we use Unicode character set, //we have to put L before "Metroid". 
+//This means the "Metroid" should be made of 16 bit Unicode characters, rather than 8 bit)
+#define APPTITLE L"Metroid"
 
-//frame rate
+//frame rate 
 #define FRAME_RATE 30
 
 //macro used for reading keys
@@ -35,7 +35,6 @@ LPDIRECT3DSURFACE9 surface = NULL;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	MSG msg;
-
 
 	//Register this window class
 	MyRegisterClass(hInstance);
