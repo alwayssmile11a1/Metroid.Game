@@ -96,6 +96,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			Game_Run(hWnd);
 		}
 
+
 	}
 
 	return msg.wParam;
@@ -156,8 +157,8 @@ int Game_Init(HWND hwnd)
 	//set DIRECT3D presentation parameters
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-	d3dpp.Windowed = false;
+	
+	d3dpp.Windowed = false; //full screen or not?
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
@@ -184,7 +185,7 @@ int Game_Init(HWND hwnd)
 	srand(time(NULL));
 
 	//clear the backbuffer to black
-	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	//create pointer to the backbuffer
 	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
@@ -217,7 +218,7 @@ void Game_Run(HWND hwnd)
 	}
 
 	//clear the backbuffer to black
-	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	RECT rect;
 	int r, g, b;
@@ -271,7 +272,4 @@ void Game_End(HWND hwnd)
 	if (d3d != NULL)
 		d3d->Release();
 
-	//release backbuffer
-	if (backbuffer != NULL)
-		backbuffer->Release();
 }
