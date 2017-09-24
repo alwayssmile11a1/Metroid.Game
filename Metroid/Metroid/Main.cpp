@@ -6,6 +6,9 @@
 //This means the "Metroid" should be made of 16 bit Unicode characters, rather than 8 bit)
 #define APPTITLE L"Metroid"
 
+//Full screen or not
+#define FULLSCREEN FALSE
+
 //frame rate 
 #define FRAME_RATE 30
 
@@ -42,12 +45,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//the handle for the window
 	HWND hWnd;
 
+	//Window style
+	DWORD WINDOWSTYLE = WS_OVERLAPPEDWINDOW; //should use this for window mode
+	if(FULLSCREEN)
+	{
+		WINDOWSTYLE = WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP; //should use this for full screen mode
+	}
+
 	//create the window
 	hWnd = CreateWindowEx(NULL,
 		APPTITLE,	//nam of window class
 		APPTITLE,	//title bar
-		//WS_OVERLAPPEDWINDOW,
-		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,	//window style
+		WINDOWSTYLE,	//window style
 		CW_USEDEFAULT, //x position of window
 		CW_USEDEFAULT, //y position of window
 		SCREEN_WIDTH, //width of the window
@@ -157,7 +166,14 @@ int Game_Init(HWND hwnd)
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	
-	d3dpp.Windowed = true; //full screen or not?
+	if (FULLSCREEN)
+	{
+		d3dpp.Windowed = false; //full screen or not?
+	}
+	else
+	{
+		d3dpp.Windowed = true; 
+	}
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
