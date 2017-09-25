@@ -12,6 +12,9 @@
 //frame rate 
 #define FRAME_RATE 30
 
+//Time between the last frame and current frame
+DWORD dt;
+
 //macro used for reading keys
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
@@ -33,6 +36,9 @@ LPDIRECT3DDEVICE9 d3ddev = NULL;
 LPDIRECT3DSURFACE9 backbuffer = NULL;
 LPDIRECT3DSURFACE9 surface = NULL;
 
+//this will be deleted later
+RECT rect;
+int r, g, b;
 
 //The entry point for any Windows program
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -79,12 +85,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!Game_Init(hWnd))
 		return 0;
 
-	//game loop
+	//a variable to let us know the starting time of a frame
 	DWORD frame_start = GetTickCount();
+	//the average time per frame
 	DWORD count_per_frame = 1000 / FRAME_RATE;
 
-	int done = 0;
-	while (!done)
+	//this is only for testing purpose
+	rect.left = 10;
+	rect.top = 10;
+	rect.right = 20;
+	rect.bottom = 20;
+	r = rand() % 255;
+	g = rand() % 255;
+	b = rand() % 255;
+
+	//game loop
+	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -95,11 +111,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			//wanna quit?
 			if (msg.message == WM_QUIT)
-				done = 1;
+				break;
 		}
 
+		//get "now" time
 		DWORD now = GetTickCount();
-		if (now - frame_start >= count_per_frame)
+		//calculate delta time
+		dt = now - frame_start;
+		if (dt >= count_per_frame) //if true, next frame
 		{
 			frame_start = now;
 			Game_Run(hWnd);
@@ -222,6 +241,7 @@ int Game_Init(HWND hwnd)
 	return 1;
 }
 
+
 //Do your things here
 void Game_Run(HWND hwnd)
 {
@@ -235,28 +255,24 @@ void Game_Run(HWND hwnd)
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
-	RECT rect;
-	int r, g, b;
 
 	//start rendering
 	if (d3ddev->BeginScene())
 	{
 		//fill the surface with random color
-		r = rand() % 255;
-		g = rand() % 255;
-		b = rand() % 255;
+		
 		d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
+		
+		rect.left += 0.1*dt;
+		rect.right += 0.1*dt;
 
 		//copy the surface to the backbuffer
 		/*	rect.left = rand() % SCREEN_WIDTH / 2;
 		rect.top = rand() % SCREEN_HEIGHT;
 		rect.right = rect.left + rand() % SCREEN_WIDTH / 2;
 		rect.bottom = rect.top + rand() % SCREEN_HEIGHT / 2;*/
-		rect.left = 10;
-		rect.top = 10;
-		rect.right = 20;
-		rect.bottom = 20;
 		d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
+
 
 		//stop rendering
 		d3ddev->EndScene();
@@ -275,6 +291,7 @@ void Game_Run(HWND hwnd)
 
 void Game_End(HWND hwnd)
 {
+	
 	//free the surface
 	surface->Release();
 
