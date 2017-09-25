@@ -1,7 +1,5 @@
 // Vector2.h: a vector with two dimensions x and y
 #pragma once
-#include"stdafx.h"
-
 
 class Vector2
 {

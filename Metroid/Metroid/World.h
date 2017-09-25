@@ -3,6 +3,7 @@
 #pragma once
 #include"stdafx.h"
 #include"Object.h"
+
 class World
 {
 private:
