@@ -2,7 +2,7 @@
 
 #pragma once
 #include"stdafx.h"
-
+#include"Object.h"
 class World
 {
 private:
@@ -18,21 +18,19 @@ public:
 	~World();
 
 	//All get functions
-	void GetWidth();
-	void GetHeight();
-	void GetObjectsList();
+	int GetWidth();
+	int GetHeight();
+	std::list<Object> GetObjectsList();
 	
 	//All set functions
-	void SetWidth();
-	void SetHeight();
-	void SetDeltaTime();
+	void SetWidth(int Width);
+	void SetHeight(int Height);
+	void SetDeltaTime(DWORD dt);
 
 	//Update world (update all the objects in this world)
 	void Update(DWORD dt);
 	void AddObject(Object* object);
 	void RemoveObject(Object* object);
 	void RemoveObject(int index);
-
-
 
 };

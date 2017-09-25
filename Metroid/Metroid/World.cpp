@@ -18,3 +18,49 @@ World::~World()
 {
 	
 }
+
+//All get functions
+int World::GetWidth()
+{
+	return width;
+}
+int World::GetHeight()
+{
+	return height;
+}
+std::list<Object> World::GetObjectsList()
+{
+	return objects;
+}
+
+//All set functions
+void World::SetWidth(int width)
+{
+	this->width = width;
+}
+void World::SetHeight(int height)
+{
+	this->height = height;
+}
+void World::SetDeltaTime(DWORD dt)
+{
+	this->dt = dt;
+}
+
+//Update world (update all the objects in this world)
+void World::Update(DWORD dt)
+{
+
+}
+void World::AddObject(Object* object)
+{
+
+}
+void World::RemoveObject(Object* object)
+{
+
+}
+void World::RemoveObject(int index)
+{
+
+}
