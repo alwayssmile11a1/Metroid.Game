@@ -12,6 +12,9 @@
 #include <d3d9.h>
 //#include <d3dx9.h>
 #include <time.h>
-
-
+#include "Object.h"
+#include "World.h"
+#include <queue>
+#include <list>
+#include <stdlib.h>
 // TODO: reference additional headers your program requires here
