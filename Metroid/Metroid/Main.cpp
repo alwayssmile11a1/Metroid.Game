@@ -123,6 +123,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			frame_start = now;
 			Game_Run(hWnd);
 		}
+		else
+		{
+			Sleep(count_per_frame - dt);
+		}
 
 	}
 
