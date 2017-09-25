@@ -28,7 +28,7 @@ int World::GetHeight()
 {
 	return height;
 }
-std::list<Object> World::GetObjectsList()
+std::vector<Object> World::GetObjectsList()
 {
 	return objects;
 }
@@ -50,11 +50,14 @@ void World::SetDeltaTime(DWORD dt)
 //Update world (update all the objects in this world)
 void World::Update(DWORD dt)
 {
-
+	for (std::vector<Object>::iterator object = objects.begin(); object !=objects.end();++object)
+	{
+		object->Update(dt);
+	}
 }
-void World::AddObject(Object* object)
+void World::AddObject(Object object)
 {
-
+	objects.push_back(object);
 }
 void World::RemoveObject(Object* object)
 {

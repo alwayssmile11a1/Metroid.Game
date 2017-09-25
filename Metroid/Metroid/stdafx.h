@@ -9,7 +9,7 @@
 //#include <d3dx9.h>
 #include <time.h>
 #include <queue>
-#include <list>
+#include<vector>
 #include"Vector2.h"
 
 // TODO: reference additional headers your program requires here

@@ -10,7 +10,7 @@ private:
 	int width; //the width of the world
 	int height; //the height of the world
 	DWORD dt; //delta time (time between two frames)
-	std::list<Object> objects; //list of all objects
+	std::vector<Object> objects; //list of all objects
 	
 public:
 	//Constructor and destructor
@@ -21,7 +21,7 @@ public:
 	//All get functions
 	int GetWidth();
 	int GetHeight();
-	std::list<Object> GetObjectsList();
+	std::vector<Object> GetObjectsList();
 	
 	//All set functions
 	void SetWidth(int Width);
@@ -30,7 +30,7 @@ public:
 
 	//Update world (update all the objects in this world)
 	void Update(DWORD dt);
-	void AddObject(Object* object);
+	void AddObject(Object object);
 	void RemoveObject(Object* object);
 	void RemoveObject(int index);
 

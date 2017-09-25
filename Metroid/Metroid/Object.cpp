@@ -14,3 +14,8 @@ Object::~Object()
 {
 
 }
+
+void Object::Update(DWORD dt)
+{
+
+}
