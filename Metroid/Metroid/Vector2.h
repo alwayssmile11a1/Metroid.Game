@@ -5,8 +5,8 @@
 class Vector2
 {
 private:
-	float x; //the width of the object
-	float y; //the height of the object
+	float x; 
+	float y; 
 
 public:
 	//constructor and destructor
