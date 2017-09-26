@@ -18,19 +18,47 @@ Vector2::~Vector2()
 
 }
 
-float Vector2::GetX()
+float Vector2::getX()
 {
 	return x;
 }
-float Vector2::GetY()
+float Vector2::getY()
 {
 	return y;
 }
-void Vector2::SetX(float x)
+void Vector2::setX(float x)
 {
 	this->x = x;
 }
-void Vector2::SetY(float y)
+void Vector2::setY(float y)
 {
 	this->y = y;
+}
+
+//Overloading
+Vector2 Vector2::operator+(const Vector2 &b)
+{
+	Vector2 result;
+	result.x = this->x + b.x;
+	result.y = this->y + b.y;
+	return result;
+}
+Vector2 Vector2:: operator-(const Vector2 &b)
+{
+	Vector2 result;
+	result.x = this->x - b.x;
+	result.y = this->y - b.y;
+	return result;
+}
+
+Vector2  Vector2::operator=(const Vector2 &b)
+{
+	this->x = b.x;
+	this->y = b.y;
+	return *this;
+}
+
+bool Vector2::operator==(const Vector2 &b)
+{
+	return (this->x == b.x) && (this->x == b.y);
 }

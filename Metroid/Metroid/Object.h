@@ -5,10 +5,8 @@
 class Object
 {
 private:
-	int width; //the width of the object
-	int height; //the height of the object
-	int vx;
-	int vy;
+	Vector2 bounds; //the width and height of this object
+	Vector2 velocity; //the vx and vy of this object
 
 public:
 	//constructor and destructor
@@ -16,8 +14,15 @@ public:
 	Object(int width, int height);
 	~Object();
 
+	//All get functions
+	Vector2 getBounds();
+
+	//All set functions
+	void setBounds(Vector2 value);
+	void setVelocity(Vector2 value);
+
 
 	//Update object
-	void Update(DWORD dt);
+	void update(DWORD dt);
 };
 

@@ -1,4 +1,5 @@
 // Vector2.h: a vector with two dimensions x and y
+// a small note is that in C++, class is by default value type
 #pragma once
 
 class Vector2
@@ -14,10 +15,17 @@ public:
 	~Vector2();
 
 	//get and set
-	float GetX();
-	float GetY();
-	void SetX(float x);
-	void SetY(float y);
+	float getX();
+	float getY();
+	void setX(float x);
+	void setY(float y);
+
+
+	//Overloading methods
+	Vector2 operator+(const Vector2 &b);
+	Vector2 operator-(const Vector2 &b);
+	Vector2 operator=(const Vector2 &b);
+	bool operator==(const Vector2 &b);
 
 };
 

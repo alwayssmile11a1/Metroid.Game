@@ -7,8 +7,8 @@
 class World
 {
 private:
-	int width; //the width of the world
-	int height; //the height of the world
+	Vector2 bounds; //the width and height of this game world
+	
 	DWORD dt; //delta time (time between two frames)
 	std::vector<Object> objects; //list of all objects
 	
@@ -19,19 +19,17 @@ public:
 	~World();
 
 	//All get functions
-	int GetWidth();
-	int GetHeight();
-	std::vector<Object> GetObjectsList();
+	Vector2 getBounds();
+	std::vector<Object> getObjectsList();
 	
 	//All set functions
-	void SetWidth(int Width);
-	void SetHeight(int Height);
-	void SetDeltaTime(DWORD dt);
+	void setBounds(Vector2 value);
+	void setDeltaTime(DWORD dt);
 
 	//Update world (update all the objects in this world)
-	void Update(DWORD dt);
-	void AddObject(Object object);
-	void RemoveObject(Object* object);
-	void RemoveObject(int index);
+	void update(DWORD dt);
+	void addObject(Object object);
+	void removeObject(Object* object);
+	void removeObject(int index);
 
 };

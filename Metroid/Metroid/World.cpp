@@ -2,15 +2,15 @@
 
 World::World()
 {
-	this->width = 0;
-	this->height = 0;
+	bounds.setX(0);
+	bounds.setY(0);
 	this->dt = 0;
 }
 
 World::World(int width, int height, DWORD dt)
 {
-	this->width = width;
-	this->height = height;
+	bounds.setX(width);
+	bounds.setY(height);
 	this->dt = dt;
 }
 
@@ -20,50 +20,44 @@ World::~World()
 }
 
 //All get functions
-int World::GetWidth()
-{
-	return width;
+Vector2 World::getBounds()
+{	
+	return bounds;
 }
-int World::GetHeight()
-{
-	return height;
-}
-std::vector<Object> World::GetObjectsList()
+
+std::vector<Object> World::getObjectsList()
 {
 	return objects;
 }
 
 //All set functions
-void World::SetWidth(int width)
+void World::setBounds(Vector2 value)
 {
-	this->width = width;
+	bounds = value;
 }
-void World::SetHeight(int height)
-{
-	this->height = height;
-}
-void World::SetDeltaTime(DWORD dt)
+
+void World::setDeltaTime(DWORD dt)
 {
 	this->dt = dt;
 }
 
 //Update world (update all the objects in this world)
-void World::Update(DWORD dt)
+void World::update(DWORD dt)
 {
 	for (std::vector<Object>::iterator object = objects.begin(); object !=objects.end();++object)
 	{
-		object->Update(dt);
+		object->update(dt);
 	}
 }
-void World::AddObject(Object object)
+void World::addObject(Object object)
 {
 	objects.push_back(object);
 }
-void World::RemoveObject(Object* object)
+void World::removeObject(Object* object)
 {
 
 }
-void World::RemoveObject(int index)
+void World::removeObject(int index)
 {
 
 }
