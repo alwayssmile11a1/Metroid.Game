@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include<windows.h>
 #include "World.h"
 
 //application title 
@@ -244,11 +245,11 @@ int Game_Init(HWND hwnd)
 	//	D3DPOOL_DEFAULT, //memory pool to use
 	//	&surface, //pointer to the surface
 	//	NULL //reserved (always NULL)
-	//);
-	
+	//);	
 	//if (!result)
 	//	return 1;
 
+	//load surface from file
 	result = D3DXLoadSurfaceFromFile(
 		surface, //destination surface
 		NULL, //destination pallete
@@ -260,7 +261,12 @@ int Game_Init(HWND hwnd)
 		NULL
 	);
 
-	//make sure 
+	//make sure the file was loaded properly
+	if (result != D3D_OK)
+		return 1;
+
+	//draw surface to backbuffer
+	d3ddev->StretchRect(surface, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
 
 	//return okay
@@ -271,7 +277,6 @@ int Game_Init(HWND hwnd)
 //Do your things here
 void Game_Run(HWND hwnd)
 {
-
 	//make sure the Direct3D device is valid
 	if (d3ddev == NULL)
 	{
@@ -284,20 +289,21 @@ void Game_Run(HWND hwnd)
 
 	//start rendering
 	if (d3ddev->BeginScene())
-	{
-		//fill the surface with random color
-		
-		d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
-		
-		rect.left += dt*object.getVelocity().getX();
-		rect.right += dt*object.getVelocity().getY();
+	{	
 
-		//copy the surface to the backbuffer
-		/*	rect.left = rand() % SCREEN_WIDTH / 2;
-		rect.top = rand() % SCREEN_HEIGHT;
-		rect.right = rect.left + rand() % SCREEN_WIDTH / 2;
-		rect.bottom = rect.top + rand() % SCREEN_HEIGHT / 2;*/
-		d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
+		//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
+		//
+		//rect.left += dt*object.getVelocity().getX();
+		//rect.right += dt*object.getVelocity().getY();
+		
+		////draw the surface to the backbuffer
+		//d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
+
+		//create pointer to the backbuffer
+		d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+
+		//draw the surface to the backbuffer
+		d3ddev->StretchRect(surface, NULL, backbuffer,NULL, D3DTEXF_NONE);
 
 
 		//stop rendering
@@ -319,7 +325,10 @@ void Game_End(HWND hwnd)
 {
 	
 	//free the surface
-	surface->Release();
+	if (surface != NULL)
+	{
+		surface->Release();
+	}
 
 	//release the Direct3D device
 	if (d3ddev != NULL) {
