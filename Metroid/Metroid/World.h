@@ -10,7 +10,7 @@ private:
 	Vector2 bounds; //the width and height of this game world
 	
 	DWORD dt; //delta time (time between two frames)
-	std::vector<Object> objects; //list of all objects
+	std::vector<Object*> objects; //list of all objects. Using pointer like this may be better, I think. 
 	
 public:
 	//Constructor and destructor
@@ -20,7 +20,7 @@ public:
 
 	//All get functions
 	Vector2 getBounds();
-	std::vector<Object> getObjectsList();
+	std::vector<Object*> getObjectsList();
 	
 	//All set functions
 	void setBounds(Vector2 value);
@@ -28,7 +28,7 @@ public:
 
 	//Update world (update all the objects in this world)
 	void update(DWORD dt);
-	void addObject(Object object);
+	void addObject(Object *object);
 	void removeObject(Object* object);
 	void removeObject(int index);
 

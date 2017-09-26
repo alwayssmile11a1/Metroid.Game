@@ -1,7 +1,6 @@
 // Object.h: parent class of any game object 
 #pragma once
 #include"stdafx.h"
-
 class Object
 {
 private:

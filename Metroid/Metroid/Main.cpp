@@ -40,6 +40,8 @@ LPDIRECT3DSURFACE9 surface = NULL;
 RECT rect;
 int r, g, b;
 
+
+
 //The entry point for any Windows program
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -98,6 +100,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	r = rand() % 255;
 	g = rand() % 255;
 	b = rand() % 255;
+
+	
 
 	//game loop
 	while (true)

@@ -7,7 +7,7 @@
 #include <d3d9.h>
 //#include <d3dx9.h>
 #include <time.h>
-#include <queue>
+//#include <queue>
 #include<vector>
 #include"Vector2.h"
 
