@@ -5,7 +5,7 @@
 #pragma once
 
 #include <d3d9.h>
-#include <d3dx9.h>
+#include <d3dx9.h> //please read the readme.txt file if you have any problems with this include line. 
 #include <time.h>
 //#include <queue>
 #include<vector>

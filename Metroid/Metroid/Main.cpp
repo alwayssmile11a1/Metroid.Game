@@ -231,23 +231,37 @@ int Game_Init(HWND hwnd)
 	srand(time(NULL));
 
 	//clear the backbuffer to black
-	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	//create pointer to the backbuffer
 	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
 
-	//create surface
-	result = d3ddev->CreateOffscreenPlainSurface(
-		100, //width of the surface
-		100, //height of the surface
-		D3DFMT_X8R8G8B8, //surface format
-		D3DPOOL_DEFAULT, //memory pool to use
-		&surface, //pointer to the surface
-		NULL //reserved (always NULL)
+	////create plain surface
+	//result = d3ddev->CreateOffscreenPlainSurface(
+	//	100, //width of the surface
+	//	100, //height of the surface
+	//	D3DFMT_X8R8G8B8, //surface format
+	//	D3DPOOL_DEFAULT, //memory pool to use
+	//	&surface, //pointer to the surface
+	//	NULL //reserved (always NULL)
+	//);
+	
+	//if (!result)
+	//	return 1;
+
+	result = D3DXLoadSurfaceFromFile(
+		surface, //destination surface
+		NULL, //destination pallete
+		NULL, //destination rectangle
+		L"bird.png", //Source file
+		NULL, //Source rectangle
+		D3DX_DEFAULT,
+		0,
+		NULL
 	);
 
-	if (!result)
-		return 1;
+	//make sure 
+
 
 	//return okay
 	return 1;
