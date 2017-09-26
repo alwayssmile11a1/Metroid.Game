@@ -1,5 +1,6 @@
+#pragma once
 #include "stdafx.h"
-
+#include "World.h"
 
 //application title 
 //(since we use Unicode character set, //we have to put L before "Metroid". 
@@ -40,6 +41,7 @@ LPDIRECT3DSURFACE9 surface = NULL;
 RECT rect;
 int r, g, b;
 
+Object object;
 
 
 //The entry point for any Windows program
@@ -93,15 +95,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DWORD count_per_frame = 1000 / FRAME_RATE;
 
 	//this is only for testing purpose
-	rect.left = 10;
-	rect.top = 10;
-	rect.right = 20;
-	rect.bottom = 20;
+	rect.left = 50;
+	rect.top = 50;
+	rect.right = 100;
+	rect.bottom = 100;
 	r = rand() % 255;
 	g = rand() % 255;
 	b = rand() % 255;
 
-	
+	object = Object(10, 10);
+	object.setVelocity(Vector2(0.1f, 0.1f));
 
 	//game loop
 	while (true)
@@ -262,7 +265,7 @@ void Game_Run(HWND hwnd)
 	}
 
 	//clear the backbuffer to black
-	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 
 	//start rendering
@@ -272,8 +275,8 @@ void Game_Run(HWND hwnd)
 		
 		d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
 		
-		rect.left += 0.1*dt;
-		rect.right += 0.1*dt;
+		rect.left += dt*object.getVelocity().getX();
+		rect.right += dt*object.getVelocity().getY();
 
 		//copy the surface to the backbuffer
 		/*	rect.left = rand() % SCREEN_WIDTH / 2;

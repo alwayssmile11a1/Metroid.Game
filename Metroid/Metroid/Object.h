@@ -15,6 +15,7 @@ public:
 
 	//All get functions
 	Vector2 getBounds();
+	Vector2 getVelocity();
 
 	//All set functions
 	void setBounds(Vector2 value);

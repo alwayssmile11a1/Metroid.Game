@@ -27,6 +27,11 @@ Vector2 Object::getBounds()
 	return bounds;
 }
 
+Vector2 Object::getVelocity()
+{
+	return velocity;
+}
+
 //All set functions
 void Object::setBounds(Vector2 value)
 {
