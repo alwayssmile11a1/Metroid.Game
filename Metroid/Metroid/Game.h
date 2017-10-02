@@ -2,6 +2,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "World.h"
 
 
 //macro used for reading keys
@@ -29,7 +30,7 @@ private:
 	LPDIRECT3D9 d3d;
 	LPDIRECT3DDEVICE9 d3ddev;
 	LPDIRECT3DSURFACE9 backbuffer;
-	LPDIRECT3DSURFACE9 surface;
+	LPDIRECT3DSURFACE9 background;
 
 	//window event callback function - basically we use this function to determine what message is sent to Window
 	static LRESULT CALLBACK winProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -38,18 +39,21 @@ private:
 	bool initDirectX();
 
 	//update game by one frame (render, control game)
-	void updateGame();
+	void updateGame(World);
 
 public:
 	//constructor and destructor
 	Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~Game();
 
+	LPDIRECT3DDEVICE9 GetDevice();
+	LPDIRECT3DSURFACE9 GetBackground();
+
 	//init all the things we need to start drawing our game
 	void initGame();
 
 	//run game
-	int runGame();
+	int runGame(World world);
 
 	//maybe we play next time, shall we?
 	void endGame();

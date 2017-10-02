@@ -46,11 +46,12 @@ void World::setDeltaTime(DWORD dt)
 }
 
 //Update world (update all the objects in this world)
-void World::update(DWORD dt)
+void World::update(DWORD dt, LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer)
 {
 	for (std::vector<Object*>::iterator obj = objects.begin(); obj !=objects.end();++obj)
 	{
 		(*obj)->update(dt);
+		(*obj)->RenderFrame(d3ddv, backbuffer, dt);
 	}
 }
 void World::addObject(Object *object)

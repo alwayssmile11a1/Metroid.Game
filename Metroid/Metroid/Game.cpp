@@ -1,4 +1,5 @@
 #include"Game.h"
+#include"Utility.h"
 
 Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
 {
@@ -13,15 +14,15 @@ Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHe
 	d3d = NULL;
 	d3ddev = NULL;
 	backbuffer = NULL;
-	surface = NULL;
+	background = NULL;
 }
 
 Game::~Game()
 {
 	//free the surface
-	if (surface != NULL)
+	if (background != NULL)
 	{
-		surface->Release();
+		background->Release();
 	}
 
 	//release the Direct3D device
@@ -32,6 +33,16 @@ Game::~Game()
 	//release the Direct3D object
 	if (d3d != NULL)
 		d3d->Release();
+}
+
+LPDIRECT3DDEVICE9 Game::GetDevice()
+{
+	return d3ddev;
+}
+
+LPDIRECT3DSURFACE9 Game::GetBackground()
+{
+	return background;
 }
 
 LRESULT CALLBACK Game::winProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -106,6 +117,7 @@ bool Game::initWindow()
 	return true;
 }
 
+
 bool Game::initDirectX()
 {
 	HRESULT result;
@@ -157,8 +169,8 @@ bool Game::initDirectX()
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
-	//create pointer to the backbuffer
-	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+	////create pointer to the backbuffer
+	//d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
 
 	////create plain surface
 	//result = d3ddev->CreateOffscreenPlainSurface(
@@ -172,24 +184,10 @@ bool Game::initDirectX()
 	//if (!result)
 	//	return 1;
 
-	//load surface from file
-	result = D3DXLoadSurfaceFromFile(
-		surface, //destination surface
-		NULL, //destination pallete
-		NULL, //destination rectangle
-		L"bird.png", //Source file
-		NULL, //Source rectangle
-		D3DX_DEFAULT,
-		0,
-		NULL
-	);
-
-	//make sure the file was loaded properly
-	if (result != D3D_OK)
-		return 1;
+	background = CreateSurfaceFromFile(d3ddev, L"DemoScreen05.jpg");
 
 	//draw surface to backbuffer
-	d3ddev->StretchRect(surface, NULL, backbuffer, NULL, D3DTEXF_NONE);
+	d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
 
 	//return okay
@@ -214,7 +212,7 @@ void Game::initGame()
 
 }
 
-int Game::runGame()
+int Game::runGame(World world)
 {
 	//message from window
 	MSG msg;
@@ -248,8 +246,11 @@ int Game::runGame()
 		{
 			frame_start = now;
 			
+			////update World 
+			//world.update(deltaTime, d3ddev, backbuffer);
+
 			//update game by one frame
-			updateGame();
+			updateGame(world);
 
 		}
 		else
@@ -264,7 +265,7 @@ int Game::runGame()
 
 }
 
-void Game::updateGame()
+void Game::updateGame(World world)
 {
 	//make sure the Direct3D device is valid
 	if (d3ddev == NULL)
@@ -279,7 +280,8 @@ void Game::updateGame()
 	//start rendering
 	if (d3ddev->BeginScene())
 	{
-
+		//update World 
+		world.update(deltaTime, d3ddev, backbuffer);
 		//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
 		//
 		//rect.left += dt*object.getVelocity().getX();
@@ -292,7 +294,7 @@ void Game::updateGame()
 		d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
 
 		//draw the surface to the backbuffer
-		d3ddev->StretchRect(surface, NULL, backbuffer, NULL, D3DTEXF_NONE);
+		d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
 
 		//stop rendering

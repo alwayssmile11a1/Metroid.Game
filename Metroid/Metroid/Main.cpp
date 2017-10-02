@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 #include "Game.h"
+#include "Object.h"
+#include "World.h"
 
 // application title
 //(since we use Unicode character set, //we have to put L before "Metroid". 
@@ -22,10 +24,14 @@
 //The entry point for any Windows program
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	Object *Test = new Object(50, 50);	
+	World Testt;	
 
 	Game game = Game(hInstance, APPTITLE, SCREEN_WIDTH, SCREEN_HEIGHT,FULLSCREENMODE, FRAME_RATE);
 	game.initGame();
-	game.runGame();
+	Test->LoadResources(game.GetDevice(), L"ball.png", L"ball.png", L"ball.png", game.GetBackground(), 1, 1);
+	Testt.addObject(Test);
+	game.runGame(Testt);
 
 
 

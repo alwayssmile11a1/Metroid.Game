@@ -6,7 +6,7 @@
 
 class World
 {
-private:
+public:
 	Vector2 bounds; //the width and height of this game world
 	
 	DWORD dt; //delta time (time between two frames)
@@ -27,7 +27,7 @@ public:
 	void setDeltaTime(DWORD dt);
 
 	//Update world (update all the objects in this world)
-	void update(DWORD dt);
+	void update(DWORD dt, LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer);
 	void addObject(Object *object);
 	void removeObject(Object* object);
 	void removeObject(int index);
