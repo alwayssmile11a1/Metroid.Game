@@ -7,7 +7,7 @@ class Object
 public:
 	Vector2 size; //the width and height of this object
 	Vector2 velocity; //the vx and vy of this object
-	Vector2 coordinate; //the x, y coordinate of this object
+	Vector2 position; //the x, y coordinate of this object
 
 	/*LPD3DXSPRITE _SpriteHandler;*/
 
@@ -24,16 +24,18 @@ public:
 	//constructor and destructor
 	Object();
 	Object(float width, float height, float x, float y);
+	Object(const Object &object);
 	~Object();
 
 	//All get functions
 	Vector2 getBounds();
 	Vector2 getVelocity();
-	Vector2 getSize();
+	Vector2 getPosition();
 
 	//All set functions
 	void setBounds(Vector2 value);
 	void setVelocity(Vector2 value);
+	void setPosition(Vector2 value);
 
 
 	//Update object

@@ -23,13 +23,26 @@ World::~World()
 	}
 }
 
+World::World(const World &world)
+{
+	this->bounds = world.bounds;
+	this->dt = world.dt;
+	std::vector<Object*> vectorCopy = world.getObjectsList();
+	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
+	{
+		Object * temp = new Object();
+		*temp = **obj;
+		this->objects.push_back(temp);
+	}
+}
+
 //All get functions
 Vector2 World::getBounds()
 {	
 	return bounds;
 }
 
-std::vector<Object*> World::getObjectsList()
+std::vector<Object*> World::getObjectsList() const
 {
 	return objects;
 }

@@ -12,7 +12,9 @@ public:
 	//constructor and destructor
 	Vector2();
 	Vector2(float width, float height);
+	Vector2(const Vector2&vector);
 	~Vector2();
+	
 
 	//get and set
 	float getX();

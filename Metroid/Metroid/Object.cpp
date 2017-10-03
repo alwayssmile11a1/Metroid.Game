@@ -17,10 +17,16 @@ Object::Object(float width, float height, float x, float y)
 	size.setY(height);
 	velocity.setX(1.0f);
 	velocity.setY(1.0f);
-	coordinate.setX(x);
-	coordinate.setY(y);
+	position.setX(x);
+	position.setY(y);
 }
 
+Object::Object(const Object &object)
+{
+	this->size = object.size;
+	this->velocity = object.velocity;
+	this->position = object.position;
+}
 
 
 Object::~Object()
@@ -39,9 +45,9 @@ Vector2 Object::getVelocity()
 	return velocity;
 }
 
-Vector2 Object::getSize()
+Vector2 Object::getPosition()
 {
-	return size;
+	return position;
 }
 
 //All set functions
@@ -56,7 +62,7 @@ void Object::setVelocity(Vector2 value)
 
 void Object::update(DWORD dt)
 {
-	coordinate.setX(coordinate.getX() + velocity.getX()*1);	
+	position.setX(position.getX() + velocity.getX()*1);
 
 	// Animate kitty if she is running
 	DWORD now = GetTickCount();
@@ -69,10 +75,10 @@ void Object::update(DWORD dt)
 	}
 
 	// Simulate fall down
-	if (coordinate.getY() < GROUND_Y) velocity.setY(velocity.getX()+0.5f);
+	if (position.getY() < GROUND_Y) velocity.setY(velocity.getX()+0.5f);
 	else
 	{
-		coordinate.setY(GROUND_Y);
+		position.setY(GROUND_Y);
 		velocity.setY(0);
 	}
 }
@@ -88,13 +94,13 @@ void Object::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer,
 	//	D3DTEXF_NONE);
 	
 	if (velocity.getX() > 0)
-		object_right->Render(coordinate.getX(), coordinate.getY());
+		object_right->Render(position.getX(), position.getY());
 	else if (velocity.getX() < 0)
-		object_left->Render(coordinate.getX(), coordinate.getY());
+		object_left->Render(position.getX(), position.getY());
 	else if (kitty_vx_last < 0)
-		object_left->Render(coordinate.getX(), coordinate.getY());
+		object_left->Render(position.getX(), position.getY());
 	else
-		object_right->Render(coordinate.getX(), coordinate.getY());	
+		object_right->Render(position.getX(), position.getY());
 }
 
 void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background, int Sprite_Count, int Sprite_per_row)

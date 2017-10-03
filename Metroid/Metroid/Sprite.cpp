@@ -64,15 +64,15 @@ void Sprite::Render(LPDIRECT3DSURFACE9 Target, int X, int Y)
 
 	RECT srect;
 
-	/*srect.left = (_Index % _SpritePerRow)*(_Width)+1;
+	srect.left = (_Index % _SpritePerRow)*(_Width)+1;
 	srect.top = (_Index / _SpritePerRow)*(_Height)+1;
 	srect.right = srect.left + _Width;
-	srect.bottom = srect.top + _Height + 1;*/
-
-	srect.left = 0;
-	srect.top = 0;
-	srect.right = srect.left + _Width;
 	srect.bottom = srect.top + _Height + 1;
+
+	//srect.left = 0;
+	//srect.top = 0;
+	//srect.right = srect.left + _Width;
+	//srect.bottom = srect.top + _Height + 1;
 
 	D3DXVECTOR3 position((float)X, (float)Y, 0);
 
