@@ -60,6 +60,11 @@ void Object::setVelocity(Vector2 value)
 	velocity = value;
 }
 
+void Object::setPosition(Vector2 value)
+{
+	position = value;
+}
+
 void Object::update(DWORD dt)
 {
 	position.setX(position.getX() + velocity.getX()*1);
