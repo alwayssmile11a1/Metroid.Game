@@ -14,7 +14,7 @@ public:
 	int _Count;								// Number of sprites
 	int _SpritePerRow;						// Number of sprites per row
 public:
-	Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPD3DXSPRITE SpriteHandler, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow);
+	Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();
 

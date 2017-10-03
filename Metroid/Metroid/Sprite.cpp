@@ -2,14 +2,17 @@
 
 
 
-Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPD3DXSPRITE SpriteHandler, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow)
+Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow)
 {
 	D3DXIMAGE_INFO info;
 	
 	HRESULT result = D3DXGetImageInfoFromFile(FilePath , &info);
 	
 	_Image = NULL;
-	_SpriteHandler = SpriteHandler;
+	HRESULT res = D3DXCreateSprite(d3ddev, &_SpriteHandler);
+	if (res != D3D_OK) return;
+
+	_SpriteHandler->GetDevice(&d3ddev);
 
 	_Width = Width;
 	_Height = Height;
@@ -57,10 +60,17 @@ void Sprite::Render(int X, int Y)
 
 void Sprite::Render(LPDIRECT3DSURFACE9 Target, int X, int Y)
 {
+	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+
 	RECT srect;
 
-	srect.left = (_Index % _SpritePerRow)*(_Width)+1;
+	/*srect.left = (_Index % _SpritePerRow)*(_Width)+1;
 	srect.top = (_Index / _SpritePerRow)*(_Height)+1;
+	srect.right = srect.left + _Width;
+	srect.bottom = srect.top + _Height + 1;*/
+
+	srect.left = 0;
+	srect.top = 0;
 	srect.right = srect.left + _Width;
 	srect.bottom = srect.top + _Height + 1;
 
@@ -73,6 +83,8 @@ void Sprite::Render(LPDIRECT3DSURFACE9 Target, int X, int Y)
 		&position,
 		D3DCOLOR_XRGB(255, 255, 255)
 	);
+
+	_SpriteHandler->End();
 }
 
 void Sprite::Next()

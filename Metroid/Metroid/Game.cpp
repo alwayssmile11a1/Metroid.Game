@@ -250,7 +250,49 @@ int Game::runGame(World world)
 			//world.update(deltaTime, d3ddev, backbuffer);
 
 			//update game by one frame
-			updateGame(world);
+			/*updateGame(world);*/
+			//make sure the Direct3D device is valid
+			if (d3ddev == NULL)
+			{
+				return 0;
+			}
+
+			//clear the backbuffer to black
+			//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+
+
+			//start rendering
+			if (d3ddev->BeginScene())
+			{
+				//draw the surface to the backbuffer
+				d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
+
+				//update World 
+				world.update(deltaTime, d3ddev, backbuffer);
+				//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
+				//
+				//rect.left += dt*object.getVelocity().getX();
+				//rect.right += dt*object.getVelocity().getY();
+
+				////draw the surface to the backbuffer
+				//d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
+
+				//create pointer to the backbuffer
+				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+
+				//stop rendering
+				d3ddev->EndScene();
+			}
+
+			//Display the backbuffer on the screen
+			d3ddev->Present(NULL, NULL, NULL, NULL);
+
+			//check for escape key (to exit program)
+			if (KEY_DOWN(VK_ESCAPE))
+			{
+				PostMessage(hWnd, WM_DESTROY, 0, 0);
+
+			}
 
 		}
 		else
