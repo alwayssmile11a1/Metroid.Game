@@ -209,10 +209,13 @@ void Game::initGame()
 	}
 
 
+	//init game 
+	Test->LoadResources(GetDevice(), L"ball.bmp", L"ball.bmp", L"ball.bmp",GetBackground(), 1, 1);
+	world.addObject(Test);
 
 }
 
-int Game::runGame(World world)
+int Game::runGame()
 {
 	//message from window
 	MSG msg;
@@ -221,7 +224,6 @@ int Game::runGame(World world)
 	DWORD frame_start = GetTickCount();
 	//the average time per frame
 	DWORD count_per_frame = 1000 / frameRate;
-
 
 	//game loop
 	while (true)
@@ -245,37 +247,17 @@ int Game::runGame(World world)
 		if (deltaTime >= count_per_frame) //if true, next frame
 		{
 			frame_start = now;
-			
-			////update World 
-			//world.update(deltaTime, d3ddev, backbuffer);
 
-			//update game by one frame
-			/*updateGame(world);*/
 			//make sure the Direct3D device is valid
 			if (d3ddev == NULL)
 			{
 				return 0;
 			}
 
-			//clear the backbuffer to black
-			//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-
-
 			//start rendering
 			if (d3ddev->BeginScene())
 			{
-				//draw the surface to the backbuffer
-				d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-
-				//update World 
-				world.update(deltaTime, d3ddev, backbuffer);
-				//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
-				//
-				//rect.left += dt*object.getVelocity().getX();
-				//rect.right += dt*object.getVelocity().getY();
-
-				////draw the surface to the backbuffer
-				//d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
+				updateGame();
 
 				//create pointer to the backbuffer
 				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
@@ -286,13 +268,6 @@ int Game::runGame(World world)
 
 			//Display the backbuffer on the screen
 			d3ddev->Present(NULL, NULL, NULL, NULL);
-
-			//check for escape key (to exit program)
-			if (KEY_DOWN(VK_ESCAPE))
-			{
-				PostMessage(hWnd, WM_DESTROY, 0, 0);
-
-			}
 
 		}
 		else
@@ -307,21 +282,12 @@ int Game::runGame(World world)
 
 }
 
-void Game::updateGame(World world)
+void Game::updateGame()
 {
-	//make sure the Direct3D device is valid
-	if (d3ddev == NULL)
-	{
-		return;
-	}
 
-	//clear the backbuffer to black
-	//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+		//draw background
+		d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
-
-	//start rendering
-	if (d3ddev->BeginScene())
-	{
 		//update World 
 		world.update(deltaTime, d3ddev, backbuffer);
 		//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
@@ -332,29 +298,12 @@ void Game::updateGame(World world)
 		////draw the surface to the backbuffer
 		//d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
 
-		//create pointer to the backbuffer
-		d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+		//check for escape key (to exit program)
+		if (KEY_DOWN(VK_ESCAPE))
+		{
+			PostMessage(hWnd, WM_DESTROY, 0, 0);
 
-		//draw the surface to the backbuffer
-		d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-
-
-		//stop rendering
-		d3ddev->EndScene();
-	}
-
-	//Display the backbuffer on the screen
-	d3ddev->Present(NULL, NULL, NULL, NULL);
-
-	//check for escape key (to exit program)
-	if (KEY_DOWN(VK_ESCAPE))
-	{
-		PostMessage(hWnd, WM_DESTROY, 0, 0);
-
-	}
-}
-
-void Game::endGame()
-{
+		}
 
 }
+

@@ -73,7 +73,7 @@ void Sprite::Render(LPDIRECT3DSURFACE9 Target, int X, int Y)
 	//srect.top = 0;
 	//srect.right = srect.left + _Width;
 	//srect.bottom = srect.top + _Height + 1;
-
+	
 	D3DXVECTOR3 position((float)X, (float)Y, 0);
 
 	_SpriteHandler->Draw(

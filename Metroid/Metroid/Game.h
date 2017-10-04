@@ -14,6 +14,13 @@
 class Game
 {
 private:
+
+	//This is all game related variables 
+	World world; 
+	Object *Test = new Object(25, 25, 200, 200);
+
+
+
 	//Window related variables
 	HINSTANCE hInstance; //handle for a window instance
 	HWND hWnd;				// Handle of the Game Window
@@ -34,12 +41,15 @@ private:
 
 	//window event callback function - basically we use this function to determine what message is sent to Window
 	static LRESULT CALLBACK winProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
+	
+	//init
 	bool initWindow();
 	bool initDirectX();
 
-	//update game by one frame (render, control game)
-	void updateGame(World);
+protected:
+
+	//update game by one frame (render, control game) - just write your game here
+	void updateGame();
 
 public:
 	//constructor and destructor
@@ -50,13 +60,13 @@ public:
 	LPDIRECT3DSURFACE9 GetBackground();
 
 	//init all the things we need to start drawing our game
+	//when you overide this function, remember to call initGame of parent function to initialize window and directX 
 	void initGame();
 
-	//run game
-	int runGame(World world);
-
-	//maybe we play next time, shall we?
-	void endGame();
+	//RECOMMEND: don't modify this function, just call it.
+	//do your things in the updateGame function
+	//and this function will take care the rest for you
+	int runGame();
 
 };
 
