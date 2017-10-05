@@ -6,12 +6,10 @@
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
 
-
 //this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game
 {
 private:
-
 	//Window related variables
 	HINSTANCE _HInstance; //handle for a window instance
 	HWND _HWnd;				// Handle of the Game Window
@@ -20,7 +18,9 @@ private:
 	int _FrameRate; //how many frames in one second?
 	int _ScreenWidth;
 	int _ScreenHeight;
-	
+
+	//time between two frames
+	DWORD DeltaTime;
 
 	//Direct3D variables
 	LPDIRECT3D9 d3d;
@@ -37,8 +37,10 @@ private:
 
 protected:
 
-	//time between two frames
-	DWORD DeltaTime;
+	//useful function
+	DWORD GetDeltaTime();
+	LPDIRECT3DDEVICE9 GetDevice();
+	LPDIRECT3DSURFACE9 GetBackground();
 
 	//RECOMMEND: overide these two function and do all the things you want
 	//create all the things of a game here, such as world, object, ...
@@ -50,9 +52,6 @@ public:
 	//constructor and destructor
 	Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~Game();
-
-	LPDIRECT3DDEVICE9 GetDevice();
-	LPDIRECT3DSURFACE9 GetBackground();
 
 	//RECOMMEND: don't modify this function, just call it in the main function
 	//init all the things we need to start drawing our game

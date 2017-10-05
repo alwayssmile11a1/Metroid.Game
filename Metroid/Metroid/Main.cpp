@@ -1,8 +1,5 @@
 #pragma once
-#include "stdafx.h"
-#include "Game.h"
-#include "Object.h"
-#include "World.h"
+#include "MetroidGame.h"
 
 // application title
 //(since we use Unicode character set, //we have to put L before "Metroid". 
@@ -25,8 +22,8 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 
-	/*Game game = Game(hInstance, APPTITLE, SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREENMODE, FRAME_RATE);
+	MetroidGame game = MetroidGame(hInstance, APPTITLE, SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREENMODE, FRAME_RATE);
 	game.InitGame();
-	game.RunGame();*/
+	game.RunGame();
 
 }

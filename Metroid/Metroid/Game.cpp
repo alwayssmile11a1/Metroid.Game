@@ -35,6 +35,11 @@ Game::~Game()
 		d3d->Release();
 }
 
+DWORD Game::GetDeltaTime()
+{
+	return DeltaTime;
+}
+
 LPDIRECT3DDEVICE9 Game::GetDevice()
 {
 	return d3ddev;
@@ -169,11 +174,6 @@ bool Game::InitDirectX()
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
-	//background = CreateSurfaceFromFile(d3ddev, L"DemoScreen05.jpg");
-
-	////draw surface to backbuffer
-	//d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-
 
 	//return okay
 	return 1;
@@ -264,23 +264,4 @@ int Game::RunGame()
 
 }
 
-//void Game::CreateGame()
-//{
-//	
-//}
-//
-//void Game::UpdateGame()
-//{
-//
-//		////draw background
-//		//d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-//
-//		////
-//		//if (KEY_DOWN(VK_ESCAPE))
-//		//{
-//		//	PostMessage(hWnd, WM_DESTROY, 0, 0);
-//
-//		//}
-//
-//}
 
