@@ -24,8 +24,6 @@
 //The entry point for any Windows program
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	Object *Test = new Object(25, 25, 200, 200);
-	World Testt;
 
 	Game game = Game(hInstance, APPTITLE, SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREENMODE, FRAME_RATE);
 	game.initGame();

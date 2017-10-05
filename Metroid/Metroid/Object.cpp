@@ -69,23 +69,23 @@ void Object::update(DWORD dt)
 {
 	position.setX(position.getX() + velocity.getX()*1);
 
-	// Animate kitty if she is running
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / FRAME_RATE)
-	{
-		if (velocity.getX() > 0) object_right->Next();
-		if (velocity.getX()  < 0) object_left->Next();
+	//// Animate kitty if she is running
+	//DWORD now = GetTickCount();
+	//if (now - last_time > 1000 / FRAME_RATE)
+	//{
+	//	if (velocity.getX() > 0) object_right->Next();
+	//	if (velocity.getX()  < 0) object_left->Next();
 
-		last_time = now;
-	}
+	//	last_time = now;
+	//}
 
-	// Simulate fall down
-	if (position.getY() < GROUND_Y) velocity.setY(velocity.getX()+0.5f);
-	else
-	{
-		position.setY(GROUND_Y);
-		velocity.setY(0);
-	}
+	//// Simulate fall down
+	//if (position.getY() < GROUND_Y) velocity.setY(velocity.getX()+0.5f);
+	//else
+	//{
+	//	position.setY(GROUND_Y);
+	//	velocity.setY(0);
+	//}
 }
 
 void Object::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer, int Delta)
@@ -108,7 +108,7 @@ void Object::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer,
 		object_right->Render(position.getX(), position.getY());
 }
 
-void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background, int Sprite_Count, int Sprite_per_row)
+void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background, int Sprite_Count, int Sprite_per_row, D3DCOLOR transcolor)
 {
 	srand((unsigned)time(NULL));
 
@@ -122,7 +122,7 @@ void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Fi
 
 	//_SpriteHandler->GetDevice(&d3ddv);
 
-	object_right = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), Sprite_Count, Sprite_per_row);
-	object_left = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), Sprite_Count, Sprite_per_row);
+	object_right = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), transcolor);
+	object_left = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), transcolor);
 }
 

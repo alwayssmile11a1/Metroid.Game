@@ -42,6 +42,6 @@ public:
 	void update(DWORD dt);
 	void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer, int Delta);
 	void LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background
-	, int Sprite_Count, int Sprite_per_row);
+	, int Sprite_Count, int Sprite_per_row, D3DCOLOR transcolor);
 };
 

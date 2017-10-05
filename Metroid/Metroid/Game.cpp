@@ -210,7 +210,7 @@ void Game::initGame()
 
 
 	//init game 
-	Test->LoadResources(GetDevice(), L"ball.bmp", L"ball.bmp", L"ball.bmp",GetBackground(), 1, 1);
+	Test->LoadResources(GetDevice(), L"ball.bmp", L"ball.bmp", L"ball.bmp", GetBackground(), 1, 1, D3DCOLOR_XRGB(255, 255, 255));
 	world.addObject(Test);
 
 }
