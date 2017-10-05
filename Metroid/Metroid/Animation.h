@@ -1,3 +1,4 @@
+//a class to easily manage the animation of an object 
 #pragma once
 
 #include "stdafx.h"

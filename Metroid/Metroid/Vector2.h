@@ -17,11 +17,10 @@ public:
 	
 
 	//get and set
-	float getX();
-	float getY();
-	void setX(float x);
-	void setY(float y);
-
+	float GetX();
+	float GetY();
+	void SetX(float x);
+	void SetY(float y);
 
 	//Overloading methods
 	Vector2 operator+(const Vector2 &b);

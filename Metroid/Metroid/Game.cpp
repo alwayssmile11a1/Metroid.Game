@@ -3,14 +3,14 @@
 
 Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
 {
-	this->hInstance = hInstance;
-	this->windowName = windowName;
-	this->isFullScreen = isFullScreen;
-	this->frameRate = frameRate;
-	this->screenWidth = screenWidth;
-	this->screenHeight = screenHeight;
+	this->_HInstance = hInstance;
+	this->_WindowName = windowName;
+	this->_IsFullScreen = isFullScreen;
+	this->_FrameRate = frameRate;
+	this->_ScreenWidth = screenWidth;
+	this->_ScreenHeight = screenHeight;
 
-	hWnd = NULL;
+	_HWnd = NULL;
 	d3d = NULL;
 	d3ddev = NULL;
 	backbuffer = NULL;
@@ -45,7 +45,7 @@ LPDIRECT3DSURFACE9 Game::GetBackground()
 	return background;
 }
 
-LRESULT CALLBACK Game::winProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Game::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -59,7 +59,7 @@ LRESULT CALLBACK Game::winProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-bool Game::initWindow()
+bool Game::InitWindow()
 {
 	//create the window class structure
 	WNDCLASSEX wc;
@@ -67,22 +67,22 @@ bool Game::initWindow()
 
 	//fill in the struct paramaters
 	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = (WNDPROC)winProc;
+	wc.lpfnWndProc = (WNDPROC)WinProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
+	wc.hInstance = _HInstance;
 	wc.hIcon = NULL;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = windowName;
+	wc.lpszClassName = _WindowName;
 	wc.hIconSm = NULL;
 
 	RegisterClassEx(&wc);
 
 	//Window style
 	DWORD WINDOWSTYLE;
-	if (isFullScreen)
+	if (_IsFullScreen)
 	{
 		WINDOWSTYLE = WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP; //should use this for full screen mode
 	}
@@ -92,40 +92,40 @@ bool Game::initWindow()
 	}
 
 	//create the window
-	hWnd = CreateWindowEx(NULL,
-		windowName,	//nam of window class
-		windowName,	//title bar
+	_HWnd = CreateWindowEx(NULL,
+		_WindowName,	//nam of window class
+		_WindowName,	//title bar
 		WINDOWSTYLE,	//window style
 		CW_USEDEFAULT, //x position of window
 		CW_USEDEFAULT, //y position of window
-		screenWidth, //width of the window
-		screenHeight, //height of the window,
+		_ScreenWidth, //width of the window
+		_ScreenHeight, //height of the window,
 		NULL, //parent window = none
 		NULL, //menu = none
-		hInstance, //application Instance
+		_HInstance, //application Instance
 		NULL //window parameters
 	);
 
 	//if something bad happened, return
-	if (!hWnd)
+	if (!_HWnd)
 		return false;
 
 	//display the window
-	ShowWindow(hWnd, SW_SHOWNORMAL);
-	UpdateWindow(hWnd);
+	ShowWindow(_HWnd, SW_SHOWNORMAL);
+	UpdateWindow(_HWnd);
 
 	return true;
 }
 
 
-bool Game::initDirectX()
+bool Game::InitDirectX()
 {
 	HRESULT result;
 
 	//initialize Direct3D
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	if (d3d == NULL) {
-		MessageBox(hWnd, L"Error initializing Direct3D", L"Error", MB_OK);
+		MessageBox(_HWnd, L"Error initializing Direct3D", L"Error", MB_OK);
 		return 0;
 	}
 
@@ -133,7 +133,7 @@ bool Game::initDirectX()
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 
-	if (isFullScreen)
+	if (_IsFullScreen)
 	{
 		d3dpp.Windowed = false; //full screen or not?
 	}
@@ -144,22 +144,22 @@ bool Game::initDirectX()
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
-	d3dpp.BackBufferWidth = screenWidth;
-	d3dpp.BackBufferHeight = screenHeight;
-	d3dpp.hDeviceWindow = hWnd;
+	d3dpp.BackBufferWidth = _ScreenWidth;
+	d3dpp.BackBufferHeight = _ScreenHeight;
+	d3dpp.hDeviceWindow = _HWnd;
 
 	//create Direct3D device
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
-		hWnd,
+		_HWnd,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&d3dpp,
 		&d3ddev
 	);
 
 	if (d3ddev == NULL) {
-		MessageBox(hWnd, L"Error creating Direct3D device", L"Error", MB_OK);
+		MessageBox(_HWnd, L"Error creating Direct3D device", L"Error", MB_OK);
 		return 0;
 	}
 
@@ -169,55 +169,35 @@ bool Game::initDirectX()
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
-	////create pointer to the backbuffer
-	//d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+	//background = CreateSurfaceFromFile(d3ddev, L"DemoScreen05.jpg");
 
-	////create plain surface
-	//result = d3ddev->CreateOffscreenPlainSurface(
-	//	100, //width of the surface
-	//	100, //height of the surface
-	//	D3DFMT_X8R8G8B8, //surface format
-	//	D3DPOOL_DEFAULT, //memory pool to use
-	//	&surface, //pointer to the surface
-	//	NULL //reserved (always NULL)
-	//);	
-	//if (!result)
-	//	return 1;
-
-	background = CreateSurfaceFromFile(d3ddev, L"DemoScreen05.jpg");
-
-	//draw surface to backbuffer
-	d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
+	////draw surface to backbuffer
+	//d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
 
 	//return okay
 	return 1;
 }
 
-void Game::initGame()
+void Game::InitGame()
 {
 	//init window
-	if (!initWindow())
+	if (!InitWindow())
 	{
 		return;
 	}
 	
 	//init directX
-	if (!initDirectX())
+	if (!InitDirectX())
 	{
 		return;
 	}
 
-
-	//init game 
-	//Test->LoadResources(GetDevice(), L"1704.png", L"1704.png", L"1704.png", GetBackground(), 1, 1, D3DCOLOR_XRGB(255, 255, 255));
-	//world.addObject(Test);
-	ani = Animation(d3ddev, L"1704.png", 25, 25, 1, 1);
-	//sprite = Sprite(d3ddev, L"ball.bmp", 25, 25, D3DCOLOR_XRGB(255, 255, 255));
-
+	//create game
+	CreateGame();
 }
 
-int Game::runGame()
+int Game::RunGame()
 {
 	//message from window
 	MSG msg;
@@ -225,7 +205,7 @@ int Game::runGame()
 	//a variable to let us know the starting time of a frame
 	DWORD frame_start = GetTickCount();
 	//the average time per frame
-	DWORD count_per_frame = 1000 / frameRate;
+	DWORD count_per_frame = 1000 / _FrameRate;
 
 	//game loop
 	while (true)
@@ -245,8 +225,8 @@ int Game::runGame()
 		//get "now" time
 		DWORD now = GetTickCount();
 		//calculate delta time
-		deltaTime = now - frame_start;
-		if (deltaTime >= count_per_frame) //if true, next frame
+		DeltaTime = now - frame_start;
+		if (DeltaTime >= count_per_frame) //if true, next frame
 		{
 			frame_start = now;
 
@@ -259,7 +239,7 @@ int Game::runGame()
 			//start rendering
 			if (d3ddev->BeginScene())
 			{
-				updateGame();
+				UpdateGame();
 
 				//create pointer to the backbuffer
 				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
@@ -284,22 +264,23 @@ int Game::runGame()
 
 }
 
-void Game::updateGame()
-{
-
-		//draw background
-		d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-
-		//update World 
-		//world.update(deltaTime, d3ddev, backbuffer);
-		
-		//sprite.Render(200, 200, 0, 0);
-		ani.Render(300, 300);
-		if (KEY_DOWN(VK_ESCAPE))
-		{
-			PostMessage(hWnd, WM_DESTROY, 0, 0);
-
-		}
-
-}
+//void Game::CreateGame()
+//{
+//	
+//}
+//
+//void Game::UpdateGame()
+//{
+//
+//		////draw background
+//		//d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
+//
+//		////
+//		//if (KEY_DOWN(VK_ESCAPE))
+//		//{
+//		//	PostMessage(hWnd, WM_DESTROY, 0, 0);
+//
+//		//}
+//
+//}
 

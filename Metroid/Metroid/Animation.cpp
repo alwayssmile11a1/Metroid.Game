@@ -23,7 +23,7 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int 
 	_SpritePerRow = SpritePerRow;
 	_Index = 0;
 	_FilePath = FilePath;
-	_CurrentSprite = Sprite(d3ddev, FilePath, _Width, _Height, D3DCOLOR_XRGB(255, 255, 255));
+	_CurrentSprite = Sprite(d3ddev, FilePath, _Width, _Height);
 	//if (result != D3D_OK)
 	//{
 	//	return;
@@ -84,7 +84,7 @@ void Animation::Render(int X, int Y)
 	//);
 
 	//_SpriteHandler->End();
-	_CurrentSprite.Render(X, Y, 0,0);
+	//_CurrentSprite.Render(X, Y, 0,0);
 }
 
 void Animation::Next()

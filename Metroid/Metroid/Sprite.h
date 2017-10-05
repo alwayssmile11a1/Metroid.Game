@@ -1,3 +1,4 @@
+//draw an image at specified position or draw a portion of image 
 #pragma once
 
 #include "stdafx.h"
@@ -5,27 +6,32 @@
 class Sprite
 {
 public:
-	LPDIRECT3DTEXTURE9 _Image;
-	LPD3DXSPRITE _SpriteHandler;
-	D3DCOLOR _transcolor;
+	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file
+	LPD3DXSPRITE _SpriteHandler; //handle to a sprite 
 
-	float _Width;								// Sprite width
-	float _Height;							// Sprite height
+	D3DCOLOR _Transcolor; //what color is needed to be transparent?
+	Vector2 _Position; //where we draw this sprite in our scene 
+	Vector2 _Bounds; //the width and height of this sprite
+	Vector2 _RectPosition; //the top left position of portion we want to draw
+
 public:
 	Sprite();
-	Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, float Width, float Height, D3DCOLOR transcolor);
+	Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y);
+	Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y, float width, float height, float rectX, float rectY);
+	~Sprite();
 
 	//all get functions
-	float getWidth();
-	float getHeight();
+	Vector2 GetPosition();
+	Vector2 GetBounds();
 
 	//all set functions
-	void setWidth();
-	void setHeight();
+	void SetBounds(float width, float height);
+	void SetPosition(int x, int y);
+	void SetTranscolor(D3DCOLOR transcolor);
+	void SetRectPosition(float rectX, float rectY);
 
-	// Render current sprite at location (X,Y) at the target surface
-	void Render(int X, int Y, int rectX, int rectY);
+	// Render current sprite 
+	void Render();
 
-	~Sprite();
 };
 

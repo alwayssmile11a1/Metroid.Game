@@ -5,124 +5,75 @@
 
 Object::Object()
 {
-	size.setX(0);
-	size.setY(0);
-	velocity.setX(1.0f);
-	velocity.setY(1.0f);
+	_Bounds = Vector2(0, 0);
+	_Velocity = Vector2(0, 0);
 }
 
-Object::Object(float width, float height, float x, float y)
+Object::Object(float x, float y, float width, float height)
 {
-	size.setX(width);
-	size.setY(height);
-	velocity.setX(1.0f);
-	velocity.setY(1.0f);
-	position.setX(x);
-	position.setY(y);
+	_Bounds = Vector2(width, height);
+	_Velocity = Vector2(0, 0);
+	_Position = Vector2(x, y);
 }
 
 Object::Object(const Object &object)
 {
-	this->size = object.size;
-	this->velocity = object.velocity;
-	this->position = object.position;
+	this->_Bounds = object._Bounds;
+	this->_Velocity = object._Velocity;
+	this->_Position = object._Position;
 }
 
 
 Object::~Object()
 {
-
+	//release sprite
+	delete _Sprite;
 }
 
 //All get functions
-Vector2 Object::getBounds()
+Vector2 Object::GetBounds()
 {
-	return size;
+	return _Bounds;
 }
 
-Vector2 Object::getVelocity()
+Vector2 Object::GetVelocity()
 {
-	return velocity;
+	return _Velocity;
 }
 
-Vector2 Object::getPosition()
+Vector2 Object::GetPosition()
 {
-	return position;
+	return _Position;
+}
+
+Sprite* Object::GetSprite()
+{
+	return _Sprite;
 }
 
 //All set functions
-void Object::setBounds(Vector2 value)
+void Object::SetBounds(Vector2 value)
 {
-	size = value;
+	_Bounds = value;
 }
-void Object::setVelocity(Vector2 value)
+void Object::SetVelocity(Vector2 value)
 {
-	velocity = value;
-}
-
-void Object::setPosition(Vector2 value)
-{
-	position = value;
+	_Velocity = value;
 }
 
-void Object::update(DWORD dt)
+void Object::SetPosition(Vector2 value)
 {
-	position.setX(position.getX() + velocity.getX()*1);
-
-	//// Animate kitty if she is running
-	//DWORD now = GetTickCount();
-	//if (now - last_time > 1000 / FRAME_RATE)
-	//{
-	//	if (velocity.getX() > 0) object_right->Next();
-	//	if (velocity.getX()  < 0) object_left->Next();
-
-	//	last_time = now;
-	//}
-
-	//// Simulate fall down
-	//if (position.getY() < GROUND_Y) velocity.setY(velocity.getX()+0.5f);
-	//else
-	//{
-	//	position.setY(GROUND_Y);
-	//	velocity.setY(0);
-	//}
+	_Position = value;
 }
 
-void Object::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer, int Delta)
+void Object::SetSprite(Sprite *sprite)
 {
-	//// Background
-	//d3ddv->StretchRect(
-	//	Background,			// from 
-	//	NULL,				// which portion?
-	//	backbuffer,		// to 
-	//	NULL,				// which portion?
-	//	D3DTEXF_NONE);
+	_Sprite = sprite;
+}
+
+void Object::Update(DWORD dt)
+{
 	
-	if (velocity.getX() > 0)
-		object_right->Render(position.getX(), position.getY(), 0, 0);
-	else if (velocity.getX() < 0)
-		object_left->Render(position.getX(), position.getY(), 0, 0);
-	else if (kitty_vx_last < 0)
-		object_left->Render(position.getX(), position.getY(), 0, 0);
-	else
-		object_right->Render(position.getX(), position.getY(), 0, 0);
 }
 
-void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background, int Sprite_Count, int Sprite_per_row, D3DCOLOR transcolor)
-{
-	srand((unsigned)time(NULL));
-
-	// TO-DO: not a very good place to initial sprite handler
-	/*D3DXCreateSprite(d3ddv, &_SpriteHandler);*/
-
-	Background = _Background;
-
-	//HRESULT res = D3DXCreateSprite(d3ddv, &_SpriteHandler);
-	//if (res != D3D_OK) return;
-
-	//_SpriteHandler->GetDevice(&d3ddv);
-
-	object_right = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), transcolor);
-	object_left = new Sprite(d3ddv, Filename_Right, size.getX(), size.getY(), transcolor);
-}
 

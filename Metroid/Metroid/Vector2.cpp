@@ -24,19 +24,19 @@ Vector2::~Vector2()
 
 }
 
-float Vector2::getX()
+float Vector2::GetX()
 {
 	return x;
 }
-float Vector2::getY()
+float Vector2::GetY()
 {
 	return y;
 }
-void Vector2::setX(float x)
+void Vector2::SetX(float x)
 {
 	this->x = x;
 }
-void Vector2::setY(float y)
+void Vector2::SetY(float y)
 {
 	this->y = y;
 }
