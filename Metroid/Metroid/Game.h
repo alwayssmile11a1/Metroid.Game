@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "World.h"
-
+#include "Animation.h"
 
 //macro used for reading keys
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
@@ -18,7 +18,8 @@ private:
 	//This is all game related variables 
 	World world; 
 	Object *Test = new Object(25, 25, 200, 200);
-
+	Animation ani;
+	Sprite sprite;
 
 
 	//Window related variables

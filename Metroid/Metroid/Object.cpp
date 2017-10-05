@@ -99,13 +99,13 @@ void Object::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer,
 	//	D3DTEXF_NONE);
 	
 	if (velocity.getX() > 0)
-		object_right->Render(position.getX(), position.getY());
+		object_right->Render(position.getX(), position.getY(), 0, 0);
 	else if (velocity.getX() < 0)
-		object_left->Render(position.getX(), position.getY());
+		object_left->Render(position.getX(), position.getY(), 0, 0);
 	else if (kitty_vx_last < 0)
-		object_left->Render(position.getX(), position.getY());
+		object_left->Render(position.getX(), position.getY(), 0, 0);
 	else
-		object_right->Render(position.getX(), position.getY());
+		object_right->Render(position.getX(), position.getY(), 0, 0);
 }
 
 void Object::LoadResources(LPDIRECT3DDEVICE9 d3ddv, LPCWSTR Filename, LPCWSTR Filename_Left, LPCWSTR Filename_Right, LPDIRECT3DSURFACE9 _Background, int Sprite_Count, int Sprite_per_row, D3DCOLOR transcolor)

@@ -210,8 +210,10 @@ void Game::initGame()
 
 
 	//init game 
-	Test->LoadResources(GetDevice(), L"ball.bmp", L"ball.bmp", L"ball.bmp", GetBackground(), 1, 1, D3DCOLOR_XRGB(255, 255, 255));
-	world.addObject(Test);
+	//Test->LoadResources(GetDevice(), L"1704.png", L"1704.png", L"1704.png", GetBackground(), 1, 1, D3DCOLOR_XRGB(255, 255, 255));
+	//world.addObject(Test);
+	ani = Animation(d3ddev, L"1704.png", 25, 25, 1, 1);
+	//sprite = Sprite(d3ddev, L"ball.bmp", 25, 25, D3DCOLOR_XRGB(255, 255, 255));
 
 }
 
@@ -289,16 +291,10 @@ void Game::updateGame()
 		d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
 
 		//update World 
-		world.update(deltaTime, d3ddev, backbuffer);
-		//d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(r, g, b));
-		//
-		//rect.left += dt*object.getVelocity().getX();
-		//rect.right += dt*object.getVelocity().getY();
-
-		////draw the surface to the backbuffer
-		//d3ddev->StretchRect(surface, NULL, backbuffer, &rect, D3DTEXF_NONE);
-
-		//check for escape key (to exit program)
+		//world.update(deltaTime, d3ddev, backbuffer);
+		
+		//sprite.Render(200, 200, 0, 0);
+		ani.Render(300, 300);
 		if (KEY_DOWN(VK_ESCAPE))
 		{
 			PostMessage(hWnd, WM_DESTROY, 0, 0);

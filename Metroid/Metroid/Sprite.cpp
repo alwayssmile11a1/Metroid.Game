@@ -54,26 +54,17 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, float Width, float He
 	}
 }
 
-//void Sprite::Render(int X, int Y)
-//{
-//	this->Render(NULL, X, Y);
-//}
 
-void Sprite::Render(int X, int Y)
+void Sprite::Render(int X, int Y, int rectX, int rectY)
 {
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 	RECT srect;
 
-	srect.left = 0;
-	srect.top = 0;
+	srect.left = rectX;
+	srect.top = rectY;
 	srect.right = srect.left + _Width;
 	srect.bottom = srect.top + _Height;
-
-	//srect.left = 0;
-	//srect.top = 0;
-	//srect.right = srect.left + _Width;
-	//srect.bottom = srect.top + _Height + 1;
 	
 	D3DXVECTOR3 position((float)X, (float)Y, 0);
 

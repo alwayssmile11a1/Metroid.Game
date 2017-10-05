@@ -1,6 +1,9 @@
 #include "Animation.h"
 
+Animation::Animation()
+{
 
+}
 
 Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow)
 {
@@ -19,8 +22,8 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int 
 	_Count = Count;
 	_SpritePerRow = SpritePerRow;
 	_Index = 0;
-	filePath = FilePath;
-	currentSprite = Sprite(d3ddev, FilePath, _Width, _Height, D3DCOLOR_XRGB(0, 0, 0));
+	_FilePath = FilePath;
+	_CurrentSprite = Sprite(d3ddev, FilePath, _Width, _Height, D3DCOLOR_XRGB(255, 255, 255));
 	//if (result != D3D_OK)
 	//{
 	//	return;
@@ -56,41 +59,38 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int 
 
 void Animation::Render(int X, int Y)
 {
-	this->Render(NULL, X, Y);
-}
+	//_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-void Animation::Render(LPDIRECT3DSURFACE9 Target, int X, int Y)
-{
-	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	//RECT srect;
 
-	RECT srect;
-
-	srect.left = (_Index % _SpritePerRow)*(_Width)+1;
-	srect.top = (_Index / _SpritePerRow)*(_Height)+1;
-	srect.right = srect.left + _Width;
-	srect.bottom = srect.top + _Height + 1;
-
-	//srect.left = 0;
-	//srect.top = 0;
+	//srect.left = (_Index % _SpritePerRow)*(_Width)+1;
+	//srect.top = (_Index / _SpritePerRow)*(_Height)+1;
 	//srect.right = srect.left + _Width;
 	//srect.bottom = srect.top + _Height + 1;
 
-	D3DXVECTOR3 position((float)X, (float)Y, 0);
+	////srect.left = 0;
+	////srect.top = 0;
+	////srect.right = srect.left + _Width;
+	////srect.bottom = srect.top + _Height + 1;
 
-	_SpriteHandler->Draw(
-		_Image,
-		&srect,
-		NULL,
-		&position,
-		D3DCOLOR_XRGB(255, 255, 255)
-	);
+	//D3DXVECTOR3 position((float)X, (float)Y, 0);
 
-	_SpriteHandler->End();
+	//_SpriteHandler->Draw(
+	//	_Image,
+	//	&srect,
+	//	NULL,
+	//	&position,
+	//	D3DCOLOR_XRGB(255, 255, 255)
+	//);
+
+	//_SpriteHandler->End();
+	_CurrentSprite.Render(X, Y, 0,0);
 }
 
 void Animation::Next()
 {
-	_Index = (_Index + _Count - 1) % _Count;
+	_Index = (_Index + 1) % _Count;
+
 }
 
 void Animation::Reset()
