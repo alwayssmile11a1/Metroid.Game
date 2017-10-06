@@ -131,6 +131,7 @@
     <ClCompile Include="MetroidGame.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="World.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="World.h" />

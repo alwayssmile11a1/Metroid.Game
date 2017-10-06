@@ -25,7 +25,11 @@ private:
 	//Direct3D variables
 	LPDIRECT3D9 d3d;
 	LPDIRECT3DDEVICE9 d3ddev;
-	LPDIRECT3DSURFACE9 backbuffer;
+	LPDIRECT3DSURFACE9 _Backbuffer;
+	LPDIRECT3DSURFACE9 _Background;
+	D3DCOLOR _BackGroundColor;
+	LPWSTR _BackGroundFilePath;
+	bool _IsCreatedBackGround; //this variable help us to identify whether we have already create background image from file or haven't
 
 	//window event callback function - basically we use this function to determine what message is sent to Window
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -35,16 +39,19 @@ private:
 	bool InitDirectX();
 
 protected:
-
-	//useful function
-	DWORD GetDeltaTime();
-	LPDIRECT3DDEVICE9 GetDevice();
-
 	//RECOMMEND: overide these two function and do all the things you want
 	//create all the things of a game here, such as world, object, ...
 	void virtual CreateGame() = 0;
 	//update game by one frame (render, control game) - just write your game here
 	void virtual UpdateGame() = 0;
+
+	//useful function
+	DWORD GetDeltaTime();
+	LPDIRECT3DDEVICE9 GetDevice();
+	//set background color. If you have already set background image, this function has no affect at all
+	void SetBackGroundColor(D3DCOLOR color);
+	//create a background from this image. If you want to disable this function, just set the filePath to be NULL
+	void SetBackGroundImage(LPWSTR filePath);
 
 public:
 	//constructor and destructor

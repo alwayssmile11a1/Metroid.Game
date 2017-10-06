@@ -22,11 +22,7 @@ void MetroidGame::RunGame()
 
 void MetroidGame::CreateGame()
 {
-	//background = CreateSurfaceFromFile(d3ddev, L"DemoScreen05.jpg");
-
-	////draw surface to backbuffer
-	//d3ddev->StretchRect(background, NULL, backbuffer, NULL, D3DTEXF_NONE);
-
+	SetBackGroundImage(L"DemoScreen05.JPG");
 	world = World(100, 100, GetDeltaTime());
 	obj = new Object(20, 20, 10, 10);
 	obj->SetVelocity(Vector2(0.1f,0));

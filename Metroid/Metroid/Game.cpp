@@ -14,21 +14,32 @@ Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHe
 	this->_FrameRate = frameRate;
 	this->_ScreenWidth = screenWidth;
 	this->_ScreenHeight = screenHeight;
-
+	_BackGroundColor = D3DCOLOR_XRGB(0, 0, 0);
+	_BackGroundFilePath = NULL;
+	_IsCreatedBackGround = false;
 	_HWnd = NULL;
 	d3d = NULL;
 	d3ddev = NULL;
-	backbuffer = NULL;
+	_Backbuffer = NULL;
+	_Background = NULL;
 }
 
 Game::~Game()
 {
 	//free the backbuffer
-	if (backbuffer != NULL)
+	if (_Backbuffer != NULL)
 	{
-		backbuffer->Release();
-		backbuffer = NULL;
+		_Backbuffer->Release();
+		_Backbuffer = NULL;
 	}
+
+	//free the _Background
+	if (_Background != NULL)
+	{
+		_Background->Release();
+		_Background = NULL;
+	}
+
 
 	//release the Direct3D device
 	if (d3ddev != NULL) {
@@ -54,6 +65,16 @@ LPDIRECT3DDEVICE9 Game::GetDevice()
 	return d3ddev;
 }
 
+void Game::SetBackGroundColor(D3DCOLOR color)
+{
+	_BackGroundColor = color;
+}
+
+void Game::SetBackGroundImage(LPWSTR filePath)
+{
+	_BackGroundFilePath = filePath;
+	_IsCreatedBackGround = false;
+}
 
 LRESULT CALLBACK Game::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -179,6 +200,21 @@ bool Game::InitDirectX()
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
+	if (_BackGroundFilePath == NULL)
+	{
+		// Create background
+		d3ddev->CreateOffscreenPlainSurface(
+			100,					// width 				
+			100,					// height
+			D3DFMT_X8R8G8B8,		// format
+			D3DPOOL_DEFAULT,		// where? (VRAM or RAM)
+			&_Background,
+			NULL);
+	}
+	else
+	{
+		_Background = CreateSurfaceFromFile(d3ddev, _BackGroundFilePath);
+	}
 
 	//return okay
 	return 1;
@@ -244,10 +280,35 @@ int Game::RunGame()
 			//start rendering
 			if (d3ddev->BeginScene())
 			{
+				if (_BackGroundFilePath == NULL)
+				{
+					// Fill the bitmap
+					d3ddev->ColorFill(_Background, NULL, _BackGroundColor);
+
+					// Draw the surface onto the back buffer
+					d3ddev->StretchRect(
+						_Background,			// from 
+						NULL,				// which portion?
+						_Backbuffer,		// to 
+						NULL,				// which portion?
+						D3DTEXF_NONE);
+				}
+				else
+				{
+					if (_IsCreatedBackGround == false)
+					{
+						_Background = CreateSurfaceFromFile(d3ddev, _BackGroundFilePath);
+						_IsCreatedBackGround = true;
+					}
+
+					//draw surface to backbuffer
+					d3ddev->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
+				}
+
 				UpdateGame();
 
 				//create pointer to the backbuffer
-				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);
 
 				//stop rendering
 				d3ddev->EndScene();

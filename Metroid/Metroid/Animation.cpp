@@ -23,7 +23,8 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int H
 	_SpritePerRow = SpritePerRow;
 	_Index = 0;
 	_FilePath = FilePath;
-	_CurrentSprite = Sprite(d3ddev, FilePath, _Width, _Height);
+	_CurrentSprite = Sprite(d3ddev, FilePath, 0, 0);
+
 	//if (result != D3D_OK)
 	//{
 	//	return;
@@ -56,6 +57,35 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int H
 	//	return;
 	//}
 }
+
+Animation::Animation(const Animation &ani)
+{
+	_Width = ani._Width;
+	_Height = ani._Height;
+	_Count = ani._Count;
+	_SpritePerRow = ani._SpritePerRow;
+	_Index = 0;
+	_FilePath = ani._FilePath;
+	_CurrentSprite = ani._CurrentSprite;
+}
+Animation& Animation::operator=(const Animation &ani)
+{
+	_Width = ani._Width;
+	_Height = ani._Height;
+	_Count = ani._Count;
+	_SpritePerRow = ani._SpritePerRow;
+	_Index = 0;
+	_FilePath = ani._FilePath;
+	_CurrentSprite = ani._CurrentSprite;
+	return *this;
+}
+
+
+Animation::~Animation()
+{
+
+}
+
 
 void Animation::Render(int X, int Y)
 {
@@ -96,8 +126,4 @@ void Animation::Next()
 void Animation::Reset()
 {
 	_Index = 0;
-}
-
-Animation::~Animation()
-{
 }

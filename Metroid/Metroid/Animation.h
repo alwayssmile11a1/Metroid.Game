@@ -6,7 +6,6 @@
 class Animation
 {
 public:
-	LPDIRECT3DTEXTURE9 _Image; //usually a spriteSheet image containing many sprites 
 	Sprite _CurrentSprite; 
 	int _Index;						// Current sprite index
 	int _Width;								// Sprite width
@@ -17,6 +16,10 @@ public:
 public:
 	Animation();
 	Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow);
+	~Animation();
+	Animation(const Animation &ani);
+	Animation& operator=(const Animation &ani);
+
 	void Next();
 	void Reset();
 
@@ -24,6 +27,5 @@ public:
 	void Render(int X, int Y);
 	
 
-	~Animation();
 };
 
