@@ -14,18 +14,22 @@ public:
 	int _SpritePerRow;						// Number of sprites per row
 	float _LeftOffset;				//The left offset in case the first sprite is not placed at (0,0)
 	float _TopOffset;				//The top offset in case the first sprite is not placed at (0,0)
+	DWORD _FrameInterval;	//the duration of a frame
+	DWORD _StateTime;
 	LPCWSTR _FilePath;
 public:
 	Animation();
-	Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow);
+	Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval);
 	~Animation();
 	Animation(const Animation &ani);
 	Animation& operator=(const Animation &ani);
 	
 
 	Texture GetKeyAnimation();
-	void Next();
+	void Next(DWORD deltaTime);
 	void Reset();
+	void Render(float x, float y);
 	void SetOffset(float leftOffset, float topOffset);
+	void SetTranscolor(D3DCOLOR transColor);
 };
 
