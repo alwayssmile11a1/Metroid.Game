@@ -63,7 +63,7 @@ Texture Animation::GetKeyAnimation()
 
 void Animation::Next(DWORD deltaTime)
 {
-	
+	//
 	if (_StateTime >= _FrameInterval)
 	{
 		//calculate top left position (in the image)

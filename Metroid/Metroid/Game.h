@@ -40,6 +40,7 @@ private:
 
 protected:
 	//RECOMMEND: overide these two function and do all the things you want
+
 	//create all the things of a game here, such as world, object, ...
 	void virtual CreateGame() = 0;
 	//update game by one frame (render, control game) - just write your game here

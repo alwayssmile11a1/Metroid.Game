@@ -15,7 +15,7 @@ public:
 	float _LeftOffset;				//The left offset in case the first sprite is not placed at (0,0)
 	float _TopOffset;				//The top offset in case the first sprite is not placed at (0,0)
 	DWORD _FrameInterval;	//the duration of a frame
-	DWORD _StateTime;
+	DWORD _StateTime;	//current time in one frame
 	LPCWSTR _FilePath;
 public:
 	Animation();
