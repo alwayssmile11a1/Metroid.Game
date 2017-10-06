@@ -2,16 +2,18 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Sprite.h"
+#include "Texture.h"
 class Animation
 {
 public:
-	Sprite _CurrentSprite; 
+	Texture _CurrentSprite; 
 	int _Index;						// Current sprite index
 	int _Width;								// Sprite width
 	int _Height;							// Sprite height
 	int _Count;								// Number of sprites
 	int _SpritePerRow;						// Number of sprites per row
+	float _LeftOffset;				//The left offset in case the first sprite is not placed at (0,0)
+	float _TopOffset;				//The top offset in case the first sprite is not placed at (0,0)
 	LPCWSTR _FilePath;
 public:
 	Animation();
@@ -19,13 +21,11 @@ public:
 	~Animation();
 	Animation(const Animation &ani);
 	Animation& operator=(const Animation &ani);
-
-	void Next();
-	void Reset();
-
-	// Render current sprite at location (X,Y) at the target surface
-	void Render(int X, int Y);
 	
 
+	Texture GetKeyAnimation();
+	void Next();
+	void Reset();
+	void SetOffset(float leftOffset, float topOffset);
 };
 

@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "World.h"
+#include "Animation.h"
 
 class MetroidGame: Game
 {
@@ -10,6 +11,7 @@ private:
 	World world;
 	Object* obj;
 	Sprite sample;
+	Animation ani;
 	//Sprite sample2;
 
 protected:

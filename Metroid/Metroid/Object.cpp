@@ -23,7 +23,7 @@ Object::Object(const Object &object)
 	_Bounds = object._Bounds;
 	_Velocity = object._Velocity;
 	_Position = object._Position;
-	_Sprite = object._Sprite;
+	_Texture = object._Texture;
 }
 
 
@@ -37,7 +37,7 @@ Object& Object::operator=(const Object &object)
 	_Bounds = object._Bounds;
 	_Velocity = object._Velocity;
 	_Position = object._Position;
-	_Sprite = object._Sprite;
+	_Texture = object._Texture;
 	return *this;
 }
 
@@ -57,9 +57,9 @@ Vector2 Object::GetPosition()
 	return _Position;
 }
 
-Sprite Object::GetSprite()
+Texture Object::GetTexture()
 {
-	return _Sprite;
+	return _Texture;
 }
 
 //All set functions
@@ -77,17 +77,14 @@ void Object::SetPosition(Vector2 value)
 	_Position = value;
 }
 
-void Object::SetSprite(Sprite sprite)
+void Object::SetTexture(Texture texture)
 {
-	_Sprite = sprite;
+	_Texture = texture;
 }
 
 void Object::Update(DWORD dt)
 {
-	_Sprite.SetPosition(_Position.GetX(), _Position.GetY());
-
-	_Sprite.Render();
-
+	_Texture.Render(_Position.GetX(), _Position.GetY());
 }
 
 
