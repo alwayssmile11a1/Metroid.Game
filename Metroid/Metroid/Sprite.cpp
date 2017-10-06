@@ -13,7 +13,7 @@ Sprite::Sprite()
 	_SpriteHandler = NULL;
 }
 
-Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y)
+Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPWSTR filePath, float x, float y)
 {
 	//set basic information
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
@@ -61,7 +61,7 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y)
 	}
 }
 
-Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y, float width, float height, float rectX, float rectY)
+Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPWSTR filePath, float x, float y, float width, float height, float rectX, float rectY)
 {
 	//set
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
@@ -115,13 +115,13 @@ Sprite::Sprite(const Sprite &sprite)
 	_RectPosition = sprite._RectPosition;
 	D3ddev = sprite.D3ddev;
 	_FilePath = sprite._FilePath;
-	_Image = NULL;
 
 	//_SpriteHandler
 	D3DXCreateSprite(D3ddev, &_SpriteHandler);
 	_SpriteHandler->GetDevice(&D3ddev);
 
 	//Get image from file
+	_Image = NULL;
 	D3DXIMAGE_INFO info;
 	D3DXGetImageInfoFromFile(_FilePath, &info);
 	D3DXCreateTextureFromFileEx(
@@ -151,6 +151,8 @@ Sprite& Sprite::operator=(const Sprite &sprite)
 	D3ddev = sprite.D3ddev;
 	_FilePath = sprite._FilePath;
 
+	//copy _Image and _SpriteHandler - actually we create a new one here
+	//I don't really know the way to copy the content of _Image and _SpriteHandler to the other one
 	_Image = NULL;
 	//_SpriteHandler
 	D3DXCreateSprite(D3ddev, &_SpriteHandler);
@@ -237,7 +239,6 @@ void Sprite::Render()
 
 Sprite::~Sprite()
 {
-	
 	if (_SpriteHandler != NULL)
 	{
 		_SpriteHandler->Release();

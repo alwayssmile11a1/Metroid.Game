@@ -7,7 +7,7 @@
 class MetroidGame: Game
 {
 private:
-	//World world;
+	World world;
 	Object* obj;
 	Sprite sample;
 	//Sprite sample2;

@@ -20,7 +20,6 @@ World::~World()
 		if (*obj != NULL)
 		{
 			delete *obj;
-			*obj = NULL;
 		}
 	}
 }

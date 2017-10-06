@@ -5,7 +5,7 @@ Animation::Animation()
 
 }
 
-Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR FilePath, int Width, int Height, int Count, int SpritePerRow)
+Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow)
 {
 	//D3DXIMAGE_INFO info;
 
