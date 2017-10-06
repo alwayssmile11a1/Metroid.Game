@@ -2,7 +2,15 @@
 
 Sprite::Sprite()
 {
-
+	//set
+	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
+	_Bounds = Vector2(0,0);
+	_RectPosition = Vector2(0, 0);
+	_Position = Vector2(0, 0);
+	_FilePath = NULL;
+	D3ddev = NULL;
+	_Image = NULL;
+	_SpriteHandler = NULL;
 }
 
 Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y)
@@ -11,8 +19,10 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y)
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
 	_Position = Vector2(x, y);
 	_RectPosition = Vector2(0, 0);
+	_FilePath = filePath;
+	D3ddev = d3ddev;
 	_Image = NULL;
-	
+
 	//_SpriteHandler
 	HRESULT res = D3DXCreateSprite(d3ddev, &_SpriteHandler);
 	if (res != D3D_OK) return;
@@ -58,6 +68,8 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y, flo
 	_Bounds = Vector2(width, height);
 	_RectPosition = Vector2(rectX, rectY);
 	_Position = Vector2(x, y);
+	_FilePath = filePath;
+	D3ddev = d3ddev;
 	_Image = NULL;
 
 	//_SpriteHandler
@@ -93,6 +105,78 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 d3ddev, LPCWSTR filePath, float x, float y, flo
 	{
 		return;
 	}
+}
+
+Sprite::Sprite(const Sprite &sprite)
+{
+	_Transcolor = sprite._Transcolor;
+	_Position = sprite._Position;
+	_Bounds = sprite._Bounds;
+	_RectPosition = sprite._RectPosition;
+	D3ddev = sprite.D3ddev;
+	_FilePath = sprite._FilePath;
+	_Image = NULL;
+
+	//_SpriteHandler
+	D3DXCreateSprite(D3ddev, &_SpriteHandler);
+	_SpriteHandler->GetDevice(&D3ddev);
+
+	//Get image from file
+	D3DXIMAGE_INFO info;
+	D3DXGetImageInfoFromFile(_FilePath, &info);
+	D3DXCreateTextureFromFileEx(
+		D3ddev,
+		_FilePath,
+		info.Width,
+		info.Height,
+		1,
+		D3DPOOL_DEFAULT,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_DEFAULT,
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		_Transcolor,
+		&info,
+		NULL,
+		&_Image);
+
+}
+
+Sprite& Sprite::operator=(const Sprite &sprite)
+{
+	_Transcolor = sprite._Transcolor;
+	_Position = sprite._Position;
+	_Bounds = sprite._Bounds;
+	_RectPosition = sprite._RectPosition;
+	D3ddev = sprite.D3ddev;
+	_FilePath = sprite._FilePath;
+
+	_Image = NULL;
+	//_SpriteHandler
+	D3DXCreateSprite(D3ddev, &_SpriteHandler);
+	_SpriteHandler->GetDevice(&D3ddev);
+	
+	//Get image from file
+	D3DXIMAGE_INFO info;
+	D3DXGetImageInfoFromFile(_FilePath, &info);
+	D3DXCreateTextureFromFileEx(
+		D3ddev,
+		_FilePath,
+		info.Width,
+		info.Height,
+		1,
+		D3DPOOL_DEFAULT,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_DEFAULT,
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		_Transcolor,
+		&info,
+		NULL,
+		&_Image);
+
+
+	return *this;
 }
 
 //all get functions
@@ -153,4 +237,20 @@ void Sprite::Render()
 
 Sprite::~Sprite()
 {
+	
+	if (_SpriteHandler != NULL)
+	{
+		_SpriteHandler->Release();
+		_SpriteHandler = NULL;
+	}
+	if (_Image != NULL)
+	{
+		_Image->Release();
+		_Image = NULL;
+	}
+	if (D3ddev != NULL)
+	{
+		D3ddev->Release();
+		D3ddev = NULL;
+	}
 }

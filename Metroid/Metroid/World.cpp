@@ -17,7 +17,11 @@ World::~World()
 {
 	for (std::vector<Object*>::iterator obj = Objects.begin(); obj != Objects.end(); ++obj)
 	{
-		delete *obj;
+		if (*obj != NULL)
+		{
+			delete *obj;
+			*obj = NULL;
+		}
 	}
 }
 
@@ -32,6 +36,20 @@ World::World(const World &world)
 		*temp = **obj;
 		this->Objects.push_back(temp);
 	}
+}
+
+World& World::operator=(const World &world)
+{
+	this->Bounds = world.Bounds;
+	this->DeltaTime = world.DeltaTime;
+	std::vector<Object*> vectorCopy = world.GetObjectsList();
+	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
+	{
+		Object * temp = new Object();
+		*temp = **obj;
+		this->Objects.push_back(temp);
+	}
+	return *this;
 }
 
 //All get functions
@@ -57,7 +75,7 @@ void World::SetDeltaTime(DWORD dt)
 }
 
 //Update world (update all the objects in this world)
-void World::Update(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer, DWORD dt)
+void World::Update(DWORD dt)
 {
 	for (std::vector<Object*>::iterator obj = Objects.begin(); obj != Objects.end();++obj)
 	{

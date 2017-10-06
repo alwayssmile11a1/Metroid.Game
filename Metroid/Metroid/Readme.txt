@@ -13,3 +13,10 @@ As Library Directory add: $(DXSDK_DIR)Lib\x86 or $(DXSDK_DIR)Lib\x64 on a 64-bit
 ------------------------------ABOUT CONNECTING TO GITHUB----------------------------
 Go to View -> Team Explorer -> Sign in your Github account 
 (you can watch more from here: https://www.youtube.com/watch?v=iR1Xhu5K1cU)
+
+
+------------------------------HOW TO USE THIS CODE PROPERLY-------------------------
+Framework contains all the basic properties we need to create our game
+Game layer in order(until now): Game->World->Object->Animation and Sprite -> other things (Vector2, etc)
+
+How to create a game: create a child class inherited from Game class and just work around two main functions: CreateGame() and UpdateGame()  

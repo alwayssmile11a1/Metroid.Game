@@ -26,7 +26,6 @@ private:
 	LPDIRECT3D9 d3d;
 	LPDIRECT3DDEVICE9 d3ddev;
 	LPDIRECT3DSURFACE9 backbuffer;
-	LPDIRECT3DSURFACE9 background;
 
 	//window event callback function - basically we use this function to determine what message is sent to Window
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -40,7 +39,6 @@ protected:
 	//useful function
 	DWORD GetDeltaTime();
 	LPDIRECT3DDEVICE9 GetDevice();
-	LPDIRECT3DSURFACE9 GetBackground();
 
 	//RECOMMEND: overide these two function and do all the things you want
 	//create all the things of a game here, such as world, object, ...
@@ -50,6 +48,7 @@ protected:
 
 public:
 	//constructor and destructor
+	Game();
 	Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~Game();
 

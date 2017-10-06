@@ -9,7 +9,7 @@ public:
 	Vector2 _Velocity; //the vx and vy of this object
 	Vector2 _Position; //the x, y coordinate of this object
 
-	Sprite *_Sprite; //the sprite of this object - do we put sprite in object class? - this might be changed later 
+	Sprite _Sprite; //the sprite of this object - do we put sprite in object class? - this might be changed later 
 public:
 
 	//constructor and destructor
@@ -18,17 +18,19 @@ public:
 	Object(const Object &object);
 	~Object();
 
+	Object& operator=(const Object &object);
+
 	//All get functions
 	Vector2 GetBounds();
 	Vector2 GetVelocity();
 	Vector2 GetPosition();
-	Sprite* GetSprite();
+	Sprite GetSprite();
 
 	//All set functions
 	void SetBounds(Vector2 value);
 	void SetVelocity(Vector2 value);
 	void SetPosition(Vector2 value);
-	void SetSprite(Sprite *sprite);
+	void SetSprite(Sprite sprite);
 
 	//Update object
 	void Update(DWORD dt);

@@ -42,14 +42,14 @@ void Vector2::SetY(float y)
 }
 
 //Overloading
-Vector2 Vector2::operator+(const Vector2 &b)
+Vector2& Vector2::operator+(const Vector2 &b)
 {
 	Vector2 result;
 	result.x = this->x + b.x;
 	result.y = this->y + b.y;
 	return result;
 }
-Vector2 Vector2:: operator-(const Vector2 &b)
+Vector2& Vector2:: operator-(const Vector2 &b)
 {
 	Vector2 result;
 	result.x = this->x - b.x;
@@ -57,7 +57,7 @@ Vector2 Vector2:: operator-(const Vector2 &b)
 	return result;
 }
 
-Vector2  Vector2::operator=(const Vector2 &b)
+Vector2&  Vector2::operator=(const Vector2 &b)
 {
 	this->x = b.x;
 	this->y = b.y;

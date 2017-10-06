@@ -7,7 +7,10 @@
 class MetroidGame: Game
 {
 private:
+	//World world;
+	Object* obj;
 	Sprite sample;
+	//Sprite sample2;
 
 protected:
 	//create all the things of a game here, such as world, object, ...

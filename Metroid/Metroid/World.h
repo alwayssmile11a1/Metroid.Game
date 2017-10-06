@@ -24,6 +24,7 @@ public:
 	//Copy an object to pass it as an argument to a function.
 	//Copy an object to return it from a function.
 	World(const World &world);
+	World& operator=(const World &world);
 
 
 	//All get functions
@@ -35,7 +36,7 @@ public:
 	void SetDeltaTime(DWORD dt);
 
 	//Update world (update all the objects in this world)
-	void Update(LPDIRECT3DDEVICE9 d3ddv, LPDIRECT3DSURFACE9 backbuffer, DWORD dt);
+	void Update(DWORD dt);
 	void AddObject(Object *object);
 	void RemoveObject(Object* object);
 	void RemoveObject(int index);

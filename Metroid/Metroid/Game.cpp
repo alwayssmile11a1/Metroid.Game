@@ -1,6 +1,11 @@
 #include"Game.h"
 #include"Utility.h"
 
+Game::Game()
+{
+
+}
+
 Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
 {
 	this->_HInstance = hInstance;
@@ -14,25 +19,29 @@ Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHe
 	d3d = NULL;
 	d3ddev = NULL;
 	backbuffer = NULL;
-	background = NULL;
 }
 
 Game::~Game()
 {
-	//free the surface
-	if (background != NULL)
+	//free the backbuffer
+	if (backbuffer != NULL)
 	{
-		background->Release();
+		backbuffer->Release();
+		backbuffer = NULL;
 	}
 
 	//release the Direct3D device
 	if (d3ddev != NULL) {
 		d3ddev->Release();
+		d3ddev = NULL;
 	}
 
 	//release the Direct3D object
 	if (d3d != NULL)
+	{
 		d3d->Release();
+		d3d = NULL;
+	}
 }
 
 DWORD Game::GetDeltaTime()
@@ -45,10 +54,6 @@ LPDIRECT3DDEVICE9 Game::GetDevice()
 	return d3ddev;
 }
 
-LPDIRECT3DSURFACE9 Game::GetBackground()
-{
-	return background;
-}
 
 LRESULT CALLBACK Game::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

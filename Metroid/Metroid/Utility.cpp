@@ -12,7 +12,7 @@ LPDIRECT3DSURFACE9 CreateSurfaceFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePat
 	{
 		return NULL;
 	}
-
+	
 	LPDIRECT3DSURFACE9 surface = NULL;
 
 	d3ddv->CreateOffscreenPlainSurface(
