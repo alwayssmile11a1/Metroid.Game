@@ -26,7 +26,7 @@ public:
 	Vector2 GetBounds();
 	Vector2 GetVelocity();
 	Vector2 GetPosition();
-	Texture& GetTexture();
+	Texture* GetTexture();
 
 	//All set functions
 	void SetBounds(const Vector2 &value);

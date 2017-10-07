@@ -64,9 +64,9 @@ Vector2 Object::GetPosition()
 	return _Position;
 }
 
-Texture& Object::GetTexture()
+Texture* Object::GetTexture()
 {
-	return *_Texture;
+	return _Texture;
 }
 
 //All set functions
