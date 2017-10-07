@@ -12,4 +12,5 @@
 #include"Vector2.h"
 #include <Windows.h>
 #include"Utility.h"
+#include "dinput.h"
 // TODO: reference additional headers your program requires here

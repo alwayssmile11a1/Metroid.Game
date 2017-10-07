@@ -2,9 +2,6 @@
 
 #include "stdafx.h"
 
-//macro used for reading keys
-#define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
-#define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code)&0x8000)?1:0)
 
 //this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game

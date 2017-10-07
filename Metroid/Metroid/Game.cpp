@@ -263,6 +263,8 @@ int Game::RunGame()
 				break;
 		}
 
+		
+
 		//get "now" time
 		DWORD now = GetTickCount();
 		//calculate delta time
