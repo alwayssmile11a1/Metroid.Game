@@ -2,7 +2,17 @@
 
 Animation::Animation()
 {
-
+	_Width = 0;
+	_Height = 0;
+	_Count = 0;
+	_SpritePerRow = 0;
+	_Index = 0;
+	_FilePath = NULL;
+	_LeftOffset = 0;
+	_TopOffset = 0;
+	//_CurrentSprite = NULL;
+	_StateTime = 0;
+	_FrameInterval = 0;
 }
 
 Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval)
@@ -56,14 +66,14 @@ Animation::~Animation()
 
 }
 
-Texture Animation::GetKeyAnimation()
+Texture& Animation::GetKeyAnimation()
 {
 	return _CurrentSprite;
 }
 
 void Animation::Next(DWORD deltaTime)
 {
-	//
+	//if true, next animation
 	if (_StateTime >= _FrameInterval)
 	{
 		//calculate top left position (in the image)

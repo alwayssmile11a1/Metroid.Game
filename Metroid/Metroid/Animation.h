@@ -25,7 +25,7 @@ public:
 	Animation& operator=(const Animation &ani);
 	
 
-	Texture GetKeyAnimation();
+	Texture& GetKeyAnimation();
 	void Next(DWORD deltaTime);
 	void Reset();
 	void Render(float x, float y);

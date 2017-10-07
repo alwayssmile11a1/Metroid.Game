@@ -7,9 +7,12 @@
 class World
 {
 public:
-	Vector2 Bounds; //the width and height of this game world
-	DWORD DeltaTime; //delta time (time between two frames)
-	std::vector<Object*> Objects; //list of all objects. Using pointer like this may be better, I think. 
+	Vector2 _Bounds; //the width and height of this game world
+	DWORD _DeltaTime; //delta time (time between two frames)
+	
+	//list of all objects. Using pointer like this may be better, I think. 
+	//Note that we do not allocate new memory to this list, just hold the references to our objects
+	std::vector<Object*> _Objects;
 	
 public:
 	//Constructor and destructor
@@ -32,12 +35,12 @@ public:
 	std::vector<Object*> GetObjectsList() const;
 	
 	//All set functions
-	void SetBounds(Vector2 value);
+	void SetBounds(const Vector2 &value);
 	void SetDeltaTime(DWORD dt);
 
 	//Update world (update all the objects in this world)
 	void Update(DWORD dt);
-	void AddObject(Object *object);
+	void AddObject(Object &object);
 	void RemoveObject(Object* object);
 	void RemoveObject(int index);
 

@@ -9,9 +9,10 @@ class MetroidGame: Game
 {
 private:
 	World world;
-	Object* obj;
-	Sprite sample;
+	Object obj;
+	//Sprite sample;
 	Animation ani;
+	//Texture a;
 	//Sprite sample2;
 
 protected:

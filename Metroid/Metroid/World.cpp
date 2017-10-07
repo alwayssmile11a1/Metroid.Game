@@ -2,101 +2,106 @@
 
 World::World()
 {
-	Bounds = Vector2(0, 0);
-	DeltaTime = 0;
-	Objects.clear();
+	_Bounds = Vector2(0, 0);
+	_DeltaTime = 0;
+	_Objects.clear();
 }
 
 World::World(int width, int height, DWORD dt)
 {
-	Bounds = Vector2(width, height);
-	this->DeltaTime = dt;
+	_Bounds = Vector2(width, height);
+	_DeltaTime = dt;
 }
 
 World::~World()
 {
-	for (std::vector<Object*>::iterator obj = Objects.begin(); obj != Objects.end(); ++obj)
+	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end(); ++obj)
 	{
-		if (*obj != NULL)
+		//just for sure
+		if (*obj != NULL )
 		{
-			delete *obj;
+			(*obj)->~Object();
+			(*obj) = NULL;
+			//delete *obj;
 		}
 	}
 }
 
 World::World(const World &world)
 {
-	this->Bounds = world.Bounds;
-	this->DeltaTime = world.DeltaTime;
-	std::vector<Object*> vectorCopy = world.GetObjectsList();
+	this->_Bounds = world._Bounds;
+	this->_DeltaTime = world._DeltaTime;
+	this->_Objects = world._Objects;
+	/*std::vector<Object*> vectorCopy = world.GetObjectsList();
 	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
 	{
 		Object * temp = new Object();
 		*temp = **obj;
 		this->Objects.push_back(temp);
-	}
+	}*/
 }
 
 World& World::operator=(const World &world)
 {
-	this->Bounds = world.Bounds;
-	this->DeltaTime = world.DeltaTime;
-	std::vector<Object*> vectorCopy = world.GetObjectsList();
-	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
-	{
-		Object * temp = new Object();
-		*temp = **obj;
-		this->Objects.push_back(temp);
-	}
+	this->_Bounds = world._Bounds;
+	this->_DeltaTime = world._DeltaTime;
+	this->_Objects = world._Objects;
+	//std::vector<Object*> vectorCopy = world.GetObjectsList();
+	//for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
+	//{
+	//	Object * temp = new Object();
+	//	*temp = **obj;
+	//	this->Objects.push_back(temp);
+	//}
 	return *this;
 }
 
 //All get functions
 Vector2 World::GetBounds()
 {	
-	return Bounds;
+	return _Bounds;
 }
 
 std::vector<Object*> World::GetObjectsList() const
 {
-	return Objects;
+	return _Objects;
 }
 
 //All set functions
-void World::SetBounds(Vector2 value)
+void World::SetBounds(const Vector2 &value)
 {
-	Bounds = value;
+	_Bounds = value;
 }
 
 void World::SetDeltaTime(DWORD dt)
 {
-	this->DeltaTime = dt;
+	this->_DeltaTime = dt;
 }
 
 //Update world (update all the objects in this world)
 void World::Update(DWORD dt)
 {
-	for (std::vector<Object*>::iterator obj = Objects.begin(); obj != Objects.end();++obj)
+	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end();++obj)
 	{
 		(*obj)->Update(dt);
 	}
 }
-void World::AddObject(Object *object)
+void World::AddObject(Object &object)
 {
-	Objects.push_back(object);
+	_Objects.push_back(&object);
 }
 void World::RemoveObject(Object* object)
 {
-	for (std::vector<Object*>::iterator obj = Objects.begin(); obj != Objects.end(); ++obj)
+	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end(); ++obj)
 	{
 		if ((*obj) == object)
 		{
-			Objects.erase(obj);
+			_Objects.erase(obj);
 			break;
 		}
 	}
 }
 void World::RemoveObject(int index)
 {
-	Objects.erase(Objects.begin() + index);
+	_Objects.erase(_Objects.begin() + index);
 }

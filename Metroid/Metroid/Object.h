@@ -9,7 +9,9 @@ public:
 	Vector2 _Velocity; //the vx and vy of this object
 	Vector2 _Position; //the x, y coordinate of this object
 
-	Texture _Texture; //the sprite of this object - do we put sprite in object class? - this might be changed later 
+	//hold the reference to a texture that has been created. 
+	//Note that we don't allocate a new memory to this pointer (and you shouldn't)
+	Texture *_Texture;
 public:
 
 	//constructor and destructor
@@ -24,13 +26,13 @@ public:
 	Vector2 GetBounds();
 	Vector2 GetVelocity();
 	Vector2 GetPosition();
-	Texture GetTexture();
+	Texture& GetTexture();
 
 	//All set functions
-	void SetBounds(Vector2 value);
-	void SetVelocity(Vector2 value);
-	void SetPosition(Vector2 value);
-	void SetTexture(Texture texture);
+	void SetBounds(const Vector2 &value);
+	void SetVelocity(const Vector2 &value);
+	void SetPosition(const Vector2 &value);
+	void SetTexture(Texture &texture);
 
 	//Update object
 	void Update(DWORD dt);
