@@ -198,6 +198,8 @@ void  Texture::SetRectPosition(float rectX, float rectY)
 
 void Texture::Render(float x, float y)
 {
+	if (_TextureHandler == NULL) return;
+
 	//start render a sprite
 	_TextureHandler->Begin(D3DXSPRITE_ALPHABLEND);
 

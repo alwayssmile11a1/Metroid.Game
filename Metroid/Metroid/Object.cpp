@@ -91,6 +91,7 @@ void Object::SetTexture(Texture &texture)
 
 void Object::Update(DWORD dt)
 {
+	if (_Texture == NULL) return;
 	_Texture->Render(_Position.GetX(), _Position.GetY());
 }
 

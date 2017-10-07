@@ -1,15 +1,51 @@
 #include "Input.h"
 
+LPDIRECTINPUT8 Input::_DirectInput;		// The DirectInput object         
+LPDIRECTINPUTDEVICE8 Input::_Keyboard;	// The keyboard device 
+BYTE Input::_KeyStates[256];			// DirectInput keyboard state buffer 									
+DIDEVICEOBJECTDATA Input::_KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
+int Input::_CurrentKeyCode;	//the current key code being checked in the Buffered input
+int Input::_CurrentKeyState;	//the current key state being checked in the Buffered input (Up or Down) 
+
 Input::Input()
 {	
-	_HWnd = NULL;
-	_DirectInput = NULL;		
-	_Keyboard = NULL;	
+	// constructor is empty.
+	// We don't initialize static data member here, 
+	// because static data initialization will happen on every constructor call.
 }
 
-Input::Input(HINSTANCE hInstance, HWND hWnd)
+Input::~Input()
 {
-	_HWnd = hWnd;
+	if(_DirectInput != NULL)
+	{
+		_DirectInput->Release();
+		_DirectInput = NULL;
+	}
+	if (_Keyboard != NULL)
+	{
+		_Keyboard->Unacquire();
+		_Keyboard->Release();
+		_Keyboard = NULL;
+	}
+}
+
+void Input::Release()
+{
+	if (_DirectInput != NULL)
+	{
+		_DirectInput->Release();
+		_DirectInput = NULL;
+	}
+	if (_Keyboard != NULL)
+	{
+		_Keyboard->Unacquire();
+		_Keyboard->Release();
+		_Keyboard = NULL;
+	}
+}
+
+void Input::Init(HINSTANCE hInstance, HWND hWnd)
+{
 	HRESULT
 		result = DirectInput8Create
 		(
@@ -48,8 +84,8 @@ Input::Input(HINSTANCE hInstance, HWND hWnd)
 
 	//trace(L"SetDataFormat for keyboard successfully");
 
-	result = _Keyboard->SetCooperativeLevel(hWnd, 
-		DISCL_FOREGROUND|		//The application requires foreground access. 
+	result = _Keyboard->SetCooperativeLevel(hWnd,
+		DISCL_FOREGROUND |		//The application requires foreground access. 
 								//If foreground access is granted, 
 								//the device is automatically unacquired when the associated window moves to the background.
 		DISCL_NONEXCLUSIVE		//The application requires nonexclusive access. 
@@ -75,7 +111,7 @@ Input::Input(HINSTANCE hInstance, HWND hWnd)
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = KEYBOARD_BUFFER_SIZE; // Arbitary buffer size
 
-	//trace(L"SetProperty for keyboard successfully");
+										 //trace(L"SetProperty for keyboard successfully");
 
 	result = _Keyboard->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
 	if (result != DI_OK) return;
@@ -84,20 +120,6 @@ Input::Input(HINSTANCE hInstance, HWND hWnd)
 	if (result != DI_OK) return;
 
 	//trace(L"Keyboard has been acquired successfully");
-}
-
-Input::~Input()
-{
-	if(_DirectInput != NULL)
-	{
-		_DirectInput->Release();
-		_DirectInput = NULL;
-	}
-	if (_Keyboard != NULL)
-	{
-		_Keyboard->Release();
-		_Keyboard = NULL;
-	}
 }
 
 void Input::ProcessKeyBoardInformation()

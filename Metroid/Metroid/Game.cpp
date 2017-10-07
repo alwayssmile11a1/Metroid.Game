@@ -53,6 +53,9 @@ Game::~Game()
 		d3d->Release();
 		d3d = NULL;
 	}
+
+	//Release input
+	Input::Release();
 }
 
 DWORD Game::GetDeltaTime()
@@ -151,7 +154,7 @@ bool Game::InitWindow()
 
 bool Game::InitDirectX()
 {
-	HRESULT result;
+	//HRESULT result;
 
 	//initialize Direct3D
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -234,6 +237,9 @@ void Game::InitGame()
 		return;
 	}
 
+	//init input manager
+	Input::Init(_HInstance, _HWnd);
+
 	//create game
 	CreateGame();
 }
@@ -262,8 +268,8 @@ int Game::RunGame()
 			if (msg.message == WM_QUIT)
 				break;
 		}
-
 		
+		Input::ProcessKeyBoardInformation();
 
 		//get "now" time
 		DWORD now = GetTickCount();

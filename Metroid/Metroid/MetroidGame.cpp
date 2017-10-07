@@ -28,6 +28,7 @@ void MetroidGame::CreateGame()
 	obj = Object(10, 300, 10, 10);
 	obj.SetVelocity(Vector2(0.1f,0));
 	ani = Animation(GetDevice(), L"character.png", 75, 86, 27, 7, 20);
+	obj.SetTexture(ani.GetKeyAnimation());
 	//a = ani.GetKeyAnimation();
 	//sample = Sprite(GetDevice(), L"ball.png", 200, 200);
 	world.AddObject(obj);
@@ -35,13 +36,17 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::UpdateGame()
 {
-	obj._Position.SetX(GetDeltaTime()*obj._Velocity.GetX() + obj._Position.GetX());
-	obj._Position.SetY(GetDeltaTime()*obj._Velocity.GetY() + obj._Position.GetY());
-	obj.SetTexture(ani.GetKeyAnimation());
-	ani.Next(GetDeltaTime());
+	if (Input::GetKey(DIK_RIGHT))
+	{
+		obj._Position.SetX(GetDeltaTime()*obj._Velocity.GetX() + obj._Position.GetX());
+		obj.SetTexture(ani.GetKeyAnimation());
+		ani.Next(GetDeltaTime());
+	}
+
 	////obj->Update(GetDeltaTime());
 	////ani.Next(GetDeltaTime());
 	////ani.Render(100,100);
 	world.Update(GetDeltaTime());
+
 	//sample.Render();
 }

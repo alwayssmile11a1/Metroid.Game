@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
-
+#include "Input.h"
 
 //this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game
