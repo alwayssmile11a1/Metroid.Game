@@ -28,7 +28,6 @@ public:
 	Texture& GetKeyAnimation();
 	void Next(DWORD deltaTime);
 	void Reset();
-	void Render(float x, float y);
 	void SetOffset(float leftOffset, float topOffset);
 	void SetTranscolor(D3DCOLOR transColor);
 };

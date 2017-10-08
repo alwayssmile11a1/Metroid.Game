@@ -7,7 +7,7 @@ MetroidGame::MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth
 }
 MetroidGame::~MetroidGame()
 {
-	
+	batch.Release();
 }
 
 void MetroidGame::InitGame()
@@ -22,6 +22,7 @@ void MetroidGame::RunGame()
 
 void MetroidGame::CreateGame()
 {
+	batch.Create();
 	//this is example 
 	SetBackGroundImage(L"DemoScreen05.JPG");
 	world = World(100, 100, GetDeltaTime());
@@ -43,10 +44,14 @@ void MetroidGame::UpdateGame()
 		ani.Next(GetDeltaTime());
 	}
 
-	////obj->Update(GetDeltaTime());
-	////ani.Next(GetDeltaTime());
-	////ani.Render(100,100);
-	world.Update(GetDeltaTime());
+	batch.Begin();
 
-	//sample.Render();
+	batch.Draw(*obj.GetTexture(), obj.GetPosition().GetX(), obj.GetPosition().GetY());
+
+
+
+	batch.End();
+
+	//world.Update(GetDeltaTime());
+
 }

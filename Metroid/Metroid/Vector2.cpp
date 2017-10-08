@@ -2,21 +2,21 @@
 
 Vector2::Vector2()
 {
-	this->x = 0;
-	this->y = 0;
+	this->X = 0;
+	this->Y = 0;
 }
 
 
 Vector2::Vector2(float x, float y)
 {
-	this->x = x;
-	this->y = y;
+	this->X = x;
+	this->Y = y;
 }
 
 Vector2::Vector2(const Vector2 &vector)
 {
-	this->x = vector.x;
-	this->y = vector.y;
+	this->X = vector.X;
+	this->Y = vector.Y;
 }
 
 Vector2::~Vector2()
@@ -24,47 +24,37 @@ Vector2::~Vector2()
 
 }
 
-float Vector2::GetX()
+void Vector2::Set(float x, float y)
 {
-	return x;
+	this->X = x;
+	this->Y = y;
 }
-float Vector2::GetY()
-{
-	return y;
-}
-void Vector2::SetX(float x)
-{
-	this->x = x;
-}
-void Vector2::SetY(float y)
-{
-	this->y = y;
-}
+
 
 //Overloading
 Vector2& Vector2::operator+(const Vector2 &b)
 {
 	Vector2 result;
-	result.x = this->x + b.x;
-	result.y = this->y + b.y;
+	result.X = this->X + b.X;
+	result.Y = this->Y + b.Y;
 	return result;
 }
 Vector2& Vector2:: operator-(const Vector2 &b)
 {
 	Vector2 result;
-	result.x = this->x - b.x;
-	result.y = this->y - b.y;
+	result.X = this->X - b.X;
+	result.Y = this->Y - b.Y;
 	return result;
 }
 
 Vector2&  Vector2::operator=(const Vector2 &b)
 {
-	this->x = b.x;
-	this->y = b.y;
+	this->X = b.X;
+	this->Y = b.Y;
 	return *this;
 }
 
 bool Vector2::operator==(const Vector2 &b)
 {
-	return (this->x == b.x) && (this->x == b.y);
+	return (this->X == b.X) && (this->Y == b.Y);
 }

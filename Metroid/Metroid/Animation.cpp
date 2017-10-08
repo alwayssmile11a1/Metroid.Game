@@ -25,7 +25,7 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int H
 	_FilePath = FilePath;
 	_LeftOffset = 0;
 	_TopOffset = 0;
-	_CurrentSprite = Texture(d3ddev, FilePath, Width, Height, 0, 0);
+	_CurrentSprite = Texture(FilePath, Width, Height, 0, 0);
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 }
@@ -103,11 +103,6 @@ void Animation::SetOffset(float leftOffset, float topOffset)
 {
 	_LeftOffset = leftOffset;
 	_TopOffset = topOffset;
-}
-
-void Animation::Render(float x, float y)
-{
-	_CurrentSprite.Render(x, y);
 }
 
 void Animation::SetTranscolor(D3DCOLOR transColor)

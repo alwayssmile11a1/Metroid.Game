@@ -4,11 +4,11 @@
 
 class Vector2
 {
-private:
-	float x; 
-	float y; 
-
 public:
+
+	float X;
+	float Y;
+
 	//constructor and destructor
 	Vector2();
 	Vector2(float width, float height);
@@ -17,10 +17,7 @@ public:
 	
 
 	//get and set
-	float GetX();
-	float GetY();
-	void SetX(float x);
-	void SetY(float y);
+	void Set(float x, float y);
 
 	//Overloading methods
 	Vector2& operator+(const Vector2 &b);

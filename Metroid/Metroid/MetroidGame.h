@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "World.h"
 #include "Animation.h"
+#include "SpriteBatch.h"
 
 class MetroidGame: Game
 {
@@ -12,6 +13,7 @@ private:
 	Object obj;
 	//Sprite sample;
 	Animation ani;
+	SpriteBatch batch;
 	//Texture a;
 	//Sprite sample2;
 
