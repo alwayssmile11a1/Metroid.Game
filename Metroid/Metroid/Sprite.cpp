@@ -216,13 +216,13 @@ void Sprite::Render()
 
 	//the portion of image we want to draw
 	RECT srect;
-	srect.left = _RectPosition.GetX();
-	srect.top = _RectPosition.GetY();
-	srect.right = srect.left + _Bounds.GetX();
-	srect.bottom = srect.top + _Bounds.GetY();
+	srect.left = _RectPosition.X;
+	srect.top = _RectPosition.Y;
+	srect.right = srect.left + _Bounds.X;
+	srect.bottom = srect.top + _Bounds.Y;
 	
 	//position to draw in our world
-	D3DXVECTOR3 position((float)_Position.GetX(), (float)_Position.GetY(), 0);
+	D3DXVECTOR3 position((float)_Position.X, (float)_Position.Y, 0);
 	
 	//draw sprite
 	_SpriteHandler->Draw(

@@ -34,10 +34,10 @@ void SpriteBatch::Release()
 void SpriteBatch::Draw(const Texture &texture, float x, float y)
 {
 	//the portion of image we want to draw
-	_Rect.left = texture.GetRectPosition().GetX();
-	_Rect.top = texture.GetRectPosition().GetY();
-	_Rect.right = _Rect.left + texture.GetBounds().GetX();
-	_Rect.bottom = _Rect.top + texture.GetBounds().GetY();
+	_Rect.left = texture.GetRectPosition().X;
+	_Rect.top = texture.GetRectPosition().Y;
+	_Rect.right = _Rect.left + texture.GetBounds().X;
+	_Rect.bottom = _Rect.top + texture.GetBounds().Y;
 
 	//position to draw in our world
 	_Position.x = x;

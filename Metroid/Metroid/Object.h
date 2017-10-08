@@ -4,7 +4,7 @@
 #include "Texture.h"
 class Object
 {
-public:
+private:
 	Vector2 _Bounds; //the width and height of this object
 	Vector2 _Velocity; //the vx and vy of this object
 	Vector2 _Position; //the x, y coordinate of this object
