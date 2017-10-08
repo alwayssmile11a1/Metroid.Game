@@ -16,9 +16,6 @@ private:
 	int _ScreenWidth;
 	int _ScreenHeight;
 
-	//time between two frames
-	DWORD DeltaTime;
-
 	//Direct3D variables
 	LPDIRECT3DSURFACE9 _Backbuffer;
 	LPDIRECT3DSURFACE9 _Background;
@@ -35,17 +32,19 @@ private:
 protected:
 	//RECOMMEND: overide these two function and do all the things you want
 
+
 	//create all the things of a game here, such as world, object, ...
 	void virtual CreateGame() = 0;
 	//update game by one frame (render, control game) - just write your game here
 	void virtual UpdateGame() = 0;
 
-	//useful function
-	DWORD GetDeltaTime();
 	//set background color. If you have already set background image, this function has no affect at all
 	void SetBackGroundColor(D3DCOLOR color);
 	//create a background from this image. If you want to disable this function, just set the filePath to be NULL
 	void SetBackGroundImage(LPWSTR filePath);
+
+	//time between two frames
+	DWORD DeltaTime;
 
 public:
 	//constructor and destructor

@@ -5,17 +5,17 @@
 
 Object::Object()
 {
-	_Bounds = Vector2(0, 0);
-	_Velocity = Vector2(0, 0);
-	_Position = Vector2(0, 0);
+	_Bounds.Set(0, 0);
+	_Velocity.Set(0, 0);
+	_Position.Set(0, 0);
 	_Texture = NULL;
 }
 
 Object::Object(float x, float y, float width, float height)
 {
-	_Bounds = Vector2(width, height);
-	_Velocity = Vector2(0, 0);
-	_Position = Vector2(x, y);
+	_Bounds.Set(width, height);
+	_Velocity.Set(0, 0);
+	_Position.Set(x, y);
 	_Texture = NULL;
 }
 

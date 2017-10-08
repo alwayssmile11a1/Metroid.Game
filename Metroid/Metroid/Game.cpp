@@ -45,11 +45,6 @@ Game::~Game()
 
 }
 
-DWORD Game::GetDeltaTime()
-{
-	return DeltaTime;
-}
-
 void Game::SetBackGroundColor(D3DCOLOR color)
 {
 	_BackGroundColor = color;

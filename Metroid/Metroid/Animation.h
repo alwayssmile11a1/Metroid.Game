@@ -5,7 +5,7 @@
 #include "Texture.h"
 class Animation
 {
-public:
+private:
 	Texture _CurrentSprite; 
 	int _Index;						// Current sprite index
 	int _Width;								// Sprite width
@@ -17,18 +17,21 @@ public:
 	DWORD _FrameInterval;	//the duration of a frame
 	DWORD _StateTime;	//current time in one frame
 	LPCWSTR _FilePath;
+	bool _Flipped;
+
 public:
 	Animation();
-	Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval);
+	Animation(LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval);
 	~Animation();
 	Animation(const Animation &ani);
 	Animation& operator=(const Animation &ani);
 	
 
 	Texture& GetKeyAnimation();
-	void Next(DWORD deltaTime);
+	void Next(DWORD deltaTime, bool isSameDirection);
 	void Reset();
 	void SetOffset(float leftOffset, float topOffset);
 	void SetTranscolor(D3DCOLOR transColor);
+
 };
 

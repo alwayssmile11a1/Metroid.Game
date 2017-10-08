@@ -22,16 +22,16 @@ void MetroidGame::RunGame()
 
 void MetroidGame::CreateGame()
 {
+	//
 	batch.Create();
+
 	//this is example 
-	SetBackGroundImage(L"DemoScreen05.JPG");
-	world = World(100, 100, GetDeltaTime());
-	obj = Object(10, 300, 10, 10);
+	SetBackGroundImage(L"Resources/DemoScreen05.JPG");
+	world = World(100, 100, DeltaTime);
+	obj = Object(300, 300, 10, 10);
 	obj.SetVelocity(Vector2(0.1f,0));
-	ani = Animation(DirectXDevice::D3Ddevice, L"character.png", 75, 86, 27, 7, 20);
+	ani = Animation(L"Resources/character.png", 75, 86, 27, 7, 20);
 	obj.SetTexture(ani.GetKeyAnimation());
-	//a = ani.GetKeyAnimation();
-	//sample = Sprite(GetDevice(), L"ball.png", 200, 200);
 	world.AddObject(obj);
 }
 
@@ -39,9 +39,16 @@ void MetroidGame::UpdateGame()
 {
 	if (Input::GetKey(DIK_RIGHT))
 	{
-		obj.SetPosition(Vector2( GetDeltaTime()*obj.GetVelocity().X + obj.GetPosition().X, obj.GetPosition().Y));
+		obj.SetPosition(Vector2( DeltaTime*obj.GetVelocity().X + obj.GetPosition().X, obj.GetPosition().Y));
 		obj.SetTexture(ani.GetKeyAnimation());
-		ani.Next(GetDeltaTime());
+		ani.Next(DeltaTime, true);
+	}
+
+	if (Input::GetKey(DIK_LEFT))
+	{
+		obj.SetPosition(Vector2(obj.GetPosition().X -DeltaTime*obj.GetVelocity().X , obj.GetPosition().Y));
+		obj.SetTexture(ani.GetKeyAnimation());
+		ani.Next(DeltaTime, false);
 	}
 
 	batch.Begin();

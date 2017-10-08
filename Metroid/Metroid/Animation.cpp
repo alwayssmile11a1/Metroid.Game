@@ -13,9 +13,10 @@ Animation::Animation()
 	//_CurrentSprite = NULL;
 	_StateTime = 0;
 	_FrameInterval = 0;
+	_Flipped = false;
 }
 
-Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval)
+Animation::Animation(LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval)
 {
 	_Width = Width;
 	_Height = Height;
@@ -25,9 +26,10 @@ Animation::Animation(LPDIRECT3DDEVICE9 d3ddev, LPWSTR FilePath, int Width, int H
 	_FilePath = FilePath;
 	_LeftOffset = 0;
 	_TopOffset = 0;
-	_CurrentSprite = Texture(FilePath, Width, Height, 0, 0);
+	_CurrentSprite = Texture(FilePath, Width, Height, 0, 0, 1, 1);
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
+	_Flipped = false;
 }
 
 Animation::Animation(const Animation &ani)
@@ -43,6 +45,7 @@ Animation::Animation(const Animation &ani)
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
+	_Flipped = ani._Flipped;
 }
 Animation& Animation::operator=(const Animation &ani)
 {
@@ -57,6 +60,7 @@ Animation& Animation::operator=(const Animation &ani)
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
+	_Flipped = ani._Flipped;
 	return *this;
 }
 
@@ -71,8 +75,21 @@ Texture& Animation::GetKeyAnimation()
 	return _CurrentSprite;
 }
 
-void Animation::Next(DWORD deltaTime)
+void Animation::Next(DWORD deltaTime, bool isSameDirection)
 {
+	if (!isSameDirection && !_Flipped || isSameDirection && _Flipped)
+	{
+		_CurrentSprite.SetScale(-_CurrentSprite.GetScale().X, _CurrentSprite.GetScale().Y);
+	}
+
+	_Flipped = !isSameDirection;
+
+	//else
+	//{
+	//	_CurrentSprite.SetRotation(0);
+	//}
+
+
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)
 	{

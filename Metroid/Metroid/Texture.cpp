@@ -4,9 +4,13 @@ Texture::Texture()
 {
 	//set
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
-	_Bounds = Vector2(0, 0);
-	_RectPosition = Vector2(0, 0);
-	_OriginBounds = Vector2(0, 0);
+	_Bounds.Set(0, 0);
+	_RectPosition.Set(0, 0);
+	_OriginBounds.Set(0, 0);
+	_ScaleFactor.Set(0,0); 
+	_OriginPosition.Set(0,0);
+	_IsCenterOrigin = true;
+	_Rotation = 0;
 	_FilePath = NULL;
 	_Image = NULL;
 }
@@ -15,9 +19,12 @@ Texture::Texture(LPWSTR filePath)
 {
 	//set basic information
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
-	_RectPosition = Vector2(0, 0);
+	_RectPosition.Set(0, 0);
 	_FilePath = filePath;
+	_ScaleFactor.Set(0, 0);
+	_Rotation = 0;
 	_Image = NULL;
+	_IsCenterOrigin = true;
 
 	//Get image from file
 	D3DXIMAGE_INFO info;
@@ -28,8 +35,9 @@ Texture::Texture(LPWSTR filePath)
 	}
 
 	//set default bounds
-	_Bounds = Vector2(info.Width, info.Height);
-	_OriginBounds = Vector2(info.Width, info.Height);
+	_Bounds.Set(info.Width, info.Height);
+	_OriginBounds.Set(info.Width, info.Height);
+	_OriginPosition.Set(info.Width/2, info.Height/2);
 
 	result = D3DXCreateTextureFromFileEx(
 		DirectXDevice::D3Ddevice,
@@ -53,12 +61,15 @@ Texture::Texture(LPWSTR filePath)
 	}
 }
 
-Texture::Texture(LPWSTR filePath, float width, float height, float rectX, float rectY)
+Texture::Texture(LPWSTR filePath, float width, float height, float rectX, float rectY, float scaleX, float scaleY)
 {
 	//set
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
 	_Bounds = Vector2(width, height);
 	_RectPosition = Vector2(rectX, rectY);
+	_ScaleFactor.Set(scaleX, scaleY);
+	_IsCenterOrigin = true;
+	_Rotation = 0;
 	_FilePath = filePath;
 	_Image = NULL;
 
@@ -98,6 +109,11 @@ Texture::Texture(const Texture &texture)
 	_Bounds = texture._Bounds;
 	_RectPosition = texture._RectPosition;
 	_FilePath = texture._FilePath;
+	_OriginBounds = texture._OriginBounds;
+	_ScaleFactor = texture._ScaleFactor;
+	_Rotation = texture._Rotation;
+	_OriginPosition = texture._OriginPosition;
+	_IsCenterOrigin = texture._IsCenterOrigin;
 
 	//Get image from file
 	_Image = NULL;
@@ -127,6 +143,11 @@ Texture& Texture::operator=(const Texture &texture)
 	_Bounds = texture._Bounds;
 	_RectPosition = texture._RectPosition;
 	_FilePath = texture._FilePath;
+	_OriginBounds = texture._OriginBounds;
+	_ScaleFactor = texture._ScaleFactor;
+	_Rotation = texture._Rotation;
+	_OriginPosition = texture._OriginPosition;
+	_IsCenterOrigin = texture._IsCenterOrigin;
 
 	//copy _Image and _SpriteHandler - actually we create a new one here
 	//I don't really know the way to copy the content of _Image and _SpriteHandler to the other one
@@ -195,36 +216,42 @@ LPDIRECT3DTEXTURE9 Texture::GetImage() const
 	return _Image;
 }
 
-//void Texture::Render(float x, float y)
-//{
-//	//if (_TextureHandler == NULL) return;
-//
-//	//start render a sprite
-//	//_TextureHandler->Begin(D3DXSPRITE_ALPHABLEND);
-//
-//	//// Build our matrix to rotate, scale and position our sprite
-//	//D3DXMATRIX mat;
-//
-//	//// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-//	//D3DXMatrixTransformation2D(&mat, NULL, 0.0, &_ScaleFactor, &_CenterPosition, _Rotation, &D3DXVECTOR2(x, y));
-//
-//	//_TextureHandler->SetTransform(&mat);
-//
-//	//position to draw in our world
-//	D3DXVECTOR3 position(x, y, 0);
-//
-//	//draw sprite
-//	_TextureHandler->Draw(
-//		_Image,
-//		&srect,
-//		NULL,
-//		&position,
-//		_Transcolor
-//	);
-//
-//	//end of drawing
-//	_TextureHandler->End();
-//}
+Vector2 Texture::GetOriginPosition() const
+{
+	return _OriginPosition;
+}
+Vector2 Texture::GetScale() const
+{
+	return _ScaleFactor;
+}
+
+float Texture::GetRotation() const
+{
+	return _Rotation;
+}
+
+void Texture::SetOriginPosition(float centerX, float centerY)
+{
+	_OriginPosition.Set(centerX, centerY);
+}
+void Texture::SetRotation(float rotation)
+{
+	_Rotation = rotation;
+}
+
+void Texture::SetScale(float scaleX, float scaleY)
+{
+	_ScaleFactor.Set(scaleX, scaleY);
+}
+
+void Texture::SetCenterOrigin(bool center) 
+{
+	_IsCenterOrigin = center;
+}
+bool Texture::IsCenterOrigin() const
+{
+	return _IsCenterOrigin;
+}
 
 Texture::~Texture()
 {

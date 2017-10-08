@@ -6,7 +6,7 @@
 
 class World
 {
-public:
+private:
 	Vector2 _Bounds; //the width and height of this game world
 	DWORD _DeltaTime; //delta time (time between two frames)
 	

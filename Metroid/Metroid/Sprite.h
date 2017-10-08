@@ -6,7 +6,7 @@
 //draw an image at specified position or draw a portion of image 
 class Sprite
 {
-public:
+private:
 	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file
 	LPD3DXSPRITE _SpriteHandler; //handle to a sprite 
 

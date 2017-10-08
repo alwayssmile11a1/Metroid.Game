@@ -7,7 +7,7 @@
 //draw an image at specified position or draw a portion of image 
 class Texture
 {
-public:
+private:
 	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file
 
 	LPWSTR _FilePath;
@@ -17,14 +17,16 @@ public:
 	Vector2 _RectPosition; //the top left position of portion we want to draw
 	Vector2 _OriginBounds; //the whole bounds of the image
 
-	D3DXVECTOR2 _ScaleFactor; //
-	D3DXVECTOR2 _CenterPosition; //
+	Vector2 _ScaleFactor; //scale
+	Vector2 _OriginPosition; //the position that will be used as origin for rotating
 	float _Rotation;
+
+	float _IsCenterOrigin;
 
 public:
 	Texture();
 	Texture(LPWSTR filePath);
-	Texture(LPWSTR filePath, float width, float height, float rectX, float rectY);
+	Texture(LPWSTR filePath, float width, float height, float rectX, float rectY, float scaleX, float scaleY);
 	Texture(const Texture &texture);
 	~Texture();
 
@@ -32,19 +34,25 @@ public:
 
 	//all get functions
 	Vector2 GetBounds() const;
-	LPDIRECT3DTEXTURE9 GetImage() const;
 	Vector2 GetRectPosition() const;
+	Vector2 GetOriginPosition() const;
+	Vector2 GetScale() const;
+	float GetRotation() const;
 	D3DCOLOR GetTranscolor() const;
+	LPDIRECT3DTEXTURE9 GetImage() const;
 
 	//all set functions
 	void SetBounds(float width, float height);
-	void SetTranscolor(D3DCOLOR transcolor);
 	void SetRectPosition(float rectX, float rectY);
-
+	void SetOriginPosition(float centerX, float centerY);
+	void SetRotation(float rotation);
+	void SetScale(float scaleX, float scaleY);
+	void SetTranscolor(D3DCOLOR transcolor);
 	void ResetToOriginBounds();
 
-	// Render current sprite 
-	//void Render(float x, float y);
+	//if true, set the origin of this sprite to be always in the center of this texture
+	void SetCenterOrigin(bool center); 
+	bool IsCenterOrigin() const;
 
 };
 
