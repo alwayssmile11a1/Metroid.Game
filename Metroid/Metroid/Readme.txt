@@ -20,3 +20,12 @@ Framework contains all the basic properties we need to create our game
 Game layer in order(until now): Game->World->Object->Animation and Sprite -> other things (Vector2, etc)
 
 How to create a game: create a child class inherited from Game class and just work around two main functions: CreateGame() and UpdateGame()  
+
+
+
+------------------------------THINGS TO DO (OWNERs' WORK)-----------------------------
+-Mouse Input
+-Rewrite Sprite class
+-Improve sprite handler because we are creating many new ones. We just have to use only one sprite handler.
+(Fix by a SpriteBatch class)
+-

@@ -20,6 +20,7 @@ public:
 	~Input();
 
 	//RECOMMEND: Do not call this function because game class will take care of this.
+	//If you do call this function, consider to release it first 
 	static void Init(HINSTANCE hInstance, HWND hWnd);
 
 	//RECOMMEND: Do not call this function because game class will take care of this.

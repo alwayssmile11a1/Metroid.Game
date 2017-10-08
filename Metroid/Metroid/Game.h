@@ -26,7 +26,6 @@ private:
 	LPDIRECT3DSURFACE9 _Background;
 	D3DCOLOR _BackGroundColor;
 	LPWSTR _BackGroundFilePath;
-	bool _IsCreatedBackGround; //this variable help us to identify whether we have already create background image from file or haven't
 
 	//window event callback function - basically we use this function to determine what message is sent to Window
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

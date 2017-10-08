@@ -16,7 +16,6 @@ Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHe
 	this->_ScreenHeight = screenHeight;
 	_BackGroundColor = D3DCOLOR_XRGB(0, 0, 0);
 	_BackGroundFilePath = NULL;
-	_IsCreatedBackGround = false;
 	_HWnd = NULL;
 	d3d = NULL;
 	d3ddev = NULL;
@@ -76,7 +75,26 @@ void Game::SetBackGroundColor(D3DCOLOR color)
 void Game::SetBackGroundImage(LPWSTR filePath)
 {
 	_BackGroundFilePath = filePath;
-	_IsCreatedBackGround = false;
+
+	//Release first for sure
+	_Background->Release();
+	_Background = NULL;
+
+	if (_BackGroundFilePath == NULL)
+	{
+		// Create background
+		d3ddev->CreateOffscreenPlainSurface(
+			100,					// width 				
+			100,					// height
+			D3DFMT_X8R8G8B8,		// format
+			D3DPOOL_DEFAULT,		// where? (VRAM or RAM)
+			&_Background,
+			NULL);
+	}
+	else
+	{
+		_Background = CreateSurfaceFromFile(d3ddev, _BackGroundFilePath);
+	}
 }
 
 LRESULT CALLBACK Game::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -203,21 +221,16 @@ bool Game::InitDirectX()
 	//clear the backbuffer to black
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
-	if (_BackGroundFilePath == NULL)
-	{
-		// Create background
-		d3ddev->CreateOffscreenPlainSurface(
-			100,					// width 				
-			100,					// height
-			D3DFMT_X8R8G8B8,		// format
-			D3DPOOL_DEFAULT,		// where? (VRAM or RAM)
-			&_Background,
-			NULL);
-	}
-	else
-	{
-		_Background = CreateSurfaceFromFile(d3ddev, _BackGroundFilePath);
-	}
+
+	// Create background
+	d3ddev->CreateOffscreenPlainSurface(
+		100,					// width 				
+		100,					// height
+		D3DFMT_X8R8G8B8,		// format
+		D3DPOOL_DEFAULT,		// where? (VRAM or RAM)
+		&_Background,
+		NULL);
+
 
 	//return okay
 	return 1;
@@ -304,18 +317,14 @@ int Game::RunGame()
 				}
 				else //Clear back ground with an image
 				{
-					if (_IsCreatedBackGround == false)
-					{
-						_Background = CreateSurfaceFromFile(d3ddev, _BackGroundFilePath);
-						_IsCreatedBackGround = true;
-					}
-
+	
 					//draw surface to backbuffer
 					d3ddev->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
 				}
 
 				UpdateGame();
 
+				//clear buffedInput after we has done update game
 				Input::ClearBuffedInput();
 
 				//create pointer to the backbuffer
