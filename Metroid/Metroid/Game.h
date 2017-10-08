@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "Input.h"
-
+#include "DirectXDevice.h"
 //this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game
 {
@@ -20,8 +20,6 @@ private:
 	DWORD DeltaTime;
 
 	//Direct3D variables
-	LPDIRECT3D9 d3d;
-	LPDIRECT3DDEVICE9 d3ddev;
 	LPDIRECT3DSURFACE9 _Backbuffer;
 	LPDIRECT3DSURFACE9 _Background;
 	D3DCOLOR _BackGroundColor;
@@ -44,7 +42,6 @@ protected:
 
 	//useful function
 	DWORD GetDeltaTime();
-	LPDIRECT3DDEVICE9 GetDevice();
 	//set background color. If you have already set background image, this function has no affect at all
 	void SetBackGroundColor(D3DCOLOR color);
 	//create a background from this image. If you want to disable this function, just set the filePath to be NULL

@@ -16,17 +16,7 @@ Input::Input()
 
 Input::~Input()
 {
-	if(_DirectInput != NULL)
-	{
-		_DirectInput->Release();
-		_DirectInput = NULL;
-	}
-	if (_Keyboard != NULL)
-	{
-		_Keyboard->Unacquire();
-		_Keyboard->Release();
-		_Keyboard = NULL;
-	}
+
 }
 
 void Input::Release()
@@ -46,6 +36,9 @@ void Input::Release()
 
 void Input::Init(HINSTANCE hInstance, HWND hWnd)
 {
+	//Release first for sure
+	Release();
+
 	HRESULT
 		result = DirectInput8Create
 		(
@@ -124,14 +117,25 @@ void Input::Init(HINSTANCE hInstance, HWND hWnd)
 
 void Input::ProcessKeyBoardInformation()
 {
+	if (_Keyboard == NULL) return;
+
+	HRESULT result;
+
 	// Collect all key states first
-	_Keyboard->GetDeviceState(sizeof(_KeyStates), _KeyStates);
+	result = _Keyboard->GetDeviceState(sizeof(_KeyStates), _KeyStates);
+	
+	//if window lost focus, acquire 
+	if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+	{
+		_Keyboard->Acquire();
+		return;
+	}
 
 	// Handle key press event
 	// NOTES: Buffered input is like an Event
 	// Collect all buffered events (also clear them from DirectInput buffer)
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
-	HRESULT result = _Keyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), _KeyEvents, &dwElements, 0);
+	_Keyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), _KeyEvents, &dwElements, 0);
 
 	//insert keycodes and keystates into vectors
 	_KeyCodesVector.insert(_KeyCodesVector.end(), &(_KeyEvents[0].dwOfs), &(_KeyEvents[0].dwOfs) + dwElements);

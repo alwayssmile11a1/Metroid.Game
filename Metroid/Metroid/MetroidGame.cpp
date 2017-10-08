@@ -27,7 +27,7 @@ void MetroidGame::CreateGame()
 	world = World(100, 100, GetDeltaTime());
 	obj = Object(10, 300, 10, 10);
 	obj.SetVelocity(Vector2(0.1f,0));
-	ani = Animation(GetDevice(), L"character.png", 75, 86, 27, 7, 20);
+	ani = Animation(DirectXDevice::D3Ddevice, L"character.png", 75, 86, 27, 7, 20);
 	obj.SetTexture(ani.GetKeyAnimation());
 	//a = ani.GetKeyAnimation();
 	//sample = Sprite(GetDevice(), L"ball.png", 200, 200);

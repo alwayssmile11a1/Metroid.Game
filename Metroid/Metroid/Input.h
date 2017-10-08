@@ -3,6 +3,8 @@
 #include <algorithm>    // std::find
 #define KEYBOARD_BUFFER_SIZE	1024
 
+//Input class (Keyboard, mouse, etc)
+//Not automatically released after init. Consider calling release function
 class Input
 {
 private:
