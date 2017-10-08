@@ -4,8 +4,8 @@ LPDIRECTINPUT8 Input::_DirectInput;		// The DirectInput object
 LPDIRECTINPUTDEVICE8 Input::_Keyboard;	// The keyboard device 
 BYTE Input::_KeyStates[256];			// DirectInput keyboard state buffer 									
 DIDEVICEOBJECTDATA Input::_KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
-int Input::_CurrentKeyCode;	//the current key code being checked in the Buffered input
-int Input::_CurrentKeyState;	//the current key state being checked in the Buffered input (Up or Down) 
+std::vector<int> Input::_KeyCodesVector;
+std::vector<int> Input::_KeyStatesVector;
 
 Input::Input()
 {	
@@ -133,29 +133,54 @@ void Input::ProcessKeyBoardInformation()
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	HRESULT result = _Keyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), _KeyEvents, &dwElements, 0);
 
-	// Scan through all data, check if the key is pressed or released
-	for (DWORD i = 0; i < dwElements; i++)
+	//insert keycodes and keystates into vectors
+	_KeyCodesVector.insert(_KeyCodesVector.end(), &(_KeyEvents[0].dwOfs), &(_KeyEvents[0].dwOfs) + dwElements);
+	_KeyStatesVector.insert(_KeyStatesVector.end(), &(_KeyEvents[0].dwData), &(_KeyEvents[0].dwData) + dwElements);
+
+}
+
+bool Input::GetKey(int keyCode)
+{
+	return (_KeyStates[keyCode] & 0x80) > 0;
+}
+
+bool Input::GetKeyDown(int keyCode) 
+{
+	//check if this keycode is pressed
+	std::vector<int>::iterator it = std::find(_KeyCodesVector.begin(), _KeyCodesVector.end(), keyCode);
+	bool keyCodePressed = (it != _KeyCodesVector.end());
+	
+	if (keyCodePressed)
 	{
-		_CurrentKeyCode = _KeyEvents[i].dwOfs;
-		_CurrentKeyState = _KeyEvents[i].dwData;
-		/*if ((KeyState & 0x80) > 0)
-			OnKeyDown(KeyCode);
-		else
-			OnKeyUp(KeyCode);*/
+		//check if it is key down
+		return (_KeyStatesVector.at(it - _KeyCodesVector.begin()) & 0x80) > 0;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+bool Input::GetKeyUp(int keyCode) 
+{ 
+	//check if this keycode is pressed
+	std::vector<int>::iterator it = std::find(_KeyCodesVector.begin(), _KeyCodesVector.end(), keyCode);
+	bool keyCodePressed = (it != _KeyCodesVector.end());
+
+	if (keyCodePressed)
+	{
+		//check if it is key up
+		return (_KeyStatesVector.at(it - _KeyCodesVector.begin()) & 0x80) <= 0;
+	}
+	else
+	{
+		return false;
 	}
 }
 
-bool Input::GetKey(int KeyCode)
+void Input::ClearBuffedInput()
 {
-	return (_KeyStates[KeyCode] & 0x80) > 0;
-}
-
-bool Input::GetKeyDown(int KeyCode) 
-{
-	return (_CurrentKeyCode == KeyCode && (_CurrentKeyState & 0x80) > 0);
-}
-
-bool Input::GetKeyUp(int KeyCode) 
-{ 
-	return (_CurrentKeyCode == KeyCode && (_CurrentKeyState & 0x80) <= 0);
+	_KeyCodesVector.clear();
+	_KeyStatesVector.clear();
 }

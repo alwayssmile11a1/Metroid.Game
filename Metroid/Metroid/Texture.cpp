@@ -6,6 +6,7 @@ Texture::Texture()
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
 	_Bounds = Vector2(0, 0);
 	_RectPosition = Vector2(0, 0);
+	_OriginBounds = Vector2(0, 0);
 	_FilePath = NULL;
 	D3ddev = NULL;
 	_Image = NULL;
@@ -36,6 +37,7 @@ Texture::Texture(LPDIRECT3DDEVICE9 d3ddev, LPWSTR filePath)
 
 	//set default bounds
 	_Bounds = Vector2(info.Width, info.Height);
+	_OriginBounds = Vector2(info.Width, info.Height);
 
 	result = D3DXCreateTextureFromFileEx(
 		d3ddev,
@@ -196,12 +198,25 @@ void  Texture::SetRectPosition(float rectX, float rectY)
 	_RectPosition = Vector2(rectX, rectY);
 }
 
+void Texture::ResetToOriginBounds()
+{
+	_Bounds = _OriginBounds;
+}
+
 void Texture::Render(float x, float y)
 {
 	if (_TextureHandler == NULL) return;
 
 	//start render a sprite
 	_TextureHandler->Begin(D3DXSPRITE_ALPHABLEND);
+
+	//// Build our matrix to rotate, scale and position our sprite
+	//D3DXMATRIX mat;
+
+	//// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	//D3DXMatrixTransformation2D(&mat, NULL, 0.0, &_ScaleFactor, &_CenterPosition, _Rotation, &D3DXVECTOR2(x, y));
+
+	//_TextureHandler->SetTransform(&mat);
 
 	//the portion of image we want to draw
 	RECT srect;

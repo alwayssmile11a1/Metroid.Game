@@ -288,6 +288,7 @@ int Game::RunGame()
 			//start rendering
 			if (d3ddev->BeginScene())
 			{
+				//Clear back ground with a colored surface
 				if (_BackGroundFilePath == NULL)
 				{
 					// Fill the bitmap
@@ -301,7 +302,7 @@ int Game::RunGame()
 						NULL,				// which portion?
 						D3DTEXF_NONE);
 				}
-				else
+				else //Clear back ground with an image
 				{
 					if (_IsCreatedBackGround == false)
 					{
@@ -314,6 +315,8 @@ int Game::RunGame()
 				}
 
 				UpdateGame();
+
+				Input::ClearBuffedInput();
 
 				//create pointer to the backbuffer
 				d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);

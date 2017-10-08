@@ -36,7 +36,7 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::UpdateGame()
 {
-	if (Input::GetKey(DIK_RIGHT))
+	if (Input::GetKeyDown(DIK_RIGHT))
 	{
 		obj._Position.SetX(GetDeltaTime()*obj._Velocity.GetX() + obj._Position.GetX());
 		obj.SetTexture(ani.GetKeyAnimation());

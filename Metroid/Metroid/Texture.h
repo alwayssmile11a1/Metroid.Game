@@ -16,6 +16,11 @@ public:
 	D3DCOLOR _Transcolor; //what color is needed to be transparent?
 	Vector2 _Bounds; //the width and height of this sprite
 	Vector2 _RectPosition; //the top left position of portion we want to draw
+	Vector2 _OriginBounds; //the whole bounds of the image
+
+	D3DXVECTOR2 _ScaleFactor; //
+	D3DXVECTOR2 _CenterPosition; //
+	float _Rotation;
 
 public:
 	Texture();
@@ -33,6 +38,8 @@ public:
 	void SetBounds(float width, float height);
 	void SetTranscolor(D3DCOLOR transcolor);
 	void SetRectPosition(float rectX, float rectY);
+
+	void ResetToOriginBounds();
 
 	// Render current sprite 
 	void Render(float x, float y);
