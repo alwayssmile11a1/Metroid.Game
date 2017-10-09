@@ -41,14 +41,14 @@ void MetroidGame::UpdateGame()
 	{
 		obj.SetPosition(Vector2( DeltaTime*obj.GetVelocity().X + obj.GetPosition().X, obj.GetPosition().Y));
 		obj.SetTexture(ani.GetKeyAnimation());
-		ani.Next(DeltaTime, 1);
+		ani.Next(DeltaTime, true);
 	}
 
 	if (Input::GetKey(DIK_LEFT))
 	{
 		obj.SetPosition(Vector2(obj.GetPosition().X -DeltaTime*obj.GetVelocity().X , obj.GetPosition().Y));
 		obj.SetTexture(ani.GetKeyAnimation());
-		ani.Next(DeltaTime, 0);
+		ani.Next(DeltaTime, false);
 	}
 
 	batch.Begin();
