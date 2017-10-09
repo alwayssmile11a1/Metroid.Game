@@ -28,7 +28,13 @@ public:
 	
 
 	Texture& GetKeyAnimation();
-	void Next(DWORD deltaTime, bool isSameDirection);
+
+	//Go to next animation frame
+	//If isSameDirection = 0, the animation will be rendered as the opposite direction  
+	//If isSameDirection = 1, the animation will be rendered as the same direction  
+	//Note that the animation will be automatically returned to its original direction in the next animation frame before checking isSameDirection
+	//Set isSameDirection = -1 to disable the effect
+	void Next(DWORD deltaTime, int isSameDirection);
 	void Reset();
 	void SetOffset(float leftOffset, float topOffset);
 	void SetTranscolor(D3DCOLOR transColor);

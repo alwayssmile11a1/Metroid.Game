@@ -75,20 +75,20 @@ Texture& Animation::GetKeyAnimation()
 	return _CurrentSprite;
 }
 
-void Animation::Next(DWORD deltaTime, bool isSameDirection)
+void Animation::Next(DWORD deltaTime, int isSameDirection)
 {
-	if (!isSameDirection && !_Flipped || isSameDirection && _Flipped)
+	if (isSameDirection != -1)
 	{
-		_CurrentSprite.SetScale(-_CurrentSprite.GetScale().X, _CurrentSprite.GetScale().Y);
+		//return to origin direction
+		if (_Flipped) _CurrentSprite.Flip(true, false);
+
+		if (isSameDirection == 0)
+		{
+			_CurrentSprite.Flip(true, false);
+		}
+
+		_Flipped = !isSameDirection;
 	}
-
-	_Flipped = !isSameDirection;
-
-	//else
-	//{
-	//	_CurrentSprite.SetRotation(0);
-	//}
-
 
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)

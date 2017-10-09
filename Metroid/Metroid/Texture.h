@@ -54,5 +54,8 @@ public:
 	void SetCenterOrigin(bool center); 
 	bool IsCenterOrigin() const;
 
+	//Flip the texture. This function is done by multiplying the scale x or y with -1. 
+	void Flip(bool flipX, bool flipY);
+
 };
 

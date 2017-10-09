@@ -253,6 +253,13 @@ bool Texture::IsCenterOrigin() const
 	return _IsCenterOrigin;
 }
 
+//Flip the image 
+void Texture::Flip(bool flipX, bool flipY)
+{
+	if (flipX) _ScaleFactor.X *= -1;
+	if (flipY) _ScaleFactor.Y *= -1;
+}
+
 Texture::~Texture()
 {
 
