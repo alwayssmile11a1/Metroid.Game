@@ -222,6 +222,7 @@ int Game::RunGame()
 		}
 		
 		Input::ProcessKeyBoardInformation();
+		Input::ProcessMouseInformation();
 
 		//get "now" time
 		DWORD now = GetTickCount();
@@ -229,6 +230,7 @@ int Game::RunGame()
 		DeltaTime = now - frame_start;
 		if (DeltaTime >= count_per_frame) //if true, next frame
 		{
+
 			frame_start = now;
 
 			//make sure the Direct3D device is valid
@@ -264,7 +266,7 @@ int Game::RunGame()
 				UpdateGame();
 
 				//clear buffedInput after we has done update game
-				Input::ClearBuffedInput();
+				Input::ClearKeyBoardBuffedInput();
 
 				//create pointer to the backbuffer
 				DirectXDevice::D3Ddevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);

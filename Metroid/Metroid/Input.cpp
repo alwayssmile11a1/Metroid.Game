@@ -6,6 +6,11 @@ BYTE Input::_KeyStates[256];			// DirectInput keyboard state buffer
 DIDEVICEOBJECTDATA Input::_KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
 std::vector<int> Input::_KeyCodesVector;
 std::vector<int> Input::_KeyStatesVector;
+DIMOUSESTATE  Input::_MouseState; // DirectInput mouse state buffer 
+LPDIRECTINPUTDEVICE8 Input::_Mouse; // The mouse device
+Vector2 Input::_MousePosition;
+HWND Input::_HWnd;
+
 
 Input::Input()
 {	
@@ -32,12 +37,22 @@ void Input::Release()
 		_Keyboard->Release();
 		_Keyboard = NULL;
 	}
+
+	if (_Mouse != NULL)
+	{
+		_Mouse->Unacquire();
+		_Mouse->Release();
+		_Mouse = NULL;
+	}
 }
 
 void Input::Init(HINSTANCE hInstance, HWND hWnd)
 {
 	//Release first for sure
 	Release();
+
+	_HWnd = hWnd;
+	_MousePosition.Set(0, 0);
 
 	HRESULT
 		result = DirectInput8Create
@@ -51,17 +66,25 @@ void Input::Init(HINSTANCE hInstance, HWND hWnd)
 
 	// TO-DO: put in exception handling
 	if (result != DI_OK) return;
-
 	//trace(L"DirectInput has been created");
 
-	result = _DirectInput->CreateDevice(
+	InitKeyBoard();
+
+	InitMouse();
+	
+}
+
+
+bool Input::InitKeyBoard()
+{
+	HRESULT result = _DirectInput->CreateDevice(
 		GUID_SysKeyboard, //The default system keyboard
 		&_Keyboard,  //receive the IDirectInputDevice8 interface pointer 
 		NULL //NULL if the interface is not aggregated.
 	);
 
 	// TO-DO: put in exception handling
-	if (result != DI_OK) return;
+	if (result != DI_OK) return false;
 
 	//trace(L"DirectInput keyboard has been created");
 
@@ -77,7 +100,7 @@ void Input::Init(HINSTANCE hInstance, HWND hWnd)
 
 	//trace(L"SetDataFormat for keyboard successfully");
 
-	result = _Keyboard->SetCooperativeLevel(hWnd,
+	result = _Keyboard->SetCooperativeLevel(_HWnd,
 		DISCL_FOREGROUND |		//The application requires foreground access. 
 								//If foreground access is granted, 
 								//the device is automatically unacquired when the associated window moves to the background.
@@ -104,15 +127,53 @@ void Input::Init(HINSTANCE hInstance, HWND hWnd)
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = KEYBOARD_BUFFER_SIZE; // Arbitary buffer size
 
-										 //trace(L"SetProperty for keyboard successfully");
-
 	result = _Keyboard->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
-	if (result != DI_OK) return;
+	if (result != DI_OK) return false;
+	//trace(L"SetProperty for keyboard successfully");
 
 	result = _Keyboard->Acquire();
-	if (result != DI_OK) return;
-
+	if (result != DI_OK) return false;
 	//trace(L"Keyboard has been acquired successfully");
+
+	return true;
+}
+bool Input::InitMouse()
+{
+	HRESULT result = _DirectInput->CreateDevice(
+		GUID_SysMouse, //The default system keyboard
+		&_Mouse,  //receive the IDirectInputDevice8 interface pointer 
+		NULL //NULL if the interface is not aggregated.
+	);
+
+	// TO-DO: put in exception handling
+	if (result != DI_OK) return false;
+	//trace(L"DirectInput mouse has been created");
+
+
+	// Set the data format to "mouse format" - a predefined data format 
+	result = _Mouse->SetDataFormat(&c_dfDIMouse);
+	//trace(L"SetDataFormat for mouse successfully");
+
+	result = _Mouse->SetCooperativeLevel(_HWnd,
+		DISCL_FOREGROUND |		//The application requires foreground access. 
+								//If foreground access is granted, 
+								//the device is automatically unacquired when the associated window moves to the background.
+		DISCL_NONEXCLUSIVE		//The application requires nonexclusive access. 
+								//Access to the device does not interfere with other applications that are accessing the same device.
+	);
+	//trace(L"SetCooperativeLevel for mouse successfully");
+
+	result = _Mouse->Acquire();
+	if (result != DI_OK) return false;
+	//trace(L"Mouse has been acquired successfully");
+
+	return true;
+}
+
+void Input::ShutDownApplication()
+{
+	//trace(L"Escape key pressed!");
+	PostMessage(_HWnd, WM_QUIT, 0, 0);
 }
 
 void Input::ProcessKeyBoardInformation()
@@ -124,7 +185,7 @@ void Input::ProcessKeyBoardInformation()
 	// Collect all key states first
 	result = _Keyboard->GetDeviceState(sizeof(_KeyStates), _KeyStates);
 	
-	//if window lost focus, acquire 
+	//If the keyboard lost focus or was not acquired then try to get control back.
 	if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 	{
 		_Keyboard->Acquire();
@@ -141,6 +202,24 @@ void Input::ProcessKeyBoardInformation()
 	_KeyCodesVector.insert(_KeyCodesVector.end(), &(_KeyEvents[0].dwOfs), &(_KeyEvents[0].dwOfs) + dwElements);
 	_KeyStatesVector.insert(_KeyStatesVector.end(), &(_KeyEvents[0].dwData), &(_KeyEvents[0].dwData) + dwElements);
 
+}
+
+void Input::ProcessMouseInformation()
+{
+	HRESULT result;
+
+	// Read the mouse device.
+	result = _Mouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&_MouseState);
+
+	// If the mouse lost focus or was not acquired then try to get control back.
+	if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+	{
+		_Mouse->Acquire();
+		return;
+	}
+	// Update the location of the mouse cursor based on the change of the mouse location during the frame.
+	_MousePosition.X += _MouseState.lX;
+	_MousePosition.Y += _MouseState.lY;
 }
 
 bool Input::GetKey(int keyCode)
@@ -181,9 +260,24 @@ bool Input::GetKeyUp(int keyCode)
 	{
 		return false;
 	}
+
 }
 
-void Input::ClearBuffedInput()
+Vector2 Input::GetMousePosition()
+{
+
+	// Ensure the mouse location doesn't exceed the screen width or height.
+	if (_MousePosition.X < 0) { _MousePosition.X = 0; }
+	if (_MousePosition.Y < 0) { _MousePosition.Y = 0; }
+
+	//if (_MousePosition.X > 640) { _MousePosition.X = 640; }
+	//if (_MousePosition.Y > 480) { _MousePosition.Y = 480; }
+
+	return _MousePosition;
+
+}
+
+void Input::ClearKeyBoardBuffedInput()
 {
 	_KeyCodesVector.clear();
 	_KeyStatesVector.clear();

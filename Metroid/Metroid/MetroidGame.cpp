@@ -51,6 +51,12 @@ void MetroidGame::UpdateGame()
 		ani.Next(DeltaTime, false);
 	}
 
+	if (Input::GetKeyDown(DIK_ESCAPE))
+	{
+		Input::ShutDownApplication();
+	}
+
+
 	batch.Begin();
 
 	batch.Draw(*obj.GetTexture(), obj.GetPosition().X, obj.GetPosition().Y);
