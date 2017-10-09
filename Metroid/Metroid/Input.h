@@ -52,6 +52,9 @@ public:
 	//return true during the time user stars releasing the key until it reaches the very top of the key.  
 	static bool GetKeyUp(int keyCode);
 
+	//return true while the user holds dow the key, such as auto fire
+	static bool GetMouse(int mouse);
+
 	//Get Mouse Position
 	static Vector2 GetMousePosition();
 

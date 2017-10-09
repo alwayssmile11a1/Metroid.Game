@@ -107,7 +107,6 @@ bool Input::InitKeyBoard()
 		DISCL_NONEXCLUSIVE		//The application requires nonexclusive access. 
 								//Access to the device does not interfere with other applications that are accessing the same device.
 	);
-
 	//trace(L"SetCooperativeLevel for keyboard successfully");
 
 	// IMPORTANT STEP TO USE BUFFERED DEVICE DATA!
@@ -211,6 +210,7 @@ void Input::ProcessMouseInformation()
 	// Read the mouse device.
 	result = _Mouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&_MouseState);
 
+
 	// If the mouse lost focus or was not acquired then try to get control back.
 	if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 	{
@@ -261,6 +261,12 @@ bool Input::GetKeyUp(int keyCode)
 		return false;
 	}
 
+}
+
+bool Input::GetMouse(int mouse)
+{
+	if (mouse > 3) return false;
+	return _MouseState.rgbButtons[mouse] & 0x80;
 }
 
 Vector2 Input::GetMousePosition()
