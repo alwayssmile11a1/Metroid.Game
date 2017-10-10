@@ -80,6 +80,8 @@ Sprite* Animation::GetKeyAnimation()
 
 void Animation::Next(DWORD deltaTime, int isSameDirection)
 {
+	if (_CurrentSprite == NULL) return;
+
 	if (isSameDirection != -1)
 	{
 		//return to origin direction

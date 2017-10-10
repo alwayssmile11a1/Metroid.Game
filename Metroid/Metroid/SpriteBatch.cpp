@@ -37,6 +37,8 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 
 	if (_SpriteHandler == NULL) return;
 
+	if (texture.GetImage() == NULL) return;
+
 	//position to draw in our world
 	_Position.x = x;
 	_Position.y = y;
@@ -56,6 +58,7 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, float height)
 {
 	if (_SpriteHandler == NULL) return;
+	if (texture.GetImage() == NULL) return;
 
 	//get scale factor
 	_ScaleFactor.x = width/_RectSize.x;
@@ -90,7 +93,8 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 void SpriteBatch::Draw(const Sprite &sprite)
 {
 	if(_SpriteHandler == NULL) return;
-	
+	if (sprite.GetTexture()->GetImage() == NULL) return;
+
 	//get Position
 	//position to draw in our world
 	_Position.x = sprite.GetPosition().X;
@@ -113,7 +117,7 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	if (sprite.IsCenterOrigin())
 	{
 		_RotationOrigin.x = _RectSize.x / 2 + _Position.x;
-		_RotationOrigin.x = _RectSize.y / 2 + _Position.y;
+		_RotationOrigin.y = _RectSize.y / 2 + _Position.y;
 	}
 	else
 	{
@@ -137,8 +141,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Rect.right = _Rect.left + _RectSize.x;
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
-	_Center.x = _RectSize.x / 2;
-	_Center.y = _RectSize.y / 2;
+	_Center.x = _RectSize.x/2;
+	_Center.y = _RectSize.y/2;
 	_Center.z = 0;
 	//draw sprite
 	_SpriteHandler->Draw(

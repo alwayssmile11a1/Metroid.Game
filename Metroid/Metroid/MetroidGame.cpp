@@ -34,9 +34,10 @@ void MetroidGame::CreateGame()
 	texture = Texture(L"Resources/DemoScreen05.jpg");
 	sprite = Sprite(&texture);
 	sprite.SetSize(640, 480);
+	sprite.SetPosition(640/2, 480/2);
 
 	texture2 = Texture(L"Resources/character.png");
-	sprite2 = Sprite(&texture2, 300, 300, 0, 0, 75, 86, 75, 86);
+	sprite2 = Sprite(&texture2, 640 / 2, 480 / 2, 0, 0, 75, 86, 75, 86);
 	ani = Animation(&sprite2, 27, 7, 20);
 
 }
@@ -46,11 +47,13 @@ void MetroidGame::UpdateGame()
 	if (Input::GetKey(DIK_RIGHT))
 	{
 		ani.Next(DeltaTime, true);
+		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X+DeltaTime*0.1, 480/2);
 	}
 
 	if (Input::GetKey(DIK_LEFT))
 	{
 		ani.Next(DeltaTime, false);
+		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X - DeltaTime*0.1, 480/2);
 	}
 
 	if (Input::GetKeyDown(DIK_ESCAPE))
@@ -63,8 +66,8 @@ void MetroidGame::UpdateGame()
 
 
 	batch.Draw(sprite);
-
-	batch.Draw(*ani.GetKeyAnimation());
+	batch.Draw(sprite2);
+	//batch.Draw(*ani.GetKeyAnimation());
 
 	
 
