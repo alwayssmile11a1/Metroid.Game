@@ -37,30 +37,6 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 
 	if (_SpriteHandler == NULL) return;
 
-	//get rect 
-	_RectSize.x = texture.GetRectSize().X;
-	_RectSize.y = texture.GetRectSize().Y;
-
-	//get scale factor
-	_ScaleFactor.x = 1;
-	_ScaleFactor.y = 1;
-
-	//get center position
-	_ScaleOrigin.x = x;
-	_ScaleOrigin.y = y;
-
-	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
-	D3DXMatrixTransformation2D(&_Matrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
-
-	_SpriteHandler->SetTransform(&_Matrix);
-
-	//the portion of image we want to draw
-	_Rect.left = texture.GetRectPosition().X;
-	_Rect.top = texture.GetRectPosition().Y;
-	_Rect.right = _Rect.left + _RectSize.x;
-	_Rect.bottom = _Rect.top + _RectSize.y;
-
 	//position to draw in our world
 	_Position.x = x;
 	_Position.y = y;
@@ -69,7 +45,7 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 	//draw sprite
 	_SpriteHandler->Draw(
 		texture.GetImage(),
-		&_Rect,
+		NULL,
 		NULL,
 		&_Position,
 		texture.GetTranscolor()
@@ -80,10 +56,6 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, float height)
 {
 	if (_SpriteHandler == NULL) return;
-
-	//get rect 
-	_RectSize.x = texture.GetRectSize().X;
-	_RectSize.y = texture.GetRectSize().Y;
 
 	//get scale factor
 	_ScaleFactor.x = width/_RectSize.x;
@@ -99,12 +71,6 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 
 	_SpriteHandler->SetTransform(&_Matrix);
 
-	//the portion of image we want to draw
-	_Rect.left = texture.GetRectPosition().X;
-	_Rect.top = texture.GetRectPosition().Y;
-	_Rect.right = _Rect.left + _RectSize.x;
-	_Rect.bottom = _Rect.top + _RectSize.y;
-
 	//position to draw in our world
 	_Position.x = x;
 	_Position.y = y;
@@ -113,7 +79,7 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 	//draw sprite
 	_SpriteHandler->Draw(
 		texture.GetImage(),
-		&_Rect,
+		NULL,
 		NULL,
 		&_Position,
 		texture.GetTranscolor()
@@ -131,7 +97,7 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Position.y = sprite.GetPosition().Y;
 	_Position.z = 0;
 
-	//get rect 
+	//get rect size
 	_RectSize.x = sprite.GetRectSize().X;
 	_RectSize.y = sprite.GetRectSize().Y;
 
@@ -155,6 +121,7 @@ void SpriteBatch::Draw(const Sprite &sprite)
 		_RotationOrigin.y = sprite.GetRotationOrigin().Y;
 	}
 
+
 	//get rotation
 	_RotationFactor = sprite.GetRotation();
 
@@ -170,13 +137,16 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Rect.right = _Rect.left + _RectSize.x;
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
+	_Center.x = _RectSize.x / 2;
+	_Center.y = _RectSize.y / 2;
+	_Center.z = 0;
 	//draw sprite
 	_SpriteHandler->Draw(
-		sprite.GetImage(),
+		sprite.GetTexture()->GetImage(),
 		&_Rect,
-		NULL,
+		&_Center,
 		&_Position,
-		sprite.GetTranscolor()
+		sprite.GetTexture()->GetTranscolor()
 	);
 }
 

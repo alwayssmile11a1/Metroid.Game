@@ -86,9 +86,9 @@ void World::Update(DWORD dt)
 		(*obj)->Update(dt);
 	}
 }
-void World::AddObject(Object &object)
+void World::AddObject(Object *object)
 {
-	_Objects.push_back(&object);
+	_Objects.push_back(object);
 }
 void World::RemoveObject(Object* object)
 {

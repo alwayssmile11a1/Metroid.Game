@@ -2,12 +2,9 @@
 
 Animation::Animation()
 {
-	_Width = 0;
-	_Height = 0;
 	_Count = 0;
 	_SpritePerRow = 0;
 	_Index = 0;
-	_FilePath = NULL;
 	_LeftOffset = 0;
 	_TopOffset = 0;
 	_CurrentSprite = NULL;
@@ -16,32 +13,40 @@ Animation::Animation()
 	_Flipped = false;
 }
 
-Animation::Animation(LPWSTR filePath, int width, int height, int count, int spritePerRow, DWORD frameInterval)
+Animation::Animation(Sprite *sprite, int count, int spritePerRow, DWORD frameInterval)
 {
-	_Width = width;
-	_Height = height;
 	_Count = count;
 	_SpritePerRow = spritePerRow;
 	_Index = 0;
-	_FilePath = filePath;
 	_LeftOffset = 0;
 	_TopOffset = 0;
-	_CurrentSprite = new Texture(filePath, 0, 0, width, height);
+	_CurrentSprite = sprite;
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 	_Flipped = false;
 }
 
+Animation::Animation(Sprite &sprite, float rectWidth, float rectHeight, int count, int spritePerRow, DWORD frameInterval)
+{
+
+	_Count = count;
+	_SpritePerRow = spritePerRow;
+	_Index = 0;
+	_LeftOffset = 0;
+	_TopOffset = 0;
+	_CurrentSprite = &sprite;
+	_StateTime = 0;
+	_FrameInterval = frameInterval;
+	_CurrentSprite->SetRectSize(rectWidth, rectHeight);
+	_Flipped = false;
+}
+
 Animation::Animation(const Animation &ani)
 {
-	_Width = ani._Width;
-	_Height = ani._Height;
 	_Count = ani._Count;
 	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
-	_FilePath = ani._FilePath;
-	_CurrentSprite = new Texture();
-	*_CurrentSprite = *ani._CurrentSprite;
+	_CurrentSprite = ani._CurrentSprite;
 	_LeftOffset = ani._LeftOffset;
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
@@ -50,14 +55,10 @@ Animation::Animation(const Animation &ani)
 }
 Animation& Animation::operator=(const Animation &ani)
 {
-	_Width = ani._Width;
-	_Height = ani._Height;
 	_Count = ani._Count;
 	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
-	_FilePath = ani._FilePath;
-	_CurrentSprite = new Texture();
-	*_CurrentSprite = *ani._CurrentSprite;
+	_CurrentSprite = ani._CurrentSprite;
 	_LeftOffset = ani._LeftOffset;
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
@@ -69,39 +70,35 @@ Animation& Animation::operator=(const Animation &ani)
 
 Animation::~Animation()
 {
-	if (_CurrentSprite != NULL)
-	{
-		delete _CurrentSprite;
-		_CurrentSprite = NULL;
-	}
+	
 }
 
-Texture* Animation::GetKeyAnimation()
+Sprite* Animation::GetKeyAnimation()
 {
 	return _CurrentSprite;
 }
 
 void Animation::Next(DWORD deltaTime, int isSameDirection)
 {
-	//if (isSameDirection != -1)
-	//{
-	//	//return to origin direction
-	//	if (_Flipped) _CurrentSprite.Flip(true, false);
+	if (isSameDirection != -1)
+	{
+		//return to origin direction
+		if (_Flipped) _CurrentSprite->Flip(true, false);
 
-	//	if (isSameDirection == 0)
-	//	{
-	//		_CurrentSprite.Flip(true, false);
-	//	}
+		if (isSameDirection == 0)
+		{
+			_CurrentSprite->Flip(true, false);
+		}
 
-	//	_Flipped = !isSameDirection;
-	//}
+		_Flipped = !isSameDirection;
+	}
 
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)
 	{
 		//calculate top left position (in the image)
-		float rectX = (_Index % _SpritePerRow)*_Width + _LeftOffset;
-		float rectY = (_Index / _SpritePerRow)*_Height + _TopOffset;
+		float rectX = (_Index % _SpritePerRow)*_CurrentSprite->GetRectSize().X + _LeftOffset;
+		float rectY = (_Index / _SpritePerRow)*_CurrentSprite->GetRectSize().Y + _TopOffset;
 
 		//set rect position
 		_CurrentSprite->SetRectPosition(rectX, rectY);
@@ -126,9 +123,4 @@ void Animation::SetOffset(float leftOffset, float topOffset)
 {
 	_LeftOffset = leftOffset;
 	_TopOffset = topOffset;
-}
-
-void Animation::SetTranscolor(D3DCOLOR transColor)
-{
-	_CurrentSprite->SetTranscolor(transColor);
 }

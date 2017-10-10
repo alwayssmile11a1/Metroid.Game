@@ -18,6 +18,7 @@ private:
 	
 	D3DXMATRIX _Matrix; // Build our matrix to rotate, scale and position our sprite
 	RECT _Rect; //the portion of image we want to draw
+	D3DXVECTOR3 _Center; 
 	D3DXVECTOR3 _Position; //position to draw in our world
 	D3DXVECTOR2 _RectSize; //the sprite bounds
 	D3DXVECTOR2 _ScaleFactor; //scale

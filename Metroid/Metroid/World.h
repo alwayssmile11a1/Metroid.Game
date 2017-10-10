@@ -40,7 +40,7 @@ public:
 
 	//Update world (update all the objects in this world)
 	void Update(DWORD dt);
-	void AddObject(Object &object);
+	void AddObject(Object *object);
 	void RemoveObject(Object* object);
 	void RemoveObject(int index);
 

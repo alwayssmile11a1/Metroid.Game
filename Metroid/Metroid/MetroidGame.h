@@ -14,7 +14,9 @@ private:
 	Animation ani;
 	SpriteBatch batch;
 	Texture texture;
+	Texture texture2;
 	Sprite sprite;
+	Sprite sprite2;
 
 protected:
 	//create all the things of a game here, such as world, object, ...

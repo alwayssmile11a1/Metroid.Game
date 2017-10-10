@@ -2,53 +2,65 @@
 
 Sprite::Sprite()
 {
+	_Texture = NULL;
 	_ScaleFactor.Set(1,1); 
 	_RotationOrigin.Set(0,0); 
 	_Rotation = 0;
 	_Position.Set(0, 0);
 	_IsCenterOrigin = true;
+	_RectSize.Set(0,0); 
+	_RectPosition.Set(0,0); 
 }
 
-Sprite::Sprite(LPWSTR filePath) :Texture(filePath)
+Sprite::Sprite(Texture *texture) 
 {
+	_Texture = texture;
 	_ScaleFactor.Set(1, 1);
 	_RotationOrigin.Set(0, 0);
 	_Rotation = 0;
 	_Position.Set(0, 0);
 	_IsCenterOrigin = true;
+	_RectSize.Set(texture->GetImageSize().X, texture->GetImageSize().Y);
+	_RectPosition.Set(0, 0);
 }
 
-Sprite::Sprite(LPWSTR filePath, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height)
-	:Texture(filePath, rectLeft, rectTop, rectWidth, rectHeight)
+Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height)
 {
 	//set
+	_Texture = texture;
 	_ScaleFactor.Set(width / rectWidth, height / rectHeight);
 	_RotationOrigin.Set(0, 0);
 	_Position.Set(x, y);
 	_IsCenterOrigin = true;
 	_Rotation = 0;
-
+	_RectSize.Set(rectWidth, rectHeight);
+	_RectPosition.Set(rectLeft, rectTop);
 }
 
-Sprite::Sprite(const Sprite &sprite) :Texture(sprite)
+Sprite::Sprite(const Sprite &sprite)
 {
 	//set
+	_Texture = sprite._Texture;
 	_ScaleFactor = sprite._ScaleFactor;
 	_RotationOrigin = sprite._RotationOrigin;
 	_IsCenterOrigin = sprite._IsCenterOrigin;
 	_Rotation = sprite._Rotation;
 	_Position = sprite._Position;
+	_RectSize = sprite._RectSize;
+	_RectPosition = sprite._RectPosition;
 }
 
 Sprite& Sprite::operator=(const Sprite &sprite)
 {
-	Texture::operator=(sprite);
 	//set
+	_Texture = sprite._Texture;
 	_ScaleFactor = sprite._ScaleFactor;
 	_RotationOrigin = sprite._RotationOrigin;
 	_IsCenterOrigin = sprite._IsCenterOrigin;
 	_Rotation = sprite._Rotation;
 	_Position = sprite._Position;
+	_RectSize = sprite._RectSize;
+	_RectPosition = sprite._RectPosition;
 
 	return *this;
 }
@@ -67,6 +79,10 @@ Vector2 Sprite::GetScale() const
 	return _ScaleFactor;
 }
 
+Texture*  Sprite::GetTexture() const
+{
+	return _Texture;
+}
 
 //all set functions
 void Sprite::SetRotationOrigin(float centerX, float centerY)
@@ -83,15 +99,28 @@ Vector2 Sprite::GetPosition() const
 	return _Position;
 }
 
+Vector2 Sprite::GetRectSize() const
+{
+	return _RectSize;
+}
+Vector2 Sprite::GetRectPosition() const
+{
+	return _RectPosition;
+}
+
 void Sprite::SetPosition(float x, float y)
 {
 	_Position.Set(x, y);
 }
 
+void  Sprite::SetTexture(Texture &texture)
+{
+	_Texture = &texture;
+}
 
 void Sprite::SetSize(float width, float height)
 {
-	_ScaleFactor.Set(width / _RectSize.X, height / _RectSize.Y);
+	_ScaleFactor.Set(width /_RectSize.X, height / _RectSize.Y);
 }
 
 void Sprite::SetCenterRotationOrigin(bool center)
@@ -104,6 +133,15 @@ bool Sprite::IsCenterOrigin() const
 	return _IsCenterOrigin;
 }
 
+void Sprite::SetRectPosition(float rectX, float rectY)
+{
+	_RectPosition.Set(rectX, rectY);
+}
+void Sprite::SetRectSize(float rectWidth, float rectHeight)
+{
+	_RectSize.Set(rectWidth, rectHeight);
+}
+
 //Flip the image 
 void Sprite::Flip(bool flipX, bool flipY)
 {
@@ -113,7 +151,7 @@ void Sprite::Flip(bool flipX, bool flipY)
 
 void Sprite::ResetToWhole()
 {
-	Texture::ResetToWhole();
+	_RectSize.Set(_Texture->GetImageSize().X, _Texture->GetImageSize().Y);
 	_ScaleFactor.Set(1, 1);
 }
 

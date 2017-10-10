@@ -84,9 +84,9 @@ void Object::SetPosition(const Vector2 &value)
 	_Position = value;
 }
 
-void Object::SetTexture(Texture &texture)
+void Object::SetTexture(Texture *texture)
 {
-	_Texture = &texture;
+	_Texture = texture;
 }
 
 void Object::Update(DWORD dt)

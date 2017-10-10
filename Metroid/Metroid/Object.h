@@ -32,7 +32,7 @@ public:
 	void SetBounds(const Vector2 &value);
 	void SetVelocity(const Vector2 &value);
 	void SetPosition(const Vector2 &value);
-	void SetTexture(Texture &texture);
+	void SetTexture(Texture *texture);
 
 	//Update object
 	void Update(DWORD dt);
