@@ -19,10 +19,10 @@ private:
 	D3DXMATRIX _Matrix; // Build our matrix to rotate, scale and position our sprite
 	RECT _Rect; //the portion of image we want to draw
 	D3DXVECTOR3 _Position; //position to draw in our world
-	D3DXVECTOR2 _Bounds; //the sprite bounds
+	D3DXVECTOR2 _RectSize; //the sprite bounds
 	D3DXVECTOR2 _ScaleFactor; //scale
-	D3DXVECTOR2 _OriginPosition; //the position that will be used as origin for rotating
-	D3DXVECTOR2 _CenterPosition; //the center position of a sprite (used for scaling)
+	D3DXVECTOR2 _RotationOrigin; //the position that will be used as origin for rotating
+	D3DXVECTOR2 _ScaleOrigin; //the original position of a sprite used for scaling
 	float _RotationFactor; //rotation
 
 public:
@@ -35,8 +35,12 @@ public:
 	//Release this batch
 	void Release();
 
-	//Draw 
+	//Draw texture at (x,y)
 	void Draw(const Texture &texture, float x, float y);
+
+	//draw the texture at (x,y) and stretch it to width and height
+	void Draw(const Texture &texture, float x, float y, float width, float height);
+
 	void Draw(const Sprite &sprite);
 
 	//begin drawing

@@ -10,23 +10,23 @@ Animation::Animation()
 	_FilePath = NULL;
 	_LeftOffset = 0;
 	_TopOffset = 0;
-	//_CurrentSprite = NULL;
+	_CurrentSprite = NULL;
 	_StateTime = 0;
 	_FrameInterval = 0;
 	_Flipped = false;
 }
 
-Animation::Animation(LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow, DWORD frameInterval)
+Animation::Animation(LPWSTR filePath, int width, int height, int count, int spritePerRow, DWORD frameInterval)
 {
-	_Width = Width;
-	_Height = Height;
-	_Count = Count;
-	_SpritePerRow = SpritePerRow;
+	_Width = width;
+	_Height = height;
+	_Count = count;
+	_SpritePerRow = spritePerRow;
 	_Index = 0;
-	_FilePath = FilePath;
+	_FilePath = filePath;
 	_LeftOffset = 0;
 	_TopOffset = 0;
-	_CurrentSprite = Texture(FilePath, Width, Height, 0, 0, 1, 1);
+	_CurrentSprite = new Texture(filePath, 0, 0, width, height);
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 	_Flipped = false;
@@ -40,7 +40,8 @@ Animation::Animation(const Animation &ani)
 	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
 	_FilePath = ani._FilePath;
-	_CurrentSprite = ani._CurrentSprite;
+	_CurrentSprite = new Texture();
+	*_CurrentSprite = *ani._CurrentSprite;
 	_LeftOffset = ani._LeftOffset;
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
@@ -55,7 +56,8 @@ Animation& Animation::operator=(const Animation &ani)
 	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
 	_FilePath = ani._FilePath;
-	_CurrentSprite = ani._CurrentSprite;
+	_CurrentSprite = new Texture();
+	*_CurrentSprite = *ani._CurrentSprite;
 	_LeftOffset = ani._LeftOffset;
 	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
@@ -67,28 +69,32 @@ Animation& Animation::operator=(const Animation &ani)
 
 Animation::~Animation()
 {
-
+	if (_CurrentSprite != NULL)
+	{
+		delete _CurrentSprite;
+		_CurrentSprite = NULL;
+	}
 }
 
-Texture& Animation::GetKeyAnimation()
+Texture* Animation::GetKeyAnimation()
 {
 	return _CurrentSprite;
 }
 
 void Animation::Next(DWORD deltaTime, int isSameDirection)
 {
-	if (isSameDirection != -1)
-	{
-		//return to origin direction
-		if (_Flipped) _CurrentSprite.Flip(true, false);
+	//if (isSameDirection != -1)
+	//{
+	//	//return to origin direction
+	//	if (_Flipped) _CurrentSprite.Flip(true, false);
 
-		if (isSameDirection == 0)
-		{
-			_CurrentSprite.Flip(true, false);
-		}
+	//	if (isSameDirection == 0)
+	//	{
+	//		_CurrentSprite.Flip(true, false);
+	//	}
 
-		_Flipped = !isSameDirection;
-	}
+	//	_Flipped = !isSameDirection;
+	//}
 
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)
@@ -98,7 +104,7 @@ void Animation::Next(DWORD deltaTime, int isSameDirection)
 		float rectY = (_Index / _SpritePerRow)*_Height + _TopOffset;
 
 		//set rect position
-		_CurrentSprite.SetRectPosition(rectX, rectY);
+		_CurrentSprite->SetRectPosition(rectX, rectY);
 
 		//next index
 		_Index = (_Index + 1) % _Count;
@@ -124,5 +130,5 @@ void Animation::SetOffset(float leftOffset, float topOffset)
 
 void Animation::SetTranscolor(D3DCOLOR transColor)
 {
-	_CurrentSprite.SetTranscolor(transColor);
+	_CurrentSprite->SetTranscolor(transColor);
 }

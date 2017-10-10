@@ -7,55 +7,37 @@
 //draw an image at specified position or draw a portion of image 
 class Texture
 {
-private:
+protected:
 	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file
-
 	LPWSTR _FilePath;
-
 	D3DCOLOR _Transcolor; //what color is needed to be transparent?
-	Vector2 _Bounds; //the width and height of this sprite
+	Vector2 _ImageSize; //the whole width and height of the image
+	Vector2 _RectSize; //the width and height of the rectangle portion in the image
 	Vector2 _RectPosition; //the top left position of portion we want to draw
-	Vector2 _OriginBounds; //the whole bounds of the image
-
-	Vector2 _ScaleFactor; //scale
-	Vector2 _OriginPosition; //the position that will be used as origin for rotating
-	float _Rotation;
-
-	float _IsCenterOrigin;
 
 public:
 	Texture();
 	Texture(LPWSTR filePath);
-	Texture(LPWSTR filePath, float width, float height, float rectX, float rectY, float scaleX, float scaleY);
+
+	//create a texture from file
+	Texture(LPWSTR filePath, float rectLeft, float rectTop, float rectWidth, float rectHeight);
 	Texture(const Texture &texture);
 	~Texture();
 
 	Texture& operator=(const Texture &texture);
 
 	//all get functions
-	Vector2 GetBounds() const;
+	Vector2 GetRectSize() const;
 	Vector2 GetRectPosition() const;
-	Vector2 GetOriginPosition() const;
-	Vector2 GetScale() const;
-	float GetRotation() const;
 	D3DCOLOR GetTranscolor() const;
 	LPDIRECT3DTEXTURE9 GetImage() const;
 
 	//all set functions
-	void SetBounds(float width, float height);
 	void SetRectPosition(float rectX, float rectY);
-	void SetOriginPosition(float centerX, float centerY);
-	void SetRotation(float rotation);
-	void SetScale(float scaleX, float scaleY);
+	void SetRectSize(float rectWidth, float rectHeight);
 	void SetTranscolor(D3DCOLOR transcolor);
-	void ResetToOriginBounds();
+	void ResetToWhole();
 
-	//if true, set the origin of this sprite to be always in the center of this texture
-	void SetCenterOrigin(bool center); 
-	bool IsCenterOrigin() const;
-
-	//Flip the texture. This function is done by multiplying the scale x or y with -1. 
-	void Flip(bool flipX, bool flipY);
 
 };
 

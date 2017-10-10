@@ -3,7 +3,7 @@
 SpriteBatch::SpriteBatch()
 {
 	_SpriteHandler = NULL; //handle to a sprite 
-
+	
 }
 
 
@@ -34,42 +34,76 @@ void SpriteBatch::Release()
 
 void SpriteBatch::Draw(const Texture &texture, float x, float y)
 {
-	if(_SpriteHandler == NULL) return;
-	
-	//get bounds
-	_Bounds.x = texture.GetBounds().X;
-	_Bounds.y = texture.GetBounds().Y;
+
+	if (_SpriteHandler == NULL) return;
+
+	//get rect 
+	_RectSize.x = texture.GetRectSize().X;
+	_RectSize.y = texture.GetRectSize().Y;
 
 	//get scale factor
-	_ScaleFactor.x = texture.GetScale().X;
-	_ScaleFactor.y = texture.GetScale().Y;
+	_ScaleFactor.x = 1;
+	_ScaleFactor.y = 1;
 
 	//get center position
-	_CenterPosition.x = x + _Bounds.x / 2;
-	_CenterPosition.y = y + _Bounds.y / 2;
-
-	if (texture.IsCenterOrigin())
-	{
-		_OriginPosition = _CenterPosition;
-	}
-	else
-	{
-		_OriginPosition.x = texture.GetOriginPosition().X;
-		_OriginPosition.y = texture.GetOriginPosition().Y;
-	}
-	_RotationFactor = texture.GetRotation();
+	_ScaleOrigin.x = x;
+	_ScaleOrigin.y = y;
 
 	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
 	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
-	D3DXMatrixTransformation2D(&_Matrix, &_CenterPosition, 0, &_ScaleFactor, &_OriginPosition, _RotationFactor* Pi /180, NULL);
-	
+	D3DXMatrixTransformation2D(&_Matrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
+
 	_SpriteHandler->SetTransform(&_Matrix);
-	
+
 	//the portion of image we want to draw
 	_Rect.left = texture.GetRectPosition().X;
 	_Rect.top = texture.GetRectPosition().Y;
-	_Rect.right = _Rect.left + texture.GetBounds().X;
-	_Rect.bottom = _Rect.top + texture.GetBounds().Y;
+	_Rect.right = _Rect.left + _RectSize.x;
+	_Rect.bottom = _Rect.top + _RectSize.y;
+
+	//position to draw in our world
+	_Position.x = x;
+	_Position.y = y;
+	_Position.z = 0;
+
+	//draw sprite
+	_SpriteHandler->Draw(
+		texture.GetImage(),
+		&_Rect,
+		NULL,
+		&_Position,
+		texture.GetTranscolor()
+	);
+
+}
+
+void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, float height)
+{
+	if (_SpriteHandler == NULL) return;
+
+	//get rect 
+	_RectSize.x = texture.GetRectSize().X;
+	_RectSize.y = texture.GetRectSize().Y;
+
+	//get scale factor
+	_ScaleFactor.x = width/_RectSize.x;
+	_ScaleFactor.y = height/_RectSize.y;
+
+	//get scale origin position
+	_ScaleOrigin.x = x;
+	_ScaleOrigin.y = y;
+
+	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
+	D3DXMatrixTransformation2D(&_Matrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
+
+	_SpriteHandler->SetTransform(&_Matrix);
+
+	//the portion of image we want to draw
+	_Rect.left = texture.GetRectPosition().X;
+	_Rect.top = texture.GetRectPosition().Y;
+	_Rect.right = _Rect.left + _RectSize.x;
+	_Rect.bottom = _Rect.top + _RectSize.y;
 
 	//position to draw in our world
 	_Position.x = x;
@@ -89,7 +123,61 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 
 void SpriteBatch::Draw(const Sprite &sprite)
 {
+	if(_SpriteHandler == NULL) return;
+	
+	//get Position
+	//position to draw in our world
+	_Position.x = sprite.GetPosition().X;
+	_Position.y = sprite.GetPosition().Y;
+	_Position.z = 0;
 
+	//get rect 
+	_RectSize.x = sprite.GetRectSize().X;
+	_RectSize.y = sprite.GetRectSize().Y;
+
+	//get scale factor
+	_ScaleFactor.x = sprite.GetScale().X;
+	_ScaleFactor.y = sprite.GetScale().Y;
+
+	//get center position
+	_ScaleOrigin.x = _Position.x;
+	_ScaleOrigin.y = _Position.y;
+
+	//get rotation origin
+	if (sprite.IsCenterOrigin())
+	{
+		_RotationOrigin.x = _RectSize.x / 2 + _Position.x;
+		_RotationOrigin.x = _RectSize.y / 2 + _Position.y;
+	}
+	else
+	{
+		_RotationOrigin.x = sprite.GetRotationOrigin().X;
+		_RotationOrigin.y = sprite.GetRotationOrigin().Y;
+	}
+
+	//get rotation
+	_RotationFactor = sprite.GetRotation();
+
+	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
+	D3DXMatrixTransformation2D(&_Matrix, &_ScaleOrigin, 0, &_ScaleFactor, &_RotationOrigin, _RotationFactor* Pi /180, NULL);
+	
+	_SpriteHandler->SetTransform(&_Matrix);
+	
+	//the portion of image we want to draw
+	_Rect.left = sprite.GetRectPosition().X;
+	_Rect.top = sprite.GetRectPosition().Y;
+	_Rect.right = _Rect.left + _RectSize.x;
+	_Rect.bottom = _Rect.top + _RectSize.y;
+
+	//draw sprite
+	_SpriteHandler->Draw(
+		sprite.GetImage(),
+		&_Rect,
+		NULL,
+		&_Position,
+		sprite.GetTranscolor()
+	);
 }
 
 

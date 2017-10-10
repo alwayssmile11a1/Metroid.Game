@@ -11,11 +11,10 @@ class MetroidGame: Game
 private:
 	World world;
 	Object obj;
-	//Sprite sample;
 	Animation ani;
 	SpriteBatch batch;
-	//Texture a;
-	//Sprite sample2;
+	Texture texture;
+	Sprite sprite;
 
 protected:
 	//create all the things of a game here, such as world, object, ...

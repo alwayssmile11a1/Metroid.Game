@@ -6,7 +6,7 @@
 class Animation
 {
 private:
-	Texture _CurrentSprite; 
+	Texture* _CurrentSprite; 
 	int _Index;						// Current sprite index
 	int _Width;								// Sprite width
 	int _Height;							// Sprite height
@@ -27,7 +27,7 @@ public:
 	Animation& operator=(const Animation &ani);
 	
 
-	Texture& GetKeyAnimation();
+	Texture* GetKeyAnimation();
 
 	//Go to next animation frame
 	//If isSameDirection = 0, the animation will be rendered as the opposite direction  

@@ -1,44 +1,51 @@
-//this class really needs to improve later
 #pragma once
 
 #include "stdafx.h"
+#include "DirectXDevice.h"
+#include "Texture.h"
 
-//draw an image at specified position or draw a portion of image 
-class Sprite
+//let's extend Texture class 
+class Sprite : public Texture
 {
 private:
-	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file
-	LPD3DXSPRITE _SpriteHandler; //handle to a sprite 
+	Vector2 _Position; //the position of this sprite
 
-	LPWSTR _FilePath;
-	LPDIRECT3DDEVICE9 D3ddev;
+	Vector2 _ScaleFactor; //scale
+	Vector2 _RotationOrigin; //the position that will be used as origin for rotating
+	float _Rotation;
 
-	D3DCOLOR _Transcolor; //what color is needed to be transparent?
-	Vector2 _Position; //where we draw this sprite in our scene 
-	Vector2 _Bounds; //the width and height of this sprite
-	Vector2 _RectPosition; //the top left position of portion we want to draw
-	
+	float _IsCenterOrigin; //
+
 public:
 	Sprite();
-	Sprite(LPDIRECT3DDEVICE9 d3ddev, LPWSTR filePath, float x, float y);
-	Sprite(LPDIRECT3DDEVICE9 d3ddev, LPWSTR filePath, float x, float y, float width, float height, float rectX, float rectY);
-	Sprite(const Sprite &Sprite);
+	Sprite(LPWSTR filePath);
+	
+	//draw a portion of image, stretch it to width and height
+	Sprite(LPWSTR filePath, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height);
+	Sprite(const Sprite &texture);
 	~Sprite();
 
-	Sprite& operator=(const Sprite &sprite);
+	Sprite& operator=(const Sprite &texture);
 
 	//all get functions
-	Vector2 GetPosition();
-	Vector2 GetBounds();
+	Vector2 GetRotationOrigin() const;
+	Vector2 GetPosition() const;
+	float GetRotation() const;
+	Vector2 GetScale() const;
 
 	//all set functions
-	void SetBounds(float width, float height);
-	void SetPosition(int x, int y);
-	void SetTranscolor(D3DCOLOR transcolor);
-	void SetRectPosition(float rectX, float rectY);
+	void SetRotationOrigin(float centerX, float centerY);
+	void SetRotation(float rotation);
+	void SetPosition(float x, float y);
+	void SetSize(float width, float height);
 
-	// Render current sprite 
-	void Render();
+	//if true, set the origin of this sprite to be always in the center of this texture
+	void SetCenterRotationOrigin(bool center);
+	bool IsCenterOrigin() const;
 
+	//Flip the texture. This function is done by multiplying the scale x or y with -1. 
+	void Flip(bool flipX, bool flipY);
+
+	void ResetToWhole();
 };
 
