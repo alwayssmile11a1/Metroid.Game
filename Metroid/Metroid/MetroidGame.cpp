@@ -31,13 +31,13 @@ void MetroidGame::CreateGame()
 	//obj.SetTexture(ani.GetKeyAnimation());
 	//world.AddObject(obj);
 
-	cam.SetPostion(0,0);
+	cam.SetPostion(0, 0);
 	batch.SetCamera(&cam);
 
 	texture = Texture(L"Resources/DemoScreen05.jpg");
 	sprite = Sprite(&texture);
 	sprite.SetSize(640, 480);
-	sprite.SetPosition(100, 100);
+	sprite.SetPosition(0, 0);
 
 	//texture2 = Texture(L"Resources/character.png");
 	//sprite2 = Sprite(&texture2, 640 / 2, 480 / 2, 0, 0, 75, 86, 75, 86);

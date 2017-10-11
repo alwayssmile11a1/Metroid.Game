@@ -88,6 +88,8 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 	_Position.y = y;
 	_Position.z = 0;
 
+	GetActualPosition(&_Position, _Camera);
+
 	//get scale factor
 	_ScaleFactor.x = width/_RectSize.x;
 	_ScaleFactor.y = height/_RectSize.y;
@@ -101,8 +103,6 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
 
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
-
-	GetActualPosition(&_Position, _Camera);
 
 	//draw sprite
 	_SpriteHandler->Draw(
@@ -124,7 +124,7 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Position.y = sprite.GetPosition().Y;
 	_Position.z = 0;
 
-
+	GetActualPosition(&_Position, _Camera);
 
 	//get rect size
 	_RectSize.x = sprite.GetRectSize().X;
@@ -134,7 +134,7 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_ScaleFactor.x = sprite.GetScale().X;
 	_ScaleFactor.y = sprite.GetScale().Y;
 
-	//get center position
+	//get scale origin
 	_ScaleOrigin.x = _Position.x;
 	_ScaleOrigin.y = _Position.y;
 
@@ -161,26 +161,23 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
 	
 
-	GetActualPosition(&_Position, _Camera);
-
 	//the portion of image we want to draw
 	_Rect.left = sprite.GetRectPosition().X;
 	_Rect.top = sprite.GetRectPosition().Y;
 	_Rect.right = _Rect.left + _RectSize.x;
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
-	//
+	//Get center
 	_Center.x = _RectSize.x/2;
 	_Center.y = _RectSize.y/2;
 	_Center.z = 0;
 
-	//_Position.y -= _RectSize.y*_ScaleFactor.y;
 
 	//draw sprite
 	_SpriteHandler->Draw(
 		sprite.GetTexture()->GetImage(),
 		&_Rect,
-		NULL,
+		&_Center,
 		&_Position,
 		sprite.GetTexture()->GetTranscolor()
 	);
