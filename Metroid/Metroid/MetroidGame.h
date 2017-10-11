@@ -18,6 +18,8 @@ private:
 	Sprite sprite;
 	Sprite sprite2;
 
+	Camera cam;
+
 protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame();

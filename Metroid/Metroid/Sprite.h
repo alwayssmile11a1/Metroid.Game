@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "Texture.h"
 
-//let's extend Texture class 
+//Texture + Texture Region
 class Sprite 
 {
 private:

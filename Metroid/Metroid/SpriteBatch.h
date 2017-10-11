@@ -4,6 +4,7 @@
 #include "DirectXDevice.h"
 #include "Texture.h"
 #include "Sprite.h"
+#include "Camera.h"
 
 #define Pi 3.14159265
 
@@ -16,7 +17,9 @@ class SpriteBatch
 private:
 	LPD3DXSPRITE _SpriteHandler; //handle to a sprite 
 	
-	D3DXMATRIX _Matrix; // Build our matrix to rotate, scale and position our sprite
+	D3DXMATRIX _SpriteMatrix; // Build our matrix to rotate, scale and position our sprite
+	D3DXMATRIX _CameraMatrix; // Build our matrix to rotate, scale and position our sprite
+	D3DXVECTOR4 _ActualPosition; //the actual position of the sprite will be drawn
 	RECT _Rect; //the portion of image we want to draw
 	D3DXVECTOR3 _Center; 
 	D3DXVECTOR3 _Position; //position to draw in our world
@@ -25,6 +28,11 @@ private:
 	D3DXVECTOR2 _RotationOrigin; //the position that will be used as origin for rotating
 	D3DXVECTOR2 _ScaleOrigin; //the original position of a sprite used for scaling
 	float _RotationFactor; //rotation
+
+	Camera *_Camera; //the camera is being used by this batch
+
+
+	void GetActualPosition(D3DXVECTOR3 * postion, Camera *cam);
 
 public:
 	SpriteBatch();
@@ -35,6 +43,9 @@ public:
 
 	//Release this batch
 	void Release();
+
+	//Set the camera to be used by this batch
+	void SetCamera(Camera *camera);
 
 	//Draw texture at (x,y)
 	void Draw(const Texture &texture, float x, float y);
