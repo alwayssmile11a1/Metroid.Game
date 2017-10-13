@@ -24,7 +24,9 @@ protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame();
 	//update game by one frame (render, control game) - just write your game here
-	void UpdateGame();
+	void UpdateGame(DWORD dt);
+
+	void Resize(float x, float y);
 
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);

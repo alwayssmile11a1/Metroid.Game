@@ -61,7 +61,7 @@ int DirectXDevice::Init(HWND & hWnd, bool isFullScreen, int screenWidth, int _sc
 		MessageBox(hWnd, L"Error creating Direct3D device", L"Error", MB_OK);
 		return false;
 	}
-
+	
 	return true;
 
 }

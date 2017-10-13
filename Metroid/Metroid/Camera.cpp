@@ -3,10 +3,14 @@
 Camera::Camera()
 {
 	_Position.Set(0, 0);
+	_Size.Set(0, 0);
+	_ScaleFactor.Set(1, 1);
 }
-Camera::Camera(float x, float y)
+Camera::Camera(float x, float y, float sizeX, float sizeY)
 {
 	_Position.Set(x, y);
+	_Size.Set(sizeX, sizeY);
+	_ScaleFactor.Set(1, 1);
 }
 
 Camera::~Camera()
@@ -24,7 +28,22 @@ void Camera::SetPostion(float x, float y)
 	_Position.Set(x, y);
 }
 
-void Camera::Update()
+void Camera::SetSize(float x, float y)
 {
+	_Size.Set(x, y);
+}
 
+Vector2 Camera::GetSize()
+{
+	return _Size;
+}
+
+void Camera::Resize(float x, float y)
+{
+	_ScaleFactor.Set(_Size.X / x, _Size.Y / y);
+}
+
+Vector2 Camera::GetScaleFactor()
+{
+	return _ScaleFactor;
 }

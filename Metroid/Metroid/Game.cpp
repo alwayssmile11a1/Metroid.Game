@@ -224,13 +224,16 @@ int Game::RunGame()
 		Input::ProcessKeyBoardInformation();
 		Input::ProcessMouseInformation();
 
+		//get clientsize
+		GetWindowRect(_HWnd, &_ClientRect);
+		Resize(_ClientRect.right,_ClientRect.top);
+
 		//get "now" time
 		DWORD now = GetTickCount();
 		//calculate delta time
 		DeltaTime = now - frame_start;
 		if (DeltaTime >= count_per_frame) //if true, next frame
 		{
-
 			frame_start = now;
 
 			//make sure the Direct3D device is valid
@@ -263,7 +266,7 @@ int Game::RunGame()
 					DirectXDevice::D3Ddevice->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
 				}
 
-				UpdateGame();
+				UpdateGame(DeltaTime);
 
 				//clear buffedInput after we has done update game
 				Input::ClearKeyBoardBuffedInput();

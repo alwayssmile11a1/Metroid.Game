@@ -46,8 +46,8 @@ void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
 	//get the actual postion
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
-	_CameraMatrix._41 = -cam->GetPosition().X;
-	_CameraMatrix._42 = +cam->GetPosition().Y;
+	_CameraMatrix._41 = -(cam->GetPosition().X-cam->GetSize().X/2);
+	_CameraMatrix._42 = +cam->GetPosition().Y+cam->GetSize().Y- cam->GetSize().Y / 2;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;
@@ -168,8 +168,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
 	//Get center
-	_Center.x = _RectSize.x/2;
-	_Center.y = _RectSize.y/2;
+	_Center.x = 0;
+	_Center.y = _RectSize.y;
 	_Center.z = 0;
 
 
