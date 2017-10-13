@@ -21,6 +21,7 @@ void SpriteBatch::Create()
 	if (res != D3D_OK) return;
 	_SpriteHandler->GetDevice(&DirectXDevice::D3Ddevice);
 	_Camera = NULL;
+	
 }
 
 void SpriteBatch::Release()

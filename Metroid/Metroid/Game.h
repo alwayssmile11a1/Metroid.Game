@@ -34,6 +34,7 @@ private:
 	//init
 	bool InitWindow();
 	bool InitDirectX();
+	bool InitGame();
 
 protected:
 	//RECOMMEND: overide these two function and do all the things you want
@@ -58,9 +59,6 @@ public:
 	Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~Game();
 
-	//RECOMMEND: don't modify this function, just call it in the main function
-	//init all the things we need to start drawing our game
-	void InitGame();
 
 	//RECOMMEND: don't modify this function, just call it in the main function
 	//do things in the updateGame function

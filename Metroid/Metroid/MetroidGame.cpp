@@ -10,10 +10,6 @@ MetroidGame::~MetroidGame()
 	batch.Release();
 }
 
-void MetroidGame::InitGame()
-{
-	Game::InitGame();
-}
 void MetroidGame::RunGame()
 {
 	Game::RunGame();

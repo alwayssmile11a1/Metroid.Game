@@ -32,7 +32,6 @@ public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~MetroidGame();
 
-	void InitGame();
 	void RunGame();
 
 };

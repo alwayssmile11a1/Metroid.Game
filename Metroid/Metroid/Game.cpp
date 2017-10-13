@@ -175,18 +175,18 @@ bool Game::InitDirectX()
 	return true;
 }
 
-void Game::InitGame()
+bool Game::InitGame()
 {
 	//init window
 	if (!InitWindow())
 	{
-		return;
+		return false;
 	}
 	
 	//init directX
 	if (!InitDirectX())
 	{
-		return;
+		return false;
 	}
 
 	//init input manager
@@ -194,10 +194,15 @@ void Game::InitGame()
 
 	//create game
 	CreateGame();
+
+	return true;
 }
 
 int Game::RunGame()
 {
+
+	if (!InitGame()) return 0;
+
 	//message from window
 	MSG msg;
 

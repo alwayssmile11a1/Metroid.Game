@@ -46,7 +46,7 @@ int DirectXDevice::Init(HWND & hWnd, bool isFullScreen, int screenWidth, int _sc
 	d3dpp.BackBufferWidth = screenWidth;
 	d3dpp.BackBufferHeight = _screenHeight;
 	d3dpp.hDeviceWindow = hWnd;
-
+	
 	//create Direct3D device
 	D3D->CreateDevice(
 		D3DADAPTER_DEFAULT,
