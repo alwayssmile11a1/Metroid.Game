@@ -29,7 +29,7 @@ private:
 	DWORD DeltaTime;
 
 	//store the client rect
-	RECT _ClientRect;
+	RECT _WindowRect;
 
 	//init
 	bool InitWindow();
@@ -42,7 +42,7 @@ protected:
 	//create all the things of a game here, such as world, object, ...
 	void virtual CreateGame() = 0;
 	//update game by one frame (render, control game) - just write your game here
-	void virtual UpdateGame(DWORD dt) = 0;
+	void virtual UpdateGame(float dt) = 0;
 
 	void virtual Resize(float x, float y) = 0;
 

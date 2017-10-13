@@ -47,7 +47,7 @@ void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
 	_CameraMatrix._41 = -(cam->GetPosition().X-cam->GetSize().X/2);
-	_CameraMatrix._42 = +cam->GetPosition().Y+cam->GetSize().Y- cam->GetSize().Y / 2;
+	_CameraMatrix._42 = +cam->GetPosition().Y+cam->GetSize().Y/2;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;
@@ -67,12 +67,16 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 
 	GetActualPosition(&_Position, _Camera);
 
+	//Get center
+	_Center.x = _RectSize.x / 2;
+	_Center.y = _RectSize.y / 2;
+	_Center.z = 0;
 
 	//draw sprite
 	_SpriteHandler->Draw(
 		texture.GetImage(),
 		NULL,
-		NULL,
+		&_Center,
 		&_Position,
 		texture.GetTranscolor()
 	);
@@ -104,11 +108,17 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
 
+
+	//Get center
+	_Center.x = _RectSize.x / 2;
+	_Center.y = _RectSize.y / 2;
+	_Center.z = 0;
+
 	//draw sprite
 	_SpriteHandler->Draw(
 		texture.GetImage(),
 		NULL,
-		NULL,
+		&_Center,
 		&_Position,
 		texture.GetTranscolor()
 	);
@@ -141,8 +151,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	//get rotation origin
 	if (sprite.IsCenterOrigin())
 	{
-		_RotationOrigin.x = _RectSize.x / 2 + _Position.x;
-		_RotationOrigin.y = _RectSize.y / 2 + _Position.y;
+		_RotationOrigin.x = _Position.x;
+		_RotationOrigin.y =  _Position.y;
 	}
 	else
 	{
@@ -155,9 +165,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_RotationFactor = sprite.GetRotation();
 
 	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
 	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, &_ScaleFactor, &_RotationOrigin, _RotationFactor* Pi /180, NULL);
-	
+
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
 	
 
@@ -168,8 +177,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
 	//Get center
-	_Center.x = 0;
-	_Center.y = _RectSize.y;
+	_Center.x = _RectSize.x / 2;
+	_Center.y = _RectSize.y/2;
 	_Center.z = 0;
 
 

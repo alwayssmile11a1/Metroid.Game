@@ -23,7 +23,7 @@ Vector2 Camera::GetPosition()
 	return _Position;
 }
 
-void Camera::SetPostion(float x, float y)
+void Camera::SetPosition(float x, float y)
 {
 	_Position.Set(x, y);
 }

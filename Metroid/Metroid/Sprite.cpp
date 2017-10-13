@@ -10,6 +10,7 @@ Sprite::Sprite()
 	_IsCenterOrigin = true;
 	_RectSize.Set(0,0); 
 	_RectPosition.Set(0,0); 
+	_Size.Set(0, 0);
 }
 
 Sprite::Sprite(Texture *texture) 
@@ -21,6 +22,7 @@ Sprite::Sprite(Texture *texture)
 	_Position.Set(0, 0);
 	_IsCenterOrigin = true;
 	_RectSize.Set(texture->GetImageSize().X, texture->GetImageSize().Y);
+	_Size.Set(_RectSize.X, _RectSize.Y);
 	_RectPosition.Set(0, 0);
 }
 
@@ -29,6 +31,7 @@ Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop
 	//set
 	_Texture = texture;
 	_ScaleFactor.Set(width / rectWidth, height / rectHeight);
+	_Size.Set(width, height);
 	_RotationOrigin.Set(0, 0);
 	_Position.Set(x, y);
 	_IsCenterOrigin = true;
@@ -42,6 +45,7 @@ Sprite::Sprite(const Sprite &sprite)
 	//set
 	_Texture = sprite._Texture;
 	_ScaleFactor = sprite._ScaleFactor;
+	_Size = sprite._Size;
 	_RotationOrigin = sprite._RotationOrigin;
 	_IsCenterOrigin = sprite._IsCenterOrigin;
 	_Rotation = sprite._Rotation;
@@ -54,6 +58,7 @@ Sprite& Sprite::operator=(const Sprite &sprite)
 {
 	//set
 	_Texture = sprite._Texture;
+	_Size = sprite._Size;
 	_ScaleFactor = sprite._ScaleFactor;
 	_RotationOrigin = sprite._RotationOrigin;
 	_IsCenterOrigin = sprite._IsCenterOrigin;
@@ -82,6 +87,11 @@ Vector2 Sprite::GetScale() const
 Texture*  Sprite::GetTexture() const
 {
 	return _Texture;
+}
+
+Vector2 Sprite::GetSize() const
+{
+	return _Size;
 }
 
 //all set functions
@@ -120,6 +130,7 @@ void  Sprite::SetTexture(Texture &texture)
 
 void Sprite::SetSize(float width, float height)
 {
+	_Size.Set(width, height);
 	_ScaleFactor.Set(width /_RectSize.X, height / _RectSize.Y);
 }
 

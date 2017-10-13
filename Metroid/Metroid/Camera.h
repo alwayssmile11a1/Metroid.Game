@@ -20,10 +20,10 @@ public:
 	Vector2 GetSize();
 	Vector2 GetScaleFactor();
 
-	//Set position and size of this camera
-	//Note that if the size of screen is different from the size of camera, consider using resize method
-	void SetPostion(float x, float y);
+	//Set position
+	void SetPosition(float x, float y);
 
+	//Note that if the size of screen is different from the size of camera, consider using resize method
 	void SetSize(float x, float y);
 
 	//Resize 

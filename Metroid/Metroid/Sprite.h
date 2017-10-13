@@ -9,6 +9,7 @@ class Sprite
 private:
 	Vector2 _Position; //the position of this sprite
 	Vector2 _ScaleFactor; //scale
+	Vector2 _Size;
 	Vector2 _RotationOrigin; //the position that will be used as origin for rotating
 	float _Rotation;
 	float _IsCenterOrigin; //
@@ -30,6 +31,7 @@ public:
 	//all get functions
 	Vector2 GetRotationOrigin() const;
 	Vector2 GetPosition() const;
+	Vector2 GetSize() const;
 	float GetRotation() const;
 	Vector2 GetScale() const;
 	Texture* GetTexture() const;

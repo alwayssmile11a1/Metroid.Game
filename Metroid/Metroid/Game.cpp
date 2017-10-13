@@ -224,10 +224,6 @@ int Game::RunGame()
 		Input::ProcessKeyBoardInformation();
 		Input::ProcessMouseInformation();
 
-		//get clientsize
-		GetWindowRect(_HWnd, &_ClientRect);
-		Resize(_ClientRect.right,_ClientRect.top);
-
 		//get "now" time
 		DWORD now = GetTickCount();
 		//calculate delta time
@@ -235,6 +231,10 @@ int Game::RunGame()
 		if (DeltaTime >= count_per_frame) //if true, next frame
 		{
 			frame_start = now;
+
+			//get rectsize
+			GetWindowRect(_HWnd, &_WindowRect);
+			Resize(_WindowRect.right - _WindowRect.left, _WindowRect.bottom - _WindowRect.top);
 
 			//make sure the Direct3D device is valid
 			if (DirectXDevice::D3Ddevice == NULL)

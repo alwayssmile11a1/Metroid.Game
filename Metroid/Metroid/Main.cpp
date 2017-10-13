@@ -14,7 +14,7 @@
 #define SCREEN_HEIGHT 480
 
 //frame rate 
-#define FRAME_RATE 30
+#define FRAME_RATE 60
 
 
 

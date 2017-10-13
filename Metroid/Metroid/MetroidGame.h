@@ -24,7 +24,7 @@ protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame();
 	//update game by one frame (render, control game) - just write your game here
-	void UpdateGame(DWORD dt);
+	void UpdateGame(float dt);
 
 	void Resize(float x, float y);
 

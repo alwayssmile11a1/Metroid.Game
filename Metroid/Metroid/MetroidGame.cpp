@@ -32,20 +32,20 @@ void MetroidGame::CreateGame()
 	//world.AddObject(obj);
 
 
-	cam.SetPostion(0, 0);
+	cam.SetPosition(0, 0);
 	cam.SetSize(640, 480);
 
 	batch.SetCamera(&cam);
 
 	texture = Texture(L"Resources/DemoScreen05.jpg");
 	sprite = Sprite(&texture);
-	sprite.SetSize(640, 480);
-	sprite.SetPosition(0, 0);
+	sprite.SetSize(1000, 480);
+	sprite.SetPosition(sprite.GetSize().X/2-320, 0);
 
-	//texture2 = Texture(L"Resources/character.png");
-	//sprite2 = Sprite(&texture2, 640 / 2, 480 / 2, 0, 0, 75, 86, 75, 86);
-	//ani = Animation(&sprite2, 27, 7, 20);
-
+	texture2 = Texture(L"Resources/character.png");
+	sprite2 = Sprite(&texture2, -220, -120, 0, 0, 75, 86, 75, 86);
+	ani = Animation(&sprite2, 27, 7, 20);
+	//sprite2.SetRotation(sprite.GetRotation() + 20);
 }
 
 void MetroidGame::Resize(float x, float y)
@@ -53,37 +53,44 @@ void MetroidGame::Resize(float x, float y)
 	cam.Resize(x, y);
 }
 
-void MetroidGame::UpdateGame(DWORD dt)
+void MetroidGame::UpdateGame(float dt)
 {
 
-	
+	//sprite.SetRotation(sprite.GetRotation()+5*dt);
 
 	if (Input::GetKey(DIK_RIGHT))
 	{
-		/*ani.Next(DeltaTime, true);
-		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X+DeltaTime*0.1, 480/2);*/
-		cam.SetPostion(cam.GetPosition().X + dt*0.5, cam.GetPosition().Y);
+		ani.Next(dt, true);
+		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X+dt*0.15, ani.GetKeyAnimation()->GetPosition().Y);
 	}
 
 	if (Input::GetKey(DIK_LEFT))
 	{
-		/*ani.Next(DeltaTime, false);
-		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X - DeltaTime*0.1, 480/2);*/
-		cam.SetPostion(cam.GetPosition().X - dt * 0.5, cam.GetPosition().Y);
+		ani.Next(dt, false);
+		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X - dt*0.15, ani.GetKeyAnimation()->GetPosition().Y);
+	
 	}
 
-	if (Input::GetKey(DIK_UP))
+	if(ani.GetKeyAnimation()->GetPosition().X > cam.GetPosition().X)
 	{
-		/*ani.Next(DeltaTime, true);
-		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X+DeltaTime*0.1, 480/2);*/
-		cam.SetPostion(cam.GetPosition().X, cam.GetPosition().Y + +dt*0.5);
+		cam.SetPosition(ani.GetKeyAnimation()->GetPosition().X, cam.GetPosition().Y);
+	}
+
+	if (ani.GetKeyAnimation()->GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>0)
+	{
+		cam.SetPosition(cam.GetPosition().X-dt*0.15, cam.GetPosition().Y);
+	}
+
+	
+
+	if (Input::GetKey(DIK_UP))
+	{	
+		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y + +dt*0.2);
 	}
 
 	if (Input::GetKey(DIK_DOWN))
 	{
-		/*ani.Next(DeltaTime, false);
-		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X - DeltaTime*0.1, 480/2);*/
-		cam.SetPostion(cam.GetPosition().X, cam.GetPosition().Y - dt * 0.5);
+		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y - dt * 0.2);
 	}
 
 	if (Input::GetKeyDown(DIK_ESCAPE))
@@ -97,7 +104,7 @@ void MetroidGame::UpdateGame(DWORD dt)
 
 	batch.Draw(sprite);
 	//batch.Draw(sprite2);
-	//batch.Draw(*ani.GetKeyAnimation());
+	batch.Draw(*ani.GetKeyAnimation());
 
 	
 
