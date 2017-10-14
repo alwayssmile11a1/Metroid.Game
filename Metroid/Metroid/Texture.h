@@ -2,7 +2,7 @@
 #pragma once
 
 #include "stdafx.h"
-#include "DirectXDevice.h"
+#include "Global.h"
 
 //just like a image
 class Texture

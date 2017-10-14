@@ -8,22 +8,22 @@
 class Input
 {
 private:
-	 static HWND _HWnd;
-	 static LPDIRECTINPUT8       _DirectInput;		// The DirectInput object         
-	 static LPDIRECTINPUTDEVICE8 _Keyboard;	// The keyboard device 
-	 static BYTE  _KeyStates[256];			// DirectInput keyboard state buffer 
-	 static DIMOUSESTATE  _MouseState; // DirectInput mouse state buffer 
-	 static LPDIRECTINPUTDEVICE8 _Mouse; // The mouse device
+	HWND _HWnd;
+	LPDIRECTINPUT8       _DirectInput;		// The DirectInput object         
+	LPDIRECTINPUTDEVICE8 _Keyboard;	// The keyboard device 
+	BYTE  _KeyStates[256];			// DirectInput keyboard state buffer 
+	DIMOUSESTATE  _MouseState; // DirectInput mouse state buffer 
+	LPDIRECTINPUTDEVICE8 _Mouse; // The mouse device
 
-	 static DIDEVICEOBJECTDATA _KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
-	
-	 static std::vector<int> _KeyCodesVector; //a vector of keycodes contained in buffered input
-	 static std::vector<int> _KeyStatesVector; //a vector of keystates contained in buffered input
+	DIDEVICEOBJECTDATA _KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
 
-	 static Vector2 _MousePosition;
+	std::vector<int> _KeyCodesVector; //a vector of keycodes contained in buffered input
+	std::vector<int> _KeyStatesVector; //a vector of keystates contained in buffered input
 
-	 static bool InitKeyBoard();
-	 static bool InitMouse();
+	Vector2 _MousePosition;
+
+	bool InitKeyBoard();
+	bool InitMouse();
 
 public:
 	Input();
@@ -31,37 +31,37 @@ public:
 
 	//RECOMMEND: Do not call this function because game class will take care of this.
 	//If you do call this function, consider to release it first 
-	static void Init(HINSTANCE hInstance, HWND hWnd);
+	void Init(HINSTANCE hInstance, HWND hWnd);
 
 	//RECOMMEND: Do not call this function because game class will take care of this.
-	static void ProcessKeyBoardInformation();
+	void ProcessKeyBoardInformation();
 
 	//RECOMMEND: Do not call this function because game class will take care of this.
-	static void ProcessMouseInformation();
+	void ProcessMouseInformation();
 
 	//clear buffed input. It means in the same frame after you call this function, getkeydown and getkeyup is disposed  
 	//Note that this function just has its affect in the frame after you call it 
-	static void ClearKeyBoardBuffedInput();
+	void ClearKeyBoardBuffedInput();
 
 	//return true while the user holds dow the key, such as auto fire
-	static bool GetKey(int keyCode);
+	bool GetKey(int keyCode);
 
 	//return true during the time user stars pressing the key until it reaches the very bottom of the key.  
-	static bool GetKeyDown(int keyCode);
+	bool GetKeyDown(int keyCode);
 
 	//return true during the time user stars releasing the key until it reaches the very top of the key.  
-	static bool GetKeyUp(int keyCode);
+	bool GetKeyUp(int keyCode);
 
 	//return true while the user holds dow the key, such as auto fire
-	static bool GetMouse(int mouse);
+	bool GetMouse(int mouse);
 
 	//Get Mouse Position
-	static Vector2 GetMousePosition();
+	Vector2 GetMousePosition();
 
 	//call postmessage to shut down application
-	static void ShutDownApplication();
+	void ShutDownApplication();
 
-	static void Release();
+	void Release();
 
 
 };

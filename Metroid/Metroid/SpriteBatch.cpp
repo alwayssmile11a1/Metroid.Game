@@ -17,9 +17,9 @@ SpriteBatch::~SpriteBatch()
 void SpriteBatch::Create()
 {
 	//_SpriteHandler
-	HRESULT res = D3DXCreateSprite(DirectXDevice::D3Ddevice, &_SpriteHandler);
+	HRESULT res = D3DXCreateSprite(d3ddevice, &_SpriteHandler);
 	if (res != D3D_OK) return;
-	_SpriteHandler->GetDevice(&DirectXDevice::D3Ddevice);
+	_SpriteHandler->GetDevice(&d3ddevice);
 	_Camera = NULL;
 	
 }
@@ -47,8 +47,8 @@ void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
 	//get the actual postion
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
-	_CameraMatrix._41 = -(cam->GetPosition().X-cam->GetSize().X/2);
-	_CameraMatrix._42 = +cam->GetPosition().Y+cam->GetSize().Y/2;
+	_CameraMatrix._41 = -(cam->GetPosition().X-screenWidth/2);
+	_CameraMatrix._42 = +cam->GetPosition().Y+ screenHeight/2;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;

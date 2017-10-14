@@ -1,12 +1,13 @@
 #pragma once
 
 #include "stdafx.h"
-#include "DirectXDevice.h"
 #include "Texture.h"
 #include "Sprite.h"
 #include "Camera.h"
+#include "Global.h"
 
 #define Pi 3.14159265
+
 
 //Manage drawing things
 //Drawing must be called between the begin and end methods

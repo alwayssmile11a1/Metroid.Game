@@ -54,13 +54,13 @@ void MetroidGame::UpdateGame(float dt)
 
 	//sprite.SetRotation(sprite.GetRotation()+5*dt);
 
-	if (Input::GetKey(DIK_RIGHT))
+	if (input.GetKey(DIK_RIGHT))
 	{
 		ani.Next(dt, true);
 		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X+dt*0.15, ani.GetKeyAnimation()->GetPosition().Y);
 	}
 
-	if (Input::GetKey(DIK_LEFT))
+	if (input.GetKey(DIK_LEFT))
 	{
 		ani.Next(dt, false);
 		ani.GetKeyAnimation()->SetPosition(ani.GetKeyAnimation()->GetPosition().X - dt*0.15, ani.GetKeyAnimation()->GetPosition().Y);
@@ -79,19 +79,19 @@ void MetroidGame::UpdateGame(float dt)
 
 	
 
-	if (Input::GetKey(DIK_UP))
+	if (input.GetKey(DIK_UP))
 	{	
 		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y + +dt*0.2);
 	}
 
-	if (Input::GetKey(DIK_DOWN))
+	if (input.GetKey(DIK_DOWN))
 	{
 		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y - dt * 0.2);
 	}
 
-	if (Input::GetKeyDown(DIK_ESCAPE))
+	if (input.GetKeyDown(DIK_ESCAPE))
 	{
-		Input::ShutDownApplication();
+		input.ShutDownApplication();
 	}
 
 

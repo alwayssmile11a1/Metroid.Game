@@ -1,16 +1,5 @@
 #include "Input.h"
 
-LPDIRECTINPUT8 Input::_DirectInput;		// The DirectInput object         
-LPDIRECTINPUTDEVICE8 Input::_Keyboard;	// The keyboard device 
-BYTE Input::_KeyStates[256];			// DirectInput keyboard state buffer 									
-DIDEVICEOBJECTDATA Input::_KeyEvents[KEYBOARD_BUFFER_SIZE]; // Buffered keyboard data
-std::vector<int> Input::_KeyCodesVector;
-std::vector<int> Input::_KeyStatesVector;
-DIMOUSESTATE  Input::_MouseState; // DirectInput mouse state buffer 
-LPDIRECTINPUTDEVICE8 Input::_Mouse; // The mouse device
-Vector2 Input::_MousePosition;
-HWND Input::_HWnd;
-
 
 Input::Input()
 {	

@@ -1,20 +1,19 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Input.h"
-#include "DirectXDevice.h"
+#include "Global.h"
+
 //this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game
 {
 private:
+
 	//Window related variables
 	HINSTANCE _HInstance; //handle for a window instance
 	HWND _HWnd;				// Handle of the Game Window
 	LPWSTR _WindowName; //the application title
 	bool _IsFullScreen; //fullscreen or not?
 	int _FrameRate; //how many frames in one second?
-	int _ScreenWidth;
-	int _ScreenHeight;
 
 	//Direct3D variables
 	LPDIRECT3DSURFACE9 _Backbuffer;

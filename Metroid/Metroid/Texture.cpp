@@ -28,7 +28,7 @@ Texture::Texture(LPWSTR filePath)
 	_ImageSize.Set(info.Width, info.Height);
 
 	result = D3DXCreateTextureFromFileEx(
-		DirectXDevice::D3Ddevice,
+		d3ddevice,
 		filePath,
 		info.Width,
 		info.Height,
@@ -61,7 +61,7 @@ Texture::Texture(const Texture &texture)
 	D3DXIMAGE_INFO info;
 	D3DXGetImageInfoFromFile(_FilePath, &info);
 	D3DXCreateTextureFromFileEx(
-		DirectXDevice::D3Ddevice,
+		d3ddevice,
 		_FilePath,
 		info.Width,
 		info.Height,
@@ -91,7 +91,7 @@ Texture& Texture::operator=(const Texture &texture)
 	D3DXIMAGE_INFO info;
 	D3DXGetImageInfoFromFile(_FilePath, &info);
 	D3DXCreateTextureFromFileEx(
-		DirectXDevice::D3Ddevice,
+		d3ddevice,
 		_FilePath,
 		info.Width,
 		info.Height,

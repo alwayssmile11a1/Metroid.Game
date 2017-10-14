@@ -57,13 +57,13 @@
     <ClCompile Include="SpriteBatch.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXDevice.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
     <ClCompile Include="TextureRegion.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,13 +107,13 @@
     <ClInclude Include="SpriteBatch.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXDevice.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="TextureRegion.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
   </ItemGroup>

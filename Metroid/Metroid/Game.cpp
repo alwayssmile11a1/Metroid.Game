@@ -1,19 +1,20 @@
 #include"Game.h"
 #include"Utility.h"
 
+
 Game::Game()
 {
 
 }
 
-Game::Game(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
+Game::Game(HINSTANCE hInstance, LPWSTR windowName, int _screenWidth, int _screenHeight, bool isFullScreen, int frameRate)
 {
 	this->_HInstance = hInstance;
 	this->_WindowName = windowName;
 	this->_IsFullScreen = isFullScreen;
 	this->_FrameRate = frameRate;
-	this->_ScreenWidth = screenWidth;
-	this->_ScreenHeight = screenHeight;
+	screenWidth = _screenWidth;
+	screenHeight = _screenHeight;
 	_BackGroundColor = D3DCOLOR_XRGB(0, 0, 0);
 	_BackGroundFilePath = NULL;
 	_HWnd = NULL;
@@ -38,10 +39,21 @@ Game::~Game()
 	}
 
 	//Release DirectXDevice
-	DirectXDevice::Release();
+	//release the Direct3D device
+	if (d3ddevice != NULL) {
+		d3ddevice->Release();
+		d3ddevice = NULL;
+	}
+
+	//release the Direct3D object
+	if (d3d != NULL)
+	{
+		d3d->Release();
+		d3d = NULL;
+	}
 
 	//Release input
-	Input::Release();
+	input.Release();
 
 }
 
@@ -61,7 +73,7 @@ void Game::SetBackGroundImage(LPWSTR filePath)
 	if (_BackGroundFilePath == NULL)
 	{
 		// Create background
-		DirectXDevice::D3Ddevice->CreateOffscreenPlainSurface(
+		d3ddevice->CreateOffscreenPlainSurface(
 			100,					// width 				
 			100,					// height
 			D3DFMT_X8R8G8B8,		// format
@@ -71,7 +83,7 @@ void Game::SetBackGroundImage(LPWSTR filePath)
 	}
 	else
 	{
-		_Background = CreateSurfaceFromFile(DirectXDevice::D3Ddevice, _BackGroundFilePath);
+		_Background = CreateSurfaceFromFile(d3ddevice, _BackGroundFilePath);
 	}
 }
 
@@ -128,8 +140,8 @@ bool Game::InitWindow()
 		WINDOWSTYLE,	//window style
 		CW_USEDEFAULT, //x position of window
 		CW_USEDEFAULT, //y position of window
-		_ScreenWidth, //width of the window
-		_ScreenHeight, //height of the window,
+		screenWidth, //width of the window
+		screenHeight, //height of the window,
 		NULL, //parent window = none
 		NULL, //menu = none
 		_HInstance, //application Instance
@@ -150,19 +162,57 @@ bool Game::InitWindow()
 
 bool Game::InitDirectX()
 {
+	//initialize Direct3D
+	d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	if (d3d == NULL) {
+		MessageBox(_HWnd, L"Error initializing Direct3D", L"Error", MB_OK);
+		return false;
+	}
 
-	//DirectXDevice::Init(_HWnd,_IsFullScreen,_ScreenWidth,_ScreenHeight);
-	if(!DirectXDevice::Init(_HWnd, _IsFullScreen, _ScreenWidth, _ScreenHeight)) return false;
+	//set DIRECT3D presentation parameters
+	D3DPRESENT_PARAMETERS d3dpp;
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+
+	if (_IsFullScreen)
+	{
+		d3dpp.Windowed = false; //full screen or not?
+	}
+	else
+	{
+		d3dpp.Windowed = true;
+	}
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	d3dpp.BackBufferCount = 1;
+	d3dpp.BackBufferWidth = screenWidth;
+	d3dpp.BackBufferHeight = screenHeight;
+	d3dpp.hDeviceWindow = _HWnd;
+
+	//create Direct3D device
+	d3d->CreateDevice(
+		D3DADAPTER_DEFAULT,
+		D3DDEVTYPE_HAL,
+		_HWnd,
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		&d3dpp,
+		&d3ddevice
+	);
+
+	if (d3ddevice == NULL) {
+		MessageBox(_HWnd, L"Error creating Direct3D device", L"Error", MB_OK);
+		return false;
+	}
+
 
 	//set random number seed
 	srand(time(NULL));
 
 	//clear the backbuffer to black
-	DirectXDevice::D3Ddevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	d3ddevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 
 	// Create background
-	DirectXDevice::D3Ddevice->CreateOffscreenPlainSurface(
+	d3ddevice->CreateOffscreenPlainSurface(
 		100,					// width 				
 		100,					// height
 		D3DFMT_X8R8G8B8,		// format
@@ -190,7 +240,7 @@ bool Game::InitGame()
 	}
 
 	//init input manager
-	Input::Init(_HInstance, _HWnd);
+	input.Init(_HInstance, _HWnd);
 
 	//create game
 	CreateGame();
@@ -226,8 +276,8 @@ int Game::RunGame()
 				break;
 		}
 		
-		Input::ProcessKeyBoardInformation();
-		Input::ProcessMouseInformation();
+		input.ProcessKeyBoardInformation();
+		input.ProcessMouseInformation();
 
 		//get "now" time
 		DWORD now = GetTickCount();
@@ -242,22 +292,22 @@ int Game::RunGame()
 			Resize(_WindowRect.right - _WindowRect.left, _WindowRect.bottom - _WindowRect.top);
 
 			//make sure the Direct3D device is valid
-			if (DirectXDevice::D3Ddevice == NULL)
+			if (d3ddevice == NULL)
 			{
 				return 0;
 			}
 
 			//start rendering
-			if (DirectXDevice::D3Ddevice->BeginScene())
+			if (d3ddevice->BeginScene())
 			{
 				//Clear back ground with a colored surface
 				if (_BackGroundFilePath == NULL)
 				{
 					// Fill the bitmap
-					DirectXDevice::D3Ddevice->ColorFill(_Background, NULL, _BackGroundColor);
+					d3ddevice->ColorFill(_Background, NULL, _BackGroundColor);
 
 					// Draw the surface onto the back buffer
-					DirectXDevice::D3Ddevice->StretchRect(
+					d3ddevice->StretchRect(
 									_Background,			// from 
 									NULL,				// which portion?
 									_Backbuffer,		// to 
@@ -268,23 +318,23 @@ int Game::RunGame()
 				{
 	
 					//draw surface to backbuffer
-					DirectXDevice::D3Ddevice->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
+					d3ddevice->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
 				}
 
 				UpdateGame(DeltaTime);
 
 				//clear buffedInput after we has done update game
-				Input::ClearKeyBoardBuffedInput();
+				input.ClearKeyBoardBuffedInput();
 
 				//create pointer to the backbuffer
-				DirectXDevice::D3Ddevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);
+				d3ddevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);
 
 				//stop rendering
-				DirectXDevice::D3Ddevice->EndScene();
+				d3ddevice->EndScene();
 			}
 
 			//Display the backbuffer on the screen
-			DirectXDevice::D3Ddevice->Present(NULL, NULL, NULL, NULL);
+			d3ddevice->Present(NULL, NULL, NULL, NULL);
 
 		}
 		else
