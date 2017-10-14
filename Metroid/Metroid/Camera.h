@@ -23,6 +23,7 @@ public:
 	//Set position
 	void SetPosition(float x, float y);
 
+	//Not available currently
 	//Note that if the size of screen is different from the size of camera, consider using resize method
 	void SetSize(float x, float y);
 

@@ -324,7 +324,7 @@ int Game::RunGame()
 				UpdateGame(DeltaTime);
 
 				//clear buffedInput after we has done update game
-				input.ClearKeyBoardBuffedInput();
+				input.ClearBuffedInput();
 
 				//create pointer to the backbuffer
 				d3ddevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);

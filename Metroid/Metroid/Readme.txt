@@ -25,7 +25,4 @@ How to create a game: create a child class inherited from Game class and just wo
 
 ------------------------------THINGS TO DO (OWNERs' WORK)-----------------------------
 -Mouse Input
--Rewrite Sprite class
--Improve sprite handler because we are creating many new ones. We just have to use only one sprite handler.
-(Fix by a SpriteBatch class)
 -Improve Animation

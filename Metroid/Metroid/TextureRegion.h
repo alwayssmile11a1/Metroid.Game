@@ -28,6 +28,7 @@ public:
 	//all set functions
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
+	void SetTexture(Texture *Texture);
 
 };
 

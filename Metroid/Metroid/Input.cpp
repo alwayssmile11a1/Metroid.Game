@@ -3,9 +3,7 @@
 
 Input::Input()
 {	
-	// constructor is empty.
-	// We don't initialize static data member here, 
-	// because static data initialization will happen on every constructor call.
+	
 }
 
 Input::~Input()
@@ -37,8 +35,9 @@ void Input::Release()
 
 void Input::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	//Release first for sure
+	//Release first for sure since we want to have just one class instance
 	Release();
+	ClearBuffedInput();
 
 	_HWnd = hWnd;
 	_MousePosition.Set(0, 0);
@@ -151,6 +150,23 @@ bool Input::InitMouse()
 	);
 	//trace(L"SetCooperativeLevel for mouse successfully");
 
+
+
+	// IMPORTANT STEP TO USE BUFFERED DEVICE DATA!
+	DIPROPDWORD dipdw;
+	dipdw.diph.dwSize = sizeof(DIPROPDWORD);
+	dipdw.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+	dipdw.diph.dwObj = 0;
+	dipdw.diph.dwHow = DIPH_DEVICE;
+	dipdw.dwData = 16; // Arbitary buffer size
+	
+	result = _Mouse->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
+	if (result != DI_OK) return false;
+	//trace(L"SetProperty for keyboard successfully");
+
+
+
+
 	result = _Mouse->Acquire();
 	if (result != DI_OK) return false;
 	//trace(L"Mouse has been acquired successfully");
@@ -199,16 +215,29 @@ void Input::ProcessMouseInformation()
 	// Read the mouse device.
 	result = _Mouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&_MouseState);
 
-
 	// If the mouse lost focus or was not acquired then try to get control back.
 	if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
 	{
 		_Mouse->Acquire();
 		return;
 	}
+
 	// Update the location of the mouse cursor based on the change of the mouse location during the frame.
 	_MousePosition.X += _MouseState.lX;
 	_MousePosition.Y += _MouseState.lY;
+
+
+
+	// Handle key press event
+	// NOTES: Buffered input is like an Event
+	// Collect all buffered events (also clear them from DirectInput buffer)
+	DWORD dwElements = 16;
+	_Mouse->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), _MouseEvents, &dwElements, 0);
+
+	//insert keycodes and keystates into vectors
+	_MouseCodesVector.insert(_MouseCodesVector.end(), &(_MouseEvents[0].dwOfs), &(_MouseEvents[0].dwOfs) + dwElements);
+	_MouseStatesVector.insert(_MouseStatesVector.end(), &(_MouseEvents[0].dwData), &(_MouseEvents[0].dwData) + dwElements);
+
 }
 
 bool Input::GetKey(int keyCode)
@@ -258,6 +287,40 @@ bool Input::GetMouse(int mouse)
 	return _MouseState.rgbButtons[mouse] & 0x80;
 }
 
+bool Input::GetMouseDown(int mouse)
+{
+	//check if this keycode is pressed
+	std::vector<int>::iterator it = std::find(_MouseCodesVector.begin(), _MouseCodesVector.end(), mouse);
+	bool mouseCodePressed = (it != _MouseCodesVector.end());
+
+	if (mouseCodePressed)
+	{
+		//check if it is key down
+		return (_MouseStatesVector.at(it - _MouseCodesVector.begin()) & 0x80) > 0;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Input::GetMouseUp(int mouse)
+{
+	//check if this keycode is pressed
+	std::vector<int>::iterator it = std::find(_MouseCodesVector.begin(), _MouseCodesVector.end(), mouse);
+	bool mouseCodePressed = (it != _MouseCodesVector.end());
+
+	if (mouseCodePressed)
+	{
+		//check if it is key down
+		return (_MouseStatesVector.at(it - _MouseCodesVector.begin()) & 0x80) <= 0;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 Vector2 Input::GetMousePosition()
 {
 
@@ -272,8 +335,10 @@ Vector2 Input::GetMousePosition()
 
 }
 
-void Input::ClearKeyBoardBuffedInput()
+void Input::ClearBuffedInput()
 {
 	_KeyCodesVector.clear();
 	_KeyStatesVector.clear();
+	_MouseCodesVector.clear();
+	_MouseStatesVector.clear();
 }

@@ -57,6 +57,11 @@ void TextureRegion::SetRectSize(float rectWidth, float rectHeight)
 	_RectSize.Set(rectWidth, rectHeight);
 }
 
+void TextureRegion::SetTexture(Texture *Texture)
+{
+	_Texture = Texture;
+}
+
 Texture* TextureRegion::GetTexture() const
 {
 	return _Texture;

@@ -99,9 +99,9 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 	_ScaleFactor.x = width/_RectSize.x;
 	_ScaleFactor.y = height/_RectSize.y;
 
-	//get scale origin position
-	_ScaleOrigin.x = x;
-	_ScaleOrigin.y = y;
+	//get scale origin
+	_ScaleOrigin.x = _Position.x;
+	_ScaleOrigin.y = _Position.y;
 
 	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
 	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
