@@ -6,7 +6,7 @@
 #include "Animation.h"
 #include "SpriteBatch.h"
 
-class MetroidGame: Game
+class MetroidGame: public Game
 {
 private:
 	World world;
@@ -31,7 +31,5 @@ protected:
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~MetroidGame();
-
-	void RunGame();
 
 };

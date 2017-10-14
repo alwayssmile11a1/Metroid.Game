@@ -10,12 +10,6 @@ MetroidGame::~MetroidGame()
 	batch.Release();
 }
 
-void MetroidGame::RunGame()
-{
-	Game::RunGame();
-}
-
-
 void MetroidGame::CreateGame()
 {
 	batch.Create();
@@ -40,7 +34,6 @@ void MetroidGame::CreateGame()
 	texture2 = Texture(L"Resources/character.png");
 	sprite2 = Sprite(&texture2, -220, -120, 0, 0, 75, 86, 75, 86);
 	ani = Animation(&sprite2, 27, 7, 20);
-	//sprite2.SetRotation(sprite.GetRotation() + 20);
 }
 
 //void MetroidGame::Resize(float x, float y)
@@ -50,8 +43,6 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::UpdateGame(float dt)
 {
-
-	//sprite.SetRotation(sprite.GetRotation()+5*dt);
 
 	if (input.GetKey(DIK_RIGHT))
 	{
@@ -97,7 +88,7 @@ void MetroidGame::UpdateGame(float dt)
 
 	batch.Draw(sprite);
 	//batch.Draw(sprite2);
-	batch.Draw(*ani.GetKeyAnimation());
+	batch.Draw(sprite2);
 
 	
 
