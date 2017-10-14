@@ -44,7 +44,7 @@ protected:
 	//update game by one frame (render, control game) - just write your game here
 	void virtual UpdateGame(float dt) = 0;
 
-	void virtual Resize(float x, float y) = 0;
+	//void virtual Resize(float x, float y);
 
 	//set background color. If you have already set background image, this function has no affect at all
 	void SetBackGroundColor(D3DCOLOR color);

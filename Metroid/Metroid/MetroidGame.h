@@ -26,7 +26,7 @@ protected:
 	//update game by one frame (render, control game) - just write your game here
 	void UpdateGame(float dt);
 
-	void Resize(float x, float y);
+	//void Resize(float x, float y);
 
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);

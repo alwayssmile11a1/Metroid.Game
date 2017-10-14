@@ -288,8 +288,8 @@ int Game::RunGame()
 			frame_start = now;
 
 			//get rectsize
-			GetWindowRect(_HWnd, &_WindowRect);
-			Resize(_WindowRect.right - _WindowRect.left, _WindowRect.bottom - _WindowRect.top);
+			//GetWindowRect(_HWnd, &_WindowRect);
+			//Resize(_WindowRect.right - _WindowRect.left, _WindowRect.bottom - _WindowRect.top);
 
 			//make sure the Direct3D device is valid
 			if (d3ddevice == NULL)

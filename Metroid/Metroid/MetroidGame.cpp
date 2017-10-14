@@ -44,10 +44,10 @@ void MetroidGame::CreateGame()
 	//sprite2.SetRotation(sprite.GetRotation() + 20);
 }
 
-void MetroidGame::Resize(float x, float y)
-{
-	cam.Resize(x, y);
-}
+//void MetroidGame::Resize(float x, float y)
+//{
+//	cam.Resize(x, y);
+//}
 
 void MetroidGame::UpdateGame(float dt)
 {
