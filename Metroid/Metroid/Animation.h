@@ -8,7 +8,6 @@ class Animation
 {
 private:
 	Sprite* _CurrentSprite; //just hold reference, not initialize
-	std::vector<TextureRegion*> _Regions;
 	int _Index;				// Current sprite index
 	int _Count;				// Number of sprites
 	int _SpritePerRow;		// Number of sprites per row
@@ -17,16 +16,14 @@ private:
 	DWORD _FrameInterval;	//the duration of a frame
 	DWORD _StateTime;		//current time in one frame
 	bool _Flipped;
-	
-	float _SpriteSpace; //the space between two sprites
 
+	std::vector<Vector2> _RectPositions;
+	std::vector<Vector2> _RectSizes;
 
 public:
 	Animation();
-	Animation(Sprite *sprite,  int count, int spritePerRow, float spriteSpace, DWORD frameInterval);
+	Animation(Sprite *sprite,  int count, int spritePerRow, DWORD frameInterval);
 
-	//set rectWidth and rectHeight will also modify the width and height of the sprite
-	Animation(Sprite &sprite, float rectWidth, float rectHeight, float spriteSpace, int Count, int SpritePerRow, DWORD frameInterval);
 	~Animation();
 	Animation(const Animation &ani);
 	Animation& operator=(const Animation &ani);
@@ -43,11 +40,10 @@ public:
 	void Reset();
 	void SetOffset(float leftOffset, float topOffset);
 	
+	void SetDimensions(Vector2 rectPositions[], Vector2 rectSizes[]);
 
-	void AddTextureRegion(TextureRegion* region);
-	
-	TextureRegion* NextTextureRegion(DWORD deltaTime);
-
+	//dimension is the position and the size of the rectangle on the image 
+	void AddDimension(float rectLeft, float rectTop, float rectWidth, float Height);
 
 };
 

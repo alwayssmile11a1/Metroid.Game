@@ -67,6 +67,15 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 	_Position.z = 0;
 
 	GetActualPosition(&_Position, _Camera);
+	
+	//get scale origin
+	_ScaleOrigin.x = _Position.x;
+	_ScaleOrigin.y = _Position.y;
+
+	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, NULL, NULL, 0, NULL);
+
+	_SpriteHandler->SetTransform(&_SpriteMatrix);
 
 	//Get center
 	_Center.x = _RectSize.x / 2;
@@ -104,11 +113,10 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 	_ScaleOrigin.y = _Position.y;
 
 	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-	//D3DXMatrixTransformation2D(&_Matrix, NULL, 0, &_ScaleFactor, &_CenterPosition, _RotationFactor, NULL);
 	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
 
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
-
+	
 
 	//Get center
 	_Center.x = _RectSize.x / 2;
@@ -124,6 +132,54 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 		texture.GetTranscolor()
 	);
 
+}
+
+//Draw textureregion at (x,y)
+void SpriteBatch::Draw(const TextureRegion &textureRegion, float x, float y)
+{
+	if (_SpriteHandler == NULL || &textureRegion == NULL) return;
+
+	//virtual position
+	_Position.x = x;
+	_Position.y = y;
+	_Position.z = 0;
+
+	GetActualPosition(&_Position, _Camera);
+
+	//get rect size
+	_RectSize.x = textureRegion.GetRectSize().X;
+	_RectSize.y = textureRegion.GetRectSize().Y;
+
+	//get scale origin
+	_ScaleOrigin.x = _Position.x;
+	_ScaleOrigin.y = _Position.y;
+
+	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, NULL, NULL, 0, NULL);
+
+	_SpriteHandler->SetTransform(&_SpriteMatrix);
+
+
+	//the portion of image we want to draw
+	_Rect.left = textureRegion.GetRectPosition().X;
+	_Rect.top = textureRegion.GetRectPosition().Y;
+	_Rect.right = _Rect.left + _RectSize.x;
+	_Rect.bottom = _Rect.top + _RectSize.y;
+
+	//Get center
+	_Center.x = _RectSize.x / 2;
+	_Center.y = _RectSize.y / 2;
+	_Center.z = 0;
+
+
+	//draw sprite
+	_SpriteHandler->Draw(
+		textureRegion.GetTexture()->GetImage(),
+		&_Rect,
+		&_Center,
+		&_Position,
+		textureRegion.GetTexture()->GetTranscolor()
+	);
 }
 
 void SpriteBatch::Draw(const Sprite &sprite)

@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Texture.h"
+#include "TextureRegion.h"
 #include "Sprite.h"
 #include "Camera.h"
 #include "Global.h"
@@ -50,6 +51,9 @@ public:
 
 	//Draw texture at (x,y)
 	void Draw(const Texture &texture, float x, float y);
+
+	//Draw textureregion at (x,y)
+	void Draw(const TextureRegion &textureRegion, float x, float y);
 
 	//draw the texture at (x,y) and stretch it to width and height
 	void Draw(const Texture &texture, float x, float y, float width, float height);

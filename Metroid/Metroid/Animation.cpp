@@ -13,7 +13,7 @@ Animation::Animation()
 	_Flipped = false;
 }
 
-Animation::Animation(Sprite *sprite, int count, int spritePerRow, float spriteSpace, DWORD frameInterval)
+Animation::Animation(Sprite *sprite, int count, int spritePerRow, DWORD frameInterval)
 {
 	_Count = count;
 	_SpritePerRow = spritePerRow;
@@ -24,23 +24,6 @@ Animation::Animation(Sprite *sprite, int count, int spritePerRow, float spriteSp
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 	_Flipped = false;
-	_SpriteSpace = spriteSpace;
-}
-
-Animation::Animation(Sprite &sprite, float rectWidth, float rectHeight, float spriteSpace, int count, int spritePerRow, DWORD frameInterval)
-{
-
-	_Count = count;
-	_SpritePerRow = spritePerRow;
-	_Index = 0;
-	_LeftOffset = 0;
-	_TopOffset = 0;
-	_CurrentSprite = &sprite;
-	_StateTime = 0;
-	_FrameInterval = frameInterval;
-	_CurrentSprite->SetRectSize(rectWidth, rectHeight);
-	_Flipped = false;
-	_SpriteSpace = spriteSpace;
 }
 
 Animation::Animation(const Animation &ani)
@@ -54,7 +37,6 @@ Animation::Animation(const Animation &ani)
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
-	_SpriteSpace = ani._SpriteSpace;
 }
 Animation& Animation::operator=(const Animation &ani)
 {
@@ -67,7 +49,6 @@ Animation& Animation::operator=(const Animation &ani)
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
-	_SpriteSpace = ani._SpriteSpace;
 	return *this;
 }
 
@@ -102,12 +83,20 @@ void Animation::Next(DWORD deltaTime, int isSameDirection)
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)
 	{
-		//calculate top left position (in the image)
-		float rectX = (_Index % _SpritePerRow)*_CurrentSprite->GetRectSize().X + _LeftOffset;
-		float rectY = (_Index / _SpritePerRow)*_CurrentSprite->GetRectSize().Y + _TopOffset;
+		////calculate top left position (in the image)
+		//float rectX = (_Index % _SpritePerRow)*_CurrentSprite->GetRectSize().X + _LeftOffset;
+		//float rectY = (_Index / _SpritePerRow)*_CurrentSprite->GetRectSize().Y + _TopOffset;
 
-		//set rect position
-		_CurrentSprite->SetRectPosition(rectX, rectY);
+		//get top left
+		float rectLeft = _RectPositions[_Index].X;
+		float rectTop = _RectPositions[_Index].Y;
+
+		//get rectSize
+		float rectWidth = _RectSizes[_Index].X;
+		float rectHeight = _RectSizes[_Index].Y;
+
+		_CurrentSprite->SetRectPosition(rectLeft, rectTop);
+		_CurrentSprite->SetRectSize(rectWidth, rectHeight);
 
 		//next index
 		_Index = (_Index + 1) % _Count;
@@ -131,30 +120,22 @@ void Animation::SetOffset(float leftOffset, float topOffset)
 	_TopOffset = topOffset;
 }
 
-
-
-void Animation::AddTextureRegion(TextureRegion* region)
+void Animation::SetDimensions(Vector2 rectPositions[], Vector2 rectSizes[])
 {
-	_Regions.push_back(region);
-	_Count++;
+	_RectPositions.clear();
+	_RectSizes.clear();
+	_RectPositions.insert(_RectPositions.end(),&rectPositions[0], &rectPositions[0]+ (int)(sizeof(rectPositions) / sizeof(rectPositions[0])));
+	_RectSizes.insert(_RectSizes.end(), &rectSizes[0], &rectSizes[0] + (int)(sizeof(rectSizes) / sizeof(rectSizes[0])));
+	_Count = (int)(sizeof(rectPositions) / sizeof(rectPositions[0]));
 }
 
-TextureRegion* Animation::NextTextureRegion(DWORD deltaTime)
+void Animation::AddDimension(float rectLeft, float rectTop, float rectWidth, float rectHeight)
 {
-	TextureRegion* currentRegion = _Regions[0];
-	//if true, next animation
-	if (_StateTime >= _FrameInterval)
-	{
-		currentRegion = _Regions[_Index];
+	_Count++;
+	Vector2 rectPosition(rectLeft,rectTop);
+	Vector2 rectSize(rectWidth,rectHeight);
 
-		//next index
-		_Index = (_Index + 1) % _Count;
-
-		//reset state time
-		_StateTime = 0;
-	}
-	_StateTime += deltaTime;
-
-	return currentRegion;
+	_RectPositions.push_back(rectPosition);
+	_RectSizes.push_back(rectSize);
 
 }

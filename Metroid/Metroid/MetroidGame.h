@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "Game.h"
-#include "Sprite.h"
 #include "World.h"
 #include "Animation.h"
 #include "SpriteBatch.h"
