@@ -13,7 +13,7 @@ Animation::Animation()
 	_Flipped = false;
 }
 
-Animation::Animation(Sprite *sprite, int count, int spritePerRow, DWORD frameInterval)
+Animation::Animation(Sprite *sprite, int count, int spritePerRow, float spriteSpace, DWORD frameInterval)
 {
 	_Count = count;
 	_SpritePerRow = spritePerRow;
@@ -24,9 +24,10 @@ Animation::Animation(Sprite *sprite, int count, int spritePerRow, DWORD frameInt
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 	_Flipped = false;
+	_SpriteSpace = spriteSpace;
 }
 
-Animation::Animation(Sprite &sprite, float rectWidth, float rectHeight, int count, int spritePerRow, DWORD frameInterval)
+Animation::Animation(Sprite &sprite, float rectWidth, float rectHeight, float spriteSpace, int count, int spritePerRow, DWORD frameInterval)
 {
 
 	_Count = count;
@@ -39,6 +40,7 @@ Animation::Animation(Sprite &sprite, float rectWidth, float rectHeight, int coun
 	_FrameInterval = frameInterval;
 	_CurrentSprite->SetRectSize(rectWidth, rectHeight);
 	_Flipped = false;
+	_SpriteSpace = spriteSpace;
 }
 
 Animation::Animation(const Animation &ani)
@@ -52,6 +54,7 @@ Animation::Animation(const Animation &ani)
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
+	_SpriteSpace = ani._SpriteSpace;
 }
 Animation& Animation::operator=(const Animation &ani)
 {
@@ -64,6 +67,7 @@ Animation& Animation::operator=(const Animation &ani)
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
+	_SpriteSpace = ani._SpriteSpace;
 	return *this;
 }
 
@@ -125,4 +129,32 @@ void Animation::SetOffset(float leftOffset, float topOffset)
 {
 	_LeftOffset = leftOffset;
 	_TopOffset = topOffset;
+}
+
+
+
+void Animation::AddTextureRegion(TextureRegion* region)
+{
+	_Regions.push_back(region);
+	_Count++;
+}
+
+TextureRegion* Animation::NextTextureRegion(DWORD deltaTime)
+{
+	TextureRegion* currentRegion = _Regions[0];
+	//if true, next animation
+	if (_StateTime >= _FrameInterval)
+	{
+		currentRegion = _Regions[_Index];
+
+		//next index
+		_Index = (_Index + 1) % _Count;
+
+		//reset state time
+		_StateTime = 0;
+	}
+	_StateTime += deltaTime;
+
+	return currentRegion;
+
 }

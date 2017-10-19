@@ -13,27 +13,20 @@ MetroidGame::~MetroidGame()
 void MetroidGame::CreateGame()
 {
 	batch.Create();
-
-	////this is example 
-	//world = World(100, 100, DeltaTime);
-	/*obj = Object(300, 300, 10, 10);
-	obj.SetVelocity(Vector2(0.1f,0));*/
-	//obj.SetTexture(ani.GetKeyAnimation());
-	//world.AddObject(obj);
-
-
 	cam.SetPosition(0, 0);
-
 	batch.SetCamera(&cam);
 
-	texture = Texture(L"Resources/DemoScreen05.jpg");
-	sprite = Sprite(&texture);
-	sprite.SetSize(1000, 480);
-	sprite.SetPosition(sprite.GetSize().X/2-320, 0);
+	backGroundTexture = Texture(L"Resources/DemoScreen05.jpg");
+	backGroundSprite = Sprite(&backGroundTexture);
+	backGroundSprite.SetSize(1000, 480);
+	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
-	texture2 = Texture(L"Resources/character.png");
-	sprite2 = Sprite(&texture2, -220, -120, 0, 0, 75, 86, 75, 86);
-	ani = Animation(&sprite2, 27, 7, 20);
+	characterTexture = Texture(L"Resources/samusaran_sheet.png");
+	characterSprite = Sprite(&characterTexture, -220, -120, 244, 36, 22, 33, 30, 50);
+	ani = Animation(&characterSprite, 3, 3,18, 20);
+	ani.SetOffset(244, 36);
+
+	
 }
 
 //void MetroidGame::Resize(float x, float y)
@@ -47,22 +40,22 @@ void MetroidGame::UpdateGame(float dt)
 	if (input.GetKey(DIK_RIGHT))
 	{
 		ani.Next(dt, true);
-		sprite2.SetPosition(sprite2.GetPosition().X+dt*0.2, sprite2.GetPosition().Y);
-	}
+		characterSprite.SetPosition(characterSprite.GetPosition().X+dt*0.2, characterSprite.GetPosition().Y);
+	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
 		ani.Next(dt, false);
-		sprite2.SetPosition(sprite2.GetPosition().X - dt*0.2, sprite2.GetPosition().Y);
+		characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
 	
 	}
 
-	if(sprite2.GetPosition().X > cam.GetPosition().X)
+	if(characterSprite.GetPosition().X > cam.GetPosition().X)
 	{
-		cam.SetPosition(sprite2.GetPosition().X, cam.GetPosition().Y);
+		cam.SetPosition(characterSprite.GetPosition().X, cam.GetPosition().Y);
 	}
 
-	if (sprite2.GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>0)
+	if (characterSprite.GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>0)
 	{
 		cam.SetPosition(cam.GetPosition().X-dt*0.2, cam.GetPosition().Y);
 	}
@@ -86,10 +79,8 @@ void MetroidGame::UpdateGame(float dt)
 	batch.Begin();
 
 
-	batch.Draw(sprite);
-	//batch.Draw(sprite2);
-	batch.Draw(sprite2);
-
+	batch.Draw(backGroundSprite);
+	batch.Draw(characterSprite);
 	
 
 

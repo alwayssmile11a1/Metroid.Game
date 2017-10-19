@@ -9,14 +9,12 @@
 class MetroidGame: public Game
 {
 private:
-	World world;
-	Object obj;
 	Animation ani;
 	SpriteBatch batch;
-	Texture texture;
-	Texture texture2;
-	Sprite sprite;
-	Sprite sprite2;
+	Texture characterTexture;
+	Texture backGroundTexture;
+	Sprite characterSprite;
+	Sprite backGroundSprite;
 
 	Camera cam;
 
