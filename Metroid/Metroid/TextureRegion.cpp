@@ -6,6 +6,7 @@ TextureRegion::TextureRegion()
 	_RectPosition.Set(0, 0);
 	_RectSize.Set(0, 0);
 	_Texture = NULL;
+	_ScaleFactor.Set(1, 1);
 }
 
 
@@ -15,12 +16,14 @@ TextureRegion::TextureRegion(Texture *texture, float rectX, float rectY, float r
 	_Texture = texture;
 	_RectSize = Vector2(rectWidth, rectHeight);
 	_RectPosition = Vector2(rectX, rectY);
+	_ScaleFactor.Set(1, 1);
 }
 
 TextureRegion::TextureRegion(const TextureRegion &textureRegion)
 {
 	_RectPosition = textureRegion._RectPosition;
 	_RectSize = textureRegion._RectSize;
+	_ScaleFactor = textureRegion._ScaleFactor;
 	_Texture = textureRegion._Texture;
 
 }
@@ -29,8 +32,8 @@ TextureRegion& TextureRegion::operator=(const TextureRegion &textureRegion)
 {
 	_RectPosition = textureRegion._RectPosition;
 	_RectSize = textureRegion._RectSize;
+	_ScaleFactor = textureRegion._ScaleFactor;
 	_Texture = textureRegion._Texture;
-
 
 	return *this;
 }
@@ -65,6 +68,18 @@ void TextureRegion::SetTexture(Texture *Texture)
 Texture* TextureRegion::GetTexture() const
 {
 	return _Texture;
+}
+
+//Flip the image 
+void TextureRegion::Flip(bool flipX, bool flipY)
+{
+	if (flipX) _ScaleFactor.X *= -1;
+	if (flipY) _ScaleFactor.Y *= -1;
+}
+
+Vector2 TextureRegion::GetScale() const
+{
+	return _ScaleFactor;
 }
 
 TextureRegion::~TextureRegion()

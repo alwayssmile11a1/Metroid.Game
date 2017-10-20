@@ -21,16 +21,14 @@ void MetroidGame::CreateGame()
 	backGroundSprite.SetSize(1000, 480);
 	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
-	
-
 	characterTexture = Texture(L"Resources/samusaran_sheet.png");
 	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33, 34, 66);
 
-	ani = Animation(&characterSprite, 0, 0, 10);
-	ani.AddDimension(244, 36, 17, 33);
-	ani.AddDimension(283, 36, 19, 34);
-	ani.AddDimension(322, 36, 22, 34);
-
+	ani = Animation(&characterTexture, 10);
+	ani.AddRegion(244, 36, 17, 33);
+	ani.AddRegion(283, 36, 19, 34);
+	ani.AddRegion(322, 36, 22, 34);
+	ani.Reset();
 }
 
 void MetroidGame::UpdateGame(float dt)
@@ -38,13 +36,13 @@ void MetroidGame::UpdateGame(float dt)
 
 	if (input.GetKey(DIK_RIGHT))
 	{
-		ani.Next(dt, true);
+		characterSprite.SetRegion(ani.Next(dt, true));
 		characterSprite.SetPosition(characterSprite.GetPosition().X+dt*0.2, characterSprite.GetPosition().Y);
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		ani.Next(dt, false);
+		characterSprite.SetRegion(ani.Next(dt, false));
 		characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
 	}
 

@@ -94,6 +94,8 @@ Vector2 Sprite::GetSize() const
 	return _Size;
 }
 
+
+
 //all set functions
 void Sprite::SetRotationOrigin(float centerX, float centerY)
 {
@@ -102,6 +104,15 @@ void Sprite::SetRotationOrigin(float centerX, float centerY)
 void Sprite::SetRotation(float rotation)
 {
 	_Rotation = rotation;
+}
+
+void Sprite::SetRegion(TextureRegion *textureRegion)
+{
+	_Texture = textureRegion->GetTexture();
+	_RectSize = textureRegion->GetRectSize(); 
+	_RectPosition = textureRegion->GetRectPosition();
+	_ScaleFactor.X = abs(_ScaleFactor.X)* textureRegion->GetScale().X;
+	_ScaleFactor.Y = abs(_ScaleFactor.Y)* textureRegion->GetScale().Y;
 }
 
 Vector2 Sprite::GetPosition() const
@@ -123,9 +134,9 @@ void Sprite::SetPosition(float x, float y)
 	_Position.Set(x, y);
 }
 
-void  Sprite::SetTexture(Texture &texture)
+void  Sprite::SetTexture(Texture *texture)
 {
-	_Texture = &texture;
+	_Texture = texture;
 }
 
 void Sprite::SetSize(float width, float height)

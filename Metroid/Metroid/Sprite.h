@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "Texture.h"
-
+#include "TextureRegion.h"
 //Texture + Texture Region
 class Sprite 
 {
@@ -23,7 +23,7 @@ public:
 	
 	//draw a portion of image, stretch it to width and height
 	Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height);
-	Sprite(const Sprite &texture);
+	Sprite(const Sprite &sprite);
 	~Sprite();
 
 	Sprite& operator=(const Sprite &texture);
@@ -43,7 +43,8 @@ public:
 	void SetRotation(float rotation);
 	void SetPosition(float x, float y);
 	void SetSize(float width, float height);
-	void SetTexture(Texture &texture);
+	void SetTexture(Texture *texture);
+	void SetRegion(TextureRegion *textureRegion);
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
 

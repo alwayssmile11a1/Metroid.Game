@@ -3,78 +3,87 @@
 Animation::Animation()
 {
 	_Count = 0;
-	_SpritePerRow = 0;
 	_Index = 0;
-	_LeftOffset = 0;
-	_TopOffset = 0;
-	_CurrentSprite = NULL;
 	_StateTime = 0;
 	_FrameInterval = 0;
 	_Flipped = false;
+	_CurrentRegion = NULL;
+	_RectPositions.clear();
+	_RectSizes.clear();
 }
 
-Animation::Animation(Sprite *sprite, int count, int spritePerRow, DWORD frameInterval)
+Animation::Animation(Texture *texture, float frameInterval)
 {
-	_Count = count;
-	_SpritePerRow = spritePerRow;
+	_CurrentRegion = new TextureRegion(texture,0,0,0,0);
+	_Count = 0;
 	_Index = 0;
-	_LeftOffset = 0;
-	_TopOffset = 0;
-	_CurrentSprite = sprite;
 	_StateTime = 0;
 	_FrameInterval = frameInterval;
 	_Flipped = false;
+	_RectPositions.clear();
+	_RectSizes.clear();
 }
+
+//Animation::Animation(TextureRegion textureRegions[], float frameInterval)
+//{
+//	_TextureRegions.insert(_TextureRegions.end(), &textureRegions[0], &textureRegions[0] + (int)(sizeof(textureRegions) / sizeof(textureRegions[0])));
+//	_Count = (int)(sizeof(textureRegions) / sizeof(textureRegions[0]));
+//	_Index = 0;
+//	_StateTime = 0;
+//	_FrameInterval = frameInterval;
+//	_Flipped = false;
+//	_CurrentRegion = &_TextureRegions[0];
+//}
 
 Animation::Animation(const Animation &ani)
 {
+	_CurrentRegion = new TextureRegion();
+	*_CurrentRegion = *ani._CurrentRegion;
 	_Count = ani._Count;
-	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
-	_CurrentSprite = ani._CurrentSprite;
-	_LeftOffset = ani._LeftOffset;
-	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
+	_RectPositions = ani._RectPositions;
+	_RectSizes = ani._RectSizes;
 }
 Animation& Animation::operator=(const Animation &ani)
 {
+	_CurrentRegion = new TextureRegion();
+	*_CurrentRegion = *ani._CurrentRegion;
 	_Count = ani._Count;
-	_SpritePerRow = ani._SpritePerRow;
 	_Index = ani._Index;
-	_CurrentSprite = ani._CurrentSprite;
-	_LeftOffset = ani._LeftOffset;
-	_TopOffset = ani._TopOffset;
 	_StateTime = ani._StateTime;
 	_FrameInterval = ani._FrameInterval;
 	_Flipped = ani._Flipped;
+	_RectPositions = ani._RectPositions;
+	_RectSizes = ani._RectSizes;
 	return *this;
 }
 
 
 Animation::~Animation()
 {
-	
+	delete _CurrentRegion;
 }
 
-Sprite* Animation::GetKeyAnimation()
+TextureRegion* Animation::GetKeyAnimation()
 {
-	return _CurrentSprite;
+	return _CurrentRegion;
 }
 
-void Animation::Next(DWORD deltaTime, int isSameDirection)
+TextureRegion* Animation::Next(float deltaTime, int isSameDirection)
 {
-	if (_CurrentSprite == NULL) return;
+	if (_CurrentRegion == NULL) return NULL;
 
 	if (isSameDirection != -1)
 	{
 		//return to origin direction
-		if (_Flipped) _CurrentSprite->Flip(true, false);
+		if (_Flipped) _CurrentRegion->Flip(true, false);
 
 		if (isSameDirection == 0)
 		{
-			_CurrentSprite->Flip(true, false);
+			_CurrentRegion->Flip(true, false);
 		}
 
 		_Flipped = !isSameDirection;
@@ -83,10 +92,7 @@ void Animation::Next(DWORD deltaTime, int isSameDirection)
 	//if true, next animation
 	if (_StateTime >= _FrameInterval)
 	{
-		////calculate top left position (in the image)
-		//float rectX = (_Index % _SpritePerRow)*_CurrentSprite->GetRectSize().X + _LeftOffset;
-		//float rectY = (_Index / _SpritePerRow)*_CurrentSprite->GetRectSize().Y + _TopOffset;
-
+	
 		//get top left
 		float rectLeft = _RectPositions[_Index].X;
 		float rectTop = _RectPositions[_Index].Y;
@@ -95,8 +101,8 @@ void Animation::Next(DWORD deltaTime, int isSameDirection)
 		float rectWidth = _RectSizes[_Index].X;
 		float rectHeight = _RectSizes[_Index].Y;
 
-		_CurrentSprite->SetRectPosition(rectLeft, rectTop);
-		_CurrentSprite->SetRectSize(rectWidth, rectHeight);
+		_CurrentRegion->SetRectPosition(rectLeft, rectTop);
+		_CurrentRegion->SetRectSize(rectWidth, rectHeight);
 
 		//next index
 		_Index = (_Index + 1) % _Count;
@@ -106,21 +112,23 @@ void Animation::Next(DWORD deltaTime, int isSameDirection)
 	}
 	_StateTime += deltaTime;
 
+	return _CurrentRegion;
 }
 
 void Animation::Reset()
 {
 	_Index = 0;
 	_StateTime = 0;
+	_CurrentRegion->SetRectPosition(_RectPositions[0].X, _RectPositions[0].Y);
+	_CurrentRegion->SetRectSize(_RectSizes[0].X, _RectSizes[0].Y);
 }
 
-void Animation::SetOffset(float leftOffset, float topOffset)
+void Animation::SetFrameInterval(float frameInterval)
 {
-	_LeftOffset = leftOffset;
-	_TopOffset = topOffset;
+	_FrameInterval = frameInterval;
 }
 
-void Animation::SetDimensions(Vector2 rectPositions[], Vector2 rectSizes[])
+void Animation::SetRegions(Vector2 rectPositions[], Vector2 rectSizes[])
 {
 	_RectPositions.clear();
 	_RectSizes.clear();
@@ -129,12 +137,11 @@ void Animation::SetDimensions(Vector2 rectPositions[], Vector2 rectSizes[])
 	_Count = (int)(sizeof(rectPositions) / sizeof(rectPositions[0]));
 }
 
-void Animation::AddDimension(float rectLeft, float rectTop, float rectWidth, float rectHeight)
+void Animation::AddRegion(float rectLeft, float rectTop, float rectWidth, float rectHeight)
 {
 	_Count++;
 	Vector2 rectPosition(rectLeft,rectTop);
 	Vector2 rectSize(rectWidth,rectHeight);
-
 	_RectPositions.push_back(rectPosition);
 	_RectSizes.push_back(rectSize);
 

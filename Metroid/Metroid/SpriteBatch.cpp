@@ -150,12 +150,16 @@ void SpriteBatch::Draw(const TextureRegion &textureRegion, float x, float y)
 	_RectSize.x = textureRegion.GetRectSize().X;
 	_RectSize.y = textureRegion.GetRectSize().Y;
 
+	//get scale factor
+	_ScaleFactor.x = textureRegion.GetScale().X;
+	_ScaleFactor.y = textureRegion.GetScale().Y;
+
 	//get scale origin
 	_ScaleOrigin.x = _Position.x;
 	_ScaleOrigin.y = _Position.y;
 
 	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, NULL, NULL, 0, NULL);
+	D3DXMatrixTransformation2D(&_SpriteMatrix, &_ScaleOrigin, 0, &_ScaleFactor, NULL, 0, NULL);
 
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
 
