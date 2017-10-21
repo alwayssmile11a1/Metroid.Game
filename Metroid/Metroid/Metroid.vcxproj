@@ -136,6 +136,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TexturePacker.cpp" />
     <ClCompile Include="TextureRegion.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TexturePacker.h" />
     <ClInclude Include="TextureRegion.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vector2.h" />

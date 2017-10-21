@@ -24,11 +24,15 @@ void MetroidGame::CreateGame()
 	characterTexture = Texture(L"Resources/samusaran_sheet.png");
 	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33, 34, 66);
 
-	ani = Animation(&characterTexture, 10);
-	ani.AddRegion(244, 36, 17, 33);
-	ani.AddRegion(283, 36, 19, 34);
-	ani.AddRegion(322, 36, 22, 34);
-	ani.Reset();
+	/*ani.AddRegion(TextureRegion(&characterTexture,244, 36, 17, 33));
+	ani.AddRegion(TextureRegion(&characterTexture,283, 36, 19, 34));
+	ani.AddRegion(TextureRegion(&characterTexture,322, 36, 22, 34));*/
+	
+	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
+	ani.AddRegion(p.GetRegion("charactermove"));
+	
+
+
 }
 
 void MetroidGame::UpdateGame(float dt)

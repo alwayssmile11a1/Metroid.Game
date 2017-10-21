@@ -4,6 +4,7 @@
 #include "World.h"
 #include "Animation.h"
 #include "SpriteBatch.h"
+#include "TexturePacker.h"
 
 class MetroidGame: public Game
 {
@@ -16,6 +17,7 @@ private:
 	Sprite backGroundSprite;
 
 	Camera cam;
+
 
 protected:
 	//create all the things of a game here, such as world, object, ...
