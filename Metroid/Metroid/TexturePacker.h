@@ -19,7 +19,8 @@ public:
 	~TexturePacker();
 
 	std::vector<TextureRegion> GetRegion(std::string regionName);
-	
+	void SetTexture(Texture *texture);
+	void SetPacker(std::string packerfilePath);
 
 };
 

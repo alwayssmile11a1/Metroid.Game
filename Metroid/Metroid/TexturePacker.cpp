@@ -2,7 +2,7 @@
 
 TexturePacker::TexturePacker()
 {
-	_Content = "";
+	_Content.clear();
 }
 
 TexturePacker::~TexturePacker()
@@ -73,4 +73,27 @@ std::vector<TextureRegion> TexturePacker::GetRegion(std::string regionName)
 	return regions;
 
 
+}
+
+void TexturePacker::SetTexture(Texture *texture)
+{
+	_Texture = texture;
+}
+
+void TexturePacker::SetPacker(std::string packerfilePath)
+{
+	_Content.clear();
+	//get file
+	std::ifstream textureFile(packerfilePath);
+	std::string line;
+
+	//get the content of this file
+	if (textureFile.is_open())
+	{
+		while (getline(textureFile, line))
+		{
+			_Content.append(line + " ");
+		}
+		textureFile.close();
+	}
 }

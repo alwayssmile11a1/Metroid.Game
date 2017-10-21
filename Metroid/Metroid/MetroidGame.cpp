@@ -32,7 +32,6 @@ void MetroidGame::CreateGame()
 	ani.AddRegion(p.GetRegion("charactermove"));
 	
 
-
 }
 
 void MetroidGame::UpdateGame(float dt)
