@@ -174,11 +174,6 @@ bool Input::InitMouse()
 	return true;
 }
 
-void Input::ShutDownApplication()
-{
-	//trace(L"Escape key pressed!");
-	PostMessage(_HWnd, WM_QUIT, 0, 0);
-}
 
 void Input::ProcessKeyBoardInformation()
 {

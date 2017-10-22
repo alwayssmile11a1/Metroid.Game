@@ -349,4 +349,8 @@ int Game::RunGame()
 
 }
 
-
+void Game::ShutDownApplication()
+{
+	//trace(L"Escape key pressed!");
+	PostMessage(_HWnd, WM_QUIT, 0, 0);
+}

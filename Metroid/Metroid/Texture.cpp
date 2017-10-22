@@ -5,20 +5,23 @@ Texture::Texture()
 	//set
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
 	_ImageSize.Set(0, 0);
-	_FilePath = NULL;
 	_Image = NULL;
 }
 
-Texture::Texture(LPWSTR filePath)
+Texture::Texture(std::string filePath)
 {
 	//set basic information
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
 	_FilePath = filePath;
 	_Image = NULL;
 
+	//get path from string
+	std::wstring stemp = StringToWstring(filePath);
+	LPCWSTR path = stemp.c_str();
+
 	//Get image from file
 	D3DXIMAGE_INFO info;
-	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
+	HRESULT result = D3DXGetImageInfoFromFile(path, &info);
 	if (result != D3D_OK)
 	{
 		return;
@@ -29,7 +32,7 @@ Texture::Texture(LPWSTR filePath)
 
 	result = D3DXCreateTextureFromFileEx(
 		d3ddevice,
-		filePath,
+		path,
 		info.Width,
 		info.Height,
 		1,
@@ -43,26 +46,33 @@ Texture::Texture(LPWSTR filePath)
 		NULL,
 		&_Image);
 
+
 	if (result != D3D_OK)
 	{
 		return;
 	}
+
+
 }
 
 
 Texture::Texture(const Texture &texture)
 {
 	_Transcolor = texture._Transcolor;
-	_FilePath = texture._FilePath;
 	_ImageSize = texture._ImageSize;
+	_FilePath = texture._FilePath;
+
+	//get path from string
+	std::wstring stemp = StringToWstring(_FilePath);
+	LPCWSTR path = stemp.c_str();
 
 	//Get image from file
 	_Image = NULL;
 	D3DXIMAGE_INFO info;
-	D3DXGetImageInfoFromFile(_FilePath, &info);
+	D3DXGetImageInfoFromFile(path, &info);
 	D3DXCreateTextureFromFileEx(
 		d3ddevice,
-		_FilePath,
+		path,
 		info.Width,
 		info.Height,
 		1,
@@ -81,18 +91,20 @@ Texture::Texture(const Texture &texture)
 Texture& Texture::operator=(const Texture &texture)
 {
 	_Transcolor = texture._Transcolor;
+	_ImageSize = texture._ImageSize;	
 	_FilePath = texture._FilePath;
-	_ImageSize = texture._ImageSize;
-
-	//copy _Image
-	_Image = NULL;
+	
+	//get path from string
+	std::wstring stemp = StringToWstring(_FilePath);
+	LPCWSTR path = stemp.c_str();
 
 	//Get image from file
+	_Image = NULL;
 	D3DXIMAGE_INFO info;
-	D3DXGetImageInfoFromFile(_FilePath, &info);
+	D3DXGetImageInfoFromFile(path, &info);
 	D3DXCreateTextureFromFileEx(
 		d3ddevice,
-		_FilePath,
+		path,
 		info.Width,
 		info.Height,
 		1,
@@ -132,6 +144,19 @@ Vector2 Texture::GetImageSize() const
 	return _ImageSize;
 }
 
+std::wstring Texture::StringToWstring(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+
+	return r;
+}
+
 Texture::~Texture()
 {
 
@@ -140,4 +165,5 @@ Texture::~Texture()
 		_Image->Release();
 		_Image = NULL;
 	}
+
 }

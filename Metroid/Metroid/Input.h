@@ -71,10 +71,6 @@ public:
 	//Get Mouse Position
 	Vector2 GetMousePosition();
 
-	//call postmessage to shut down application
-	void ShutDownApplication();
-
 	void Release();
-
 
 };

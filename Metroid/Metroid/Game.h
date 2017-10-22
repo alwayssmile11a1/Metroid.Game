@@ -28,7 +28,7 @@ private:
 	DWORD DeltaTime;
 
 	//store the client rect
-	RECT _WindowRect;
+	//RECT _WindowRect;
 
 	//init
 	bool InitWindow();
@@ -51,6 +51,9 @@ protected:
 	//create a background from this image. If you want to disable this function, just set the filePath to be NULL
 	void SetBackGroundImage(LPWSTR filePath);
 
+
+	//call postmessage to shut down application
+	void ShutDownApplication();
 
 public:
 	//constructor and destructor

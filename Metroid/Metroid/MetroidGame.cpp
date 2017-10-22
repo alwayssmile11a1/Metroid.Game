@@ -16,17 +16,13 @@ void MetroidGame::CreateGame()
 	cam.SetPosition(0, 0);
 	batch.SetCamera(&cam);
 
-	backGroundTexture = Texture(L"Resources/DemoScreen05.jpg");
+	backGroundTexture = Texture("Resources/DemoScreen05.jpg");
 	backGroundSprite = Sprite(&backGroundTexture);
 	backGroundSprite.SetSize(1000, 480);
 	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
-	characterTexture = Texture(L"Resources/samusaran_sheet.png");
+	characterTexture = Texture("Resources/samusaran_sheet.png");
 	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33, 34, 66);
-
-	/*ani.AddRegion(TextureRegion(&characterTexture,244, 36, 17, 33));
-	ani.AddRegion(TextureRegion(&characterTexture,283, 36, 19, 34));
-	ani.AddRegion(TextureRegion(&characterTexture,322, 36, 22, 34));*/
 	
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
 	ani.AddRegion(p.GetRegion("charactermove"));
@@ -71,17 +67,15 @@ void MetroidGame::UpdateGame(float dt)
 
 	if (input.GetKeyDown(DIK_ESCAPE))
 	{
-		input.ShutDownApplication();
+		ShutDownApplication();
 	}
 
 
 	batch.Begin();
 
-
 	batch.Draw(backGroundSprite);
 	batch.Draw(characterSprite);
 	
-
 	batch.End();
 
 }
