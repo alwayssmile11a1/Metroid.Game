@@ -16,13 +16,20 @@ private:
 	Vector2 _RectSize; //the width and height of the rectangle portion in the image
 	Vector2 _RectPosition; //the top left position of portion we want to draw
 
-	Texture *_Texture; //we don't initialize this variable, just use this to hold the reference to a texture
+	Texture *_Texture; //we don't initialize this variable by default, just use this to hold the reference to a texture
+						//if you do want to allocate a new memory for this texture, consider use _CreateNewTexture variable
+
+	//bool _CreateNewTexture; //if true, allocate a new memory for the texture
+
 public:
 	Sprite();
-	Sprite(Texture *texture);
+
+	//if create new is true, allocate a new memory for the texture
+	//but may affect the performance
+	Sprite(Texture *texture/*, bool createNew*/);
 	
 	//draw a portion of image, stretch it to width and height
-	Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height);
+	Sprite(Texture *texture,/* bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight);
 	Sprite(const Sprite &sprite);
 	~Sprite();
 

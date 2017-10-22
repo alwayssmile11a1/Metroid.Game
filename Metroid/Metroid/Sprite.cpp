@@ -11,10 +11,22 @@ Sprite::Sprite()
 	_RectSize.Set(0,0); 
 	_RectPosition.Set(0,0); 
 	_Size.Set(0, 0);
+	//_CreateNewTexture = false;
 }
 
-Sprite::Sprite(Texture *texture) 
+Sprite::Sprite(Texture *texture/*, bool createNew*/) 
 {
+	/*_CreateNewTexture = createNew;
+
+	if (createNew)
+	{
+		_Texture = new Texture();
+		*_Texture = *texture;
+	}
+	else
+	{
+		_Texture = texture;
+	}*/
 	_Texture = texture;
 	_ScaleFactor.Set(1, 1);
 	_RotationOrigin.Set(0, 0);
@@ -26,12 +38,22 @@ Sprite::Sprite(Texture *texture)
 	_RectPosition.Set(0, 0);
 }
 
-Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height)
+Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight)
 {
-	//set
+	/*_CreateNewTexture = createNew;
+
+	if (createNew)
+	{
+		_Texture = new Texture();
+		*_Texture = *texture;
+	}
+	else
+	{
+		_Texture = texture;
+	}*/
 	_Texture = texture;
-	_ScaleFactor.Set(width / rectWidth, height / rectHeight);
-	_Size.Set(width, height);
+	_ScaleFactor.Set(1, 1);
+	_Size.Set(rectWidth, rectWidth);
 	_RotationOrigin.Set(0, 0);
 	_Position.Set(x, y);
 	_IsCenterOrigin = true;
@@ -42,7 +64,18 @@ Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop
 
 Sprite::Sprite(const Sprite &sprite)
 {
-	//set
+	////set
+	//_CreateNewTexture = sprite._CreateNewTexture;
+
+	//if (_CreateNewTexture)
+	//{
+	//	_Texture = new Texture();
+	//	*_Texture = *sprite._Texture;
+	//}
+	//else
+	//{
+	//	_Texture = sprite._Texture;
+	//}
 	_Texture = sprite._Texture;
 	_ScaleFactor = sprite._ScaleFactor;
 	_Size = sprite._Size;
@@ -56,7 +89,18 @@ Sprite::Sprite(const Sprite &sprite)
 
 Sprite& Sprite::operator=(const Sprite &sprite)
 {
-	//set
+	////set
+	//_CreateNewTexture = sprite._CreateNewTexture;
+
+	//if (_CreateNewTexture)
+	//{
+	//	_Texture = new Texture();
+	//	*_Texture = *sprite._Texture;
+	//}
+	//else
+	//{
+	//	_Texture = sprite._Texture;
+	//}
 	_Texture = sprite._Texture;
 	_Size = sprite._Size;
 	_ScaleFactor = sprite._ScaleFactor;
@@ -180,4 +224,9 @@ void Sprite::ResetToWhole()
 Sprite::~Sprite()
 {
 
+	/*if (_CreateNewTexture && _Texture!=NULL)
+	{
+		delete _Texture;
+		_Texture = NULL;
+	}*/
 }

@@ -13,6 +13,7 @@ class TexturePacker
 private:
 	std::string _Content;
 	Texture *_Texture;
+
 public:
 	TexturePacker();
 	TexturePacker(Texture* texture, std::string packerfilePath);

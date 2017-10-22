@@ -22,8 +22,9 @@ void MetroidGame::CreateGame()
 	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33, 34, 66);
-	
+	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33);
+	characterSprite.SetSize(34, 66);
+
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
 	ani.AddRegion(p.GetRegion("charactermove"));
 	
