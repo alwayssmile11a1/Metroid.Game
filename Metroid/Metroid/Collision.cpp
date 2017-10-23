@@ -79,6 +79,7 @@ void Collision::isCollide(Sprite* targetObjectSprite, Sprite* otherObjectSprite,
 	// hết va chạm là 1 trong 2 x, y hết va chạm => thời gian sớm nhất để kết thúc va chạm
 	float exitTime = min(_txExit, _tyExit);
 
+	// .
 	// object không va chạm khi:
 	// nếu thời gian bắt đầu va chạm hơn thời gian kết thúc va chạm
 	// thời gian va chạm x, y nhỏ hơn 0 (chạy qua luôn, 2 thằng đang đi xa ra nhau)
