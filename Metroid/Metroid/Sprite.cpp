@@ -38,7 +38,7 @@ Sprite::Sprite(Texture *texture/*, bool createNew*/)
 	_RectPosition.Set(0, 0);
 }
 
-Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight)
+Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float vX, float vY)
 {
 	/*_CreateNewTexture = createNew;
 
@@ -60,6 +60,8 @@ Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rec
 	_Rotation = 0;
 	_RectSize.Set(rectWidth, rectHeight);
 	_RectPosition.Set(rectLeft, rectTop);
+	_Velocity.X = vX;
+	_Velocity.Y = vY;
 }
 
 Sprite::Sprite(const Sprite &sprite)
@@ -138,7 +140,15 @@ Vector2 Sprite::GetSize() const
 	return _Size;
 }
 
+Vector2 Sprite::GetVelocity() const
+{
+	return _Velocity;
+}
 
+void Sprite::SetVelocity(const Vector2 &value)
+{
+	_Velocity = value;
+}
 
 //all set functions
 void Sprite::SetRotationOrigin(float centerX, float centerY)

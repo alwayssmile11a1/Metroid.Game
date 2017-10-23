@@ -58,3 +58,8 @@ bool Vector2::operator==(const Vector2 &b)
 {
 	return (this->X == b.X) && (this->Y == b.Y);
 }
+
+bool Vector2::operator!=(const Vector2 &b)
+{
+	return (this->X != b.X) && (this->Y != b.Y);
+}

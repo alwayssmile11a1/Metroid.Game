@@ -10,6 +10,7 @@ private:
 	Vector2 _Position; //the position of this sprite
 	Vector2 _ScaleFactor; //scale
 	Vector2 _Size;
+	Vector2 _Velocity; //the vx and vy of this object
 	Vector2 _RotationOrigin; //the position that will be used as origin for rotating
 	float _Rotation;
 	float _IsCenterOrigin; //
@@ -29,7 +30,7 @@ public:
 	Sprite(Texture *texture/*, bool createNew*/);
 	
 	//draw a portion of image, stretch it to width and height
-	Sprite(Texture *texture,/* bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight);
+	Sprite(Texture *texture,/* bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float vX, float vY);
 	Sprite(const Sprite &sprite);
 	~Sprite();
 
@@ -44,6 +45,7 @@ public:
 	Texture* GetTexture() const;
 	Vector2 GetRectSize() const;
 	Vector2 GetRectPosition() const;
+	Vector2 GetVelocity() const;
 
 	//all set functions
 	void SetRotationOrigin(float centerX, float centerY);
@@ -54,6 +56,7 @@ public:
 	void SetRegion(TextureRegion *textureRegion);
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
+	void SetVelocity(const Vector2 &value);
 
 	//if true, set the origin of this sprite to be always in the center of this texture
 	void SetCenterRotationOrigin(bool center);
