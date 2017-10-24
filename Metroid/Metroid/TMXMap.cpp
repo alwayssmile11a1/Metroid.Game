@@ -18,6 +18,12 @@ TMXMap::~TMXMap()
 	{
 		delete *it;
 	}
+
+	if (_TileSet != NULL)
+	{
+		delete _TileSet;
+	}
+
 }
 
 void TMXMap::SetAttributes(unsigned int width, unsigned int height, unsigned int tileWidth, unsigned int tileHeight)
