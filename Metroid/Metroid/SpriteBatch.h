@@ -58,6 +58,9 @@ public:
 	//draw the texture at (x,y) and stretch it to width and height
 	void Draw(const Texture &texture, float x, float y, float width, float height);
 
+	//draw or portion of texture at (x,y) and stretch it to width and height
+	void Draw(const Texture &texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height);
+
 	void Draw(const Sprite &sprite);
 
 	//begin drawing

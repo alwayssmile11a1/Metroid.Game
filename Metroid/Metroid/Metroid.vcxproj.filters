@@ -19,6 +19,15 @@
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{c98d265c-5f5f-40cf-85ac-e167a1e95914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Framework\RapidXML">
+      <UniqueIdentifier>{0592abdc-ec25-455b-a371-fd3a4ce54389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\TMXMapLoader">
+      <UniqueIdentifier>{b3b936d9-482b-4ee5-a9cf-fb918c0a6882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\TMXMapLoader">
+      <UniqueIdentifier>{1ba7b7dd-9757-4bb2-864e-56b5fbf0ba72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -71,6 +80,18 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXLoader.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXMap.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXTileLayer.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXTileSet.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,15 +149,47 @@
     <ClInclude Include="Collision.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="rapidxml.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_iterators.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_print.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXLoader.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXMap.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXTileLayer.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXTileSet.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt">
       <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="license.txt">
+      <Filter>Header Files\Framework\RapidXML</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Metroid.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="manual.html">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </None>
   </ItemGroup>
 </Project>

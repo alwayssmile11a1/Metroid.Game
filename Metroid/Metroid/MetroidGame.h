@@ -6,6 +6,7 @@
 #include "SpriteBatch.h"
 #include "TexturePacker.h"
 #include "Collision.h"
+#include "TMXLoader.h"
 
 class MetroidGame: public Game
 {
@@ -20,6 +21,7 @@ private:
 
 	Camera cam;
 
+	TMXLoader mapLoader;
 
 protected:
 	//create all the things of a game here, such as world, object, ...

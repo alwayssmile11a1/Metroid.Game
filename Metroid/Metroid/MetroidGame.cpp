@@ -13,7 +13,7 @@ MetroidGame::~MetroidGame()
 void MetroidGame::CreateGame()
 {
 	batch.Create();
-	cam.SetPosition(0, 0);
+	cam.SetPosition(320, 240);
 	batch.SetCamera(&cam);
 
 	backGroundTexture = Texture("Resources/DemoScreen05.jpg");
@@ -22,14 +22,14 @@ void MetroidGame::CreateGame()
 	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, -300, -120, 244, 36, 17, 33, 0.2f, 0.2f);
-	characterSprite2 = Sprite(&characterTexture, -200, -120, 244, 36, 17, 33, 0.2f, 0.2f);
+	characterSprite = Sprite(&characterTexture, 16*2, 16*5, 244, 36, 17, 33, 0.2f, 0.2f);
+	characterSprite2 = Sprite(&characterTexture, 16*10, 16*5, 244, 36, 17, 33, 0.2f, 0.2f);
 	characterSprite.SetSize(34, 66);
 
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
 	ani.AddRegion(p.GetRegion("charactermove"));
 	
-
+	mapLoader.AddMap("map1", "Resources/map1.tmx");
 }
 
 void MetroidGame::UpdateGame(float dt)
@@ -49,14 +49,14 @@ void MetroidGame::UpdateGame(float dt)
 			characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
 	}
 
-	if(characterSprite.GetPosition().X > cam.GetPosition().X)
+	if (characterSprite.GetPosition().X > cam.GetPosition().X)
 	{
 		cam.SetPosition(characterSprite.GetPosition().X, cam.GetPosition().Y);
 	}
 
-	if (characterSprite.GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>0)
+	if (characterSprite.GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>320)
 	{
-		cam.SetPosition(cam.GetPosition().X-dt*0.2, cam.GetPosition().Y);
+		cam.SetPosition(cam.GetPosition().X - dt*0.2, cam.GetPosition().Y);
 	}
 
 	if (input.GetKey(DIK_UP))
@@ -77,10 +77,13 @@ void MetroidGame::UpdateGame(float dt)
 
 	batch.Begin();
 
-	batch.Draw(backGroundSprite);
+	mapLoader.GetMap("map1")->Render(batch);
+
+	//batch.Draw(backGroundSprite);
 	batch.Draw(characterSprite);
 	batch.Draw(characterSprite2);
 	
+
 	batch.End();
 
 }
