@@ -22,7 +22,8 @@ void MetroidGame::CreateGame()
 	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, -110, -120, 244, 36, 17, 33);
+	characterSprite = Sprite(&characterTexture, -300, -120, 244, 36, 17, 33, 0.2f, 0.2f);
+	characterSprite2 = Sprite(&characterTexture, -200, -120, 244, 36, 17, 33, 0.2f, 0.2f);
 	characterSprite.SetSize(34, 66);
 
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
@@ -33,17 +34,19 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::UpdateGame(float dt)
 {
-
+	Collision collision;
 	if (input.GetKey(DIK_RIGHT))
 	{
 		characterSprite.SetRegion(ani.Next(dt, true));
-		characterSprite.SetPosition(characterSprite.GetPosition().X+dt*0.2, characterSprite.GetPosition().Y);
+		if(!collision.checkCollision(characterSprite, characterSprite2, dt, 0))
+			characterSprite.SetPosition(characterSprite.GetPosition().X+dt*0.2, characterSprite.GetPosition().Y);
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
 		characterSprite.SetRegion(ani.Next(dt, false));
-		characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
+		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0))
+			characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
 	}
 
 	if(characterSprite.GetPosition().X > cam.GetPosition().X)
@@ -76,6 +79,7 @@ void MetroidGame::UpdateGame(float dt)
 
 	batch.Draw(backGroundSprite);
 	batch.Draw(characterSprite);
+	batch.Draw(characterSprite2);
 	
 	batch.End();
 

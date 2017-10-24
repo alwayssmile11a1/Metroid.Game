@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "SpriteBatch.h"
 #include "TexturePacker.h"
+#include "Collision.h"
 
 class MetroidGame: public Game
 {
@@ -14,6 +15,7 @@ private:
 	Texture characterTexture;
 	Texture backGroundTexture;
 	Sprite characterSprite;
+	Sprite characterSprite2;
 	Sprite backGroundSprite;
 
 	Camera cam;
