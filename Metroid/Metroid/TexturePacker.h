@@ -1,11 +1,9 @@
 #pragma once
 
 #include "stdafx.h"
-#include <iostream>
-#include <fstream>
 #include <string>
 #include "TextureRegion.h"
-
+#include "rapidxml.hpp"
 
 //Get TextureRegion from a texture packer file
 class TexturePacker

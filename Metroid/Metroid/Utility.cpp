@@ -40,3 +40,27 @@ LPDIRECT3DSURFACE9 CreateSurfaceFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePat
 
 	return surface;
 }
+
+bool LoadFile(std::string filePath, std::string &fileContents)
+{
+	std::ifstream file(filePath, std::ios::in | std::ios::binary);
+
+	if (file)
+	{
+		// move the file pointer to the end of the file
+		file.seekg(0, std::ios::end);
+
+		//file.tellg is used to get the position of the file pointer, which also means the size of the file in this case
+		fileContents.resize(file.tellg());
+
+		//move the file pointer to the beginning of the file
+		file.seekg(0, std::ios::beg);
+
+		//read this file into string
+		file.read(&fileContents[0], fileContents.size());
+		file.close();
+
+		return true;
+	}
+	return false;
+}

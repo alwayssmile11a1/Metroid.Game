@@ -1,14 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
+
 #include <unordered_map>
-#include <sstream>
-#include <fstream>
-#include <memory>
-
 #include "rapidxml.hpp"
-
 #include "TMXMap.h"
 #include "TMXTileLayer.h"
 #include "TMXTileSet.h"
@@ -23,11 +17,9 @@ private:
 
 	//private functions
 	void LoadMapSettings(TMXMap* map, rapidxml::xml_node<> *parentNode);
-	void LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode);
+	void LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, std::string folderPath);
 	void LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode);
 
-	/* File loading helper functions */
-	bool LoadFile(std::string filePath, std::string &fileContents);
 
 public:
 	TMXLoader();

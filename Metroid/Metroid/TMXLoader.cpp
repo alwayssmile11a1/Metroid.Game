@@ -31,13 +31,15 @@ void TMXLoader::AddMap(std::string mapName, std::string filePath)
 
 		//get first node
 		rapidxml::xml_node<> *parentNode = currentMap.first_node("map");
-
+		
 		// Add new TMXMap to m_mapContainer
 		_MapContainer[mapName] = new TMXMap();
 
 		// Load the map settings, tilesets and layers
 		LoadMapSettings(_MapContainer[mapName], parentNode);
-		LoadTileSets(_MapContainer[mapName], parentNode);
+		//get folder path
+		std::size_t found = filePath.find_last_of("/");
+		LoadTileSets(_MapContainer[mapName], parentNode, filePath.substr(0, found));
 		LoadLayers(_MapContainer[mapName], parentNode);
 	}
 }
@@ -71,7 +73,7 @@ void TMXLoader::LoadMapSettings(TMXMap* map, rapidxml::xml_node<> *parentNode)
 }
 
 
-void TMXLoader::LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode)
+void TMXLoader::LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, std::string folderPath)
 {
 	// Create a new node based on the parent node
 	rapidxml::xml_node<> *currentNode = parentNode;
@@ -95,7 +97,7 @@ void TMXLoader::LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode)
 		unsigned int imageHeight;
 		if (currentNode != nullptr)
 		{
-			sourcePath = currentNode->first_attribute("source")->value();
+			sourcePath = folderPath + "/" + currentNode->first_attribute("source")->value();
 			imageWidth = atoi(currentNode->first_attribute("width")->value());
 			imageHeight = atoi(currentNode->first_attribute("height")->value());
 		}
@@ -141,28 +143,4 @@ void TMXLoader::LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode)
 		// Move to the next layer
 		currentNode = currentNode->parent()->next_sibling("layer");
 	}
-}
-
-bool TMXLoader::LoadFile(std::string filePath, std::string &fileContents)
-{
-	std::ifstream file(filePath, std::ios::in | std::ios::binary);
-
-	if (file)
-	{
-		// move the file pointer to the end of the file
-		file.seekg(0, std::ios::end);
-		
-		//file.tellg is used to get the position of the file pointer, which also means the size of the file in this case
-		fileContents.resize(file.tellg());
-
-		//move the file pointer to the beginning of the file
-		file.seekg(0, std::ios::beg);
-
-		//read this file into string
-		file.read(&fileContents[0], fileContents.size());
-		file.close();
-
-		return true;
-	}
-	return false;
 }

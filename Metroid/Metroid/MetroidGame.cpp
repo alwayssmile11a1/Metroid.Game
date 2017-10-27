@@ -12,24 +12,35 @@ MetroidGame::~MetroidGame()
 
 void MetroidGame::CreateGame()
 {
+	//create batch to draw everything
 	batch.Create();
+
+	//set cam position
 	cam.SetPosition(320, 240);
+
+	//set the camera to be used by this batch
 	batch.SetCamera(&cam);
 
-	backGroundTexture = Texture("Resources/DemoScreen05.jpg");
-	backGroundSprite = Sprite(&backGroundTexture);
-	backGroundSprite.SetSize(1000, 480);
-	backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
+	//backGroundTexture = Texture("Resources/DemoScreen05.jpg");
+	//backGroundSprite = Sprite(&backGroundTexture);
+	//backGroundSprite.SetSize(1000, 480);
+	//backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
 
+	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 	characterSprite = Sprite(&characterTexture, 16*2, 16*5, 244, 36, 17, 33, 0.2f, 0.2f);
 	characterSprite2 = Sprite(&characterTexture, 16*10, 16*5, 244, 36, 17, 33, 0.2f, 0.2f);
 	characterSprite.SetSize(34, 66);
+	characterSprite2.SetSize(34, 66);
 
-	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.txt");
+	//setup animation
+	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
 	ani.AddRegion(p.GetRegion("charactermove"));
 	
+	//load map
 	mapLoader.AddMap("map1", "Resources/map1.tmx");
+	map = mapLoader.GetMap("map1");
+	map->SetCamera(&cam);
 }
 
 void MetroidGame::UpdateGame(float dt)
@@ -77,7 +88,7 @@ void MetroidGame::UpdateGame(float dt)
 
 	batch.Begin();
 
-	mapLoader.GetMap("map1")->Render(batch);
+	map->Render(batch);
 
 	//batch.Draw(backGroundSprite);
 	batch.Draw(characterSprite);

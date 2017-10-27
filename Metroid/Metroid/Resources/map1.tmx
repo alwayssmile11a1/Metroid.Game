@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
  <tileset firstgid="1" name="colortable" tilewidth="16" tileheight="16" tilecount="880" columns="40">
-  <image source="Resources/colortable.jpg" width="640" height="355"/>
+  <image source="colortable.jpg" width="640" height="355"/>
  </tileset>
  <layer name="Tile Layer 1" width="50" height="30">
   <data encoding="csv">

@@ -1,9 +1,0 @@
-<characterstand>
-184 36 18 34
-</characterstand>
-
-<charactermove>
-244 36 17 33
-283 36 19 34
-322 36 22 34
-</charactermove>

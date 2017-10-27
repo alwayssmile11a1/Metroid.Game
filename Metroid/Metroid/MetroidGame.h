@@ -22,6 +22,7 @@ private:
 	Camera cam;
 
 	TMXLoader mapLoader;
+	TMXMap* map;
 
 protected:
 	//create all the things of a game here, such as world, object, ...
