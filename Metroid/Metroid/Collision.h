@@ -8,20 +8,25 @@ private:
 	// Kết quả của thuật toán kiểm tra va chạm,
 	// không có va chạm sẽ trả về 1, 
 	// có va chạm sẽ trả về khoảng thời gian cần để xảy ra va chạm (do delta time luôn nhỏ hơn 1)
-	float _CollisionTime; 
+	float _CollisionTime;
 
 	// Kết quả của va chạm tác động đến object,
 	// dùng đề xác định hướng va chạm của các object (trên dưới trái phải)
-	Vector2 _CollisionDirection; 
+	Vector2 _CollisionDirection;
 
 	// Thời gian còn lại trong 1 frame sau khi va chạm xảy ra 
 	// (thời gian của 1 frame > thời điểm va chạm - thời điểm bắt đầu frame)
-	float _RemainingTime; 
+	float _RemainingTime;
 
 	Vector2 _CollisionPosition; // Vị trí của vật di chuyển khi va chạm với vật đứng yên
 
-	float _dxEntry, _dyEntry, _dxExit, _dyExit;
-	float _txEntry, _tyEntry, _txExit, _tyExit;
+	float tempvx, tempvy; //velocity của vật a khi xem vật b đang đứng yên(nếu thực sự vật b đang di chuyển)
+	float dxentry, dyentry, dxexit, dyexit; //dx entry / exit, dy entry / exit, khoảng d cần cần vật a đụng độ/ thoát ra khỏi vật b đứng yên (delta d của vật a trong khoảng delta_time)
+	float deltadx, deltady; //khoảng delta vật a đi được trong khoảng thời gian delta_time
+	float xentry, xexit, yentry, yexit; //tỉ lệ giữa delta d và d entry, exit
+	float txentry, txexit, tyentry, tyexit; //khoảng thời gian cần để xảy ra đụng độ/ thoát khỏi b của a trên trục x và y
+	float tentry;  //khoảng thời gian cần để thực sự xảy ra đụng độ
+	float texit; 	//khoảng thời gian cần để vật a thực sự thoát khỏi vật b
 
 public:
 	Collision();
@@ -45,4 +50,3 @@ public:
 	void Slide(Sprite &object);
 	void Deflect(Sprite &object);
 };
-
