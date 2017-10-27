@@ -58,7 +58,8 @@ public:
 	void SetRegion(TextureRegion *textureRegion);
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
-	void SetVelocity(Vector2 value);
+	void SetXVelocity(float value);
+	void SetYVelocity(float value);
 	void SetDirection(Vector2 value);
 
 	//if true, set the origin of this sprite to be always in the center of this texture

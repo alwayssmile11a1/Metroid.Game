@@ -170,9 +170,14 @@ void Sprite::SetDirection(Vector2 value)
 	_Direction = value;
 }
 
-void Sprite::SetVelocity(Vector2 value)
+void Sprite::SetXVelocity(float value)
 {
-	_Velocity = value;
+	_Velocity.X = value;
+}
+
+void Sprite::SetYVelocity(float value)
+{
+	_Velocity.Y = value;
 }
 
 void Sprite::SetRegion(TextureRegion *textureRegion)

@@ -17,6 +17,8 @@ private:
 	Texture backGroundTexture;
 	Sprite characterSprite;
 	Sprite characterSprite2;
+	Sprite characterSprite3;
+	/*Sprite characterSprite4;*/
 	Sprite backGroundSprite;
 
 	Camera cam;

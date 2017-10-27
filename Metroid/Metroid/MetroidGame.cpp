@@ -28,10 +28,14 @@ void MetroidGame::CreateGame()
 
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, 16*2, 16*5, 244, 36, 17, 33, Vector2(0.2, 0.0), Vector2(0, 0));
-	characterSprite2 = Sprite(&characterTexture, 16*10, 16*5, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));
+	characterSprite = Sprite(&characterTexture, 16*9, 16*5, 244, 36, 17, 33, Vector2(0.2, 0.0), Vector2(0, 0));
+	characterSprite2 = Sprite(&characterTexture, 16*15, 16*5, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));
+	characterSprite3 = Sprite(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));
+	/*characterSprite4 = Sprite(&characterTexture, 16 * 8, 16 * 1, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));*/
 	characterSprite.SetSize(34, 66);
 	characterSprite2.SetSize(34, 66);
+	characterSprite3.SetSize(34, 66);
+	/*characterSprite4.SetSize(200, 10);*/
 
 	//setup animation
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
@@ -46,21 +50,38 @@ void MetroidGame::CreateGame()
 void MetroidGame::UpdateGame(float dt)
 {
 	Collision collision;
+
+	// Create gravity to make the character falls
+	//characterSprite.SetYVelocity(-0.2);
+
 	if (input.GetKey(DIK_RIGHT))
 	{
+		characterSprite.SetXVelocity(0.2);
 		characterSprite.SetRegion(ani.Next(dt, true));
 		characterSprite.SetDirection(Vector2(1, 0));
-		if(!collision.checkCollision(characterSprite, characterSprite2, dt, 0))
-			characterSprite.SetPosition(characterSprite.GetPosition().X+dt*0.2, characterSprite.GetPosition().Y);
+		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
+		{
+				characterSprite.SetPosition(characterSprite.GetPosition().X + characterSprite.GetVelocity().X * dt, characterSprite.GetPosition().Y + characterSprite.GetVelocity().Y * dt);
+		}		
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
+		characterSprite.SetXVelocity(-0.2);
 		characterSprite.SetRegion(ani.Next(dt, false));
 		characterSprite.SetDirection(Vector2(-1, 0));
-		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0))
-			characterSprite.SetPosition(characterSprite.GetPosition().X - dt*0.2, characterSprite.GetPosition().Y);
+		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
+		{
+			/*if (!collision.checkCollision(characterSprite, characterSprite3, dt, 0))*/
+				characterSprite.SetPosition(characterSprite.GetPosition().X + characterSprite.GetVelocity().X * dt, characterSprite.GetPosition().Y + characterSprite.GetVelocity().Y * dt);
+		}
 	}
+
+	//if (input.GetKey(DIK_UP))
+	//{
+	//	characterSprite.SetRegion(ani.Next(dt, false));
+
+	//}
 
 	if (characterSprite.GetPosition().X > cam.GetPosition().X)
 	{
@@ -95,6 +116,7 @@ void MetroidGame::UpdateGame(float dt)
 	//batch.Draw(backGroundSprite);
 	batch.Draw(characterSprite);
 	batch.Draw(characterSprite2);
+	batch.Draw(characterSprite3);
 	
 
 	batch.End();

@@ -138,10 +138,10 @@ void Collision::isCollide(Sprite &targetObjectSprite, Sprite &otherObjectSprite,
 
 		_CollisionTime = tentry;
 		_RemainingTime = DeltaTime - tentry;
-		/*_CollisionPosition.X = targetObjectSprite.GetPosition().X + tentry * tempvx;
-		_CollisionPosition.Y = targetObjectSprite.GetPosition().Y + tentry * tempvy;*/
-		_CollisionPosition.X = otherObjectSprite.GetPosition().X - otherObjectSprite.GetSize().X / 2 - targetObjectSprite.GetSize().X / 2;
+		_CollisionPosition.X = targetObjectSprite.GetPosition().X + tentry * tempvx;
 		_CollisionPosition.Y = targetObjectSprite.GetPosition().Y + tentry * tempvy;
+		/*_CollisionPosition.X = otherObjectSprite.GetPosition().X - otherObjectSprite.GetSize().X / 2 - targetObjectSprite.GetSize().X / 2;
+		_CollisionPosition.Y = targetObjectSprite.GetPosition().Y + tentry * tempvy;*/
 	}
 }
 
