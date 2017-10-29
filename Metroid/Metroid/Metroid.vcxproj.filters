@@ -93,6 +93,9 @@
     <ClCompile Include="TMXTileSet.cpp">
       <Filter>Source Files\Framework\TMXMapLoader</Filter>
     </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="TMXTileSet.h">
       <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,7 @@
-﻿// World.h : include anything in our game, such as gameobjects, camera, etc.
-
-#pragma once
+﻿#pragma once
 #include"stdafx.h"
 #include"Object.h"
-
+// check 
 class World
 {
 private:

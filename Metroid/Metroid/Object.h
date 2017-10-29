@@ -1,7 +1,8 @@
 // Object.h: parent class of any game object
 #pragma once
 #include"stdafx.h"
-#include "Texture.h"
+#include "Sprite.h"
+#include "Body.h"
 class Object
 {
 private:
