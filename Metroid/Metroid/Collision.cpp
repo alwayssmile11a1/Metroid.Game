@@ -113,12 +113,12 @@ void Collision::isCollide(Sprite &targetObjectSprite, Sprite &otherObjectSprite,
 		{
 			if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
-				_CollisionDirection.X = -1.0f;
+				_CollisionDirection.X = -abs(targetObjectSprite.GetVelocity().X);
 				_CollisionDirection.Y = 0.0f;
 			}
 			else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 			{
-				_CollisionDirection.X = 1.0f;
+				_CollisionDirection.X = abs(targetObjectSprite.GetVelocity().X);
 				_CollisionDirection.Y = 0.0f;
 			}
 		}
@@ -127,12 +127,12 @@ void Collision::isCollide(Sprite &targetObjectSprite, Sprite &otherObjectSprite,
 			if (dyentry < 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 			{
 				_CollisionDirection.X = 0.0f;
-				_CollisionDirection.Y = -1.0f;
+				_CollisionDirection.Y = -abs(targetObjectSprite.GetVelocity().Y);
 			}
 			else//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
 			{
 				_CollisionDirection.X = 0.0f;
-				_CollisionDirection.Y = 1.0f;
+				_CollisionDirection.Y = abs(targetObjectSprite.GetVelocity().Y);
 			}
 		}
 
@@ -210,15 +210,16 @@ bool Collision::checkCollision(Sprite &targetObjectSprite, Sprite &otherObjectSp
 
 	if (_CollisionTime < 1.0f)
 	{
-		if (_CollisionDirection == targetObjectSprite.GetDirection())
+		if (_CollisionDirection != Vector2(0, 0))
 		{
-			// cập nhật tọa độ
-			updateTargetPosition(targetObjectSprite);
-			return true;
+			if (_CollisionDirection.X == targetObjectSprite.GetVelocity().X * -1 || _CollisionDirection.Y == targetObjectSprite.GetVelocity().Y * -1)
+			{
+				// cập nhật tọa độ
+				updateTargetPosition(targetObjectSprite);
+				return true;
+			}
 		}
-		else {
-			return false;
-		}
+
 		//if (collisionAction == 0)
 		//{
 		//	//updateTargetPosition(targetObjectSprite);

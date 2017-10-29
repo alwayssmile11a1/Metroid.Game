@@ -28,9 +28,9 @@ void MetroidGame::CreateGame()
 
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, 16*9, 16*5, 244, 36, 17, 33, Vector2(0.2, 0.0), Vector2(0, 0));
-	characterSprite2 = Sprite(&characterTexture, 16*15, 16*5, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));
-	characterSprite3 = Sprite(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));
+	characterSprite = Sprite(&characterTexture, 16*9, 16*5, 244, 36, 17, 33, Vector2(0.2, 0.0));
+	characterSprite2 = Sprite(&characterTexture, 16*15, 16*5, 244, 36, 17, 33, Vector2(0.0, 0.0));
+	characterSprite3 = Sprite(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33, Vector2(0.0, 0.0));
 	/*characterSprite4 = Sprite(&characterTexture, 16 * 8, 16 * 1, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));*/
 	characterSprite.SetSize(34, 66);
 	characterSprite2.SetSize(34, 66);
@@ -58,7 +58,6 @@ void MetroidGame::UpdateGame(float dt)
 	{
 		characterSprite.SetXVelocity(0.2);
 		characterSprite.SetRegion(ani.Next(dt, true));
-		characterSprite.SetDirection(Vector2(1, 0));
 		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
 		{
 				characterSprite.SetPosition(characterSprite.GetPosition().X + characterSprite.GetVelocity().X * dt, characterSprite.GetPosition().Y + characterSprite.GetVelocity().Y * dt);
@@ -69,7 +68,6 @@ void MetroidGame::UpdateGame(float dt)
 	{
 		characterSprite.SetXVelocity(-0.2);
 		characterSprite.SetRegion(ani.Next(dt, false));
-		characterSprite.SetDirection(Vector2(-1, 0));
 		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
 		{
 			/*if (!collision.checkCollision(characterSprite, characterSprite3, dt, 0))*/

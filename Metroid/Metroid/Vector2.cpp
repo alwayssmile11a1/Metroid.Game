@@ -61,5 +61,5 @@ bool Vector2::operator==(const Vector2 &b)
 
 bool Vector2::operator!=(const Vector2 &b)
 {
-	return (this->X != b.X) && (this->Y != b.Y);
+	return (this->X != b.X) || (this->Y != b.Y);
 }
