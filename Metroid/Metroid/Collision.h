@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Sprite.h"
+#include "Body.h"
 #include "stdafx.h"
 
 class Collision
@@ -32,21 +32,21 @@ public:
 	Collision();
 	~Collision();
 
-	void isCollide(Sprite &targetObjectSprite, Sprite &otherObjectSprite, DWORD DeltaTime);
+	void isCollide(Body &targetObjectSprite, Body &otherObjectSprite, float DeltaTime);
 
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
-	RECT getSweptBroadphaseRect(Sprite &object, DWORD DeltaTime);
+	RECT getSweptBroadphaseRect(Body &object, float DeltaTime);
 
 
-	bool isColliding(Sprite &targetObjectSprite, Sprite &otherObjectSprite, float& moveX, float& moveY, float dt);
+	bool isColliding(Body &targetObjectSprite, Body &otherObjectSprite, float& moveX, float& moveY, float dt);
 
 	// Hàm dùng để ktra RECT của 2 object có chồng nhau hay ko
 	bool isColliding(RECT targetObjectRect, RECT otherObjectRect);
 
-	bool checkCollision(Sprite &targetObjectSprite, Sprite &otherObjectSprite, DWORD DeltaTime, int collisionAction);
+	bool checkCollision(Body &targetObjectSprite, Body &otherObjectSprite, float DeltaTime, int collisionAction);
 
-	void updateTargetPosition(Sprite &Object);
-	void Push(Sprite &object);
-	void Slide(Sprite &object);
-	void Deflect(Sprite &object);
+	void updateTargetPosition(Body &Object);
+	void Push(Body &object);
+	void Slide(Body &object);
+	void Deflect(Body &object);
 };

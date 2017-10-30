@@ -127,10 +127,10 @@ void TMXMap::Render(SpriteBatch &batch)
 			if (_Cam != NULL)
 			{
 
-				if (x + rectWidth / 2 < camPostion.X - screenWidth/2 ||
-					x - rectWidth / 2 > camPostion.X + screenWidth/2 ||
-					y + rectHeight/2 < camPostion.Y - screenHeight/2 ||
-					y - rectHeight / 2 > camPostion.Y + screenHeight / 2)
+				if (x + rectWidth / 2 < camPostion.x - screenWidth/2 ||
+					x - rectWidth / 2 > camPostion.x + screenWidth/2 ||
+					y + rectHeight/2 < camPostion.y - screenHeight/2 ||
+					y - rectHeight / 2 > camPostion.y + screenHeight / 2)
 					continue;
 
 			}

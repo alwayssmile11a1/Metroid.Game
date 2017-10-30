@@ -47,8 +47,8 @@ void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
 	//get the actual postion
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
-	_CameraMatrix._41 = -(cam->GetPosition().X - screenWidth / 2);
-	_CameraMatrix._42 = +cam->GetPosition().Y + screenHeight / 2;
+	_CameraMatrix._41 = -(cam->GetPosition().x - screenWidth / 2);
+	_CameraMatrix._42 = +cam->GetPosition().y + screenHeight / 2;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;
@@ -78,8 +78,8 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 	_SpriteHandler->SetTransform(&_SpriteMatrix);
 
 	//Get center
-	_Center.x = texture.GetImageSize().X / 2;
-	_Center.y = texture.GetImageSize().Y / 2;
+	_Center.x = texture.GetImageSize().x / 2;
+	_Center.y = texture.GetImageSize().y / 2;
 	_Center.z = 0;
 
 	//draw sprite
@@ -119,8 +119,8 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 
 
 	//Get center
-	_Center.x = texture.GetImageSize().X / 2;
-	_Center.y = texture.GetImageSize().Y / 2;
+	_Center.x = texture.GetImageSize().x / 2;
+	_Center.y = texture.GetImageSize().y / 2;
 	_Center.z = 0;
 
 	//draw sprite
@@ -147,12 +147,12 @@ void SpriteBatch::Draw(const TextureRegion &textureRegion, float x, float y)
 	GetActualPosition(&_Position, _Camera);
 
 	//get rect size
-	_RectSize.x = textureRegion.GetRectSize().X;
-	_RectSize.y = textureRegion.GetRectSize().Y;
+	_RectSize.x = textureRegion.GetRectSize().x;
+	_RectSize.y = textureRegion.GetRectSize().y;
 
 	//get scale factor
-	_ScaleFactor.x = textureRegion.GetScale().X;
-	_ScaleFactor.y = textureRegion.GetScale().Y;
+	_ScaleFactor.x = textureRegion.GetScale().x;
+	_ScaleFactor.y = textureRegion.GetScale().y;
 
 	//get scale origin
 	_ScaleOrigin.x = _Position.x;
@@ -165,8 +165,8 @@ void SpriteBatch::Draw(const TextureRegion &textureRegion, float x, float y)
 
 
 	//the portion of image we want to draw
-	_Rect.left = textureRegion.GetRectPosition().X;
-	_Rect.top = textureRegion.GetRectPosition().Y;
+	_Rect.left = textureRegion.GetRectPosition().x;
+	_Rect.top = textureRegion.GetRectPosition().y;
 	_Rect.right = _Rect.left + _RectSize.x;
 	_Rect.bottom = _Rect.top + _RectSize.y;
 
@@ -243,19 +243,19 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	if (_SpriteHandler == NULL || &sprite == NULL) return;
 
 	//virtual position
-	_Position.x = sprite.GetPosition().X;
-	_Position.y = sprite.GetPosition().Y;
+	_Position.x = sprite.GetPosition().x;
+	_Position.y = sprite.GetPosition().y;
 	_Position.z = 0;
 
 	GetActualPosition(&_Position, _Camera);
 
 	//get rect size
-	_RectSize.x = sprite.GetRectSize().X;
-	_RectSize.y = sprite.GetRectSize().Y;
+	_RectSize.x = sprite.GetRectSize().x;
+	_RectSize.y = sprite.GetRectSize().y;
 
 	//get scale factor
-	_ScaleFactor.x = sprite.GetScale().X;
-	_ScaleFactor.y = sprite.GetScale().Y;
+	_ScaleFactor.x = sprite.GetScale().x;
+	_ScaleFactor.y = sprite.GetScale().y;
 
 	//get scale origin
 	_ScaleOrigin.x = _Position.x;
@@ -269,8 +269,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 	}
 	else
 	{
-		_RotationOrigin.x = sprite.GetRotationOrigin().X;
-		_RotationOrigin.y = sprite.GetRotationOrigin().Y;
+		_RotationOrigin.x = sprite.GetRotationOrigin().x;
+		_RotationOrigin.y = sprite.GetRotationOrigin().y;
 	}
 
 
@@ -284,8 +284,8 @@ void SpriteBatch::Draw(const Sprite &sprite)
 
 
 	//the portion of image we want to draw
-	_Rect.left = sprite.GetRectPosition().X;
-	_Rect.top = sprite.GetRectPosition().Y;
+	_Rect.left = sprite.GetRectPosition().x;
+	_Rect.top = sprite.GetRectPosition().y;
 	_Rect.right = _Rect.left + _RectSize.x;
 	_Rect.bottom = _Rect.top + _RectSize.y;
 

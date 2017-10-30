@@ -1,98 +1,86 @@
 #include"Object.h"
 
-#define FRAME_RATE 30
-#define GROUND_Y 450
 
 Object::Object()
 {
-	_Bounds.Set(0, 0);
-	_Velocity.Set(0, 0);
-	_Position.Set(0, 0);
-	_Texture = NULL;
+	
 }
 
-Object::Object(float x, float y, float width, float height)
+Object::Object(Texture *texture):Sprite(texture)
 {
-	_Bounds.Set(width, height);
-	_Velocity.Set(0, 0);
-	_Position.Set(x, y);
-	_Texture = NULL;
+
 }
 
-Object::Object(const Object &object)
+Object::Object(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight)
+	:Sprite(texture, x, y, rectLeft, rectTop, rectWidth, rectHeight)
 {
-	_Bounds = object._Bounds;
-	_Velocity = object._Velocity;
-	_Position = object._Position;
-	_Texture = object._Texture;
-
+	
 }
+
+//Object::Object(const Object &object)
+//{
+//	
+//}
 
 
 Object::~Object()
 {
-	//just for sure
-	if (_Texture != NULL)
-	{
-		_Texture->~Texture();
-		_Texture = NULL;
-	}
+	
 }
 
-Object& Object::operator=(const Object &object)
+//Object& Object::operator=(const Object &object)
+//{
+//	
+//	return *this;
+//}
+
+Body& Object::GetBody()
 {
-	_Bounds = object._Bounds;
-	_Velocity = object._Velocity;
-	_Position = object._Position;
-	_Texture = object._Texture;
-	return *this;
+	return _Body;
 }
 
-//All get functions
-Vector2 Object::GetBounds()
+void  Object::SetBody(const Body &body)
 {
-	return _Bounds;
+	_Body = body;
+}
+
+void  Object::SetBodyPosition(float x, float y)
+{
+	_Body.SetPosition(x, y);
+}
+void  Object::SetVelocity(float vx, float vy)
+{
+	_Body.SetVelocity(vx, vy);
+}
+void  Object::SetBodySize(float width, float height)
+{
+	_Body.SetSize(width, height);
 }
 
 Vector2 Object::GetVelocity()
 {
-	return _Velocity;
+	return _Body.GetVelocity();
 }
 
-Vector2 Object::GetPosition()
+void Object::SetMass(float mass)
 {
-	return _Position;
+	_Body.SetMass(mass);
 }
 
-Texture* Object::GetTexture()
+
+float Object::GetMass()
 {
-	return _Texture;
+	return _Body.GetMass();
 }
 
-//All set functions
-void Object::SetBounds(const Vector2 &value)
+void Object::Next(float dt)
 {
-	_Bounds = value;
+	_Body.Next(dt);
+	SetPosition(_Body.GetPosition().x, _Body.GetPosition().y);
 }
-void Object::SetVelocity(const Vector2 &value)
+
+void Object::FitBody()
 {
-	_Velocity = value;
+	_Body.SetPosition(GetPosition().x, GetPosition().y);
+	_Body.SetSize(GetSize().x, GetSize().y);
 }
-
-void Object::SetPosition(const Vector2 &value)
-{
-	_Position = value;
-}
-
-void Object::SetTexture(Texture *texture)
-{
-	_Texture = texture;
-}
-
-void Object::Update(DWORD dt)
-{
-	/*if (_Texture == NULL) return;
-	_Texture->Render(_Position.GetX(), _Position.GetY());*/
-}
-
-

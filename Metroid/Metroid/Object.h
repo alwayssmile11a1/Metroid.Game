@@ -1,41 +1,37 @@
-// Object.h: parent class of any game object
 #pragma once
 #include"stdafx.h"
 #include "Sprite.h"
 #include "Body.h"
-class Object
+//a sprite class but having a body 
+class Object: public Sprite
 {
 private:
-	Vector2 _Bounds; //the width and height of this object
-	Vector2 _Velocity; //the vx and vy of this object
-	Vector2 _Position; //the x, y coordinate of this object
+	Body _Body;
 
-	//hold the reference to a texture that has been created. 
-	//Note that we don't allocate a new memory to this pointer (and you shouldn't)
-	Texture *_Texture;
 public:
 
 	//constructor and destructor
 	Object();
-	Object(float x, float y, float width, float height);
-	Object(const Object &object);
+	Object(Texture *texture);
+	Object(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight);
+	//Object(const Object &object);
 	~Object();
 
-	Object& operator=(const Object &object);
+	//Object& operator=(const Object &object);
 
-	//All get functions
-	Vector2 GetBounds();
+	void SetBody(const Body &body);
+	void SetBodyPosition(float x, float y);
+	void SetVelocity(float vx, float vy);
+	void SetBodySize(float width, float height);
+	void SetMass(float mass);
+
 	Vector2 GetVelocity();
-	Vector2 GetPosition();
-	Texture* GetTexture();
+	float GetMass();
+	Body& GetBody();
 
-	//All set functions
-	void SetBounds(const Vector2 &value);
-	void SetVelocity(const Vector2 &value);
-	void SetPosition(const Vector2 &value);
-	void SetTexture(Texture *texture);
+	//Set the position and the size of the body equal sprite'
+	void FitBody();
 
-	//Update object
-	void Update(DWORD dt);
+	void Next(float dt);
 };
 

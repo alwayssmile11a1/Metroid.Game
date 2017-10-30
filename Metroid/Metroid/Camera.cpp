@@ -40,7 +40,7 @@ Vector2 Camera::GetSize()
 
 void Camera::Resize(float x, float y)
 {
-	_ScaleFactor.Set(_Size.X / x, _Size.Y / y);
+	_ScaleFactor.Set(_Size.x / x, _Size.y / y);
 }
 
 Vector2 Camera::GetScaleFactor()

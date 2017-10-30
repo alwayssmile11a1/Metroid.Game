@@ -218,8 +218,8 @@ void Input::ProcessMouseInformation()
 	}
 
 	// Update the location of the mouse cursor based on the change of the mouse location during the frame.
-	_MousePosition.X += _MouseState.lX;
-	_MousePosition.Y += _MouseState.lY;
+	_MousePosition.x += _MouseState.lX;
+	_MousePosition.y += _MouseState.lY;
 
 
 
@@ -320,8 +320,8 @@ Vector2 Input::GetMousePosition()
 {
 
 	// Ensure the mouse location doesn't exceed the screen width or height.
-	if (_MousePosition.X < 0) { _MousePosition.X = 0; }
-	if (_MousePosition.Y < 0) { _MousePosition.Y = 0; }
+	if (_MousePosition.x < 0) { _MousePosition.x = 0; }
+	if (_MousePosition.y < 0) { _MousePosition.y = 0; }
 
 	//if (_MousePosition.X > 640) { _MousePosition.X = 640; }
 	//if (_MousePosition.Y > 480) { _MousePosition.Y = 480; }

@@ -93,7 +93,7 @@ TextureRegion* Animation::Next(float deltaTime, int isSameDirection)
 	if (isSameDirection != -1)
 	{
 		//return to origin direction
-		if (currentRegion->GetScale().X < 0) currentRegion->Flip(true, false);
+		if (currentRegion->GetScale().x < 0) currentRegion->Flip(true, false);
 
 		if (isSameDirection == 0)
 		{

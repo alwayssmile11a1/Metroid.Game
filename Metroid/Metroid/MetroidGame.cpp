@@ -21,21 +21,20 @@ void MetroidGame::CreateGame()
 	//set the camera to be used by this batch
 	batch.SetCamera(&cam);
 
-	//backGroundTexture = Texture("Resources/DemoScreen05.jpg");
-	//backGroundSprite = Sprite(&backGroundTexture);
-	//backGroundSprite.SetSize(1000, 480);
-	//backGroundSprite.SetPosition(backGroundSprite.GetSize().X/2-320, 0);
-
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	characterSprite = Sprite(&characterTexture, 16*9, 16*5, 244, 36, 17, 33, Vector2(0.2, 0.0));
-	characterSprite2 = Sprite(&characterTexture, 16*15, 16*5, 244, 36, 17, 33, Vector2(0.0, 0.0));
-	characterSprite3 = Sprite(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33, Vector2(0.0, 0.0));
-	/*characterSprite4 = Sprite(&characterTexture, 16 * 8, 16 * 1, 244, 36, 17, 33, Vector2(0.0, 0.0), Vector2(0, 0));*/
-	characterSprite.SetSize(34, 66);
-	characterSprite2.SetSize(34, 66);
-	characterSprite3.SetSize(34, 66);
-	/*characterSprite4.SetSize(200, 10);*/
+	object1 = Object(&characterTexture, 16*9, 16*5, 244, 36, 17, 33);
+	object2 = Object(&characterTexture, 16*15, 16*5, 244, 36, 17, 33);
+	object3 = Object(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33);
+
+	object1.SetSize(34, 66);
+	object2.SetSize(34, 66);
+	object3.SetSize(34, 66);
+
+	object1.FitBody();
+	object2.FitBody();
+	object3.FitBody();
+
 
 	//setup animation
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
@@ -45,6 +44,11 @@ void MetroidGame::CreateGame()
 	mapLoader.AddMap("map1", "Resources/map1.tmx");
 	map = mapLoader.GetMap("map1");
 	map->SetCamera(&cam);
+
+	//world = World(9.8);
+	world.AddBody(&object1.GetBody());
+	world.AddBody(&object2.GetBody());
+	world.AddBody(&object3.GetBody());
 }
 
 void MetroidGame::UpdateGame(float dt)
@@ -56,49 +60,43 @@ void MetroidGame::UpdateGame(float dt)
 
 	if (input.GetKey(DIK_RIGHT))
 	{
-		characterSprite.SetXVelocity(0.2);
-		characterSprite.SetRegion(ani.Next(dt, true));
-		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
+		object1.SetVelocity(0.2f, 0);
+		object1.SetRegion(ani.Next(dt, true));
+		if (!collision.checkCollision(object1.GetBody(), object2.GetBody(), dt, 0) && !collision.checkCollision(object1.GetBody(), object3.GetBody(), dt, 0))
 		{
-				characterSprite.SetPosition(characterSprite.GetPosition().X + characterSprite.GetVelocity().X * dt, characterSprite.GetPosition().Y + characterSprite.GetVelocity().Y * dt);
+			object1.Next(dt);
 		}		
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		characterSprite.SetXVelocity(-0.2);
-		characterSprite.SetRegion(ani.Next(dt, false));
-		if (!collision.checkCollision(characterSprite, characterSprite2, dt, 0) && !collision.checkCollision(characterSprite, characterSprite3, dt, 0))
+		object1.SetVelocity(-0.2f, 0);
+		object1.SetRegion(ani.Next(dt, false));
+		if (!collision.checkCollision(object1.GetBody(), object2.GetBody(), dt, 0) && !collision.checkCollision(object1.GetBody(), object3.GetBody(), dt, 0))
 		{
-			/*if (!collision.checkCollision(characterSprite, characterSprite3, dt, 0))*/
-				characterSprite.SetPosition(characterSprite.GetPosition().X + characterSprite.GetVelocity().X * dt, characterSprite.GetPosition().Y + characterSprite.GetVelocity().Y * dt);
+			object1.Next(dt);
 		}
 	}
 
-	//if (input.GetKey(DIK_UP))
-	//{
-	//	characterSprite.SetRegion(ani.Next(dt, false));
 
-	//}
-
-	if (characterSprite.GetPosition().X > cam.GetPosition().X)
+	if (object1.GetPosition().x > cam.GetPosition().x)
 	{
-		cam.SetPosition(characterSprite.GetPosition().X, cam.GetPosition().Y);
+		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
 	}
 
-	if (characterSprite.GetPosition().X < cam.GetPosition().X - 250 && cam.GetPosition().X>320)
+	if (object1.GetPosition().x < cam.GetPosition().x - 250 && cam.GetPosition().x>320)
 	{
-		cam.SetPosition(cam.GetPosition().X - dt*0.2, cam.GetPosition().Y);
+		cam.SetPosition(cam.GetPosition().x - dt*0.2, cam.GetPosition().y);
 	}
 
 	if (input.GetKey(DIK_UP))
 	{	
-		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y + +dt*0.2);
+		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*0.2);
 	}
 
 	if (input.GetKey(DIK_DOWN))
 	{
-		cam.SetPosition(cam.GetPosition().X, cam.GetPosition().Y - dt * 0.2);
+		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y - dt * 0.2);
 	}
 
 	if (input.GetKeyDown(DIK_ESCAPE))
@@ -107,16 +105,21 @@ void MetroidGame::UpdateGame(float dt)
 	}
 
 
+	//start drawing
 	batch.Begin();
-
+	
+	//render map
 	map->Render(batch);
 
-	//batch.Draw(backGroundSprite);
-	batch.Draw(characterSprite);
-	batch.Draw(characterSprite2);
-	batch.Draw(characterSprite3);
-	
+	//
+	batch.Draw(object1);
+	batch.Draw(object2);
+	batch.Draw(object3);
 
+	//
+	world.RenderBodiesDebug(batch);
+
+	//end drawing
 	batch.End();
 
 }

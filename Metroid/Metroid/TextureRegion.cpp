@@ -108,8 +108,8 @@ Texture* TextureRegion::GetTexture() const
 //Flip the image 
 void TextureRegion::Flip(bool flipX, bool flipY)
 {
-	if (flipX) _ScaleFactor.X *= -1;
-	if (flipY) _ScaleFactor.Y *= -1;
+	if (flipX) _ScaleFactor.x *= -1;
+	if (flipY) _ScaleFactor.y *= -1;
 }
 
 Vector2 TextureRegion::GetScale() const

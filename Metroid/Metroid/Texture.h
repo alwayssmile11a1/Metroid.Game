@@ -1,4 +1,4 @@
-//this class really needs to improve later
+﻿//this class really needs to improve later
 #pragma once
 
 #include "stdafx.h"
@@ -18,11 +18,15 @@ private:
 public:
 	Texture();
 	Texture(std::string filePath);
-
-	//create a texture from file
-	Texture(const Texture &texture);
 	~Texture();
-
+	//create a texture from file
+	//copy constructor - this is really important 
+	//"The copy constructor is a constructor which creates an object by initializing it with an object of the same class, 
+	//which has been created previously. The copy constructor is used to −
+	//Initialize one object from another of the same type.
+	//Copy an object to pass it as an argument to a function.
+	//Copy an object to return it from a function.
+	Texture(const Texture &texture);
 	Texture& operator=(const Texture &texture);
 
 	//all get functions

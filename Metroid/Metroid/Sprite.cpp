@@ -11,46 +11,25 @@ Sprite::Sprite()
 	_RectSize.Set(0,0); 
 	_RectPosition.Set(0,0); 
 	_Size.Set(0, 0);
-	//_CreateNewTexture = false;
 }
 
-Sprite::Sprite(Texture *texture/*, bool createNew*/) 
+Sprite::Sprite(Texture *texture) 
 {
-	/*_CreateNewTexture = createNew;
 
-	if (createNew)
-	{
-		_Texture = new Texture();
-		*_Texture = *texture;
-	}
-	else
-	{
-		_Texture = texture;
-	}*/
 	_Texture = texture;
 	_ScaleFactor.Set(1, 1);
 	_RotationOrigin.Set(0, 0);
 	_Rotation = 0;
 	_Position.Set(0, 0);
 	_IsCenterOrigin = true;
-	_RectSize.Set(texture->GetImageSize().X, texture->GetImageSize().Y);
-	_Size.Set(_RectSize.X, _RectSize.Y);
+	_RectSize.Set(texture->GetImageSize().x, texture->GetImageSize().y);
+	_Size.Set(_RectSize.x, _RectSize.y);
 	_RectPosition.Set(0, 0);
 }
 
-Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, Vector2 Velocity)
+Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight)
 {
-	/*_CreateNewTexture = createNew;
-
-	if (createNew)
-	{
-		_Texture = new Texture();
-		*_Texture = *texture;
-	}
-	else
-	{
-		_Texture = texture;
-	}*/
+	
 	_Texture = texture;
 	_ScaleFactor.Set(1, 1);
 	_Size.Set(rectWidth, rectWidth);
@@ -60,23 +39,11 @@ Sprite::Sprite(Texture *texture, /*bool createNew,*/ float x, float y, float rec
 	_Rotation = 0;
 	_RectSize.Set(rectWidth, rectHeight);
 	_RectPosition.Set(rectLeft, rectTop);
-	_Velocity = Velocity;
 }
 
 Sprite::Sprite(const Sprite &sprite)
 {
-	////set
-	//_CreateNewTexture = sprite._CreateNewTexture;
-
-	//if (_CreateNewTexture)
-	//{
-	//	_Texture = new Texture();
-	//	*_Texture = *sprite._Texture;
-	//}
-	//else
-	//{
-	//	_Texture = sprite._Texture;
-	//}
+	
 	_Texture = sprite._Texture;
 	_ScaleFactor = sprite._ScaleFactor;
 	_Size = sprite._Size;
@@ -86,23 +53,10 @@ Sprite::Sprite(const Sprite &sprite)
 	_Position = sprite._Position;
 	_RectSize = sprite._RectSize;
 	_RectPosition = sprite._RectPosition;
-	_Velocity = sprite._Velocity;
 }
 
 Sprite& Sprite::operator=(const Sprite &sprite)
 {
-	////set
-	//_CreateNewTexture = sprite._CreateNewTexture;
-
-	//if (_CreateNewTexture)
-	//{
-	//	_Texture = new Texture();
-	//	*_Texture = *sprite._Texture;
-	//}
-	//else
-	//{
-	//	_Texture = sprite._Texture;
-	//}
 	_Texture = sprite._Texture;
 	_Size = sprite._Size;
 	_ScaleFactor = sprite._ScaleFactor;
@@ -112,7 +66,6 @@ Sprite& Sprite::operator=(const Sprite &sprite)
 	_Position = sprite._Position;
 	_RectSize = sprite._RectSize;
 	_RectPosition = sprite._RectPosition;
-	_Velocity = sprite._Velocity;
 
 	return *this;
 }
@@ -141,12 +94,6 @@ Vector2 Sprite::GetSize() const
 	return _Size;
 }
 
-Vector2 Sprite::GetVelocity() const
-{
-	return _Velocity;
-}
-
-
 //all set functions
 void Sprite::SetRotationOrigin(float centerX, float centerY)
 {
@@ -158,23 +105,13 @@ void Sprite::SetRotation(float rotation)
 	_Rotation = rotation;
 }
 
-void Sprite::SetXVelocity(float value)
-{
-	_Velocity.X = value;
-}
-
-void Sprite::SetYVelocity(float value)
-{
-	_Velocity.Y = value;
-}
-
 void Sprite::SetRegion(TextureRegion *textureRegion)
 {
 	_Texture = textureRegion->GetTexture();
 	_RectSize = textureRegion->GetRectSize(); 
 	_RectPosition = textureRegion->GetRectPosition();
-	_ScaleFactor.X = abs(_ScaleFactor.X)* textureRegion->GetScale().X;
-	_ScaleFactor.Y = abs(_ScaleFactor.Y)* textureRegion->GetScale().Y;
+	_ScaleFactor.x = abs(_ScaleFactor.x)* textureRegion->GetScale().x;
+	_ScaleFactor.y = abs(_ScaleFactor.y)* textureRegion->GetScale().y;
 }
 
 Vector2 Sprite::GetPosition() const
@@ -204,7 +141,7 @@ void  Sprite::SetTexture(Texture *texture)
 void Sprite::SetSize(float width, float height)
 {
 	_Size.Set(width, height);
-	_ScaleFactor.Set(width /_RectSize.X, height / _RectSize.Y);
+	_ScaleFactor.Set(width /_RectSize.x, height / _RectSize.y);
 }
 
 void Sprite::SetCenterRotationOrigin(bool center)
@@ -229,13 +166,13 @@ void Sprite::SetRectSize(float rectWidth, float rectHeight)
 //Flip the image 
 void Sprite::Flip(bool flipX, bool flipY)
 {
-	if (flipX) _ScaleFactor.X *= -1;
-	if (flipY) _ScaleFactor.Y *= -1;
+	if (flipX) _ScaleFactor.x *= -1;
+	if (flipY) _ScaleFactor.y *= -1;
 }
 
 void Sprite::ResetToWhole()
 {
-	_RectSize.Set(_Texture->GetImageSize().X, _Texture->GetImageSize().Y);
+	_RectSize.Set(_Texture->GetImageSize().x, _Texture->GetImageSize().y);
 	_ScaleFactor.Set(1, 1);
 }
 
