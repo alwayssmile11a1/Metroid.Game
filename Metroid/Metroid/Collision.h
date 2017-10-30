@@ -32,21 +32,21 @@ public:
 	Collision();
 	~Collision();
 
-	void isCollide(Body &targetObjectSprite, Body &otherObjectSprite, float DeltaTime);
+	void isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
 
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
 	RECT getSweptBroadphaseRect(Body &object, float DeltaTime);
 
 
-	bool isColliding(Body &targetObjectSprite, Body &otherObjectSprite, float& moveX, float& moveY, float dt);
+	bool isColliding(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt);
 
 	// Hàm dùng để ktra RECT của 2 object có chồng nhau hay ko
 	bool isColliding(RECT targetObjectRect, RECT otherObjectRect);
 
-	bool checkCollision(Body &targetObjectSprite, Body &otherObjectSprite, float DeltaTime, int collisionAction);
+	bool checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);
 
-	void updateTargetPosition(Body &Object);
-	void Push(Body &object);
-	void Slide(Body &object);
-	void Deflect(Body &object);
+	void updateTargetPosition(Body &body);
+	void Push(Body &body);
+	void Slide(Body &body);
+	void Deflect(Body &body);
 };

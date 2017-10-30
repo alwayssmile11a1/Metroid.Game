@@ -32,6 +32,6 @@ public:
 	//Set the position and the size of the body equal sprite'
 	void FitBody();
 
-	void Next(float dt);
+	void Update(float dt);
 };
 

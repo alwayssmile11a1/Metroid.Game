@@ -2,6 +2,7 @@
 #include"stdafx.h"
 #include"Body.h"
 #include"SpriteBatch.h"
+#include"Collision.h"
 // add body to this class and physic things will be handled
 class World
 {

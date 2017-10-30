@@ -55,28 +55,19 @@ void MetroidGame::UpdateGame(float dt)
 {
 	Collision collision;
 
-	// Create gravity to make the character falls
-	//characterSprite.SetYVelocity(-0.2);
-
 	if (input.GetKey(DIK_RIGHT))
 	{
-		object1.SetVelocity(0.2f, 0);
+		object1.GetBody().ApplyLinearForce(0.2f, 0);
 		object1.SetRegion(ani.Next(dt, true));
-		if (!collision.checkCollision(object1.GetBody(), object2.GetBody(), dt, 0) && !collision.checkCollision(object1.GetBody(), object3.GetBody(), dt, 0))
-		{
-			object1.Next(dt);
-		}		
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		object1.SetVelocity(-0.2f, 0);
+		object1.GetBody().ApplyLinearForce(-0.2f, 0);
 		object1.SetRegion(ani.Next(dt, false));
-		if (!collision.checkCollision(object1.GetBody(), object2.GetBody(), dt, 0) && !collision.checkCollision(object1.GetBody(), object3.GetBody(), dt, 0))
-		{
-			object1.Next(dt);
-		}
 	}
+
+	object1.Update(dt);
 
 
 	if (object1.GetPosition().x > cam.GetPosition().x)
@@ -104,6 +95,8 @@ void MetroidGame::UpdateGame(float dt)
 		ShutDownApplication();
 	}
 
+	//Update world
+	world.Update(dt);
 
 	//start drawing
 	batch.Begin();

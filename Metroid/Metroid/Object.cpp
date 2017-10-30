@@ -73,9 +73,8 @@ float Object::GetMass()
 	return _Body.GetMass();
 }
 
-void Object::Next(float dt)
+void Object::Update(float dt)
 {
-	_Body.Next(dt);
 	SetPosition(_Body.GetPosition().x, _Body.GetPosition().y);
 }
 

@@ -71,16 +71,36 @@ std::vector<Body*> World::GetBodysList() const
 	return _Bodies;
 }
 
-//All set functions
 void World::SetGravity(float gravity)
 {
 	_Gravity = gravity;
 }
 
-//Update world (update all the objects in this world)
 void World::Update(float dt)
 {
-	//???????????????????
+	//Check collision
+	Collision collision;
+
+	for (std::vector<Body*>::iterator boby1 = _Bodies.begin(); boby1 != _Bodies.end(); ++boby1)
+	{
+		bool doNextAction = true;
+
+		for (std::vector<Body*>::iterator boby2 = _Bodies.begin(); boby2 != _Bodies.end(); ++boby2)
+		{
+			if (collision.checkCollision(**boby1, **boby2, dt, 0))
+			{
+				doNextAction = false;
+			}
+		}
+
+		if (doNextAction)
+		{
+			(*boby1)->Next(dt);
+		}
+
+	}
+
+
 }
 void World::AddBody(Body *body)
 {
