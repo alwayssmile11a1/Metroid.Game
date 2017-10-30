@@ -1,21 +1,22 @@
 ﻿#pragma once
 #include"stdafx.h"
-#include"Object.h"
-// check 
+#include"Body.h"
+// add body to this class and physic things will be handled
 class World
 {
 private:
-	Vector2 _Bounds; //the width and height of this game world
-	DWORD _DeltaTime; //delta time (time between two frames)
 	
-	//list of all objects. Using pointer like this may be better, I think. 
+	float _Gravity;  
+
+	//list of all bodies. Using pointer like this may be better, I think. 
 	//Note that we do not allocate new memory to this list, just hold the references to our objects
-	std::vector<Object*> _Objects;
+	std::vector<Body*> _Bodies;
+	
 	
 public:
 	//Constructor and destructor
 	World();
-	World(int width, int height, DWORD dt);
+	World(float gravity);
 	~World();
 
 	//copy constructor - this is really important 
@@ -29,17 +30,15 @@ public:
 
 
 	//All get functions
-	Vector2 GetBounds();
-	std::vector<Object*> GetObjectsList() const;
+	std::vector<Body*> GetBodysList() const;
 	
 	//All set functions
-	void SetBounds(const Vector2 &value);
-	void SetDeltaTime(DWORD dt);
+	void SetGravity(float gravity);
 
 	//Update world (update all the objects in this world)
-	void Update(DWORD dt);
-	void AddObject(Object *object);
-	void RemoveObject(Object* object);
-	void RemoveObject(int index);
+	void Update(float dt);
+	void AddBody(Body *body);
+	void RemoveBody(Body* body);
+	void RemoveBody(int index);
 
 };

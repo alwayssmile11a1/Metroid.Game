@@ -8,7 +8,7 @@ class Animation
 {
 private:
 	std::vector<TextureRegion*> _Regions;
-	int _Index;				// Current sprite index
+	int _Index;				// Current texture index
 	int _Count;				// Number of sprites
 	float _FrameInterval;	//the duration of a frame
 	float _StateTime;		//current time in one frame

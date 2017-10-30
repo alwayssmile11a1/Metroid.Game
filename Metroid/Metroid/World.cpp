@@ -2,36 +2,34 @@
 
 World::World()
 {
-	_Bounds = Vector2(0, 0);
-	_DeltaTime = 0;
-	_Objects.clear();
+	_Gravity = 9.8f;
+	_Bodies.clear();
 }
 
-World::World(int width, int height, DWORD dt)
+World::World(float gravity)
 {
-	_Bounds = Vector2(width, height);
-	_DeltaTime = dt;
+	_Gravity = gravity;
+	_Bodies.clear();
 }
 
 World::~World()
 {
-	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end(); ++obj)
-	{
-		//just for sure
-		if (*obj != NULL )
-		{
-			(*obj)->~Object();
-			(*obj) = NULL;
-			//delete *obj;
-		}
-	}
+	//for (std::vector<Body*>::iterator obj = _Bodies.begin(); obj != _Bodies.end(); ++obj)
+	//{
+	//	//just for sure
+	//	if (*obj != NULL )
+	//	{
+	//		(*obj)->~Body();
+	//		(*obj) = NULL;
+	//		//delete *obj;
+	//	}
+	//}
 }
 
 World::World(const World &world)
 {
-	this->_Bounds = world._Bounds;
-	this->_DeltaTime = world._DeltaTime;
-	this->_Objects = world._Objects;
+	this->_Gravity = world._Gravity;
+	this->_Bodies = world._Bodies;
 	/*std::vector<Object*> vectorCopy = world.GetObjectsList();
 	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
 	{
@@ -43,9 +41,8 @@ World::World(const World &world)
 
 World& World::operator=(const World &world)
 {
-	this->_Bounds = world._Bounds;
-	this->_DeltaTime = world._DeltaTime;
-	this->_Objects = world._Objects;
+	this->_Gravity = world._Gravity;
+	this->_Bodies = world._Bodies;
 	//std::vector<Object*> vectorCopy = world.GetObjectsList();
 	//for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
 	//{
@@ -56,52 +53,38 @@ World& World::operator=(const World &world)
 	return *this;
 }
 
-//All get functions
-Vector2 World::GetBounds()
-{	
-	return _Bounds;
-}
-
-std::vector<Object*> World::GetObjectsList() const
+std::vector<Body*> World::GetBodysList() const
 {
-	return _Objects;
+	return _Bodies;
 }
 
 //All set functions
-void World::SetBounds(const Vector2 &value)
+void World::SetGravity(float gravity)
 {
-	_Bounds = value;
-}
-
-void World::SetDeltaTime(DWORD dt)
-{
-	this->_DeltaTime = dt;
+	_Gravity = gravity;
 }
 
 //Update world (update all the objects in this world)
-void World::Update(DWORD dt)
+void World::Update(float dt)
 {
-	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end();++obj)
-	{
-		(*obj)->Update(dt);
-	}
+	//???????????????????
 }
-void World::AddObject(Object *object)
+void World::AddBody(Body *body)
 {
-	_Objects.push_back(object);
+	_Bodies.push_back(body);
 }
-void World::RemoveObject(Object* object)
+void World::RemoveBody(Body* body)
 {
-	for (std::vector<Object*>::iterator obj = _Objects.begin(); obj != _Objects.end(); ++obj)
+	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)
 	{
-		if ((*obj) == object)
+		if ((*bo) == body)
 		{
-			_Objects.erase(obj);
+			_Bodies.erase(bo);
 			break;
 		}
 	}
 }
-void World::RemoveObject(int index)
+void World::RemoveBody(int index)
 {
-	_Objects.erase(_Objects.begin() + index);
+	_Bodies.erase(_Bodies.begin() + index);
 }
