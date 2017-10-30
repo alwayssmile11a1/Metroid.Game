@@ -70,5 +70,5 @@ float Body::GetMass()
 
 void  Body::ApplyLinearForce(float xForce, float yForce)
 {
-	_LinearForce.Set(xForce, yForce);
+	_LinearForce.Set(_LinearForce.x + xForce, _LinearForce.y + yForce);
 }
