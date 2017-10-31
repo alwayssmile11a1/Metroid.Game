@@ -81,13 +81,15 @@ void World::Update(float dt)
 	//Check collision
 	Collision collision;
 
-	for (std::vector<Body*>::iterator boby1 = _Bodies.begin(); boby1 != _Bodies.end(); ++boby1)
+	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 	{
 		bool doNextAction = true;
 
-		for (std::vector<Body*>::iterator boby2 = _Bodies.begin(); boby2 != _Bodies.end(); ++boby2)
+		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
-			if (collision.checkCollision(**boby1, **boby2, dt, 0))
+			if ((*body1) == (*body2)) continue;
+
+			if (collision.checkCollision(**body1, **body2, dt, 0))
 			{
 				doNextAction = false;
 			}
@@ -95,9 +97,9 @@ void World::Update(float dt)
 
 		if (doNextAction)
 		{
-			(*boby1)->Next(dt);
+			(*body1)->Next(dt);
 		}
-
+		
 	}
 
 

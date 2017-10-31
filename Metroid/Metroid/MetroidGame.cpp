@@ -24,8 +24,9 @@ void MetroidGame::CreateGame()
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 	object1 = Object(&characterTexture, 16*9, 16*5, 244, 36, 17, 33);
-	object2 = Object(&characterTexture, 16*15, 16*5, 244, 36, 17, 33);
+	object2 = Object(&characterTexture, 16*30, 16*5, 244, 36, 17, 33);
 	object3 = Object(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33);
+
 
 	object1.SetSize(34, 66);
 	object2.SetSize(34, 66);
@@ -35,6 +36,8 @@ void MetroidGame::CreateGame()
 	object2.FitBody();
 	object3.FitBody();
 
+	//
+	object2.SetVelocity(-0.05, 0);
 
 	//setup animation
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
@@ -55,15 +58,16 @@ void MetroidGame::UpdateGame(float dt)
 {
 	Collision collision;
 
+
 	if (input.GetKey(DIK_RIGHT))
 	{
-		object1.GetBody().ApplyLinearImpulse(0.2f, 0);
+		object1.GetBody().ApplyLinearImpulse(0.2, 0);
 		object1.SetRegion(ani.Next(dt, true));
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		object1.GetBody().ApplyLinearImpulse(-0.2f, 0);
+		object1.GetBody().ApplyLinearImpulse(-0.2, 0);
 		object1.SetRegion(ani.Next(dt, false));
 	}
 
