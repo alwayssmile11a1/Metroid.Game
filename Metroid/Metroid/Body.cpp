@@ -6,7 +6,8 @@ Body::Body()
 	_Velocity.Set(0, 0);
 	_Position.Set(0, 0);
 	_Mass = 1;
-	_LinearForce.Set(0, 0);
+	_LinearImpulse.Set(0, 0);
+	_TotalVelocity.Set(0, 0);
 }
 Body::Body(float x, float y, float width, float height, float vx, float vy)
 {
@@ -14,7 +15,8 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_Velocity.Set(vx, vy);
 	_Position.Set(x, y);
 	_Mass = 1;
-	_LinearForce.Set(0, 0);
+	_LinearImpulse.Set(0, 0);
+	_TotalVelocity.Set(0, 0);
 }
 Body::~Body()
 {
@@ -49,13 +51,51 @@ Vector2 Body::GetPosition()
 
 void Body::Next(float dt)
 {
-	_Position.Set(_Position.x + _Velocity.x*dt + _LinearForce.x*dt, _Position.y + _Velocity.y*dt + _LinearForce.y*dt);
-	_LinearForce.Set(0, 0);
+	//Set body to the next position
+	_Position.Set(_Position.x + GetTotalVelocity(dt).x*dt, _Position.y + GetTotalVelocity(dt).y*dt);
+
+
+	////calculate remaining impulse
+	//if (_LinearImpulse.x != 0)
+	//{
+	//	float remainingXImpulse = _LinearImpulse.x - abs(_LinearImpulse.x) / _LinearImpulse.x * dt / 1000;
+
+	//	if (remainingXImpulse*_LinearImpulse.x <= 0)
+	//	{
+	//		_LinearImpulse.Set(0, _LinearImpulse.y);
+	//	}
+	//	else
+	//	{
+	//		_LinearImpulse.Set(remainingXImpulse, _LinearImpulse.y);
+	//	}
+	//}
+
+	//if (_LinearImpulse.y != 0)
+	//{
+	//	float remainingYImpulse = _LinearImpulse.y - abs(_LinearImpulse.y) / _LinearImpulse.y * dt / 1000;
+
+	//	if (remainingYImpulse*_LinearImpulse.y <= 0)
+	//	{
+	//		_LinearImpulse.Set(_LinearImpulse.x, 0);
+	//	}
+	//	else
+	//	{
+	//		_LinearImpulse.Set(_LinearImpulse.x, remainingYImpulse);
+	//	}
+	//}
+
+	_LinearImpulse.Set(0, 0);
 }
 
-Vector2 Body::GetTotalVelocity()
+Vector2 Body::GetTotalVelocity(float dt)
 {
-	return Vector2(_Velocity.x + _LinearForce.x, _Velocity.y + _LinearForce.y);
+	//get the impulse velocity
+	float vxImpulse = _LinearImpulse.x / _Mass;
+	float vyImpulse = _LinearImpulse.y / _Mass;
+
+	_TotalVelocity.Set(_Velocity.x + vxImpulse, _Velocity.y + vyImpulse);
+
+	return _TotalVelocity;
 }
 
 void Body::SetMass(float mass)
@@ -68,7 +108,8 @@ float Body::GetMass()
 	return _Mass;
 }
 
-void  Body::ApplyLinearForce(float xForce, float yForce)
+void  Body::ApplyLinearImpulse(float xImpulse, float yImpulse)
 {
-	_LinearForce.Set(_LinearForce.x + xForce, _LinearForce.y + yForce);
+	//_LinearImpulse.Set(_LinearImpulse.x + xImpulse, _LinearImpulse.y + yImpulse);
+	_LinearImpulse.Set(xImpulse, yImpulse);
 }

@@ -57,13 +57,13 @@ void MetroidGame::UpdateGame(float dt)
 
 	if (input.GetKey(DIK_RIGHT))
 	{
-		object1.GetBody().ApplyLinearForce(0.2f, 0);
+		object1.GetBody().ApplyLinearImpulse(0.2f, 0);
 		object1.SetRegion(ani.Next(dt, true));
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		object1.GetBody().ApplyLinearForce(-0.2f, 0);
+		object1.GetBody().ApplyLinearImpulse(-0.2f, 0);
 		object1.SetRegion(ani.Next(dt, false));
 	}
 

@@ -14,8 +14,8 @@ Collision::~Collision()
 void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 {
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetBody.GetTotalVelocity().x - otherBody.GetTotalVelocity().x;
-	tempvy = targetBody.GetTotalVelocity().y - otherBody.GetTotalVelocity().y;
+	tempvx = targetBody.GetTotalVelocity(DeltaTime).x - otherBody.GetTotalVelocity(DeltaTime).x;
+	tempvy = targetBody.GetTotalVelocity(DeltaTime).y - otherBody.GetTotalVelocity(DeltaTime).y;
 	if (tempvx > 0.0f)
 	{
 		dxentry = (otherBody.GetPosition().x - otherBody.GetSize().x / 2) - (targetBody.GetPosition().x + targetBody.GetSize().x / 2);
@@ -66,7 +66,7 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	//}
 
 	//tính toán t x entry/ exit
-	if (targetBody.GetTotalVelocity().x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
+	if (targetBody.GetTotalVelocity(DeltaTime).x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
 	{
 		txentry = -std::numeric_limits<float>::infinity();
 		txexit = std::numeric_limits<float>::infinity();
@@ -78,15 +78,15 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
-	if (targetBody.GetTotalVelocity().y == 0.0f)
+	if (targetBody.GetTotalVelocity(DeltaTime).y == 0.0f)
 	{
 		tyentry = -std::numeric_limits<float>::infinity();
 		tyexit = std::numeric_limits<float>::infinity();
 	}
 	else
 	{
-		tyentry = dyentry / (targetBody.GetTotalVelocity().y * DeltaTime);
-		tyexit = dyexit / (targetBody.GetTotalVelocity().y * DeltaTime);
+		tyentry = dyentry / (targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
+		tyexit = dyexit / (targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
@@ -113,12 +113,12 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		{
 			if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
-				_CollisionDirection.x = -abs(targetBody.GetTotalVelocity().x);
+				_CollisionDirection.x = -abs(targetBody.GetTotalVelocity(DeltaTime).x);
 				_CollisionDirection.y = 0.0f;
 			}
 			else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 			{
-				_CollisionDirection.x = abs(targetBody.GetTotalVelocity().x);
+				_CollisionDirection.x = abs(targetBody.GetTotalVelocity(DeltaTime).x);
 				_CollisionDirection.y = 0.0f;
 			}
 		}
@@ -127,12 +127,12 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 			if (dyentry < 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 			{
 				_CollisionDirection.x = 0.0f;
-				_CollisionDirection.y = -abs(targetBody.GetTotalVelocity().y);
+				_CollisionDirection.y = -abs(targetBody.GetTotalVelocity(DeltaTime).y);
 			}
 			else//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
 			{
 				_CollisionDirection.x = 0.0f;
-				_CollisionDirection.y = abs(targetBody.GetTotalVelocity().y);
+				_CollisionDirection.y = abs(targetBody.GetTotalVelocity(DeltaTime).y);
 			}
 		}
 
@@ -148,7 +148,7 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 RECT Collision::getSweptBroadphaseRect(Body &body, float DeltaTime)
 {
 	// vận tốc mỗi frame
-	Vector2 velocity = Vector2(body.GetTotalVelocity().x * DeltaTime / 1000, body.GetTotalVelocity().y * DeltaTime / 1000);
+	Vector2 velocity = Vector2(body.GetTotalVelocity(DeltaTime).x * DeltaTime, body.GetTotalVelocity(DeltaTime).y * DeltaTime);
 
 	RECT rect;
 	rect.top = velocity.y > 0 ? (body.GetPosition().y - body.GetSize().y / 2) + velocity.y : body.GetPosition().y - body.GetSize().y / 2;
@@ -212,7 +212,7 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectSprite, float 
 	{
 		if (_CollisionDirection != Vector2(0, 0))
 		{
-			if (_CollisionDirection.x == targetBody.GetTotalVelocity().x * -1 || _CollisionDirection.y == targetBody.GetTotalVelocity().y * -1)
+			if (_CollisionDirection.x == targetBody.GetTotalVelocity(DeltaTime).x * -1 || _CollisionDirection.y == targetBody.GetTotalVelocity(DeltaTime).y * -1)
 			{
 				// cập nhật tọa độ
 				updateTargetPosition(targetBody);
@@ -268,8 +268,8 @@ void Collision::updateTargetPosition(Body &Object)
 
 void Collision::Push(Body &object)
 {
-	float magnitude = (sqrt(object.GetTotalVelocity().x * object.GetTotalVelocity().x + object.GetTotalVelocity().y * object.GetTotalVelocity().y)) * _RemainingTime;
-	//float dotprod = object.GetTotalVelocity().X * _CollisionDirection.X + object.GetTotalVelocity().Y * _CollisionDirection.Y;
+	//float magnitude = (sqrt(object.GetTotalVelocity(DeltaTime).x * object.GetTotalVelocity(DeltaTime).x + object.GetTotalVelocity(DeltaTime).y * object.GetTotalVelocity(DeltaTime).y)) * _RemainingTime;
+	//float dotprod = object.GetTotalVelocity(DeltaTime)().X * _CollisionDirection.X + object.GetTotalVelocity(DeltaTime)().Y * _CollisionDirection.Y;
 	/*if (dotprod > 0.0f)
 	dotprod = 1.0f;
 	else if (dotprod < 0.0f)
@@ -280,14 +280,14 @@ void Collision::Push(Body &object)
 
 void Collision::Slide(Body &object)
 {
-	/*float dotprod = (object.GetTotalVelocity().X * _CollisionDirection.X + object.GetTotalVelocity().Y * _CollisionDirection.Y) * _RemainingTime;
+	/*float dotprod = (object.GetTotalVelocity(DeltaTime)().X * _CollisionDirection.X + object.GetTotalVelocity(DeltaTime)().Y * _CollisionDirection.Y) * _RemainingTime;
 	Vector2 NewObjectVelocity = Vector2(dotprod * _CollisionDirection.Y, dotprod * _CollisionDirection.X);*/
 	/*object.SetVelocity(NewObjectVelocity);*/
 }
 
 void Collision::Deflect(Body &object)
 {
-	/*Vector2 RemainingVelocity = Vector2(object.GetTotalVelocity().X * _RemainingTime, object.GetTotalVelocity().Y * _RemainingTime);
+	/*Vector2 RemainingVelocity = Vector2(object.GetTotalVelocity(DeltaTime)().X * _RemainingTime, object.GetTotalVelocity(DeltaTime)().Y * _RemainingTime);
 	if (abs(_CollisionDirection.X) > 0.0001f)
 	{
 	RemainingVelocity.X = -RemainingVelocity.X;

@@ -9,7 +9,8 @@ private:
 	Vector2 _Position;
 	Vector2 _Size;
 	Vector2 _Velocity;
-	Vector2 _LinearForce;
+	Vector2 _LinearImpulse;
+	Vector2 _TotalVelocity;
 
 	float _Mass; //the mass of body
 	
@@ -23,12 +24,12 @@ public:
 	void SetSize(float width, float height);
 	void SetPosition(float x, float y);
 	void SetMass(float mass);
-	void ApplyLinearForce(float xForce, float yForce);
+	void ApplyLinearImpulse(float xImpulse, float yImpulse);
 
 	Vector2 GetVelocity();
 	Vector2 GetSize();
 	Vector2 GetPosition();
-	Vector2 GetTotalVelocity();
+	Vector2 GetTotalVelocity(float dt);
 	float GetMass();
 
 	//Go to the next position
