@@ -23,9 +23,9 @@ void MetroidGame::CreateGame()
 
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
-	object1 = Object(&characterTexture, 16*9, 16*5, 244, 36, 17, 33);
-	object2 = Object(&characterTexture, 16*13, 16*5, 244, 36, 17, 33);
-	object3 = Object(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33);
+	object1 = Object(&characterTexture, 16 * 10, 16 * 5, 244, 36, 17, 33);
+	object2 = Object(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33);
+	object3 = Object(&characterTexture, 16 * 15, 16 * 5, 244, 36, 17, 33);
 
 
 	object1.SetSize(34, 66);
@@ -36,8 +36,7 @@ void MetroidGame::CreateGame()
 	object2.FitBody();
 	object3.FitBody();
 
-	//
-	/*object1.SetVelocity(-0.05, 0);*/
+	object2.SetVelocity(0.05, 0);
 
 	//setup animation
 	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");

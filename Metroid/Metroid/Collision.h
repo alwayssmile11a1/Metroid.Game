@@ -45,7 +45,7 @@ public:
 
 	bool checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);
 
-	void updateTargetPosition(Body &body);
+	void updateTargetPosition(Body &body, Vector2 move);
 	void Push(Body &body);
 	void Slide(Body &body);
 	void Deflect(Body &body);
