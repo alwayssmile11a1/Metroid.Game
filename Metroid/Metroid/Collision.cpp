@@ -213,24 +213,24 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float De
 			}
 		}
 	}
-	else
-	{
-		float moveX, moveY;
-		if (isColliding(targetBody, otherObjectBody, moveX, moveY, DeltaTime))
-		{
-			// cập nhật tọa độ
-			switch (collisionAction)
-			{
-			case 0:
-				updateTargetPosition(targetBody, Vector2(moveX, moveY));
-				break;
-			default:
-				break;
-			}
+	//else
+	//{
+	//	float moveX, moveY;
+	//	if (isColliding(targetBody, otherObjectBody, moveX, moveY, DeltaTime))
+	//	{
+	//		// cập nhật tọa độ
+	//		switch (collisionAction)
+	//		{
+	//		case 0:
+	//			updateTargetPosition(targetBody, Vector2(moveX, moveY));
+	//			break;
+	//		default:
+	//			break;
+	//		}
 
-			return true;
-		}
-	}
+	//		return true;
+	//	}
+	//}
 	return false;
 }
 
