@@ -30,13 +30,13 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	//tính toán dy entry và exit, tương tự với dx entry/ exit
 	if (tempvy > 0.0f)
 	{
-		dyentry = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
-		dyexit = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
+		dyentry = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
+		dyexit = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
 	}
 	else
 	{
-		dyentry = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
-		dyexit = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
+		dyentry = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
+		dyexit = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
 	}
 
 	////tính toán tỉ lệ giữa delta d và d entry/exit
@@ -113,12 +113,12 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		{
 			if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
-				_CollisionDirection.x = -abs(targetBody.GetTotalVelocity(DeltaTime).x);
+				_CollisionDirection.x = abs(targetBody.GetTotalVelocity(DeltaTime).x);
 				_CollisionDirection.y = 0.0f;
 			}
 			else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 			{
-				_CollisionDirection.x = abs(targetBody.GetTotalVelocity(DeltaTime).x);
+				_CollisionDirection.x = -abs(targetBody.GetTotalVelocity(DeltaTime).x);
 				_CollisionDirection.y = 0.0f;
 			}
 		}
@@ -212,11 +212,18 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectSprite, float 
 	{
 		if (_CollisionDirection != Vector2(0, 0))
 		{
-			if (_CollisionDirection.x == targetBody.GetTotalVelocity(DeltaTime).x * -1 || _CollisionDirection.y == targetBody.GetTotalVelocity(DeltaTime).y * -1)
+			if (_CollisionDirection.x == targetBody.GetTotalVelocity(DeltaTime).x * -1)
 			{
 				// cập nhật tọa độ
 				updateTargetPosition(targetBody);
 				return true;
+			}
+			else
+			{
+				if (_CollisionDirection.y == targetBody.GetTotalVelocity(DeltaTime).y * -1) 
+				{
+					updateTargetPosition(targetBody);
+				}
 			}
 		}
 
