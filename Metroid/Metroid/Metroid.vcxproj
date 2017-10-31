@@ -142,6 +142,7 @@
     <ClCompile Include="TextureRegion.cpp" />
     <ClCompile Include="TMXLoader.cpp" />
     <ClCompile Include="TMXMap.cpp" />
+    <ClCompile Include="TMXObjectGroup.cpp" />
     <ClCompile Include="TMXTileLayer.cpp" />
     <ClCompile Include="TMXTileSet.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="TextureRegion.h" />
     <ClInclude Include="TMXLoader.h" />
     <ClInclude Include="TMXMap.h" />
+    <ClInclude Include="TMXObjectGroup.h" />
     <ClInclude Include="TMXTileLayer.h" />
     <ClInclude Include="TMXTileSet.h" />
     <ClInclude Include="Utility.h" />

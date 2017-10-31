@@ -74,12 +74,12 @@ TextureRegion& TextureRegion::operator=(const TextureRegion &textureRegion)
 }
 
 //all get functions
-Vector2 TextureRegion::GetRectSize() const
+const Vector2& TextureRegion::GetRectSize() const
 {
 	return _RectSize;
 }
 
-Vector2 TextureRegion::GetRectPosition() const
+const Vector2& TextureRegion::GetRectPosition() const
 {
 	return _RectPosition;
 }
@@ -112,7 +112,7 @@ void TextureRegion::Flip(bool flipX, bool flipY)
 	if (flipY) _ScaleFactor.y *= -1;
 }
 
-Vector2 TextureRegion::GetScale() const
+const Vector2& TextureRegion::GetScale() const
 {
 	return _ScaleFactor;
 }

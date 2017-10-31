@@ -23,19 +23,19 @@ public:
 	TMXTileSet(const TMXTileSet &tmxTileSet);
 	TMXTileSet& operator=(const TMXTileSet &tmxTileSet);
 
-	void SetAttributes(std::string name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight , 
-		unsigned int tileCount, unsigned int columns, std::string sourcePath, unsigned int imageWidth, unsigned int imageHeight);
+	void SetAttributes(const std::string& name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight , 
+		unsigned int tileCount, unsigned int columns, const std::string& sourcePath, unsigned int imageWidth, unsigned int imageHeight);
 
-	std::string GetName();
-	std::string GetSourcePath();
-	unsigned int GetColumns();
-	unsigned int GetFirstGid();
-	unsigned int GetImageWidth();
-	unsigned int GetImageHeight();
-	unsigned int GetTileWidth();
-	unsigned int GetTileHeight();
-	unsigned int GetTileCount();
+	const std::string& GetName() const;
+	const std::string& GetSourcePath() const;
+	unsigned int GetColumns() const;
+	unsigned int GetFirstGid() const;
+	unsigned int GetImageWidth() const;
+	unsigned int GetImageHeight() const;
+	unsigned int GetTileWidth() const;
+	unsigned int GetTileHeight() const;
+	unsigned int GetTileCount() const;
 	
-	Texture	*GetTexture();
+	Texture	*GetTexture() const;
 
 };

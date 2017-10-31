@@ -139,7 +139,7 @@ void Texture::SetTranscolor(D3DCOLOR transcolor)
 	_Transcolor = transcolor;
 }
 
-Vector2 Texture::GetImageSize() const
+const Vector2& Texture::GetImageSize() const
 {
 	return _ImageSize;
 }

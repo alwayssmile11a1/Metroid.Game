@@ -32,7 +32,7 @@ public:
 	//all get functions
 	D3DCOLOR GetTranscolor() const;
 	LPDIRECT3DTEXTURE9 GetImage() const;
-	Vector2 GetImageSize() const;
+	const Vector2& GetImageSize() const;
 
 	//all set functions
 	void SetTranscolor(D3DCOLOR transcolor);

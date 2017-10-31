@@ -26,11 +26,11 @@ public:
 	void SetMass(float mass);
 	void ApplyLinearImpulse(float xImpulse, float yImpulse);
 
-	Vector2 GetVelocity();
-	Vector2 GetSize();
-	Vector2 GetPosition();
-	Vector2 GetTotalVelocity(float dt);
-	float GetMass();
+	const Vector2& GetVelocity() const;
+	const Vector2& GetSize() const;
+	const Vector2& GetPosition() const;
+	const Vector2& GetTotalVelocity(float dt);
+	float GetMass() const;
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 

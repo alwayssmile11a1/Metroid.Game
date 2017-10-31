@@ -22,7 +22,7 @@ public:
 	Animation& operator=(const Animation &ani);
 	
 
-	TextureRegion* GetKeyAnimation();
+	TextureRegion* GetKeyAnimation() const;
 
 	//Go to next animation frame
 	//If isSameDirection = 0, the animation will be rendered as the opposite direction  

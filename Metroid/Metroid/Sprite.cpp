@@ -71,7 +71,7 @@ Sprite& Sprite::operator=(const Sprite &sprite)
 }
 
 //all get functions
-Vector2 Sprite::GetRotationOrigin() const
+const Vector2& Sprite::GetRotationOrigin() const
 {
 	return _RotationOrigin;
 }
@@ -79,7 +79,7 @@ float Sprite::GetRotation() const
 {
 	return _Rotation;
 }
-Vector2 Sprite::GetScale() const
+const Vector2& Sprite::GetScale() const
 {
 	return _ScaleFactor;
 }
@@ -89,7 +89,7 @@ Texture*  Sprite::GetTexture() const
 	return _Texture;
 }
 
-Vector2 Sprite::GetSize() const
+const Vector2& Sprite::GetSize() const
 {
 	return _Size;
 }
@@ -114,16 +114,16 @@ void Sprite::SetRegion(TextureRegion *textureRegion)
 	_ScaleFactor.y = abs(_ScaleFactor.y)* textureRegion->GetScale().y;
 }
 
-Vector2 Sprite::GetPosition() const
+const Vector2& Sprite::GetPosition() const
 {
 	return _Position;
 }
 
-Vector2 Sprite::GetRectSize() const
+const Vector2& Sprite::GetRectSize() const
 {
 	return _RectSize;
 }
-Vector2 Sprite::GetRectPosition() const
+const Vector2& Sprite::GetRectPosition() const
 {
 	return _RectPosition;
 }

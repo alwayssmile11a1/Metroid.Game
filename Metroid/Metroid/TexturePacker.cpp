@@ -18,7 +18,7 @@ TexturePacker::TexturePacker(Texture* texture, std::string packerfilePath)
 
 }
 
-std::vector<TextureRegion> TexturePacker::GetRegion(std::string regionName)
+std::vector<TextureRegion> TexturePacker::GetRegion(std::string regionName) const
 {
 	std::vector<TextureRegion> regions;
 	

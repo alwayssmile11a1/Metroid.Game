@@ -15,7 +15,7 @@ TMXLoader::~TMXLoader()
 }
 
 
-void TMXLoader::AddMap(std::string mapName, std::string filePath)
+void TMXLoader::AddMap(const std::string& mapName, const std::string& filePath)
 {
 	// String to hold file contents
 	std::string fileContents = "";
@@ -37,18 +37,22 @@ void TMXLoader::AddMap(std::string mapName, std::string filePath)
 
 		// Load the map settings, tilesets and layers
 		LoadMapSettings(_MapContainer[mapName], parentNode);
+
 		//get folder path
 		std::size_t found = filePath.find_last_of("/");
 		LoadTileSets(_MapContainer[mapName], parentNode, filePath.substr(0, found));
+
 		LoadLayers(_MapContainer[mapName], parentNode);
+
+		LoadObjectGroups(_MapContainer[mapName], parentNode);
 	}
 }
 
 
-TMXMap* TMXLoader::GetMap(std::string mapName)
+TMXMap* TMXLoader::GetMap(const std::string& mapName) const
 {
 	// Attempt to find and return a map using provided name, else return nullptr
-	std::unordered_map<std::string, TMXMap*>::iterator it = _MapContainer.find(mapName);
+	std::unordered_map<std::string, TMXMap*>::const_iterator it = _MapContainer.find(mapName);
 
 	if (it == _MapContainer.end())
 	{
@@ -73,7 +77,7 @@ void TMXLoader::LoadMapSettings(TMXMap* map, rapidxml::xml_node<> *parentNode)
 }
 
 
-void TMXLoader::LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, std::string folderPath)
+void TMXLoader::LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, const std::string& folderPath)
 {
 	// Create a new node based on the parent node
 	rapidxml::xml_node<> *currentNode = parentNode;
@@ -142,5 +146,48 @@ void TMXLoader::LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode)
 
 		// Move to the next layer
 		currentNode = currentNode->parent()->next_sibling("layer");
+	}
+}
+
+void TMXLoader::LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode)
+{
+	// Create a new node based on the parent node
+	rapidxml::xml_node<> *currentNode = parentNode;
+
+	// Move to first layer node
+	currentNode = currentNode->first_node("objectgroup");
+
+	while (currentNode != nullptr)
+	{
+		TMXObjectGroup objectGroup;
+
+		//get objectGroup attributes
+		std::string objectGroupName = currentNode->first_attribute("name")->value();
+		
+		//set layer attributes
+		objectGroup.SetAttributes(objectGroupName);
+
+		//get object node
+		rapidxml::xml_node<> *childNode = currentNode->first_node("object");
+		while (childNode != nullptr)
+		{
+			float x = atoi(childNode->first_attribute("x")->value());
+			float y = atoi(childNode->first_attribute("y")->value());
+			float width = atoi(childNode->first_attribute("width")->value());
+			float height = atoi(childNode->first_attribute("height")->value());
+
+			Body body(x + width/2, map->GetHeight()*map->GetTileHeight() - y - height/2, width, height, 0, 0);
+
+			objectGroup.AddBody(body);
+
+			//next
+			childNode = childNode->next_sibling("object");
+		}
+
+		//Add layer to map
+		map->AddObjectGroup(objectGroupName, objectGroup);
+
+		// Move to the next objectGroup
+		currentNode = currentNode->next_sibling("objectgroup");
 	}
 }

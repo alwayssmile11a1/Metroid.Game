@@ -10,6 +10,7 @@ TMXMap::TMXMap()
 
 	_TileSet = NULL;
 	_Layers.clear();
+	_ObjectGroups.clear();
 	_Cam = NULL;
 }
 
@@ -23,6 +24,11 @@ TMXMap::~TMXMap()
 	if (_TileSet != NULL)
 	{
 		delete _TileSet;
+	}
+
+	for (std::unordered_map<std::string, TMXObjectGroup*>::iterator it = _ObjectGroups.begin(); it != _ObjectGroups.end(); it++)
+	{
+		delete it->second;
 	}
 
 }
@@ -53,36 +59,59 @@ void TMXMap::AddLayer(const TMXTileLayer &layer)
 	_Layers.push_back(tmxlayer);
 }
 
+void TMXMap::AddObjectGroup(const std::string &groupName, const TMXObjectGroup &objectGroup)
+{
+	TMXObjectGroup* group = new TMXObjectGroup;
+	*group = objectGroup;
+	_ObjectGroups[groupName] = group;
+}
 
-TMXTileSet* TMXMap::GetTileSet()
+TMXObjectGroup* TMXMap::GetObjectGroup(const std::string &groupName) const
+{
+	// Attempt to find and return a map using provided name, else return nullptr
+	std::unordered_map<std::string, TMXObjectGroup*>::const_iterator it = _ObjectGroups.find(groupName);
+
+	if (it == _ObjectGroups.end())
+	{
+		return NULL;
+	}
+	else
+	{
+		//first means key, which is mapName
+		//second means value, which is TMXMap
+		return it->second;
+	}
+}
+
+TMXTileSet* TMXMap::GetTileSet() const
 {
 	return _TileSet;
 }
 
-unsigned int TMXMap::GetWidth()
+unsigned int TMXMap::GetWidth() const
 {
 	return _Width;
 }
 
 
-unsigned int TMXMap::GetHeight()
+unsigned int TMXMap::GetHeight() const
 {
 	return _Height;
 }
 
 
-unsigned int TMXMap::GetTileWidth()
+unsigned int TMXMap::GetTileWidth() const
 {
 	return _TileWidth;
 }
 
 
-unsigned int TMXMap::GetTileHeight()
+unsigned int TMXMap::GetTileHeight() const
 {
 	return _TileHeight;
 }
 
-vector<TMXTileLayer*> TMXMap::GetLayers()
+const vector<TMXTileLayer*>& TMXMap::GetLayers() const
 {
 	return _Layers;
 }

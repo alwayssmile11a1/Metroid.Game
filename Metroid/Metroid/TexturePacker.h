@@ -17,7 +17,7 @@ public:
 	TexturePacker(Texture* texture, std::string packerfilePath);
 	~TexturePacker();
 
-	std::vector<TextureRegion> GetRegion(std::string regionName);
+	std::vector<TextureRegion> GetRegion(std::string regionName) const;
 	void SetTexture(Texture *texture);
 	void SetPacker(std::string packerfilePath);
 

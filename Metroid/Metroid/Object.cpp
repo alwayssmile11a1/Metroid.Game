@@ -34,7 +34,7 @@ Object::~Object()
 //	return *this;
 //}
 
-Body& Object::GetBody()
+Body& Object::GetBody() 
 {
 	return _Body;
 }
@@ -57,7 +57,7 @@ void  Object::SetBodySize(float width, float height)
 	_Body.SetSize(width, height);
 }
 
-Vector2 Object::GetVelocity()
+const Vector2& Object::GetVelocity() const
 {
 	return _Body.GetVelocity();
 }
@@ -68,7 +68,7 @@ void Object::SetMass(float mass)
 }
 
 
-float Object::GetMass()
+float Object::GetMass() const
 {
 	return _Body.GetMass();
 }

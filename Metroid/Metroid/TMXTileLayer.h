@@ -18,13 +18,13 @@ public:
 	TMXTileLayer& operator=(const TMXTileLayer &tmxTileLayer);
 
 
-	void SetAttributes(std::string name, unsigned int width, unsigned int height);
+	void SetAttributes(const std::string& name, unsigned int width, unsigned int height);
 	void SetData(char* matrixCSV);
 
-	std::string GetName();
-	unsigned int GetWidth();
-	unsigned int GetHeight();
-	unsigned int** GetData();
+	const std::string& GetName() const;
+	unsigned int GetWidth() const;
+	unsigned int GetHeight() const;
+	unsigned int** GetData() const;
 
 
 };

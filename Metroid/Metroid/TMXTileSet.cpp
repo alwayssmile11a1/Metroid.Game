@@ -12,8 +12,8 @@ TMXTileSet::TMXTileSet()
 	_Texture = NULL;
 }
 
-void TMXTileSet::SetAttributes(std::string name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight,
-	 unsigned int tileCount, unsigned int columns, std::string sourcePath, unsigned int imageWidth, unsigned int imageHeight)
+void TMXTileSet::SetAttributes(const std::string& name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight,
+	 unsigned int tileCount, unsigned int columns, const std::string& sourcePath, unsigned int imageWidth, unsigned int imageHeight)
 {
 	_FirstGid = firstGid;
 	_Name = name;
@@ -71,58 +71,58 @@ TMXTileSet& TMXTileSet::operator=(const TMXTileSet &tmxTileSet)
 
 }
 
-Texture* TMXTileSet::GetTexture()
+Texture* TMXTileSet::GetTexture() const
 {
 	return _Texture;
 }
 
-std::string TMXTileSet::GetName()
+const std::string& TMXTileSet::GetName() const
 {
 	return _Name;
 }
 
 
-std::string TMXTileSet::GetSourcePath()
+const std::string& TMXTileSet::GetSourcePath() const
 {
 	return _SourcePath;
 }
 
 
-unsigned int TMXTileSet::GetFirstGid()
+unsigned int TMXTileSet::GetFirstGid() const
 {
 	return _FirstGid;
 }
 
-unsigned int TMXTileSet::GetImageWidth()
+unsigned int TMXTileSet::GetImageWidth() const
 {
 	return _ImageWidth;
 }
 
 
-unsigned int TMXTileSet::GetImageHeight()
+unsigned int TMXTileSet::GetImageHeight() const
 {
 	return _ImageHeight;
 }
 
 
-unsigned int TMXTileSet::GetTileWidth()
+unsigned int TMXTileSet::GetTileWidth() const
 {
 	return _TileWidth;
 }
 
 
-unsigned int TMXTileSet::GetTileHeight()
+unsigned int TMXTileSet::GetTileHeight() const
 {
 	return _TileHeight;
 }
 
-
-unsigned int TMXTileSet::GetTileCount()
+ 
+unsigned int TMXTileSet::GetTileCount() const
 {
 	return _TileCount;
 }
 
-unsigned int TMXTileSet::GetColumns()
+unsigned int TMXTileSet::GetColumns() const
 {
 	return _Columns;
 }

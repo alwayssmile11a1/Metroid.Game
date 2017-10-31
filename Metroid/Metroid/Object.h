@@ -25,8 +25,8 @@ public:
 	void SetBodySize(float width, float height);
 	void SetMass(float mass);
 
-	Vector2 GetVelocity();
-	float GetMass();
+	const Vector2& GetVelocity() const;
+	float GetMass() const;
 	Body& GetBody();
 
 	//Set the position and the size of the body equal sprite'

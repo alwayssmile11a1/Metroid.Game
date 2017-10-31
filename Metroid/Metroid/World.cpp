@@ -66,7 +66,7 @@ World& World::operator=(const World &world)
 	return *this;
 }
 
-std::vector<Body*> World::GetBodysList() const
+const std::vector<Body*>& World::GetBodysList() const
 {
 	return _Bodies;
 }
@@ -108,6 +108,12 @@ void World::AddBody(Body *body)
 {
 	_Bodies.push_back(body);
 }
+
+void World::AddBody(const std::vector<Body*> &bodies)
+{
+	_Bodies.insert(_Bodies.end(), bodies.begin(),bodies.end());
+}
+
 void World::RemoveBody(Body* body)
 {
 	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)
@@ -138,6 +144,6 @@ void World::RenderBodiesDebug(SpriteBatch &batch)
 		float width = (*bo)->GetSize().x;
 		float height = (*bo)->GetSize().y;
 
-		batch.Draw(_DebugSquareTexture, x, y, 0, 0, 256, 256, width, height);
+		batch.Draw(_DebugSquareTexture, x, y, 0, 0, _DebugSquareTexture.GetImageSize().x, _DebugSquareTexture.GetImageSize().y, width, height);
 	}
 }

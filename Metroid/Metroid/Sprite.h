@@ -36,14 +36,14 @@ public:
 	Sprite& operator=(const Sprite &texture);
 
 	//all get functions
-	Vector2 GetRotationOrigin() const;
-	Vector2 GetPosition() const;
-	Vector2 GetSize() const;
+	const Vector2& GetRotationOrigin() const;
+	const Vector2& GetPosition() const;
+	const Vector2& GetSize() const;
 	float GetRotation() const;
-	Vector2 GetScale() const;
+	const Vector2& GetScale() const;
 	Texture* GetTexture() const;
-	Vector2 GetRectSize() const;
-	Vector2 GetRectPosition() const;
+	const Vector2& GetRectSize() const;
+	const Vector2& GetRectPosition() const;
 
 	//all set functions
 	void SetRotationOrigin(float centerX, float centerY);

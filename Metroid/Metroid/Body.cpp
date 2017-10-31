@@ -36,15 +36,15 @@ void Body::SetPosition(float x, float y)
 	_Position.Set(x, y);
 }
 
-Vector2 Body::GetVelocity()
+const Vector2& Body::GetVelocity() const
 {
 	return _Velocity;
 }
-Vector2 Body::GetSize()
+const Vector2& Body::GetSize() const
 {
 	return _Size;
 }
-Vector2 Body::GetPosition()
+const Vector2& Body::GetPosition() const
 {
 	return _Position;
 }
@@ -87,7 +87,7 @@ void Body::Next(float dt)
 	_LinearImpulse.Set(0, 0);
 }
 
-Vector2 Body::GetTotalVelocity(float dt)
+const Vector2& Body::GetTotalVelocity(float dt)
 {
 	//get the impulse velocity
 	float vxImpulse = _LinearImpulse.x / _Mass;
@@ -103,7 +103,7 @@ void Body::SetMass(float mass)
 	_Mass = mass;
 }
 
-float Body::GetMass()
+float Body::GetMass() const
 {
 	return _Mass;
 }

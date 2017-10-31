@@ -28,7 +28,7 @@ public:
 
 
 	//All get functions
-	std::vector<Body*> GetBodysList() const;
+	const std::vector<Body*>& GetBodysList() const;
 	
 	//All set functions
 	void SetGravity(float gravity);
@@ -36,6 +36,7 @@ public:
 	//Update world (update all the objects in this world)
 	void Update(float dt);
 	void AddBody(Body *body);
+	void AddBody(const std::vector<Body*> &bodies);
 	void RemoveBody(Body* body);
 	void RemoveBody(int index);
 

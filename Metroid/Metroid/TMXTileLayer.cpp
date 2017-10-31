@@ -58,7 +58,7 @@ TMXTileLayer& TMXTileLayer::operator=(const TMXTileLayer &tmxTileLayer)
 }
 
 
-void TMXTileLayer::SetAttributes(std::string name, unsigned int width, unsigned int height)
+void TMXTileLayer::SetAttributes(const std::string& name, unsigned int width, unsigned int height)
 {
 	_LayerName = name;
 	_Width = width;
@@ -94,24 +94,24 @@ void  TMXTileLayer::TMXTileLayer::SetData(char* matrixCSV)
 
 
 
-std::string TMXTileLayer::GetName()
+const std::string& TMXTileLayer::GetName() const
 {
 	return _LayerName;
 }
 
 
-unsigned int TMXTileLayer::GetWidth()
+unsigned int TMXTileLayer::GetWidth() const
 {
 	return _Width;
 }
 
 
-unsigned int TMXTileLayer::GetHeight()
+unsigned int TMXTileLayer::GetHeight() const
 {
 	return _Height;
 }
 
-unsigned int** TMXTileLayer::GetData()
-{
+unsigned int** TMXTileLayer::GetData() const
+{ 
 	return _Data;
 }

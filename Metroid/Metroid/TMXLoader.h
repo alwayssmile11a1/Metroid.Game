@@ -17,15 +17,15 @@ private:
 
 	//private functions
 	void LoadMapSettings(TMXMap* map, rapidxml::xml_node<> *parentNode);
-	void LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, std::string folderPath);
+	void LoadTileSets(TMXMap* map, rapidxml::xml_node<> *parentNode, const std::string& folderPath);
 	void LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode);
-
+	void LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode);
 
 public:
 	TMXLoader();
 	~TMXLoader();
 
-	void AddMap(std::string mapName, std::string filePath);
-	TMXMap* GetMap(std::string mapName);
+	void AddMap(const std::string& mapName, const std::string& filePath);
+	TMXMap* GetMap(const std::string& mapName) const;
 
 };

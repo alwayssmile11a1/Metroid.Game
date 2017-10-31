@@ -25,10 +25,10 @@ public:
 	TextureRegion& operator=(const TextureRegion &TextureRegion);
 
 	//all get functions
-	Vector2 GetRectSize() const;
-	Vector2 GetRectPosition() const;
+	const Vector2& GetRectSize() const;
+	const Vector2& GetRectPosition() const;
 	Texture* GetTexture() const;
-	Vector2 GetScale() const;
+	const Vector2& GetScale() const;
 
 	//all set functions
 	void SetRectPosition(float rectX, float rectY);

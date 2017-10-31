@@ -66,7 +66,7 @@ Animation::~Animation()
 	}
 }
 
-TextureRegion* Animation::GetKeyAnimation()
+TextureRegion* Animation::GetKeyAnimation() const
 {
 	return _Regions[_Index];
 }
