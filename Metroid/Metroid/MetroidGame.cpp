@@ -36,6 +36,7 @@ void MetroidGame::CreateGame()
 	object2.FitBody();
 	object3.FitBody();
 
+	object1.GetBody().SetBodyType(Body::BodyType::Dynamic);
 	
 	object2.SetVelocity(-0.05, 0);
 
@@ -50,7 +51,7 @@ void MetroidGame::CreateGame()
 
 	//world = World(9.8);
 	world.AddBody(&object1.GetBody());
-	world.AddBody(&object2.GetBody());
+	//world.AddBody(&object2.GetBody());
 	world.AddBody(&object3.GetBody());
 
 	
@@ -62,16 +63,22 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::UpdateGame(float dt)
 {
+	
 	if (input.GetKey(DIK_RIGHT))
 	{
-		object1.GetBody().ApplyLinearImpulse(0.2, 0);
+		object1.GetBody().ApplyLinearImpulse(20, 0);
 		object1.SetRegion(ani.Next(dt, true));
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		object1.GetBody().ApplyLinearImpulse(-0.2, 0);
+		object1.GetBody().ApplyLinearImpulse(-20, 0);
 		object1.SetRegion(ani.Next(dt, false));
+	}
+
+	if (input.GetKeyDown(DIK_SPACE))
+	{
+		object1.GetBody().ApplyLinearImpulse(0, 20);
 	}
 
 	object1.Update(dt);
@@ -113,7 +120,11 @@ void MetroidGame::UpdateGame(float dt)
 
 	//
 	batch.Draw(object1);
+<<<<<<< HEAD
+    batch.Draw(object2);
+=======
 	batch.Draw(object2);
+>>>>>>> 1f30d79fc02682ed94805a6f831cdfa676820f03
 	batch.Draw(object3);
 
 	//
