@@ -24,8 +24,8 @@ void MetroidGame::CreateGame()
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 
-	object1 = Object(&characterTexture, 16*9, 16* 5, 244, 36, 17, 33);
-	object2 = Object(&characterTexture, 16*20, 16*5, 244, 36, 17, 33);
+	object1 = Object(&characterTexture, 16 * 14, 16 * 5, 244, 36, 17, 33);
+	object2 = Object(&characterTexture, 16 * 20, 16 * 5, 244, 36, 17, 33);
 	object3 = Object(&characterTexture, 16 * 5, 16 * 5, 244, 36, 17, 33);
 
 	object1.SetSize(34, 66);

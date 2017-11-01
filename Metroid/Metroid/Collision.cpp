@@ -16,8 +16,8 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	// sử dụng Broadphase rect để kt vùng tiếp theo có va chạm ko
 	RECT broadphaseRect = getSweptBroadphaseRect(targetBody, DeltaTime);
 	RECT otherBodyRect;
-	otherBodyRect.top = otherBody.GetPosition().y - otherBody.GetSize().y / 2;
-	otherBodyRect.bottom = otherBody.GetPosition().y + otherBody.GetSize().y / 2;
+	otherBodyRect.top = otherBody.GetPosition().y + otherBody.GetSize().y / 2;
+	otherBodyRect.bottom = otherBody.GetPosition().y - otherBody.GetSize().y / 2;
 	otherBodyRect.left = otherBody.GetPosition().x - otherBody.GetSize().x / 2;
 	otherBodyRect.right = otherBody.GetPosition().x + otherBody.GetSize().x / 2;
 
@@ -32,8 +32,13 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetBody.GetTotalVelocity(DeltaTime).x - otherBody.GetTotalVelocity(DeltaTime).x;
-	tempvy = targetBody.GetTotalVelocity(DeltaTime).y - otherBody.GetTotalVelocity(DeltaTime).y;
+	tempvx = targetBody.GetTotalVelocity(DeltaTime).x;
+	tempvy = targetBody.GetTotalVelocity(DeltaTime).y;
+	if (otherBody.GetTotalVelocity(DeltaTime).x != 0 && otherBody.GetTotalVelocity(DeltaTime).y != 0) {
+		tempvx = otherBody.GetTotalVelocity(DeltaTime).x - targetBody.GetTotalVelocity(DeltaTime).x;
+		tempvy = otherBody.GetTotalVelocity(DeltaTime).y - targetBody.GetTotalVelocity(DeltaTime).y;
+	}
+
 	if (tempvx > 0.0f)
 	{
 		dxentry = (otherBody.GetPosition().x - otherBody.GetSize().x / 2) - (targetBody.GetPosition().x + targetBody.GetSize().x / 2);
@@ -48,13 +53,13 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	//tính toán dy entry và exit, tương tự với dx entry/ exit
 	if (tempvy > 0.0f)
 	{
-		dyentry = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
-		dyexit = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
+		dyentry = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
+		dyexit = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
 	}
 	else
 	{
-		dyentry = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
-		dyexit = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
+		dyentry = (otherBody.GetPosition().y + otherBody.GetSize().y / 2) - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
+		dyexit = (otherBody.GetPosition().y - otherBody.GetSize().y / 2) - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
 	}
 
 	//tính toán t x entry/ exit
@@ -141,8 +146,8 @@ RECT Collision::getSweptBroadphaseRect(Body &body, float DeltaTime)
 	Vector2 velocity = Vector2(body.GetTotalVelocity(DeltaTime).x * DeltaTime, body.GetTotalVelocity(DeltaTime).y * DeltaTime);
 
 	RECT rect;
-	rect.top = velocity.y > 0 ? (body.GetPosition().y - body.GetSize().y / 2) + velocity.y : body.GetPosition().y - body.GetSize().y / 2;
-	rect.bottom = velocity.y > 0 ? body.GetPosition().y + body.GetSize().y / 2 : body.GetPosition().y + body.GetSize().y / 2 + velocity.y;
+	rect.top = velocity.y > 0 ? (body.GetPosition().y + body.GetSize().y / 2) + velocity.y : body.GetPosition().y + body.GetSize().y / 2;
+	rect.bottom = velocity.y > 0 ? body.GetPosition().y - body.GetSize().y / 2 : body.GetPosition().y - body.GetSize().y / 2 + velocity.y;
 	rect.left = velocity.x > 0 ? body.GetPosition().x - body.GetSize().x / 2 : body.GetPosition().x - body.GetSize().x / 2 + velocity.x;
 	rect.right = velocity.x > 0 ? body.GetPosition().x + body.GetSize().x / 2 + velocity.x : body.GetPosition().x + body.GetSize().x / 2;
 
@@ -156,15 +161,15 @@ bool Collision::isColliding(Body &targetBody, Body &otherBody, float& moveX, flo
 	//auto otherRect = otherObject->getBounding();
 
 	float left = otherBody.GetPosition().x - otherBody.GetSize().x / 2 - (targetBody.GetPosition().x + targetBody.GetSize().x / 2);
-	float top = otherBody.GetPosition().y - otherBody.GetSize().y / 2 - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
+	float top = otherBody.GetPosition().y + otherBody.GetSize().y / 2 - (targetBody.GetPosition().y - targetBody.GetSize().y / 2);
 	float right = otherBody.GetPosition().x + otherBody.GetSize().x / 2 - (targetBody.GetPosition().x - targetBody.GetSize().x / 2);
-	float bottom = otherBody.GetPosition().y + otherBody.GetSize().y / 2 - targetBody.GetPosition().y - targetBody.GetSize().y / 2;
+	float bottom = otherBody.GetPosition().y - otherBody.GetSize().y / 2 - (targetBody.GetPosition().y + targetBody.GetSize().y / 2);
 
 	// kt coi có va chạm không
 	//  CÓ va chạm khi 
-	//  left < 0 && right > 0 && top < 0 && bottom > 0
+	//  left < 0 && right > 0 && top > 0 && bottom < 0
 	//
-	if (left >= 0 || right <= 0 || top > 0 || bottom < 0)
+	if (left >= 0 || right <= 0 || top <= 0 || bottom >= 0)
 		return false;
 
 	// tính offset x, y để đi hết va chạm
@@ -186,8 +191,8 @@ bool Collision::isColliding(RECT targetBodyRect, RECT otherBodyRect)
 	return!(
 		targetBodyRect.right < otherBodyRect.left ||
 		targetBodyRect.left > otherBodyRect.right ||
-		targetBodyRect.bottom < otherBodyRect.top ||
-		targetBodyRect.top > otherBodyRect.bottom);
+		targetBodyRect.bottom > otherBodyRect.top ||
+		targetBodyRect.top < otherBodyRect.bottom);
 }
 
 bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float DeltaTime, int collisionAction)
@@ -213,24 +218,24 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float De
 			}
 		}
 	}
-	//else
-	//{
-	//	float moveX, moveY;
-	//	if (isColliding(targetBody, otherObjectBody, moveX, moveY, DeltaTime))
-	//	{
-	//		// cập nhật tọa độ
-	//		switch (collisionAction)
-	//		{
-	//		case 0:
-	//			updateTargetPosition(targetBody, Vector2(moveX, moveY));
-	//			break;
-	//		default:
-	//			break;
-	//		}
+	else
+	{
+		float moveX, moveY;
+		if (isColliding(targetBody, otherObjectBody, moveX, moveY, DeltaTime))
+		{
+			// cập nhật tọa độ
+			switch (collisionAction)
+			{
+			case 0:
+				updateTargetPosition(targetBody, Vector2(moveX, moveY));
+				break;
+			default:
+				break;
+			}
 
-	//		return true;
-	//	}
-	//}
+			return true;
+		}
+	}
 	return false;
 }
 
