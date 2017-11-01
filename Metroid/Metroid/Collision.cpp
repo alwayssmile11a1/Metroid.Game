@@ -31,12 +31,15 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		return;
 	}
 
+	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
+
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetBody.GetTotalVelocity(DeltaTime).x;
-	tempvy = targetBody.GetTotalVelocity(DeltaTime).y;
-	if (otherBody.GetTotalVelocity(DeltaTime).x != 0 && otherBody.GetTotalVelocity(DeltaTime).y != 0) {
-		tempvx = otherBody.GetTotalVelocity(DeltaTime).x - targetBody.GetTotalVelocity(DeltaTime).x;
-		tempvy = otherBody.GetTotalVelocity(DeltaTime).y - targetBody.GetTotalVelocity(DeltaTime).y;
+	tempvx = targetVelocity.x;
+	tempvy = targetVelocity.y;
+	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
+		tempvx = otherVelocity.x - targetVelocity.x;
+		tempvy = otherVelocity.y - targetVelocity.y;
 	}
 
 	if (tempvx > 0.0f)
@@ -63,7 +66,7 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 
 	//tính toán t x entry/ exit
-	if (targetBody.GetTotalVelocity(DeltaTime).x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
+	if (targetVelocity.x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
 	{
 		txentry = -std::numeric_limits<float>::infinity();
 		txexit = std::numeric_limits<float>::infinity();
@@ -75,15 +78,15 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
-	if (targetBody.GetTotalVelocity(DeltaTime).y == 0.0f)
+	if (targetVelocity.y == 0.0f)
 	{
 		tyentry = -std::numeric_limits<float>::infinity();
 		tyexit = std::numeric_limits<float>::infinity();
 	}
 	else
 	{
-		tyentry = dyentry / (targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
-		tyexit = dyexit / (targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
+		tyentry = dyentry / (targetVelocity.y * DeltaTime);
+		tyexit = dyexit / (targetVelocity.y * DeltaTime);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
@@ -110,12 +113,12 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		{
 			if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
-				_CollisionDirection.x = abs(targetBody.GetTotalVelocity(DeltaTime).x);
+				_CollisionDirection.x = abs(targetVelocity.x);
 				_CollisionDirection.y = 0.0f;
 			}
 			else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 			{
-				_CollisionDirection.x = -abs(targetBody.GetTotalVelocity(DeltaTime).x);
+				_CollisionDirection.x = -abs(targetVelocity.x);
 				_CollisionDirection.y = 0.0f;
 			}
 		}
@@ -124,12 +127,12 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 			if (dyentry < 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 			{
 				_CollisionDirection.x = 0.0f;
-				_CollisionDirection.y = -abs(targetBody.GetTotalVelocity(DeltaTime).y);
+				_CollisionDirection.y = -abs(targetVelocity.y);
 			}
 			else//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
 			{
 				_CollisionDirection.x = 0.0f;
-				_CollisionDirection.y = abs(targetBody.GetTotalVelocity(DeltaTime).y);
+				_CollisionDirection.y = abs(targetVelocity.y);
 			}
 		}
 
@@ -195,15 +198,18 @@ bool Collision::isColliding(RECT targetBodyRect, RECT otherBodyRect)
 		targetBodyRect.top < otherBodyRect.bottom);
 }
 
-bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float DeltaTime, int collisionAction)
+bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
 {
-	isCollide(targetBody, otherObjectBody, DeltaTime);
+	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
+
+	isCollide(targetBody, otherBody, DeltaTime);
 
 	if (_CollisionTime < 1.0f)
 	{
 		if (_CollisionDirection != Vector2(0, 0))
 		{
-			if (_CollisionDirection.x == targetBody.GetTotalVelocity(DeltaTime).x * -1)
+			if (_CollisionDirection.x == targetVelocity.x * -1)
 			{
 				// cập nhật tọa độ
 				updateTargetPosition(targetBody, Vector2(0, 0));
@@ -211,7 +217,7 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float De
 			}
 			else
 			{
-				if (_CollisionDirection.y == targetBody.GetTotalVelocity(DeltaTime).y * -1) 
+				if (_CollisionDirection.y == targetVelocity.y * -1) 
 				{
 					updateTargetPosition(targetBody, Vector2(0, 0));
 				}
@@ -221,7 +227,7 @@ bool Collision::checkCollision(Body &targetBody, Body &otherObjectBody, float De
 	else
 	{
 		float moveX, moveY;
-		if (isColliding(targetBody, otherObjectBody, moveX, moveY, DeltaTime))
+		if (isColliding(targetBody, otherBody, moveX, moveY, DeltaTime))
 		{
 			// cập nhật tọa độ
 			switch (collisionAction)

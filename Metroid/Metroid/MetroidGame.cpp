@@ -124,7 +124,7 @@ void MetroidGame::UpdateGame(float dt)
 	batch.Draw(object3);
 
 	//
-	/*world.RenderBodiesDebug(batch);*/
+	world.RenderBodiesDebug(batch);
 
 	//end drawing
 	batch.End();
