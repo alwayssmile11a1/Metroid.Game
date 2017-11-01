@@ -120,11 +120,7 @@ void MetroidGame::UpdateGame(float dt)
 
 	//
 	batch.Draw(object1);
-<<<<<<< HEAD
     batch.Draw(object2);
-=======
-	batch.Draw(object2);
->>>>>>> 1f30d79fc02682ed94805a6f831cdfa676820f03
 	batch.Draw(object3);
 
 	//
