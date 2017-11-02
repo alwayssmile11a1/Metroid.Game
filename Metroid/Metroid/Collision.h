@@ -23,16 +23,15 @@ private:
 	float tempvx, tempvy; //velocity của vật a khi xem vật b đang đứng yên(nếu thực sự vật b đang di chuyển)
 	float dxentry, dyentry, dxexit, dyexit; //dx entry / exit, dy entry / exit, khoảng d cần cần vật a đụng độ/ thoát ra khỏi vật b đứng yên (delta d của vật a trong khoảng delta_time)
 	float deltadx, deltady; //khoảng delta vật a đi được trong khoảng thời gian delta_time
-	float xentry, xexit, yentry, yexit; //tỉ lệ giữa delta d và d entry, exit
-	float txentry, txexit, tyentry, tyexit; //khoảng thời gian cần để xảy ra đụng độ/ thoát khỏi b của a trên trục x và y
-	float tentry;  //khoảng thời gian cần để thực sự xảy ra đụng độ
-	float texit; 	//khoảng thời gian cần để vật a thực sự thoát khỏi vật b
+	float rxentry, rxexit, ryentry, ryexit; 
+	float rentry;  //khoảng thời gian cần để thực sự xảy ra đụng độ
+	float rexit; 	//khoảng thời gian cần để vật a thực sự thoát khỏi vật b
 
 public:
 	Collision();
 	~Collision();
 
-	void isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
+	bool isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
 
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
 	RECT getSweptBroadphaseRect(Body &object, float DeltaTime);

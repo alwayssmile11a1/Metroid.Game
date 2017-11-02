@@ -11,7 +11,7 @@ Collision::~Collision()
 {
 }
 
-void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
+bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 {
 	// sử dụng Broadphase rect để kt vùng tiếp theo có va chạm ko
 	RECT broadphaseRect = getSweptBroadphaseRect(targetBody, DeltaTime);
@@ -28,19 +28,21 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		_RemainingTime = std::numeric_limits<float>::infinity();
 		_CollisionPosition.x = 0.0f;
 		_CollisionPosition.y = 0.0f;
-		return;
+		return false;
 	}
 
 	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetVelocity.x;
-	tempvy = targetVelocity.y;
-	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
+	tempvx = targetVelocity.x - otherVelocity.x;
+	tempvy = targetVelocity.y - otherVelocity.y;
+
+	/*if (otherVelocity.x != 0 && otherVelocity.y != 0) {
 		tempvx = otherVelocity.x - targetVelocity.x;
 		tempvy = otherVelocity.y - targetVelocity.y;
-	}
+	}*/
+	
 
 	if (tempvx > 0.0f)
 	{
@@ -68,37 +70,37 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	//tính toán t x entry/ exit
 	if (targetVelocity.x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
 	{
-		txentry = -std::numeric_limits<float>::infinity();
-		txexit = std::numeric_limits<float>::infinity();
+		rxentry = -std::numeric_limits<float>::infinity();
+		rxexit = std::numeric_limits<float>::infinity();
 	}
 	else
 	{
-		txentry = dxentry / (tempvx * DeltaTime);
-		txexit = dxexit / (tempvx * DeltaTime);
+		rxentry = dxentry / (tempvx * DeltaTime);
+		rxexit = dxexit / (tempvx * DeltaTime);
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
 	if (targetVelocity.y == 0.0f)
 	{
-		tyentry = -std::numeric_limits<float>::infinity();
-		tyexit = std::numeric_limits<float>::infinity();
+		ryentry = -std::numeric_limits<float>::infinity();
+		ryexit = std::numeric_limits<float>::infinity();
 	}
 	else
 	{
-		tyentry = dyentry / (targetVelocity.y * DeltaTime);
-		tyexit = dyexit / (targetVelocity.y * DeltaTime);
+		ryentry = dyentry / (targetVelocity.y * DeltaTime);
+		ryexit = dyexit / (targetVelocity.y * DeltaTime);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
-	tentry = max(txentry, tyentry);
-	texit = min(txexit, tyexit);
+	rentry = max(rxentry, ryentry);
+	rexit = min(rxexit, ryexit);
 
 	//sau khi tính toán được thời gian thực sự va chạm và thoát khỏi, ta kiểm tra xem việc va chạm có xảy ra hay không
-	if ((tentry > texit) || //trường hợp không xảy ra va chạm 1: thời gian thực sự xảy ra va chạm > thời gian thực sự a thoát khỏi b
+	if ((rentry > rexit) || //trường hợp không xảy ra va chạm 1: thời gian thực sự xảy ra va chạm > thời gian thực sự a thoát khỏi b
 
-		(txentry < 0.0f && tyentry < 0.0f) || //trường hợp không xảy ra va chạm thứ 2: vật a có vận tốc = 0 dẫn đến x entry/ y entry = -vô cùng, hoặc vật a di chuyển hướng ra khỏi vật b
+		(rxentry < 0.0f && ryentry < 0.0f) || //trường hợp không xảy ra va chạm thứ 2: vật a có vận tốc = 0 dẫn đến x entry/ y entry = -vô cùng, hoặc vật a di chuyển hướng ra khỏi vật b
 
-		(txentry > 1.0f) || (tyentry > 1.0f)) //trường hợp không xảy ra va chạm thứ 3: trong khoảng thời gian delta_time đang xét (thời gian của 1 frame) thì vật a di chuyển chưa tới vật b
+		(rxentry > 1.0f) || (ryentry > 1.0f)) //trường hợp không xảy ra va chạm thứ 3: trong khoảng thời gian delta_time đang xét (thời gian của 1 frame) thì vật a di chuyển chưa tới vật b
 	{
 		_CollisionDirection.x = 0.0f;
 		_CollisionDirection.y = 0.0f;
@@ -106,10 +108,11 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		_RemainingTime = std::numeric_limits<float>::infinity();
 		_CollisionPosition.x = 0.0f;
 		_CollisionPosition.y = 0.0f;
+		return false;
 	}
 	else //xảy ra va chạm, chia làm 4 trường hợp, tương ứng với 4 hướng va chạm của vật a so với vật b
 	{
-		if (txentry > tyentry)//nếu việc xảy ra va chạm nằm trên trục x 
+		if (rxentry > ryentry)//nếu việc xảy ra va chạm nằm trên trục x 
 		{
 			if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
@@ -136,10 +139,30 @@ void Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 			}
 		}
 
-		_CollisionTime = tentry;
-		_RemainingTime = DeltaTime - tentry;
-		_CollisionPosition.x = targetBody.GetPosition().x + tentry * tempvx;
-		_CollisionPosition.y = targetBody.GetPosition().y + tentry * tempvy;
+		_CollisionTime = rentry*DeltaTime;
+		_RemainingTime = DeltaTime - rentry*DeltaTime;
+
+		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime * targetVelocity.x;
+		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime * targetVelocity.y;
+
+
+		/*if (ryentry == 0 && rxentry != 0)
+		{
+			targetBody.Next(DeltaTime);
+			_CollisionPosition.x = targetBody.GetPosition().x;
+			_CollisionPosition.y = targetBody.GetPosition().y - DeltaTime * targetVelocity.y;
+		}*/
+		/*else
+		{
+			if (rxentry == 0 && ryentry != 0)
+			{
+				targetBody.Next(DeltaTime);
+				_CollisionPosition.y = targetBody.GetPosition().y;
+				_CollisionPosition.x = targetBody.GetPosition().x - DeltaTime * targetVelocity.x;
+			}
+		}*/
+
+		return true;
 	}
 }
 
@@ -204,6 +227,15 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
 	isCollide(targetBody, otherBody, DeltaTime);
+	/*{
+		updateTargetPosition(targetBody, Vector2(0, 0));
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
+
 
 	if (_CollisionTime < 1.0f)
 	{
@@ -253,6 +285,9 @@ void Collision::updateTargetPosition(Body &Object, Vector2 move)
 		Object.SetPosition(Object.GetPosition().x + move.x, Object.GetPosition().y + move.y);
 	}
 }
+
+
+
 
 void Collision::Push(Body &object)
 {

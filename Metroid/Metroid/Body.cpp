@@ -89,7 +89,7 @@ void Body::Next(float dt)
 	//_LinearImpulse.Set(0, 0);
 }
 
-const Vector2& Body::GetTotalVelocity(float dt)
+Vector2 Body::GetTotalVelocity(float dt)
 {
 	if (_BodyType == BodyType::Static)
 	{

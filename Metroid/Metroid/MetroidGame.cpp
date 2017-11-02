@@ -24,7 +24,7 @@ void MetroidGame::CreateGame()
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 
-	object1 = Object(&characterTexture, 16 * 9, 16 * 5, 244, 36, 17, 33);
+	object1 = Object(&characterTexture, 16 * 7, 16 * 6, 244, 36, 17, 33);
 	object2 = Object(&characterTexture, 16 * 20, 16 * 5, 244, 36, 17, 33);
 	object3 = Object(&characterTexture, 16 * 11, 16 * 5, 244, 36, 17, 33);
 
@@ -51,13 +51,13 @@ void MetroidGame::CreateGame()
 
 	//world = World(9.8);
 	world.AddBody(&object1.GetBody());
-	//world.AddBody(&object2.GetBody());
+	world.AddBody(&object2.GetBody());
 	world.AddBody(&object3.GetBody());
 
 	
 	world.AddBody(map->GetObjectGroup("Land")->GetBodies());
-	world.AddBody(map->GetObjectGroup("Wall 1")->GetBodies());
-	world.AddBody(map->GetObjectGroup("Wall 2")->GetBodies());
+	//world.AddBody(map->GetObjectGroup("Wall 1")->GetBodies());
+	//world.AddBody(map->GetObjectGroup("Wall 2")->GetBodies());
 
 }
 
@@ -80,9 +80,7 @@ void MetroidGame::UpdateGame(float dt)
 	{
 		object1.GetBody().ApplyLinearImpulse(0, 20);
 	}
-
-	object1.Update(dt);
-
+	
 
 	if (object1.GetPosition().x > cam.GetPosition().x)
 	{
@@ -111,6 +109,8 @@ void MetroidGame::UpdateGame(float dt)
 
 	//Update world
 	world.Update(dt);
+
+	object1.Update(dt);
 
 	//start drawing
 	batch.Begin();

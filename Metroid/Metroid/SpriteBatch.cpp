@@ -47,8 +47,8 @@ void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
 	//get the actual postion
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
-	_CameraMatrix._41 = -(cam->GetPosition().x - screenWidth / 2);
-	_CameraMatrix._42 = +cam->GetPosition().y + screenHeight / 2;
+	_CameraMatrix._41 = -(cam->GetPosition().x - screenWidth / 2.0);
+	_CameraMatrix._42 = +cam->GetPosition().y + screenHeight / 2.0;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;

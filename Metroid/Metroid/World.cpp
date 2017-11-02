@@ -88,17 +88,20 @@ void World::Update(float dt)
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
 			if ((*body1) == (*body2) || (*body1)->GetBodyType()==Body::BodyType::Static) continue;
+			
+			//(*body1)->Next(dt);
 
-			if (collision.checkCollision(**body1, **body2, dt, 0))
+			if (!collision.checkCollision(**body1, **body2, dt, 0))
 			{
-				doNextAction = false;
+				(*body1)->Next(dt);
 			}
+
 		}
 
-		if (doNextAction)
+		/*if (doNextAction)
 		{
 			(*body1)->Next(dt);
-		}
+		}*/
 		
 	}
 
