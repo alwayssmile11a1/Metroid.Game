@@ -139,22 +139,6 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime * targetVelocity.y;
 
 
-		/*if (ryentry == 0 && rxentry != 0)
-		{
-			targetBody.Next(DeltaTime);
-			_CollisionPosition.x = targetBody.GetPosition().x;
-			_CollisionPosition.y = targetBody.GetPosition().y - DeltaTime * targetVelocity.y;
-		}*/
-		/*else
-		{
-			if (rxentry == 0 && ryentry != 0)
-			{
-				targetBody.Next(DeltaTime);
-				_CollisionPosition.y = targetBody.GetPosition().y;
-				_CollisionPosition.x = targetBody.GetPosition().x - DeltaTime * targetVelocity.x;
-			}
-		}*/
-
 		return true;
 	}
 }
@@ -228,46 +212,8 @@ bool Collision::isOverlaying(Body &targetBody, Body &otherBody, float& moveX, fl
 
 bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
 {
-	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
-	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
-
-	if (_CollisionRatio < 1.0f)
-	{
-		if (_CollisionDirection != Vector2(0, 0))
-		{
-			if (_CollisionDirection.x == targetVelocity.x * -1)
-			{
-				// cập nhật tọa độ
-				updateTargetPosition(targetBody, Vector2(0, 0));
-				return true;
-			}
-			else
-			{
-				if (_CollisionDirection.y == targetVelocity.y * -1) 
-				{
-					updateTargetPosition(targetBody, Vector2(0, 0));
-				}
-			}
-		}
-	}
-	else
-	{
-		float moveX, moveY;
-		if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
-		{
-			// cập nhật tọa độ
-			switch (collisionAction)
-			{
-			case 0:
-				updateTargetPosition(targetBody, Vector2(moveX, moveY));
-				break;
-			default:
-				break;
-			}
-
-			return true;
-		}
-	}
+	/*Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);*/
 
 	if (isCollide(targetBody, otherBody, DeltaTime))
 	{
@@ -279,8 +225,68 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 		return false;
 	}
 
+	//if (_CollisionRatio < 1.0f)
+	//{
+	//	if (_CollisionDirection != Vector2(0, 0))
+	//	{
+	//		if (_CollisionDirection.x == targetVelocity.x * -1)
+	//		{
+	//			// cập nhật tọa độ
+	//			updateTargetPosition(targetBody, Vector2(0, 0));
+	//			return true;
+	//		}
+	//		else
+	//		{
+	//			if (_CollisionDirection.y == targetVelocity.y * -1)
+	//			{
+	//				updateTargetPosition(targetBody, Vector2(0, 0));
+	//			}
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	float moveX, moveY;
+	//	if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
+	//	{
+	//		// cập nhật tọa độ
+	//		switch (collisionAction)
+	//		{
+	//		case 0:
+	//			updateTargetPosition(targetBody, Vector2(moveX, moveY));
+	//			break;
+	//		default:
+	//			break;
+	//		}
+
+	//		return true;
+	//	}
+	//}
 }
 
+bool Collision::checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
+{
+	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
+
+
+	float moveX, moveY;
+	if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
+	{
+		// cập nhật tọa độ
+		switch (collisionAction)
+		{
+		case 0:
+			updateTargetPosition(targetBody, Vector2(moveX, moveY));
+			break;
+		default:
+			break;
+		}
+
+		return true;
+	}
+
+}
 
 void Collision::updateTargetPosition(Body &Object, Vector2 move)
 {
