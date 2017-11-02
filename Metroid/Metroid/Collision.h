@@ -7,8 +7,7 @@ class Collision
 private:
 	// Kết quả của thuật toán kiểm tra va chạm,
 	// không có va chạm sẽ trả về 1, 
-	// có va chạm sẽ trả về khoảng thời gian cần để xảy ra va chạm (do delta time luôn nhỏ hơn 1)
-	float _CollisionTime;
+	float _CollisionRatio;
 
 	// Kết quả của va chạm tác động đến object,
 	// dùng đề xác định hướng va chạm của các object (trên dưới trái phải)
@@ -27,25 +26,28 @@ private:
 	float rentry;  //khoảng thời gian cần để thực sự xảy ra đụng độ
 	float rexit; 	//khoảng thời gian cần để vật a thực sự thoát khỏi vật b
 
+
+
+private: //private function
+	bool isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
+
+	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
+	bool isOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime);
+
+	void updateTargetPosition(Body &body, Vector2 move);
+
+	// 2 body có chồng lên nhau hay không
+	bool isOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt);
+
+	void Push(Body &body);
+	void Slide(Body &body);
+	void Deflect(Body &body);
+
 public:
 	Collision();
 	~Collision();
 
-	bool isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
-
-	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
-	RECT getSweptBroadphaseRect(Body &object, float DeltaTime);
-
-
-	bool isColliding(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt);
-
-	// Hàm dùng để ktra RECT của 2 object có chồng nhau hay ko
-	bool isColliding(RECT targetObjectRect, RECT otherObjectRect);
-
 	bool checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);
 
-	void updateTargetPosition(Body &body, Vector2 move);
-	void Push(Body &body);
-	void Slide(Body &body);
-	void Deflect(Body &body);
+
 };

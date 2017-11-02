@@ -13,18 +13,11 @@ Collision::~Collision()
 
 bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 {
-	// sử dụng Broadphase rect để kt vùng tiếp theo có va chạm ko
-	RECT broadphaseRect = getSweptBroadphaseRect(targetBody, DeltaTime);
-	RECT otherBodyRect;
-	otherBodyRect.top = otherBody.GetPosition().y + otherBody.GetSize().y / 2;
-	otherBodyRect.bottom = otherBody.GetPosition().y - otherBody.GetSize().y / 2;
-	otherBodyRect.left = otherBody.GetPosition().x - otherBody.GetSize().x / 2;
-	otherBodyRect.right = otherBody.GetPosition().x + otherBody.GetSize().x / 2;
-
-	if (!isColliding(broadphaseRect, otherBodyRect)) {
+	if (!isOverlayingBroadphaseRect(targetBody, otherBody, DeltaTime))
+	{
 		_CollisionDirection.x = 0.0f;
 		_CollisionDirection.y = 0.0f;
-		_CollisionTime = 1.0f;
+		_CollisionRatio = 1.0f;
 		_RemainingTime = std::numeric_limits<float>::infinity();
 		_CollisionPosition.x = 0.0f;
 		_CollisionPosition.y = 0.0f;
@@ -104,7 +97,7 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	{
 		_CollisionDirection.x = 0.0f;
 		_CollisionDirection.y = 0.0f;
-		_CollisionTime = 1.0f;
+		_CollisionRatio = 1.0f;
 		_RemainingTime = std::numeric_limits<float>::infinity();
 		_CollisionPosition.x = 0.0f;
 		_CollisionPosition.y = 0.0f;
@@ -139,7 +132,7 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 			}
 		}
 
-		_CollisionTime = rentry*DeltaTime;
+		_CollisionRatio = rentry;
 		_RemainingTime = DeltaTime - rentry*DeltaTime;
 
 		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime * targetVelocity.x;
@@ -166,21 +159,33 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 }
 
-RECT Collision::getSweptBroadphaseRect(Body &body, float DeltaTime)
+bool Collision::isOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime)
 {
-	// vận tốc mỗi frame
-	Vector2 velocity = Vector2(body.GetTotalVelocity(DeltaTime).x * DeltaTime, body.GetTotalVelocity(DeltaTime).y * DeltaTime);
+	// quãng đường đi được sau Deltatime
+	Vector2 distance = Vector2(targetBody.GetTotalVelocity(DeltaTime).x * DeltaTime, targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
+		
+	RECT targetBodyRect;
+	targetBodyRect.top = distance.y > 0 ? (targetBody.GetPosition().y + targetBody.GetSize().y / 2) + distance.y : targetBody.GetPosition().y + targetBody.GetSize().y / 2;
+	targetBodyRect.bottom = distance.y > 0 ? targetBody.GetPosition().y - targetBody.GetSize().y / 2 : targetBody.GetPosition().y - targetBody.GetSize().y / 2 + distance.y;
+	targetBodyRect.left = distance.x > 0 ? targetBody.GetPosition().x - targetBody.GetSize().x / 2 : targetBody.GetPosition().x - targetBody.GetSize().x / 2 + distance.x;
+	targetBodyRect.right = distance.x > 0 ? targetBody.GetPosition().x + targetBody.GetSize().x / 2 + distance.x : targetBody.GetPosition().x + targetBody.GetSize().x / 2;
 
-	RECT rect;
-	rect.top = velocity.y > 0 ? (body.GetPosition().y + body.GetSize().y / 2) + velocity.y : body.GetPosition().y + body.GetSize().y / 2;
-	rect.bottom = velocity.y > 0 ? body.GetPosition().y - body.GetSize().y / 2 : body.GetPosition().y - body.GetSize().y / 2 + velocity.y;
-	rect.left = velocity.x > 0 ? body.GetPosition().x - body.GetSize().x / 2 : body.GetPosition().x - body.GetSize().x / 2 + velocity.x;
-	rect.right = velocity.x > 0 ? body.GetPosition().x + body.GetSize().x / 2 + velocity.x : body.GetPosition().x + body.GetSize().x / 2;
+	RECT otherBodyRect;
+	otherBodyRect.top = otherBody.GetPosition().y + otherBody.GetSize().y / 2;
+	otherBodyRect.bottom = otherBody.GetPosition().y - otherBody.GetSize().y / 2;
+	otherBodyRect.left = otherBody.GetPosition().x - otherBody.GetSize().x / 2;
+	otherBodyRect.right = otherBody.GetPosition().x + otherBody.GetSize().x / 2;
 
-	return rect;
+	//if it's not overlaying rect
+	if (targetBodyRect.right < otherBodyRect.left || targetBodyRect.left > otherBodyRect.right ||
+		targetBodyRect.bottom > otherBodyRect.top || targetBodyRect.top < otherBodyRect.bottom) {
+		return false;
+	}
+
+	return true;
 }
 
-bool Collision::isColliding(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt)
+bool Collision::isOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt)
 {
 	moveX = moveY = 0.0f;
 	//auto myRect = _target->getBounding();
@@ -212,32 +217,21 @@ bool Collision::isColliding(Body &targetBody, Body &otherBody, float& moveX, flo
 	return true;
 }
 
-bool Collision::isColliding(RECT targetBodyRect, RECT otherBodyRect)
-{
-	return!(
-		targetBodyRect.right < otherBodyRect.left ||
-		targetBodyRect.left > otherBodyRect.right ||
-		targetBodyRect.bottom > otherBodyRect.top ||
-		targetBodyRect.top < otherBodyRect.bottom);
-}
+//bool Collision::isOverlayingRect(RECT targetBodyRect, RECT otherBodyRect)
+//{
+//	return!(
+//		targetBodyRect.right < otherBodyRect.left ||
+//		targetBodyRect.left > otherBodyRect.right ||
+//		targetBodyRect.bottom > otherBodyRect.top ||
+//		targetBodyRect.top < otherBodyRect.bottom);
+//}
 
 bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
 {
 	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
-	isCollide(targetBody, otherBody, DeltaTime);
-	/*{
-		updateTargetPosition(targetBody, Vector2(0, 0));
-		return true;
-	}
-	else
-	{
-		return false;
-	}*/
-
-
-	if (_CollisionTime < 1.0f)
+	if (_CollisionRatio < 1.0f)
 	{
 		if (_CollisionDirection != Vector2(0, 0))
 		{
@@ -259,7 +253,7 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 	else
 	{
 		float moveX, moveY;
-		if (isColliding(targetBody, otherBody, moveX, moveY, DeltaTime))
+		if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
 		{
 			// cập nhật tọa độ
 			switch (collisionAction)
@@ -274,8 +268,19 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 			return true;
 		}
 	}
-	return false;
+
+	if (isCollide(targetBody, otherBody, DeltaTime))
+	{
+		updateTargetPosition(targetBody, Vector2(0, 0));
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
 }
+
 
 void Collision::updateTargetPosition(Body &Object, Vector2 move)
 {
