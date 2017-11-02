@@ -28,13 +28,13 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetVelocity.x;
-	tempvy = targetVelocity.y;
+	tempvx = targetVelocity.x - otherVelocity.x;
+	tempvy = targetVelocity.y - otherVelocity.y;
 
-	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
+	/*if (otherVelocity.x != 0 && otherVelocity.y != 0) {
 		tempvx = otherVelocity.x - targetVelocity.x;
 		tempvy = otherVelocity.y - targetVelocity.y;
-	}
+	}*/
 	
 	if (tempvx > 0.0f)
 	{
@@ -108,35 +108,35 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		{
 			if (dxentry <= 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 			{
-				_CollisionDirection.x = -abs(targetVelocity.x);
+				_CollisionDirection.x = abs(targetVelocity.x);
 				_CollisionDirection.y = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
 			}
 			else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 			{
-				_CollisionDirection.x = abs(targetVelocity.x);
+				_CollisionDirection.x = -abs(targetVelocity.x);
 				_CollisionDirection.y = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
 			}
 		}
 		else//nếu việc xảy ra va chạm nằm trên trục y
 		{
-			if (dyentry <= 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
+			if (dyentry <= 0.0f)//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
 			{
 				_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
 				_CollisionDirection.y = abs(targetVelocity.y);
 			}
-			else//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
+			else//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 			{
 				_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
 				_CollisionDirection.y = -abs(targetVelocity.y);
 			}
 		}
 
-		_CollisionRatio = rentry*DeltaTime;
+		_CollisionRatio = rentry;
 		_RemainingTime = DeltaTime - rentry*DeltaTime;
 
 		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime * targetVelocity.x;
 		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime * targetVelocity.y;
-
+		
 
 		return true;
 	}
@@ -200,93 +200,104 @@ bool Collision::isOverlaying(Body &targetBody, Body &otherBody, float& moveX, fl
 	return true;
 }
 
-//bool Collision::isOverlayingRect(RECT targetBodyRect, RECT otherBodyRect)
-//{
-//	return!(
-//		targetBodyRect.right < otherBodyRect.left ||
-//		targetBodyRect.left > otherBodyRect.right ||
-//		targetBodyRect.bottom > otherBodyRect.top ||
-//		targetBodyRect.top < otherBodyRect.bottom);
-//}
-
 bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY)
 {
 	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
 
-	isCollide(targetBody, otherBody, DeltaTime);
-
-	if (_CollisionRatio < 1.0f)
+	if (isCollide(targetBody, otherBody, DeltaTime))
 	{
-		if (_CollisionDirection != Vector2(0, 0))
+		if (ryentry == 0 && rxentry !=0)
 		{
-			if (_CollisionDirection.x == targetVelocity.x * -1)
-			{
-				// cập nhật tọa độ
-				updateTargetPosition(targetBody, Vector2(0, 0));
-				if (moveX)
-					moveX = false;
-				return true;
-			}
-			else
-			{
-				if (_CollisionDirection.y == targetVelocity.y * -1)
-				{
-					updateTargetPosition(targetBody, Vector2(0, 0));
-					if (moveY)
-						moveY = false;
-					return true;
-				}
-			}
+			moveY = false;
 		}
+		else
+		{
+			moveX = false;
+			moveY = false;
+		}
+
+
+
+		updateTargetPosition(targetBody, Vector2(0, 0));
+		return true;
 	}
 	else
 	{
-		float needX, needY;
-		if (isOverlaying(targetBody, otherBody, needX, needY, DeltaTime))
-		{
-			if (needX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
-				moveX = false;
-			if (needY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
-				moveY = false;
-			//cập nhật tọa độ
-			switch (collisionAction)
-			{
-			case 0:
-				updateTargetPosition(targetBody, Vector2(needX, needY));
-				break;
-			default:
-				break;
-			}
-
-			return true;
-		}
+		return false;
 	}
-	return false;
+
+	//if (_CollisionRatio < 1.0f)
+	//{
+	//	if (_CollisionDirection != Vector2(0, 0))
+	//	{
+	//		if (_CollisionDirection.x == targetVelocity.x * -1)
+	//		{
+	//			// cập nhật tọa độ
+	//			updateTargetPosition(targetBody, Vector2(0, 0));
+	//			if (moveX)
+	//				moveX = false;
+	//			return true;
+	//		}
+	//		else
+	//		{
+	//			if (_CollisionDirection.y == targetVelocity.y * -1)
+	//			{
+	//				updateTargetPosition(targetBody, Vector2(0, 0));
+	//				if (moveY)
+	//					moveY = false;
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	float needX, needY;
+	//	if (isOverlaying(targetBody, otherBody, needX, needY, DeltaTime))
+	//	{
+	//		if (needX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
+	//			moveX = false;
+	//		if (needY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
+	//			moveY = false;
+	//		//cập nhật tọa độ
+	//		switch (collisionAction)
+	//		{
+	//		case 0:
+	//			updateTargetPosition(targetBody, Vector2(needX, needY));
+	//			break;
+	//		default:
+	//			break;
+	//		}
+
+	//		return true;
+	//	}
+	//}
+	//return false;
 }
 
-//bool Collision::checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
-//{
-//	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
-//	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
-//
-//
-//	float moveX, moveY;
-//	if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
-//	{
-//		// cập nhật tọa độ
-//		switch (collisionAction)
-//		{
-//		case 0:
-//			updateTargetPosition(targetBody, Vector2(moveX, moveY));
-//			break;
-//		default:
-//			break;
-//		}
-//
-//		return true;
-//	}
-//
-//}
+bool Collision::checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction)
+{
+	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
+
+
+	float moveX, moveY;
+	if (isOverlaying(targetBody, otherBody, moveX, moveY, DeltaTime))
+	{
+		// cập nhật tọa độ
+		switch (collisionAction)
+		{
+		case 0:
+			updateTargetPosition(targetBody, Vector2(moveX, moveY));
+			break;
+		default:
+			break;
+		}
+
+		return true;
+	}
+
+}
 
 void Collision::updateTargetPosition(Body &Object, Vector2 move)
 {

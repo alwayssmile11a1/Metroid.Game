@@ -78,7 +78,7 @@ void MetroidGame::UpdateGame(float dt)
 
 	if (input.GetKeyDown(DIK_SPACE))
 	{
-		object1.GetBody().ApplyLinearImpulse(0, 20);
+		object1.GetBody().ApplyLinearImpulse(0, 50);
 	}
 	
 
