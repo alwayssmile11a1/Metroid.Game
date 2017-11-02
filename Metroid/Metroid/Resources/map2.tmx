@@ -44,6 +44,6 @@
   <object id="8" name="Wall 2" x="48" y="384" width="16" height="48"/>
  </objectgroup>
  <objectgroup name="Land">
-  <object id="10" name="Land" x="1" y="433.11" width="1600" height="48"/>
+  <object id="10" name="Land" x="0" y="432" width="1600" height="48"/>
  </objectgroup>
 </map>

@@ -43,7 +43,7 @@ public:
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 
-	void Next(float dt);
+	void Next(float dt, bool moveX, bool moveY);
 
 };
 

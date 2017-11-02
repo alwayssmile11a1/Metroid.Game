@@ -51,11 +51,13 @@ const Vector2& Body::GetPosition() const
 	return _Position;
 }
 
-void Body::Next(float dt)
+void Body::Next(float dt, bool moveX, bool moveY)
 {
 	//Set body to the next position
-	_Position.Set(_Position.x + GetTotalVelocity(dt).x*dt, _Position.y + GetTotalVelocity(dt).y*dt);
-
+	if (moveX)
+		_Position.Set(_Position.x + GetTotalVelocity(dt).x*dt, _Position.y);
+	if (moveY)
+		_Position.Set(_Position.x, _Position.y + GetTotalVelocity(dt).y*dt);
 
 	//calculate remaining impulse
 	if (_LinearImpulse.x != 0)
