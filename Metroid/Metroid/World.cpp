@@ -85,28 +85,32 @@ void World::Update(float dt)
 	{
 		if ((*body1)->GetBodyType() == Body::BodyType::Static) continue;
 
-		//bool doNextAction = true;
+		bool doNextAction = true;
 
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
 			if ((*body1) == (*body2)) continue;
 
-			collision.checkCollision(**body1, **body2, dt, 0);
-
+			if (collision.checkCollision(**body1, **body2, dt, 0))
+			{
+				doNextAction = false;
+			}
 
 		}
 
-		(*body1)->Next(dt);
 
-
-		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
+		if (doNextAction)
 		{
-			if ((*body1) == (*body2)) continue;
+			(*body1)->Next(dt);
+			for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
+			{
+				if ((*body1) == (*body2)) continue;
 
-			collision.checkOverlaying(**body1, **body2, dt, 0);
+				collision.checkOverlaying(**body1, **body2, dt, 0);
 
+			}
 		}
-
+		
 	}
 
 
