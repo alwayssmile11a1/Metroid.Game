@@ -6,7 +6,7 @@ Body::Body()
 	_Velocity.Set(0, 0);
 	_Position.Set(0, 0);
 	_Mass = 1;
-	_LinearDrag.Set(1, 1);
+	_LinearImpulse.Set(0, 0);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
 }
@@ -16,7 +16,7 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_Velocity.Set(vx, vy);
 	_Position.Set(x, y);
 	_Mass = 1;
-	_LinearDrag.Set(1, 1);
+	_LinearImpulse.Set(0, 0);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
 }
@@ -59,35 +59,36 @@ void Body::Next(float dt, bool moveX, bool moveY)
 	if (moveY)
 		_Position.Set(_Position.x, _Position.y + GetTotalVelocity(dt).y*dt);
 
-	//calculate remaining _Velocity
-	if (_Velocity.x != 0)
+	//calculate remaining impulse
+	if (_LinearImpulse.x != 0)
 	{
-		float remainingXVeloccity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
+		float remainingXImpulse = _LinearImpulse.x - abs(_LinearImpulse.x) / _LinearImpulse.x * dt/10;
 
-		if (remainingXVeloccity*_Velocity.x <= 0)
+		if (remainingXImpulse*_LinearImpulse.x <= 0)
 		{
-			_Velocity.Set(0, _Velocity.y);
+			_LinearImpulse.Set(0, _LinearImpulse.y);
 		}
 		else
 		{
-			_Velocity.Set(remainingXVeloccity, _Velocity.y);
+			_LinearImpulse.Set(remainingXImpulse, _LinearImpulse.y);
 		}
 	}
 
-	if (_Velocity.y != 0)
+	if (_LinearImpulse.y != 0)
 	{
-		float remainingYVelocity = _Velocity.y - 10 * _LinearDrag.y*abs(_Velocity.y) / _Velocity.y * dt;
+		float remainingYImpulse = _LinearImpulse.y - abs(_LinearImpulse.y) / _LinearImpulse.y * dt/10;
 
-		if (remainingYVelocity*_Velocity.y <= 0)
+		if (remainingYImpulse*_LinearImpulse.y <= 0)
 		{
-			_Velocity.Set(_Velocity.x, 0);
+			_LinearImpulse.Set(_LinearImpulse.x, 0);
 		}
 		else
 		{
-			_Velocity.Set(_Velocity.x, remainingYVelocity);
+			_LinearImpulse.Set(_LinearImpulse.x, remainingYImpulse);
 		}
 	}
 
+	//_LinearImpulse.Set(0, 0);
 }
 
 Vector2 Body::GetTotalVelocity(float dt)
@@ -98,27 +99,23 @@ Vector2 Body::GetTotalVelocity(float dt)
 		return _TotalVelocity;
 	}
 
-	////get the impulse accelerator (kg m^2/s)
-	//float axImpulse = _LinearImpulse.x / _Mass;
-	//float ayImpulse = _LinearImpulse.y / _Mass;
+	//get the impulse accelerator
+	float axImpulse = _LinearImpulse.x / _Mass;
+	float ayImpulse = _LinearImpulse.y / _Mass;
 
-	////get the total accelerator (m/s^2)
-	//float ax = axImpulse;
-	//float ay = ayImpulse - 9.8;
+	//get the total accelerator (m/millisecond^2)
+	float ax = axImpulse / 1000;
+	float ay = (ayImpulse - 9.8) / 1000;
 
-	////Calculate the distances that this body can move in delta time span
-	//float dx = _Velocity.x * dt + 0.5 * ax * dt * dt;
-	//float dy = _Velocity.y * dt + 0.5 * ay * dt * dt; // s = Vo*t + 1/2*g*t^2;
+	//Calculate the distances that this body can move in delta time span
+	float dx = _Velocity.x / 10 * dt + 0.5 * ax * dt * dt;
+	float dy = _Velocity.y / 10 * dt + 0.5 * ay * dt * dt; // s = Vo*t + 1/2*g*t^2;
 
-	////Calculate total velocity (cm/s^2)
-	//float vx = dx*100 / dt;
-	//float vy = dy*100 / dt;
+	//Calculate total velocity
+	float vx = dx / dt;
+	float vy = dy / dt;
 
-	
-	//_Velocity.x = _Velocity.x * 100;
-    _Velocity.y += -1.0 * dt;
-
-	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y*100);
+	_TotalVelocity.Set(vx, vy);
 
 	return _TotalVelocity;
 }
@@ -141,4 +138,10 @@ Body::BodyType Body::GetBodyType()
 float Body::GetMass() const
 {
 	return _Mass;
+}
+
+void  Body::ApplyLinearImpulse(float xImpulse, float yImpulse)
+{
+	//_LinearImpulse.Set(_LinearImpulse.x + xImpulse, _LinearImpulse.y + yImpulse);
+	_LinearImpulse.Set(xImpulse, yImpulse);
 }
