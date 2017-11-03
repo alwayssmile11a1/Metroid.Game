@@ -15,7 +15,7 @@ private:
 	Vector2 _Position;
 	Vector2 _Size;
 	Vector2 _Velocity;
-	Vector2 _LinearImpulse;
+	Vector2 _LinearDrag;
 	Vector2 _TotalVelocity;
 	float _Mass; //the mass of body
 	
@@ -31,7 +31,6 @@ public:
 	void SetSize(float width, float height);
 	void SetPosition(float x, float y);
 	void SetMass(float mass);
-	void ApplyLinearImpulse(float xImpulse, float yImpulse);
 	void SetBodyType(BodyType type);
 
 	const Vector2& GetVelocity() const;

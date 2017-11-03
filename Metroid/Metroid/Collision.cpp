@@ -31,11 +31,14 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	tempvx = targetVelocity.x;
 	tempvy = targetVelocity.y;
 
+<<<<<<< HEAD
+=======
 	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
 		tempvx = otherVelocity.x - targetVelocity.x;
 		tempvy = otherVelocity.y - targetVelocity.y;
 	}
 
+>>>>>>> c38bdca490ea498b0c77c9f14472013a85a5e47a
 	if (tempvx > 0.0f)
 	{
 		dxentry = (otherBody.GetPosition().x - otherBody.GetSize().x / 2) - (targetBody.GetPosition().x + targetBody.GetSize().x / 2);
@@ -239,6 +242,23 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 	// thì là sẽ có va chạm xảy ra
 	if (_CollisionRatio < 1.0f)
 	{
+<<<<<<< HEAD
+		if (ryentry == 0 && rxentry !=0)
+		{
+			moveY = false;
+			targetBody.SetVelocity(targetBody.GetVelocity().x, 0);
+		}
+		else
+		{
+			moveX = false;
+			moveY = false;
+			targetBody.SetVelocity(0, 0);
+		}
+
+
+		updateTargetPosition(targetBody, Vector2(0, 0));
+		return true;
+=======
 		if (_CollisionDirection != Vector2(0, 0))
 		{
 			// nếu va chạm theo trục x
@@ -265,6 +285,7 @@ bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTim
 				}
 			}
 		}
+>>>>>>> c38bdca490ea498b0c77c9f14472013a85a5e47a
 	}
 	else
 	{
@@ -324,6 +345,10 @@ void Collision::updateTargetPosition(Body &Object, Vector2 move)
 	}
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> c38bdca490ea498b0c77c9f14472013a85a5e47a
 void Collision::Push(Body &object)
 {
 	//float magnitude = (sqrt(object.GetTotalVelocity(DeltaTime).x * object.GetTotalVelocity(DeltaTime).x + object.GetTotalVelocity(DeltaTime).y * object.GetTotalVelocity(DeltaTime).y)) * _RemainingTime;
