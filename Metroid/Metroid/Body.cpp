@@ -62,16 +62,23 @@ void Body::Next(float dt, bool moveX, bool moveY)
 
 	//Set body to the next position
 	if (moveX)
+	{
 		_Position.Set(_Position.x + GetTotalVelocity(dt).x*dt, _Position.y);
+	}
+
 	if (moveY)
+	{
 		_Position.Set(_Position.x, _Position.y + GetTotalVelocity(dt).y*dt);
 
+	}
+
+
 	//_Velocity.x = _Velocity.x * 100;
-	//_Velocity.y += -9.8 * dt;
+	_Velocity.y += -9.8 * dt;
 
 	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
 
-	//calculate remaining _Velocity
+	//calculate remaining _Velocity x
 	if (_Velocity.x != 0)
 	{
 		float remainingXVeloccity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
@@ -86,19 +93,24 @@ void Body::Next(float dt, bool moveX, bool moveY)
 		}
 	}
 
-	if (_Velocity.y != 0)
-	{
-		float remainingYVelocity = _Velocity.y - 10 * _LinearDrag.y*abs(_Velocity.y) / _Velocity.y * dt;
 
-		if (remainingYVelocity*_Velocity.y <= 0)
-		{
-			_Velocity.Set(_Velocity.x, 0);
-		}
-		else
-		{
-			_Velocity.Set(_Velocity.x, remainingYVelocity);
-		}
+
+	//calculate remaining _Velocity y
+	float remainingYVelocity;
+
+	if (_Velocity.y>=0)
+	{
+		remainingYVelocity = _Velocity.y - max(0, min(9.8, _LinearDrag.y)) * dt;
 	}
+	else
+	{
+		remainingYVelocity = _Velocity.y + max(0, min(9.8, _LinearDrag.y)) * dt;
+	}
+
+
+	_Velocity.Set(_Velocity.x, remainingYVelocity);
+
+
 
 }
 

@@ -24,7 +24,8 @@ void MetroidGame::CreateGame()
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 
-	object1 = Object(&characterTexture, 16 * 24, 16 * 5, 244, 36, 17, 33);
+
+	object1 = Object(&characterTexture, 16 * 8, 16 * 5, 244, 36, 17, 33);
 	object2 = Object(&characterTexture, 16 * 30, 16 * 5, 244, 36, 17, 33);
 	object3 = Object(&characterTexture, 16 * 11, 16 * 5, 244, 36, 17, 33);
 
@@ -85,18 +86,24 @@ void MetroidGame::UpdateGame(float dt)
 
 	object2.SetVelocity(-2, 0);
 
-	cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
+
+	if (object1.GetPosition().x > cam.GetPosition().x)
+	{
+		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
+	}
+	
+
 
 	
 
 	if (input.GetKey(DIK_UP))
 	{	
-		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*0.2);
+		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*200);
 	}
 
 	if (input.GetKey(DIK_DOWN))
 	{
-		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y - dt * 0.2);
+		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y - dt * 200);
 	}
 
 	if (input.GetKeyDown(DIK_ESCAPE))
