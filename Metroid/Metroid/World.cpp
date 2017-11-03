@@ -78,6 +78,44 @@ void World::SetGravity(float gravity)
 
 void World::Update(float dt)
 {
+	////Check collision
+	//Collision collision;
+
+	//for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
+	//{
+
+	//	if ((*body1)->GetBodyType() == Body::BodyType::Static) continue;
+
+	//	bool doNextAction = true;
+	//	bool moveX = true, moveY = true;
+
+	//	for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
+	//	{
+	//		if ((*body1) == (*body2)) continue;
+
+
+	//		if (collision.checkCollision(**body1, **body2, dt, 0, moveX, moveY))
+	//		{
+	//			doNextAction = false;
+	//		}
+
+	//	}
+
+	//	/*if (doNextAction == true)
+	//	{*/
+	//		(*body1)->Next(dt, moveX, moveY);
+	//	//}
+
+	//	for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
+	//	{
+	//		if ((*body1) == (*body2)) continue;
+
+	//		collision.checkOverlaying(**body1, **body2, dt, 0);
+
+	//	}
+
+	//}
+
 	//Check collision
 	Collision collision;
 
@@ -99,6 +137,7 @@ void World::Update(float dt)
 		}
 		(*body1)->Next(dt, moveX, moveY);
 	}
+
 }
 void World::AddBody(Body *body)
 {

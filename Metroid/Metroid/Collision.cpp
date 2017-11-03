@@ -28,13 +28,13 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetVelocity.x;
-	tempvy = targetVelocity.y;
+	tempvx = targetVelocity.x - otherVelocity.x;
+	tempvy = targetVelocity.y - otherVelocity.y;
 
-	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
-		tempvx = otherVelocity.x - targetVelocity.x;
-		tempvy = otherVelocity.y - targetVelocity.y;
-	}
+	//if (otherVelocity.x != 0 && otherVelocity.y != 0) {
+	//	tempvx = otherVelocity.x - targetVelocity.x;
+	//	tempvy = otherVelocity.y - targetVelocity.y;
+	//}
 
 	if (tempvx > 0.0f)
 	{
@@ -138,7 +138,7 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 			}
 			else
 			{
-				if (dyentry <= 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
+				if (dyentry < 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 				{
 					_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
 					_CollisionDirection.y = abs(targetVelocity.y);
