@@ -48,6 +48,6 @@ public:
 	~Collision();
 
 	bool checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY);
-	bool checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);
+	/*bool checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);*/
 
 };

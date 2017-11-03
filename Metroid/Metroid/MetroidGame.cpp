@@ -58,6 +58,9 @@ void MetroidGame::CreateGame()
 	world.AddBody(map->GetObjectGroup("Land")->GetBodies());
 	world.AddBody(map->GetObjectGroup("Wall 1")->GetBodies());
 	world.AddBody(map->GetObjectGroup("Wall 2")->GetBodies());
+	world.AddBody(map->GetObjectGroup("Wall 3")->GetBodies());
+	world.AddBody(map->GetObjectGroup("Platform 1")->GetBodies());
+	world.AddBody(map->GetObjectGroup("Platform 2")->GetBodies());
 
 }
 
