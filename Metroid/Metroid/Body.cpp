@@ -28,6 +28,7 @@ Body::~Body()
 void Body::SetVelocity(float vx, float vy)
 {
 	_Velocity.Set(vx, vy);
+	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
 }
 void Body::SetSize(float width, float height)
 {
@@ -70,6 +71,10 @@ void Body::Next(float dt, bool moveX, bool moveY)
 	{
 		_Position.Set(_Position.x, _Position.y + GetTotalVelocity(dt).y*dt);
 
+	}
+	else
+	{
+		_Velocity.y = 0;
 	}
 
 
