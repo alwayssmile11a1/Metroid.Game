@@ -28,13 +28,13 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetVelocity.x - otherVelocity.x;
-	tempvy = targetVelocity.y - otherVelocity.y;
+	tempvx = targetVelocity.x;
+	tempvy = targetVelocity.y;
 
-	//if (otherVelocity.x != 0 && otherVelocity.y != 0) {
-	//	tempvx = otherVelocity.x - targetVelocity.x;
-	//	tempvy = otherVelocity.y - targetVelocity.y;
-	//}
+	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
+		tempvx = otherVelocity.x - targetVelocity.x;
+		tempvy = otherVelocity.y - targetVelocity.y;
+	}
 
 	if (tempvx > 0.0f)
 	{
@@ -67,8 +67,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		rxentry = dxentry / (tempvx*DeltaTime);
-		rxexit = dxexit / (tempvx*DeltaTime);
+		rxentry = dxentry / (tempvx);
+		rxexit = dxexit / (tempvx);
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
@@ -79,8 +79,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		ryentry = dyentry / (tempvy*DeltaTime);
-		ryexit = dyexit / (tempvy*DeltaTime);
+		ryentry = dyentry / (tempvy);
+		ryexit = dyexit / (tempvy);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
@@ -152,10 +152,10 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		}
 
 		_CollisionRatio = rentry;
-		_RemainingTime = DeltaTime - rentry*DeltaTime;
+		_RemainingTime = DeltaTime - rentry;
 
-		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime*targetVelocity.x;
-		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime*targetVelocity.y;
+		_CollisionPosition.x = targetBody.GetPosition().x + rentry*tempvx;
+		_CollisionPosition.y = targetBody.GetPosition().y + rentry*tempvy;
 
 
 		return true;

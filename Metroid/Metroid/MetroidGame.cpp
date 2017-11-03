@@ -24,7 +24,7 @@ void MetroidGame::CreateGame()
 	//create character
 	characterTexture = Texture("Resources/samusaran_sheet.png");
 
-	object1 = Object(&characterTexture, 16 * 32, 16 * 5, 244, 36, 17, 33);
+	object1 = Object(&characterTexture, 16 * 24, 16 * 5, 244, 36, 17, 33);
 	object2 = Object(&characterTexture, 16 * 30, 16 * 5, 244, 36, 17, 33);
 	object3 = Object(&characterTexture, 16 * 11, 16 * 5, 244, 36, 17, 33);
 
