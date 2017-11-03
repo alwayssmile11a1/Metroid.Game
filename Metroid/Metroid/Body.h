@@ -36,7 +36,7 @@ public:
 	const Vector2& GetVelocity() const;
 	const Vector2& GetSize() const;
 	const Vector2& GetPosition() const;
-	Vector2 GetTotalVelocity(float dt);
+	const Vector2& GetTotalVelocity(float dt);
 	float GetMass() const;
 	Body::BodyType GetBodyType();
 

@@ -67,8 +67,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		rxentry = dxentry / (tempvx);
-		rxexit = dxexit / (tempvx);
+		rxentry = dxentry / (tempvx*DeltaTime);
+		rxexit = dxexit / (tempvx*DeltaTime);
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
@@ -79,8 +79,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		ryentry = dyentry / (tempvy);
-		ryexit = dyexit / (tempvy);
+		ryentry = dyentry / (tempvy*DeltaTime);
+		ryexit = dyexit / (tempvy*DeltaTime);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
@@ -154,8 +154,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		_CollisionRatio = rentry;
 		_RemainingTime = DeltaTime - rentry*DeltaTime;
 
-		_CollisionPosition.x = targetBody.GetPosition().x + rentry*targetVelocity.x;
-		_CollisionPosition.y = targetBody.GetPosition().y + rentry*targetVelocity.y;
+		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime*targetVelocity.x;
+		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime*targetVelocity.y;
 
 
 		return true;
