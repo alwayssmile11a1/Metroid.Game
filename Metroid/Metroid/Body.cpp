@@ -27,6 +27,12 @@ Body::~Body()
 
 void Body::CalculateActualVelocity(float dt, float gravity)
 {
+	if (_BodyType == BodyType::Static)
+	{
+		_TotalVelocity.Set(0, 0);
+		return;
+	}
+
 	//_Velocity.x = _Velocity.x * 100;
 	_Velocity.y += _Mass * gravity * dt;
 
@@ -108,7 +114,6 @@ void Body::Next(float dt, bool moveX, bool moveY)
 
 	if (_BodyType == BodyType::Static)
 	{
-		_TotalVelocity.Set(0, 0);
 		return;
 	}
 

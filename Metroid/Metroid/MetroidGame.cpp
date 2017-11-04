@@ -93,6 +93,8 @@ void MetroidGame::UpdateGame(float dt)
 		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
 	}
 	
+
+
 	if (input.GetKey(DIK_UP))
 	{	
 		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*200);
