@@ -24,17 +24,12 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		return false;
 	}
 
-	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
-	Vector2 otherVelocity = otherBody.GetTotalVelocity(DeltaTime);
+	Vector2 targetVelocity = targetBody.GetTotalVelocity();
+	Vector2 otherVelocity = otherBody.GetTotalVelocity();
 
 	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
-	tempvx = targetVelocity.x;
-	tempvy = targetVelocity.y;
-
-	if (otherVelocity.x != 0 && otherVelocity.y != 0) {
-		tempvx = otherVelocity.x - targetVelocity.x;
-		tempvy = otherVelocity.y - targetVelocity.y;
-	}
+	tempvx = targetVelocity.x - otherVelocity.x;
+	tempvy = targetVelocity.y - otherVelocity.y;
 
 	if (tempvx > 0.0f)
 	{
@@ -67,8 +62,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		rxentry = dxentry / (tempvx);
-		rxexit = dxexit / (tempvx);
+		rxentry = dxentry / (tempvx*DeltaTime);
+		rxexit = dxexit / (tempvx*DeltaTime);
 	}
 
 	//tính toán t y entry/ exit, tương tự x entry/ exit
@@ -79,8 +74,8 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 	}
 	else
 	{
-		ryentry = dyentry / (tempvy);
-		ryexit = dyexit / (tempvy);
+		ryentry = dyentry / (tempvy*DeltaTime);
+		ryexit = dyexit / (tempvy*DeltaTime);
 	}
 
 	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
@@ -152,10 +147,10 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 		}
 
 		_CollisionRatio = rentry;
-		_RemainingTime = DeltaTime - rentry;
+		_RemainingTime = DeltaTime - rentry*DeltaTime;
 
-		_CollisionPosition.x = targetBody.GetPosition().x + rentry*tempvx;
-		_CollisionPosition.y = targetBody.GetPosition().y + rentry*tempvy;
+		_CollisionPosition.x = targetBody.GetPosition().x + rentry*DeltaTime*targetVelocity.x;
+		_CollisionPosition.y = targetBody.GetPosition().y + rentry*DeltaTime*targetVelocity.y;
 
 
 		return true;
@@ -165,7 +160,7 @@ bool Collision::isCollide(Body &targetBody, Body &otherBody, float DeltaTime)
 bool Collision::isOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime)
 {
 	// quãng đường đi được sau Deltatime
-	Vector2 distance = Vector2(targetBody.GetTotalVelocity(DeltaTime).x * DeltaTime, targetBody.GetTotalVelocity(DeltaTime).y * DeltaTime);
+	Vector2 distance = Vector2(targetBody.GetTotalVelocity().x * DeltaTime, targetBody.GetTotalVelocity().y * DeltaTime);
 
 	RECT targetBodyRect;
 	targetBodyRect.top = distance.y > 0 ? (targetBody.GetPosition().y + targetBody.GetSize().y / 2) + distance.y : targetBody.GetPosition().y + targetBody.GetSize().y / 2;
@@ -220,18 +215,10 @@ bool Collision::isOverlaying(Body &targetBody, Body &otherBody, float& moveX, fl
 	return true;
 }
 
-//bool Collision::isOverlayingRect(RECT targetBodyRect, RECT otherBodyRect)
-//{
-//	return!(
-//		targetBodyRect.right < otherBodyRect.left ||
-//		targetBodyRect.left > otherBodyRect.right ||
-//		targetBodyRect.bottom > otherBodyRect.top ||
-//		targetBodyRect.top < otherBodyRect.bottom);
-//}
 
 bool Collision::checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY)
 {
-	Vector2 targetVelocity = targetBody.GetTotalVelocity(DeltaTime);
+	Vector2 targetVelocity = targetBody.GetTotalVelocity();
 
 	isCollide(targetBody, otherBody, DeltaTime);
 

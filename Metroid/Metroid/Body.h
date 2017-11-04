@@ -21,6 +21,8 @@ private:
 	
 	BodyType _BodyType;
 	
+	
+
 public:
 
 	Body();
@@ -32,11 +34,15 @@ public:
 	void SetPosition(float x, float y);
 	void SetMass(float mass);
 	void SetBodyType(BodyType type);
+	void CalculateActualVelocity(float dt, float gravity);
+
+	//from 0-> infinity
+	void SetLinearDrag(float xDrag, float yDrag);
 
 	const Vector2& GetVelocity() const;
 	const Vector2& GetSize() const;
 	const Vector2& GetPosition() const;
-	const Vector2& GetTotalVelocity(float dt);
+	const Vector2& GetTotalVelocity() const;
 	float GetMass() const;
 	Body::BodyType GetBodyType();
 

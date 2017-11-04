@@ -25,10 +25,54 @@ Body::~Body()
 
 }
 
+void Body::CalculateActualVelocity(float dt, float gravity)
+{
+	//_Velocity.x = _Velocity.x * 100;
+	_Velocity.y += _Mass * gravity * dt;
+
+	//calculate remaining _Velocity x
+	if (_Velocity.x != 0)
+	{
+		float remainingXVelocity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
+
+		if (remainingXVelocity*_Velocity.x <= 0)
+		{
+			_Velocity.Set(0, _Velocity.y);
+		}
+		else
+		{
+			_Velocity.Set(remainingXVelocity, _Velocity.y);
+		}
+	}
+
+	//calculate remaining _Velocity y
+	float remainingYVelocity;
+
+	/*if (_Velocity.y > 0)
+	{*/
+		remainingYVelocity = _Velocity.y - _Velocity.y*_LinearDrag.y * dt;
+	/*}
+	else
+	{
+		if (_Velocity.y < 0)
+		{
+			remainingYVelocity = _Velocity.y + _Velocity.y*_LinearDrag.y * dt;
+		}
+	}*/
+
+	if (remainingYVelocity*_Velocity.y < 0) remainingYVelocity = 0;
+
+	//Set velocity (m/s)
+	_Velocity.Set(_Velocity.x, remainingYVelocity);
+	
+	//Get actual velocity (cm/s)
+	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
+}
+
+
 void Body::SetVelocity(float vx, float vy)
 {
 	_Velocity.Set(vx, vy);
-	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
 }
 void Body::SetSize(float width, float height)
 {
@@ -52,6 +96,13 @@ const Vector2& Body::GetPosition() const
 	return _Position;
 }
 
+void Body::SetLinearDrag(float xDrag, float yDrag)
+{
+	if (xDrag < 0) xDrag = 0;
+	if (yDrag < 0) yDrag = 0;
+	_LinearDrag.Set(xDrag, yDrag);
+}
+
 void Body::Next(float dt, bool moveX, bool moveY)
 {
 
@@ -64,12 +115,12 @@ void Body::Next(float dt, bool moveX, bool moveY)
 	//Set body to the next position
 	if (moveX)
 	{
-		_Position.Set(_Position.x + GetTotalVelocity(dt).x*dt, _Position.y);
+		_Position.Set(_Position.x + _TotalVelocity.x*dt, _Position.y);
 	}
 
 	if (moveY)
 	{
-		_Position.Set(_Position.x, _Position.y + GetTotalVelocity(dt).y*dt);
+		_Position.Set(_Position.x, _Position.y + _TotalVelocity.y*dt);
 
 	}
 	else
@@ -77,49 +128,9 @@ void Body::Next(float dt, bool moveX, bool moveY)
 		_Velocity.y = 0;
 	}
 
-
-	//_Velocity.x = _Velocity.x * 100;
-	_Velocity.y += -9.8 * dt;
-
-	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
-
-	//calculate remaining _Velocity x
-	if (_Velocity.x != 0)
-	{
-		float remainingXVeloccity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
-
-		if (remainingXVeloccity*_Velocity.x <= 0)
-		{
-			_Velocity.Set(0, _Velocity.y);
-		}
-		else
-		{
-			_Velocity.Set(remainingXVeloccity, _Velocity.y);
-		}
-	}
-
-
-
-	//calculate remaining _Velocity y
-	float remainingYVelocity;
-
-	if (_Velocity.y>=0)
-	{
-		remainingYVelocity = _Velocity.y - max(0, min(9.8, _LinearDrag.y)) * dt;
-	}
-	else
-	{
-		remainingYVelocity = _Velocity.y + max(0, min(9.8, _LinearDrag.y)) * dt;
-	}
-
-
-	_Velocity.Set(_Velocity.x, remainingYVelocity);
-
-
-
 }
 
-const Vector2& Body::GetTotalVelocity(float dt)
+const Vector2& Body::GetTotalVelocity() const
 {
 	
 	return _TotalVelocity;

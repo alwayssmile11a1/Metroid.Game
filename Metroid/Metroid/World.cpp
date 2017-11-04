@@ -122,6 +122,9 @@ void World::Update(float dt)
 	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 	{
 		if ((*body1)->GetBodyType() == Body::BodyType::Static) continue;
+
+		(*body1)->CalculateActualVelocity( dt, _Gravity);
+
 		//bool doNextAction = true;
 		bool moveX = true, moveY = true;
 

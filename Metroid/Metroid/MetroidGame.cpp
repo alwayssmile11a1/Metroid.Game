@@ -38,7 +38,8 @@ void MetroidGame::CreateGame()
 	object3.FitBody();
 
 	object1.GetBody().SetBodyType(Body::BodyType::Dynamic);
-
+	object1.GetBody().SetLinearDrag(10, 0.2);
+	object1.GetBody().SetMass(2);
 	object2.GetBody().SetBodyType(Body::BodyType::Dynamic);
 
 	//setup animation
@@ -50,7 +51,7 @@ void MetroidGame::CreateGame()
 	map = mapLoader.GetMap("map1");
 	map->SetCamera(&cam);
 
-	//world = World(9.8);
+	world.SetGravity(-10);
 	world.AddBody(&object1.GetBody());
 	world.AddBody(&object2.GetBody());
 	world.AddBody(&object3.GetBody());
@@ -69,19 +70,19 @@ void MetroidGame::UpdateGame(float dt)
 	//object1.GetBody().SetVelocity(0, -100000);
 	if (input.GetKey(DIK_RIGHT))
 	{
-		object1.GetBody().SetVelocity(2, object1.GetBody().GetVelocity().y);
+		object1.GetBody().SetVelocity(5, object1.GetBody().GetVelocity().y);
 		object1.SetRegion(ani.Next(dt, true));
 	}        
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		object1.GetBody().SetVelocity(-2, object1.GetBody().GetVelocity().y);
+		object1.GetBody().SetVelocity(-5, object1.GetBody().GetVelocity().y);
 		object1.SetRegion(ani.Next(dt, false));
 	}
 
 	if (input.GetKeyDown(DIK_SPACE))
 	{
-		object1.GetBody().SetVelocity(object1.GetBody().GetVelocity().x, 3);
+		object1.GetBody().SetVelocity(object1.GetBody().GetVelocity().x, 8);
 	}
 
 	object2.SetVelocity(-2, 0);
@@ -92,10 +93,6 @@ void MetroidGame::UpdateGame(float dt)
 		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
 	}
 	
-
-
-	
-
 	if (input.GetKey(DIK_UP))
 	{	
 		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*200);
