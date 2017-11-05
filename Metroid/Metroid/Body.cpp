@@ -9,6 +9,7 @@ Body::Body()
 	_LinearDrag.Set(1, 1);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
+	_IsTrigger = false;
 }
 Body::Body(float x, float y, float width, float height, float vx, float vy)
 {
@@ -19,6 +20,7 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_LinearDrag.Set(1, 1);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
+	_IsTrigger = false;
 }
 Body::~Body()
 {
@@ -27,7 +29,7 @@ Body::~Body()
 
 void Body::CalculateActualVelocity(float dt, float gravity)
 {
-	if (_BodyType == BodyType::Static)
+	if (_BodyType == BodyType::Static || _IsTrigger)
 	{
 		_TotalVelocity.Set(0, 0);
 		return;
@@ -89,6 +91,16 @@ void Body::SetPosition(float x, float y)
 	_Position.Set(x, y);
 }
 
+void Body::SetID(const std::string &id)
+{
+	_ID = id;
+}
+
+const std::string& Body::GetID() const
+{
+	return _ID;
+}
+
 const Vector2& Body::GetVelocity() const
 {
 	return _Velocity;
@@ -112,7 +124,7 @@ void Body::SetLinearDrag(float xDrag, float yDrag)
 void Body::Next(float dt, bool moveX, bool moveY)
 {
 
-	if (_BodyType == BodyType::Static)
+	if (_BodyType == BodyType::Static || _IsTrigger)
 	{
 		return;
 	}
@@ -159,4 +171,13 @@ Body::BodyType Body::GetBodyType()
 float Body::GetMass() const
 {
 	return _Mass;
+}
+
+void  Body::IsTrigger(bool triggered)
+{
+	_IsTrigger = triggered;
+}
+bool Body::IsTrigger() const
+{
+	return _IsTrigger;
 }

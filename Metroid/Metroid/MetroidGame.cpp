@@ -40,6 +40,12 @@ void MetroidGame::CreateGame()
 	object1.GetBody().SetBodyType(Body::BodyType::Dynamic);
 	object1.GetBody().SetLinearDrag(10, 0.2);
 	object1.GetBody().SetMass(2);
+	object1.GetBody().SetID("Player");
+
+	foot.SetSize(25, 20);
+	foot.IsTrigger(true);
+	foot.SetID("Foot");
+
 	object2.GetBody().SetBodyType(Body::BodyType::Dynamic);
 
 	//setup animation
@@ -55,6 +61,9 @@ void MetroidGame::CreateGame()
 	world.AddBody(&object1.GetBody());
 	world.AddBody(&object2.GetBody());
 	world.AddBody(&object3.GetBody());
+	world.AddBody(&foot);
+	world.SetContactListener(this);
+
 
 	
 	world.AddBody(map->GetObjectGroup("Land")->GetBodies());
@@ -63,16 +72,17 @@ void MetroidGame::CreateGame()
 	world.AddBody(map->GetObjectGroup("Wall 3")->GetBodies());
 	world.AddBody(map->GetObjectGroup("Platform 1")->GetBodies());
 	world.AddBody(map->GetObjectGroup("Platform 2")->GetBodies());
+
 }
 
-void MetroidGame::UpdateGame(float dt)
+void MetroidGame::HandlePhysics(float dt)
 {
 	//object1.GetBody().SetVelocity(0, -100000);
 	if (input.GetKey(DIK_RIGHT))
 	{
 		object1.GetBody().SetVelocity(5, object1.GetBody().GetVelocity().y);
 		object1.SetRegion(ani.Next(dt, true));
-	}        
+	}
 
 	if (input.GetKey(DIK_LEFT))
 	{
@@ -80,21 +90,62 @@ void MetroidGame::UpdateGame(float dt)
 		object1.SetRegion(ani.Next(dt, false));
 	}
 
-	if (input.GetKeyDown(DIK_SPACE))
+	if (input.GetKeyDown(DIK_SPACE) && isGrounded && !isJumped)
 	{
 		object1.GetBody().SetVelocity(object1.GetBody().GetVelocity().x, 8);
+		isGrounded = false;
+		isJumped = true;
 	}
 
 	object2.SetVelocity(-2, 0);
+
+	//Update world
+	world.Update(dt);
+	
+	if (isJumped)
+	{
+		isGrounded = false;
+		isJumped = false;
+	}
+
+}
+
+void  MetroidGame::Render()
+{
+	//start drawing
+	batch.Begin();
+
+	//render map
+	map->Render(batch);
+
+	//
+	batch.Draw(object1);
+	batch.Draw(object2);
+	batch.Draw(object3);
+
+	//
+	world.RenderBodiesDebug(batch);
+
+	//end drawing
+	batch.End();
+}
+
+void MetroidGame::UpdateGame(float dt)
+{
+	HandlePhysics(dt);
 
 
 	if (object1.GetPosition().x > cam.GetPosition().x)
 	{
 		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
 	}
+
+	if (object1.GetPosition().x < cam.GetPosition().x- 250)
+	{
+		cam.SetPosition(object1.GetPosition().x + 250, cam.GetPosition().y);
+		if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
+	}
 	
-
-
 	if (input.GetKey(DIK_UP))
 	{	
 		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt*200);
@@ -110,26 +161,20 @@ void MetroidGame::UpdateGame(float dt)
 		ShutDownApplication();
 	}
 
-	//Update world
-	world.Update(dt);
 
 	object1.Update(dt);
 
-	//start drawing
-	batch.Begin();
-	
-	//render map
-	map->Render(batch);
+	foot.SetPosition(object1.GetBody().GetPosition().x, object1.GetBody().GetPosition().y - 30);
 
-	//
-	batch.Draw(object1);
-    batch.Draw(object2);
-	batch.Draw(object3);
 
-	//
-	world.RenderBodiesDebug(batch);
+	Render();
 
-	//end drawing
-	batch.End();
+}
 
+void MetroidGame::OnContact(const Body &bodyA, const Body &bodyB)
+{
+	if (bodyA.GetID()._Equal("Foot") && !bodyB.GetID()._Equal("Player"))
+	{
+		isGrounded = true;
+	}
 }

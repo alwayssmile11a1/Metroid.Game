@@ -4,12 +4,10 @@
 #include "stdafx.h"
 
 
-#define CenToPixel 37.795276
-
 class Body
 {
 public: 
-    enum BodyType { Dynamic, Kinematic, Static };
+    enum BodyType { Static, Kinematic, Dynamic };
 
 private:
 	Vector2 _Position;
@@ -21,7 +19,9 @@ private:
 	
 	BodyType _BodyType;
 	
+	std::string _ID; //The id of this body
 	
+	bool _IsTrigger;
 
 public:
 
@@ -34,10 +34,9 @@ public:
 	void SetPosition(float x, float y);
 	void SetMass(float mass);
 	void SetBodyType(BodyType type);
-	void CalculateActualVelocity(float dt, float gravity);
-
 	//from 0-> infinity
 	void SetLinearDrag(float xDrag, float yDrag);
+	void SetID(const std::string &id);
 
 	const Vector2& GetVelocity() const;
 	const Vector2& GetSize() const;
@@ -45,6 +44,11 @@ public:
 	const Vector2& GetTotalVelocity() const;
 	float GetMass() const;
 	Body::BodyType GetBodyType();
+	const std::string& GetID() const;
+
+	void CalculateActualVelocity(float dt, float gravity);
+	void IsTrigger(bool triggered);
+	bool IsTrigger() const;
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 

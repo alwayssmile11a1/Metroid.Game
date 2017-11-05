@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Framework\TMXMapLoader">
       <UniqueIdentifier>{1ba7b7dd-9757-4bb2-864e-56b5fbf0ba72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MetroidGame">
+      <UniqueIdentifier>{b6f32786-0e12-451b-926c-5094ef269db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MetroidGame">
+      <UniqueIdentifier>{9743c8f0-5573-4ba5-818e-c7e592851fe0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -53,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="MetroidGame.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Framework</Filter>
@@ -99,6 +102,12 @@
     <ClCompile Include="TMXObjectGroup.cpp">
       <Filter>Source Files\Framework\TMXMapLoader</Filter>
     </ClCompile>
+    <ClCompile Include="WorldContactListener.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="MetroidGame.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -127,9 +136,6 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="MetroidGame.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Framework</Filter>
@@ -184,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="TMXObjectGroup.h">
       <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldContactListener.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="MetroidGame.h">
+      <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

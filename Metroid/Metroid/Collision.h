@@ -29,15 +29,13 @@ private:
 
 
 private: //private function
-	bool isCollide(Body &targetBody, Body &otherBody, float DeltaTime);
+	bool IsColliding(Body &targetBody, Body &otherBody, float DeltaTime);
 
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
-	bool isOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime);
+	bool IsOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime);
 
-	void updateTargetPosition(Body &body, Vector2 move);
+	void UpdateTargetPosition(Body &body, Vector2 move);
 
-	// 2 body có chồng lên nhau hay không
-	bool isOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY, float dt);
 
 	void Push(Body &body);
 	void Slide(Body &body);
@@ -47,7 +45,8 @@ public:
 	Collision();
 	~Collision();
 
-	bool checkCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY);
-	bool checkOverlaying(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction);
-
+	bool PerformCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY);
+	
+	// 2 body có chồng lên nhau hay không
+	bool IsOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY);
 };

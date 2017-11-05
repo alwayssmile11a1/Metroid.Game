@@ -121,19 +121,21 @@ void World::Update(float dt)
 
 	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 	{
-		if ((*body1)->GetBodyType() == Body::BodyType::Static) continue;
+		if ((*body1)->GetBodyType() == Body::BodyType::Static && (*body1)->IsTrigger() != true) continue;
 
-		(*body1)->CalculateActualVelocity( dt, _Gravity);
+		(*body1)->CalculateActualVelocity(dt, _Gravity);
 
 		//bool doNextAction = true;
 		bool moveX = true, moveY = true;
 
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
-			if ((*body1) == (*body2) ) continue;
+			if ((*body1) == (*body2) || (*body2)->IsTrigger() == true) continue;
 
-
-			collision.checkCollision(**body1, **body2, dt, 0, moveX, moveY);
+			if (collision.PerformCollision(**body1, **body2, dt, 0, moveX, moveY))
+			{
+				_Listener->OnContact(**body1, **body2);
+			}
 
 		}
 
@@ -141,6 +143,7 @@ void World::Update(float dt)
 	}
 
 }
+
 void World::AddBody(Body *body)
 {
 	_Bodies.push_back(body);
@@ -149,6 +152,11 @@ void World::AddBody(Body *body)
 void World::AddBody(const std::vector<Body*> &bodies)
 {
 	_Bodies.insert(_Bodies.end(), bodies.begin(),bodies.end());
+}
+
+void World::SetContactListener(WorldContactListener *listener)
+{
+	_Listener = listener;
 }
 
 void World::RemoveBody(Body* body)

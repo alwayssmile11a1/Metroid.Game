@@ -9,7 +9,7 @@
 #include "TMXLoader.h"
 #include "Object.h"
 
-class MetroidGame: public Game
+class MetroidGame: public Game, public WorldContactListener
 {
 private:
 	Animation ani;
@@ -18,6 +18,8 @@ private:
 	//Sprite characterSprite;
 	//Sprite characterSprite2;
 	//Sprite characterSprite3;
+	bool isGrounded = false;
+	bool isJumped = false;
 
 	Camera cam;
 
@@ -31,13 +33,20 @@ private:
 	Object object2;
 	Object object3;
 
+	Body foot;
+
 protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame();
 	//update game by one frame (render, control game) - just write your game here
 	void UpdateGame(float dt);
 
-	//void Resize(float x, float y);
+	//Override OnContact of WorldContactListener
+	void OnContact(const Body &bodyA, const Body &bodyB);
+
+	void HandlePhysics(float dt);
+
+	void Render();
 
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
