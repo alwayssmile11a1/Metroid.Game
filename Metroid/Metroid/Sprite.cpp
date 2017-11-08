@@ -41,34 +41,34 @@ Sprite::Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop
 	_RectPosition.Set(rectLeft, rectTop);
 }
 
-Sprite::Sprite(const Sprite &sprite)
-{
-	
-	_Texture = sprite._Texture;
-	_ScaleFactor = sprite._ScaleFactor;
-	_Size = sprite._Size;
-	_RotationOrigin = sprite._RotationOrigin;
-	_IsCenterOrigin = sprite._IsCenterOrigin;
-	_Rotation = sprite._Rotation;
-	_Position = sprite._Position;
-	_RectSize = sprite._RectSize;
-	_RectPosition = sprite._RectPosition;
-}
-
-Sprite& Sprite::operator=(const Sprite &sprite)
-{
-	_Texture = sprite._Texture;
-	_Size = sprite._Size;
-	_ScaleFactor = sprite._ScaleFactor;
-	_RotationOrigin = sprite._RotationOrigin;
-	_IsCenterOrigin = sprite._IsCenterOrigin;
-	_Rotation = sprite._Rotation;
-	_Position = sprite._Position;
-	_RectSize = sprite._RectSize;
-	_RectPosition = sprite._RectPosition;
-
-	return *this;
-}
+//Sprite::Sprite(const Sprite &sprite)
+//{
+//	
+//	_Texture = sprite._Texture;
+//	_ScaleFactor = sprite._ScaleFactor;
+//	_Size = sprite._Size;
+//	_RotationOrigin = sprite._RotationOrigin;
+//	_IsCenterOrigin = sprite._IsCenterOrigin;
+//	_Rotation = sprite._Rotation;
+//	_Position = sprite._Position;
+//	_RectSize = sprite._RectSize;
+//	_RectPosition = sprite._RectPosition;
+//}
+//
+//Sprite& Sprite::operator=(const Sprite &sprite)
+//{
+//	_Texture = sprite._Texture;
+//	_Size = sprite._Size;
+//	_ScaleFactor = sprite._ScaleFactor;
+//	_RotationOrigin = sprite._RotationOrigin;
+//	_IsCenterOrigin = sprite._IsCenterOrigin;
+//	_Rotation = sprite._Rotation;
+//	_Position = sprite._Position;
+//	_RectSize = sprite._RectSize;
+//	_RectPosition = sprite._RectPosition;
+//
+//	return *this;
+//}
 
 //all get functions
 const Vector2& Sprite::GetRotationOrigin() const

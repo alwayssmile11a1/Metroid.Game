@@ -67,6 +67,9 @@ public:
 	//and this function will take care the rest for you
 	int RunGame();
 
+	//Release game
+	void Release();
+
 };
 
 

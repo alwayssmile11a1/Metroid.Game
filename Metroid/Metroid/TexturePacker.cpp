@@ -56,13 +56,16 @@ std::vector<TextureRegion> TexturePacker::GetRegion(std::string regionName) cons
 	//	regions.push_back(textureRegion);
 
 	//}
-	if (!_Content._Equal(""))
+
+	std::string tempContent = _Content;
+
+	if (!tempContent._Equal(""))
 	{
 		// Create new RapidXML document instance to use to parse map data
 		rapidxml::xml_document<char> currentMap;
 
 		//parse the file
-		currentMap.parse<0>((char*)_Content.c_str());
+		currentMap.parse<0>((char*)tempContent.c_str());
 
 		//get region node
 		rapidxml::xml_node<> *currentNode = currentMap.first_node((char*)regionName.c_str());

@@ -34,52 +34,52 @@ Object::~Object()
 //	return *this;
 //}
 
-Body& Object::GetBody() 
+Body* Object::GetBody() 
 {
-	return _Body;
+	return mainBody;
 }
 
-void  Object::SetBody(const Body &body)
+void  Object::SetBody(Body *body)
 {
-	_Body = body;
+	mainBody = body;
 }
 
 void  Object::SetBodyPosition(float x, float y)
 {
-	_Body.SetPosition(x, y);
+	mainBody->SetPosition(x, y);
 }
 void  Object::SetVelocity(float vx, float vy)
 {
-	_Body.SetVelocity(vx, vy);
+	mainBody->SetVelocity(vx, vy);
 }
 void  Object::SetBodySize(float width, float height)
 {
-	_Body.SetSize(width, height);
+	mainBody->SetSize(width, height);
 }
 
 const Vector2& Object::GetVelocity() const
 {
-	return _Body.GetVelocity();
+	return mainBody->GetVelocity();
 }
 
 void Object::SetMass(float mass)
 {
-	_Body.SetMass(mass);
+	mainBody->SetMass(mass);
 }
 
 
 float Object::GetMass() const
 {
-	return _Body.GetMass();
+	return mainBody->GetMass();
 }
 
 void Object::Update(float dt)
 {
-	SetPosition(_Body.GetPosition().x, _Body.GetPosition().y);
+	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
 }
 
 void Object::FitBody()
 {
-	_Body.SetPosition(GetPosition().x, GetPosition().y);
-	_Body.SetSize(GetSize().x, GetSize().y);
+	mainBody->SetPosition(GetPosition().x, GetPosition().y);
+	mainBody->SetSize(GetSize().x, GetSize().y);
 }

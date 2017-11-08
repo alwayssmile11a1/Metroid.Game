@@ -28,21 +28,26 @@ Animation::Animation(const std::vector<TextureRegion> &regions, float frameInter
 
 Animation::Animation(const Animation &ani)
 {
+	_Count = ani._Count;
+	_Index = ani._Index;
+	_StateTime = ani._StateTime;
+	_FrameInterval = ani._FrameInterval;
+
 	for (int i = 0; i < _Count; i++)
 	{
 		TextureRegion* textureRegion = new TextureRegion();
 		*textureRegion = *ani._Regions[i];
 		_Regions.push_back(textureRegion);
 	}
-
-	_Count = ani._Count;
-	_Index = ani._Index;
-	_StateTime = ani._StateTime;
-	_FrameInterval = ani._FrameInterval;
 
 }
 Animation& Animation::operator=(const Animation &ani)
 {
+	_Count = ani._Count;
+	_Index = ani._Index;
+	_StateTime = ani._StateTime;
+	_FrameInterval = ani._FrameInterval;
+
 	for (int i = 0; i < _Count; i++)
 	{
 		TextureRegion* textureRegion = new TextureRegion();
@@ -50,10 +55,6 @@ Animation& Animation::operator=(const Animation &ani)
 		_Regions.push_back(textureRegion);
 	}
 
-	_Count = ani._Count;
-	_Index = ani._Index;
-	_StateTime = ani._StateTime;
-	_FrameInterval = ani._FrameInterval;
 	return *this;
 }
 

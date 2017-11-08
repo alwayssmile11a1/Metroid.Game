@@ -4,7 +4,7 @@ World::World()
 {
 	_Gravity = 9.8f;
 	_Bodies.clear();
-	//_DebugSquareTexture = Texture("System/debugsquare.png");
+	
 }
 
 World::World(float gravity)
@@ -37,34 +37,34 @@ World::~World()
 	//}
 }
 
-World::World(const World &world)
-{
-	this->_Gravity = world._Gravity;
-	this->_Bodies = world._Bodies;
-	_DebugSquareTexture = world._DebugSquareTexture;
-	/*std::vector<Object*> vectorCopy = world.GetObjectsList();
-	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
-	{
-		Object * temp = new Object();
-		*temp = **obj;
-		this->Objects.push_back(temp);
-	}*/
-}
-
-World& World::operator=(const World &world)
-{
-	this->_Gravity = world._Gravity;
-	this->_Bodies = world._Bodies;
-	_DebugSquareTexture = world._DebugSquareTexture;
-	//std::vector<Object*> vectorCopy = world.GetObjectsList();
-	//for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
-	//{
-	//	Object * temp = new Object();
-	//	*temp = **obj;
-	//	this->Objects.push_back(temp);
-	//}
-	return *this;
-}
+//World::World(const World &world)
+//{
+//	this->_Gravity = world._Gravity;
+//	this->_Bodies = world._Bodies;
+//	_DebugSquareTexture = world._DebugSquareTexture;
+//	/*std::vector<Object*> vectorCopy = world.GetObjectsList();
+//	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
+//	{
+//		Object * temp = new Object();
+//		*temp = **obj;
+//		this->Objects.push_back(temp);
+//	}*/
+//}
+//
+//World& World::operator=(const World &world)
+//{
+//	this->_Gravity = world._Gravity;
+//	this->_Bodies = world._Bodies;
+//	_DebugSquareTexture = world._DebugSquareTexture;
+//	//std::vector<Object*> vectorCopy = world.GetObjectsList();
+//	//for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
+//	//{
+//	//	Object * temp = new Object();
+//	//	*temp = **obj;
+//	//	this->Objects.push_back(temp);
+//	//}
+//	return *this;
+//}
 
 const std::vector<Body*>& World::GetBodysList() const
 {
@@ -121,7 +121,7 @@ void World::Update(float dt)
 
 	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 	{
-		if ((*body1)->GetBodyType() == Body::BodyType::Static && (*body1)->IsTrigger() != true) continue;
+		if ((*body1)->GetBodyType() == Body::BodyType::Static && (*body1)->IsSensor() != true) continue;
 
 		(*body1)->CalculateActualVelocity(dt, _Gravity);
 
@@ -130,7 +130,7 @@ void World::Update(float dt)
 
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
-			if ((*body1) == (*body2) || (*body2)->IsTrigger() == true) continue;
+			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
 
 			if (collision.PerformCollision(**body1, **body2, dt, 0, moveX, moveY))
 			{

@@ -26,8 +26,8 @@ public:
 	World(float gravity);
 	~World();
 
-	World(const World &world);
-	World& operator=(const World &world);
+	//World(const World &world);
+	//World& operator=(const World &world);
 
 
 	//All get functions

@@ -13,16 +13,16 @@ private:
 	Vector2 _RectPosition; //the top left position of portion we want to draw
 	Vector2 _ScaleFactor; //scale
 
-	//bool _CreateNewTexture; //if true, allocate a new memory for the texture
 
 public:
 	TextureRegion();
 	//create a texture from file
-	TextureRegion(Texture* texture, /*bool createNew,*/ float rectLeft, float rectTop, float rectWidth, float rectHeight);
-	TextureRegion(const TextureRegion &TextureRegion);
-	~TextureRegion();
+	TextureRegion(Texture* texture, float rectLeft, float rectTop, float rectWidth, float rectHeight);
 
-	TextureRegion& operator=(const TextureRegion &TextureRegion);
+	~TextureRegion();
+	
+	//TextureRegion(const TextureRegion &TextureRegion);
+	//TextureRegion& operator=(const TextureRegion &TextureRegion);
 
 	//all get functions
 	const Vector2& GetRectSize() const;

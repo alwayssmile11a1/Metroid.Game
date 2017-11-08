@@ -9,7 +9,7 @@ Body::Body()
 	_LinearDrag.Set(1, 1);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
-	_IsTrigger = false;
+	_IsSensor = false;
 }
 Body::Body(float x, float y, float width, float height, float vx, float vy)
 {
@@ -20,7 +20,7 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_LinearDrag.Set(1, 1);
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
-	_IsTrigger = false;
+	_IsSensor = false;
 }
 Body::~Body()
 {
@@ -29,7 +29,7 @@ Body::~Body()
 
 void Body::CalculateActualVelocity(float dt, float gravity)
 {
-	if (_BodyType == BodyType::Static || _IsTrigger)
+	if (_BodyType == BodyType::Static || _IsSensor)
 	{
 		_TotalVelocity.Set(0, 0);
 		return;
@@ -124,7 +124,7 @@ void Body::SetLinearDrag(float xDrag, float yDrag)
 void Body::Next(float dt, bool moveX, bool moveY)
 {
 
-	if (_BodyType == BodyType::Static || _IsTrigger)
+	if (_BodyType == BodyType::Static || _IsSensor)
 	{
 		return;
 	}
@@ -173,11 +173,21 @@ float Body::GetMass() const
 	return _Mass;
 }
 
-void  Body::IsTrigger(bool triggered)
+void  Body::IsSensor(bool triggered)
 {
-	_IsTrigger = triggered;
+	_IsSensor = triggered;
 }
-bool Body::IsTrigger() const
+bool Body::IsSensor() const
 {
-	return _IsTrigger;
+	return _IsSensor;
+}
+
+void Body::PutExtra(void* anything)
+{
+	_Extra = anything;
+}
+
+void* Body::GetExtra()
+{
+	return _Extra;
 }

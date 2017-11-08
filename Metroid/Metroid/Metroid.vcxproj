@@ -135,6 +135,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MetroidGame.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="MetroidGame.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />

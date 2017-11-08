@@ -282,7 +282,7 @@ bool Collision::PerformCollision(Body &targetBody, Body &otherBody, float DeltaT
 
 void Collision::UpdateTargetPosition(Body &targetBody, Vector2 move)
 {
-	if (targetBody.IsTrigger()) return;
+	if (targetBody.IsSensor()) return;
 
 	if (move == Vector2(0, 0))
 		targetBody.SetPosition(_CollisionPosition.x, _CollisionPosition.y);

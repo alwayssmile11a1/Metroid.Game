@@ -122,6 +122,50 @@ Texture& Texture::operator=(const Texture &texture)
 	return *this;
 }
 
+
+////Create a clone of this texture
+//void Texture::Clone(Texture &texture)
+//{
+//		texture._Transcolor = _Transcolor;
+//		texture._ImageSize = _ImageSize;
+//		texture._FilePath = _FilePath;
+//		
+//		//get path from string
+//		std::wstring stemp = StringToWstring(_FilePath);
+//		LPCWSTR path = stemp.c_str();
+//	
+//		//Get image from file
+//		texture._Image = NULL;
+//		D3DXIMAGE_INFO info;
+//		D3DXGetImageInfoFromFile(path, &info);
+//		D3DXCreateTextureFromFileEx(
+//			d3ddevice,
+//			path,
+//			info.Width,
+//			info.Height,
+//			1,
+//			D3DPOOL_DEFAULT,
+//			D3DFMT_UNKNOWN,
+//			D3DPOOL_DEFAULT,
+//			D3DX_DEFAULT,
+//			D3DX_DEFAULT,
+//			_Transcolor,
+//			&info,
+//			NULL,
+//			&texture._Image);
+//	
+//}
+//
+////release this texture
+//void Texture::Release()
+//{
+//	if (_Image != NULL)
+//	{
+//		_Image->Release();
+//		_Image = NULL;
+//	}
+//}
+
 //all get functions
 D3DCOLOR Texture::GetTranscolor() const
 {
@@ -160,10 +204,10 @@ std::wstring Texture::StringToWstring(const std::string& s)
 Texture::~Texture()
 {
 
-	if (_Image != NULL)
+	/*if (_Image != NULL)
 	{
 		_Image->Release();
 		_Image = NULL;
-	}
+	}*/
 
 }

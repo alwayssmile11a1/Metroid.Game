@@ -240,7 +240,7 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float rectLeft,
 
 void SpriteBatch::Draw(const Sprite &sprite)
 {
-	if (_SpriteHandler == NULL || &sprite == NULL) return;
+	if (_SpriteHandler == NULL || sprite.GetTexture() == NULL) return;
 
 	//virtual position
 	_Position.x = sprite.GetPosition().x;

@@ -24,6 +24,43 @@ Game::Game(HINSTANCE hInstance, LPWSTR windowName, int _screenWidth, int _screen
 
 Game::~Game()
 {
+	////free the backbuffer
+	//if (_Backbuffer != NULL)
+	//{
+	//	_Backbuffer->Release();
+	//	_Backbuffer = NULL;
+	//}
+
+	////free the _Background
+	//if (_Background != NULL)
+	//{
+	//	_Background->Release();
+	//	_Background = NULL;
+	//}
+
+	////Release DirectXDevice
+	////release the Direct3D device
+	//if (d3ddevice != NULL) {
+	//	d3ddevice->Release();
+	//	d3ddevice = NULL;
+	//}
+
+	////release the Direct3D object
+	//if (d3d != NULL)
+	//{
+	//	d3d->Release();
+	//	d3d = NULL;
+	//}
+
+	////Release input
+	//input.Release();
+
+}
+
+
+//Release game
+void Game::Release()
+{
 	//free the backbuffer
 	if (_Backbuffer != NULL)
 	{
@@ -54,7 +91,6 @@ Game::~Game()
 
 	//Release input
 	input.Release();
-
 }
 
 void Game::SetBackGroundColor(D3DCOLOR color)

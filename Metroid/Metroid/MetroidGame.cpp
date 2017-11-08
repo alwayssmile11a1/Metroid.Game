@@ -7,7 +7,16 @@ MetroidGame::MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth
 }
 MetroidGame::~MetroidGame()
 {
+
+}
+
+void MetroidGame::Release()
+{
+	Game::Release();
 	batch.Release();
+	player.Release();
+	delete body1;
+	delete body2;
 }
 
 void MetroidGame::CreateGame()
@@ -21,47 +30,31 @@ void MetroidGame::CreateGame()
 	//set the camera to be used by this batch
 	batch.SetCamera(&cam);
 
-	//create character
-	characterTexture = Texture("Resources/samusaran_sheet.png");
+	player = Player(world);
+
+	//object examples
+	body1 = new Body();
+	body1->SetSize(34, 66);
+	body1->SetPosition(16 * 30, 16 * 5);
+	body1->SetBodyType(Body::BodyType::Dynamic);
 
 
-	object1 = Object(&characterTexture, 16 * 8, 16 * 5, 244, 36, 17, 33);
-	object2 = Object(&characterTexture, 16 * 30, 16 * 5, 244, 36, 17, 33);
-	object3 = Object(&characterTexture, 16 * 11, 16 * 5, 244, 36, 17, 33);
+	body2 = new Body();
+	body2->SetSize(34, 66);
+	body2->SetPosition(16 * 11, 16 * 5);
 
-	object1.SetSize(34, 66);
-	object2.SetSize(34, 66);
-	object3.SetSize(34, 66);
 
-	object1.FitBody();
-	object2.FitBody();
-	object3.FitBody();
 
-	object1.GetBody().SetBodyType(Body::BodyType::Dynamic);
-	object1.GetBody().SetLinearDrag(10, 0.2);
-	object1.GetBody().SetMass(2);
-	object1.GetBody().SetID("Player");
-
-	foot.SetSize(25, 20);
-	foot.IsTrigger(true);
-	foot.SetID("Foot");
-
-	object2.GetBody().SetBodyType(Body::BodyType::Dynamic);
-
-	//setup animation
-	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
-	ani.AddRegion(p.GetRegion("charactermove"));
-	
 	//load map
 	mapLoader.AddMap("map1", "Resources/map2.tmx");
 	map = mapLoader.GetMap("map1");
 	map->SetCamera(&cam);
 
+
+	//world
 	world.SetGravity(-10);
-	world.AddBody(&object1.GetBody());
-	world.AddBody(&object2.GetBody());
-	world.AddBody(&object3.GetBody());
-	world.AddBody(&foot);
+	world.AddBody(body1);
+	world.AddBody(body2);
 	world.SetContactListener(this);
 
 
@@ -71,35 +64,17 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::HandlePhysics(float dt)
 {
-	//object1.GetBody().SetVelocity(0, -100000);
-	if (input.GetKey(DIK_RIGHT))
-	{
-		object1.GetBody().SetVelocity(5, object1.GetBody().GetVelocity().y);
-		object1.SetRegion(ani.Next(dt, true));
-	}
+	player.HandleInput(dt);
 
-	if (input.GetKey(DIK_LEFT))
-	{
-		object1.GetBody().SetVelocity(-5, object1.GetBody().GetVelocity().y);
-		object1.SetRegion(ani.Next(dt, false));
-	}
-
-	if (input.GetKeyDown(DIK_SPACE) && isGrounded && !isJumped)
-	{
-		object1.GetBody().SetVelocity(object1.GetBody().GetVelocity().x, 8);
-		isGrounded = false;
-		isJumped = true;
-	}
-
-	object2.SetVelocity(-2, 0);
+	body1->SetVelocity(-2, 0);
 
 	//Update world
 	world.Update(dt);
 	
-	if (isJumped)
+	if (player.isJumping)
 	{
-		isGrounded = false;
-		isJumped = false;
+		player.isGrounded = false;
+		player.isJumping = false;
 	}
 
 }
@@ -113,9 +88,9 @@ void  MetroidGame::Render()
 	map->Render(batch);
 
 	//
-	batch.Draw(object1);
-	batch.Draw(object2);
-	batch.Draw(object3);
+	batch.Draw(player);
+	//batch.Draw(object2);
+	//batch.Draw(object3);
 
 	//
 	world.RenderBodiesDebug(batch);
@@ -127,16 +102,17 @@ void  MetroidGame::Render()
 void MetroidGame::UpdateGame(float dt)
 {
 	HandlePhysics(dt);
+	
+	player.Update(dt);
 
-
-	if (object1.GetPosition().x > cam.GetPosition().x)
+	if (player.GetPosition().x > cam.GetPosition().x)
 	{
-		cam.SetPosition(object1.GetPosition().x, cam.GetPosition().y);
+		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 	}
 
-	if (object1.GetPosition().x < cam.GetPosition().x- 250)
+	if (player.GetPosition().x < cam.GetPosition().x- 250)
 	{
-		cam.SetPosition(object1.GetPosition().x + 250, cam.GetPosition().y);
+		cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
 		if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
 	}
 	
@@ -156,9 +132,7 @@ void MetroidGame::UpdateGame(float dt)
 	}
 
 
-	object1.Update(dt);
-
-	foot.SetPosition(object1.GetBody().GetPosition().x, object1.GetBody().GetPosition().y - 30);
+	player.foot->SetPosition(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y - 30);
 
 
 	Render();
@@ -169,6 +143,6 @@ void MetroidGame::OnContact(const Body &bodyA, const Body &bodyB)
 {
 	if (bodyA.GetID()._Equal("Foot") && !bodyB.GetID()._Equal("Player"))
 	{
-		isGrounded = true;
+		player.isGrounded = true;
 	}
 }

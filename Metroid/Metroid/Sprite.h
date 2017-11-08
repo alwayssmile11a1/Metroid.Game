@@ -30,10 +30,10 @@ public:
 	
 	//draw a portion of image, stretch it to width and height
 	Sprite(Texture *texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight);
-	Sprite(const Sprite &sprite);
 	~Sprite();
 
-	Sprite& operator=(const Sprite &texture);
+	/*Sprite(const Sprite &sprite);
+	Sprite& operator=(const Sprite &texture);*/
 
 	//all get functions
 	const Vector2& GetRotationOrigin() const;

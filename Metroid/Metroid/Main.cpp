@@ -24,5 +24,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	MetroidGame game(hInstance, APPTITLE, SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREENMODE, FRAME_RATE);
 	game.RunGame();
-
+	game.Release();
 }

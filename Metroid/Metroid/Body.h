@@ -21,7 +21,10 @@ private:
 	
 	std::string _ID; //The id of this body
 	
-	bool _IsTrigger;
+	bool _IsSensor;
+
+	void* _Extra; //Extra information for this body
+				 //can be anything
 
 public:
 
@@ -47,12 +50,15 @@ public:
 	const std::string& GetID() const;
 
 	void CalculateActualVelocity(float dt, float gravity);
-	void IsTrigger(bool triggered);
-	bool IsTrigger() const;
+	void IsSensor(bool triggered);
+	bool IsSensor() const;
+
+	void PutExtra(void* anything);
+	void* GetExtra();
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 
 	void Next(float dt, bool moveX, bool moveY);
-
+	
 };
 

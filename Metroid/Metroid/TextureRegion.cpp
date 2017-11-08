@@ -7,71 +7,34 @@ TextureRegion::TextureRegion()
 	_RectSize.Set(0, 0);
 	_Texture = NULL;
 	_ScaleFactor.Set(1, 1);
-	//_CreateNewTexture = false;
 }
 
 
-TextureRegion::TextureRegion(Texture *texture, /*bool createNew, */float rectX, float rectY, float rectWidth, float rectHeight)
+TextureRegion::TextureRegion(Texture *texture, float rectX, float rectY, float rectWidth, float rectHeight)
 {
-	////set
-	//_CreateNewTexture = createNew;
 
-	//if (createNew)
-	//{
-	//	_Texture = new Texture();
-	//	*_Texture = *texture;
-	//}
-	//else
-	//{
-	//	_Texture = texture;
-	//}
 	_Texture = texture;
 	_RectSize = Vector2(rectWidth, rectHeight);
 	_RectPosition = Vector2(rectX, rectY);
 	_ScaleFactor.Set(1, 1);
 }
 
-TextureRegion::TextureRegion(const TextureRegion &textureRegion)
-{
-	_RectPosition = textureRegion._RectPosition;
-	_RectSize = textureRegion._RectSize;
-	_ScaleFactor = textureRegion._ScaleFactor;
-	//set
-	/*_CreateNewTexture = textureRegion._CreateNewTexture;
-
-	if (_CreateNewTexture)
-	{
-		_Texture = new Texture();
-		*_Texture = *textureRegion._Texture;
-	}
-	else
-	{
-		_Texture = textureRegion._Texture;
-	}*/
-	_Texture = textureRegion._Texture;
-}
-
-TextureRegion& TextureRegion::operator=(const TextureRegion &textureRegion)
-{
-	_RectPosition = textureRegion._RectPosition;
-	_RectSize = textureRegion._RectSize;
-	_ScaleFactor = textureRegion._ScaleFactor;
-	////set
-	//_CreateNewTexture = textureRegion._CreateNewTexture;
-
-	//if (_CreateNewTexture)
-	//{
-	//	_Texture = new Texture();
-	//	*_Texture = *textureRegion._Texture;
-	//}
-	//else
-	//{
-	//	_Texture = textureRegion._Texture;
-	//}
-
-	_Texture = textureRegion._Texture;
-	return *this;
-}
+//TextureRegion::TextureRegion(const TextureRegion &textureRegion)
+//{
+//	_RectPosition = textureRegion._RectPosition;
+//	_RectSize = textureRegion._RectSize;
+//	_ScaleFactor = textureRegion._ScaleFactor;
+//	_Texture = textureRegion._Texture;
+//}
+//
+//TextureRegion& TextureRegion::operator=(const TextureRegion &textureRegion)
+//{
+//	_RectPosition = textureRegion._RectPosition;
+//	_RectSize = textureRegion._RectSize;
+//	_ScaleFactor = textureRegion._ScaleFactor;
+//	_Texture = textureRegion._Texture;
+//	return *this;
+//}
 
 //all get functions
 const Vector2& TextureRegion::GetRectSize() const

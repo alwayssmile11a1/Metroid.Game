@@ -5,8 +5,8 @@
 //a sprite class but having a body 
 class Object: public Sprite
 {
-private:
-	Body _Body;
+protected:
+	Body* mainBody;
 
 public:
 
@@ -17,9 +17,10 @@ public:
 	//Object(const Object &object);
 	~Object();
 
-	//Object& operator=(const Object &object);
+	/*Object& operator=(const Object &object);
+	Object& operator=(const Object &object);*/
 
-	void SetBody(const Body &body);
+	void SetBody(Body *body);
 	void SetBodyPosition(float x, float y);
 	void SetVelocity(float vx, float vy);
 	void SetBodySize(float width, float height);
@@ -27,7 +28,7 @@ public:
 
 	const Vector2& GetVelocity() const;
 	float GetMass() const;
-	Body& GetBody();
+	Body* GetBody();
 
 	//Set the position and the size of the body equal sprite'
 	void FitBody();
