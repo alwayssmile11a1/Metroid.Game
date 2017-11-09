@@ -15,8 +15,8 @@ void WorldListener::OnContact(Body* bodyA, Body *bodyB)
 {
 	if (bodyA->GetID()._Equal("Foot") && !bodyB->GetID()._Equal("Player"))
 	{
-		bodyA->GetExtra()->isGrounded = true;
+		Player*player = (Player *)(bodyA->GetExtra());
 
-
+		player->isGrounded = true;
 	}
 }

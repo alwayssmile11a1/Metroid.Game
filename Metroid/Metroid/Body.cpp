@@ -182,12 +182,12 @@ bool Body::IsSensor() const
 	return _IsSensor;
 }
 
-void Body::PutExtra(Player* anything)
+void Body::PutExtra(GameObject* anything)
 {
 	_Extra = anything;
 }
 
-Player* Body::GetExtra()
+GameObject* Body::GetExtra()
 {
 	return _Extra;
 }

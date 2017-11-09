@@ -2,7 +2,6 @@
 
 
 #include "stdafx.h"
-#include"Player.h"
 
 class Body: public GameObject
 {
@@ -23,7 +22,7 @@ private:
 	
 	bool _IsSensor;
 
-	Player* _Extra; //Extra information for this body
+	GameObject* _Extra; //Extra information for this body
 				 //can be anything
 
 public:
@@ -53,8 +52,8 @@ public:
 	void IsSensor(bool triggered);
 	bool IsSensor() const;
 
-	void PutExtra(Player* anything);
-	Player* GetExtra();
+	void PutExtra(GameObject* anything);
+	GameObject* GetExtra();
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 

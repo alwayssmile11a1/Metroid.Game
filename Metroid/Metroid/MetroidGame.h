@@ -25,7 +25,7 @@ private:
 	Body* body1;
 	Body* body2;
 
-	Player player;
+	Player* player;
 
 	WorldListener* worldListener;
 
