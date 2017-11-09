@@ -4,7 +4,7 @@
 #include "Texture.h"
 
 // draw a portion of image 
-class TextureRegion
+class TextureRegion: public GameObject
 {
 private:
 	Texture *_Texture; //we don't initialize this variable by default, just use this to hold the reference to a texture

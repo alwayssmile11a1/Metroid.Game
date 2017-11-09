@@ -11,7 +11,7 @@ WorldContactListener::~WorldContactListener()
 {
 }
 
-void WorldContactListener::OnContact(const Body &bodyA, const Body &bodyB)
+void WorldContactListener::OnContact(Body* bodyA, Body *bodyB)
 {
 
 }

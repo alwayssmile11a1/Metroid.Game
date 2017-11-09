@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "TextureRegion.h"
 //Texture + Texture Region
-class Sprite 
+class Sprite :public GameObject
 {
 private:
 	Vector2 _Position; //the position of this sprite

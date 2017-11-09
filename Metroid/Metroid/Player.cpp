@@ -31,12 +31,14 @@ Player::Player(World &world)
 	mainBody->SetMass(2);
 	mainBody->SetID("Player");
 	mainBody->SetSize(34, 66);
+	mainBody->PutExtra(this);
 
 	//create foot
 	foot = new Body();
 	foot->SetSize(25, 20);
 	foot->IsSensor(true);
 	foot->SetID("Foot");
+	foot->PutExtra(this);
 
 	world.AddBody(mainBody);
 	world.AddBody(foot);

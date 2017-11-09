@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "TextureRegion.h"
 
-class Animation
+class Animation: public GameObject
 {
 private:
 	std::vector<TextureRegion*> _Regions;

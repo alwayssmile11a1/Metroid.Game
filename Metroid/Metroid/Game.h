@@ -4,7 +4,7 @@
 #include "Global.h"
 
 //this abstract class manages game structure, such as DirectX, game run, etc... 
-class Game
+class Game: public GameObject
 {
 private:
 

@@ -9,6 +9,7 @@
 #include "TMXLoader.h"
 #include "Object.h"
 #include "Player.h"
+#include "WorldListener.h"
 
 class MetroidGame: public Game, public WorldContactListener
 {
@@ -26,14 +27,13 @@ private:
 
 	Player player;
 
+	WorldListener* worldListener;
+
 protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame();
 	//update game by one frame (render, control game) - just write your game here
 	void UpdateGame(float dt);
-
-	//Override OnContact of WorldContactListener
-	void OnContact(const Body &bodyA, const Body &bodyB);
 
 	void HandlePhysics(float dt);
 

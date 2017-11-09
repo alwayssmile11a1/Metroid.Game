@@ -14,7 +14,7 @@
 //Drawing must be called between the begin and end methods
 //RECOMMEND: Consider using only one sprite batch throughout whole game
 //And SpriteBatch is not automatically released, you have to call the release method yourself
-class SpriteBatch
+class SpriteBatch: public GameObject
 {
 private:
 	LPD3DXSPRITE _SpriteHandler; //handle to a sprite 

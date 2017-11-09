@@ -17,6 +17,7 @@ void MetroidGame::Release()
 	player.Release();
 	delete body1;
 	delete body2;
+	delete worldListener;
 }
 
 void MetroidGame::CreateGame()
@@ -55,7 +56,9 @@ void MetroidGame::CreateGame()
 	world.SetGravity(-10);
 	world.AddBody(body1);
 	world.AddBody(body2);
-	world.SetContactListener(this);
+
+	worldListener = new WorldListener();
+	world.SetContactListener(worldListener);
 
 
 	world.AddBody(map->GetObjectGroup("Platform")->GetBodies());
@@ -139,10 +142,3 @@ void MetroidGame::UpdateGame(float dt)
 
 }
 
-void MetroidGame::OnContact(const Body &bodyA, const Body &bodyB)
-{
-	if (bodyA.GetID()._Equal("Foot") && !bodyB.GetID()._Equal("Player"))
-	{
-		player.isGrounded = true;
-	}
-}

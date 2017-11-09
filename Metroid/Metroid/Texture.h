@@ -5,7 +5,7 @@
 #include "Global.h"
 
 //Just like a image
-class Texture
+class Texture: public GameObject
 {
 private:
 	LPDIRECT3DTEXTURE9 _Image; //store the image that was loaded from file

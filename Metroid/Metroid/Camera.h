@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 //
-class Camera
+class Camera:public GameObject
 {
 private:
 	Vector2 _Position; //The camera position

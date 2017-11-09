@@ -14,5 +14,6 @@
 #include"Utility.h"
 #include "dinput.h"
 using namespace std;
+#include"GameObject.h"
 
 // TODO: reference additional headers your program requires here

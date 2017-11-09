@@ -2,9 +2,9 @@
 
 
 #include "stdafx.h"
+#include"Player.h"
 
-
-class Body
+class Body: public GameObject
 {
 public: 
     enum BodyType { Static, Kinematic, Dynamic };
@@ -23,7 +23,7 @@ private:
 	
 	bool _IsSensor;
 
-	void* _Extra; //Extra information for this body
+	Player* _Extra; //Extra information for this body
 				 //can be anything
 
 public:
@@ -53,8 +53,8 @@ public:
 	void IsSensor(bool triggered);
 	bool IsSensor() const;
 
-	void PutExtra(void* anything);
-	void* GetExtra();
+	void PutExtra(Player* anything);
+	Player* GetExtra();
 
 	//Go to the next position
 	//this function was done by multiplying its velocity and deltatime 

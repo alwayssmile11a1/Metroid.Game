@@ -6,7 +6,7 @@
 #include "rapidxml.hpp"
 
 //Get TextureRegion from a texture packer file
-class TexturePacker
+class TexturePacker: public GameObject
 {
 private:
 	std::string _Content;

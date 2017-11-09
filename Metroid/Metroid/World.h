@@ -6,7 +6,7 @@
 #include"WorldContactListener.h"
 
 // add body to this class and physic things will be handled
-class World
+class World: public GameObject
 {
 private:
 	

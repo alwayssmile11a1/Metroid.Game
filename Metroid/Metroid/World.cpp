@@ -134,7 +134,7 @@ void World::Update(float dt)
 
 			if (collision.PerformCollision(**body1, **body2, dt, 0, moveX, moveY))
 			{
-				_Listener->OnContact(**body1, **body2);
+				_Listener->OnContact(*body1, *body2);
 			}
 
 		}
