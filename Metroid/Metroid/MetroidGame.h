@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+
 #include "Game.h"
 #include "World.h"
 #include "Animation.h"
@@ -25,7 +25,7 @@ private:
 	Body* body1;
 	Body* body2;
 
-	Player* player;
+	Player player;
 
 	WorldListener* worldListener;
 

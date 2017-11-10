@@ -1,5 +1,6 @@
 #include"World.h"
 
+
 World::World()
 {
 	_Gravity = 9.8f;
@@ -13,8 +14,9 @@ World::World(float gravity)
 	_Bodies.clear();
 	if (_DebugSquareTexture.GetImage() == NULL)
 	{
-		_DebugSquareTexture = Texture("System/debugsquare.png");
+		_DebugSquareTexture = Texture("framework/resources/debugsquare.png");
 	}
+
 }
 
 World::~World()
@@ -179,7 +181,7 @@ void World::RenderBodiesDebug(SpriteBatch &batch)
 {
 	if (_DebugSquareTexture.GetImage() == NULL)
 	{
-		_DebugSquareTexture = Texture("System/debugsquare.png");
+		_DebugSquareTexture = Texture("framework/resources/debugsquare.png");
 	}
 
 	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)

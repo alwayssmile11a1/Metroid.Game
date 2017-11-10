@@ -1,5 +1,7 @@
-#pragma once
-#include"stdafx.h"
+#ifndef OBJECT_H
+#define OBJECT_H
+
+#include "..\src\others\stdafx.h"
 #include "Sprite.h"
 #include "Body.h"
 //a sprite class but having a body 
@@ -36,3 +38,4 @@ public:
 	void Update(float dt);
 };
 
+#endif

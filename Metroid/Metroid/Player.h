@@ -22,7 +22,7 @@ public:
 	Player();
 	~Player();
 
-	Player(World &world);
+	void Create(World &world);
 
 	void HandleInput(float dt);
 

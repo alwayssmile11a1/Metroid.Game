@@ -1,7 +1,7 @@
-﻿//this class really needs to improve later
-#pragma once
+﻿#ifndef TEXTURE_H
+#define TEXTURE_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Global.h"
 
 //Just like a image
@@ -46,4 +46,6 @@ public:
 	//void Release();
 
 };
+
+#endif
 

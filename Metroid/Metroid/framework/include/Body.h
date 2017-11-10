@@ -1,7 +1,7 @@
-#pragma once
+#ifndef BODY_H
+#define BODY_H
 
-
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 
 class Body: public GameObject
 {
@@ -61,3 +61,4 @@ public:
 	
 };
 
+#endif

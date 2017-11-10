@@ -1,5 +1,7 @@
-﻿#pragma once
-#include"stdafx.h"
+﻿#ifndef WORLD_H
+#define WORLD_H
+
+#include "..\src\others\stdafx.h"
 #include"Body.h"
 #include"SpriteBatch.h"
 #include"Collision.h"
@@ -50,3 +52,5 @@ public:
 	void RenderBodiesDebug(SpriteBatch &batch);
 
 };
+
+#endif

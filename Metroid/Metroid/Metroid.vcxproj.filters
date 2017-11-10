@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{c98d265c-5f5f-40cf-85ac-e167a1e95914}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Framework\RapidXML">
-      <UniqueIdentifier>{0592abdc-ec25-455b-a371-fd3a4ce54389}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Framework\TMXMapLoader">
       <UniqueIdentifier>{b3b936d9-482b-4ee5-a9cf-fb918c0a6882}</UniqueIdentifier>
     </Filter>
@@ -34,77 +31,53 @@
     <Filter Include="Source Files\MetroidGame">
       <UniqueIdentifier>{9743c8f0-5573-4ba5-818e-c7e592851fe0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Framework\RapidXML">
+      <UniqueIdentifier>{0592abdc-ec25-455b-a371-fd3a4ce54389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Objects">
+      <UniqueIdentifier>{2c7e80ba-d180-4f5c-a05c-cd4f7194df3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Textures">
+      <UniqueIdentifier>{4aa081ca-b29f-48b2-9b13-7bb16baf3c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Camera">
+      <UniqueIdentifier>{8d6c7bce-8697-4ad0-9148-526ea9ca5a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Collision">
+      <UniqueIdentifier>{b7b787ea-9a1f-4194-b3a8-11546bcde3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Others">
+      <UniqueIdentifier>{18c63bc1-81fd-4e88-84ec-5e1e1ff407a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Input">
+      <UniqueIdentifier>{ebabc07e-0db5-4843-a749-b7c901157b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\World">
+      <UniqueIdentifier>{badaefd4-80d5-4bc6-8c2a-7f6d6d35503d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Camera">
+      <UniqueIdentifier>{78c80346-8aa8-4639-9f3c-e600efd4662c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Others">
+      <UniqueIdentifier>{4b1233c9-8d30-4cbe-829d-4ac0536d9d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Textures">
+      <UniqueIdentifier>{d0c5d7a8-ec3b-4286-87e1-dbf4523b11a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\World">
+      <UniqueIdentifier>{bee00b5d-00a8-4f7a-8bce-bb1849398641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Objects">
+      <UniqueIdentifier>{1cde81c6-7501-4b2a-88c5-77dbc70f1988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Collision">
+      <UniqueIdentifier>{ea4b4360-28e4-42c1-bade-a75698c2d529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework\Input">
+      <UniqueIdentifier>{63b60ebf-aa35-4a8d-80bc-39390fdd763e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteBatch.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureRegion.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Global.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturePacker.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXLoader.cpp">
-      <Filter>Source Files\Framework\TMXMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXMap.cpp">
-      <Filter>Source Files\Framework\TMXMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXTileLayer.cpp">
-      <Filter>Source Files\Framework\TMXMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXTileSet.cpp">
-      <Filter>Source Files\Framework\TMXMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Body.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXObjectGroup.cpp">
-      <Filter>Source Files\Framework\TMXMapLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldContactListener.cpp">
-      <Filter>Source Files\Framework</Filter>
-    </ClCompile>
     <ClCompile Include="MetroidGame.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
@@ -114,114 +87,183 @@
     <ClCompile Include="WorldListener.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\Framework</Filter>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\tmxmaploader\TMXLoader.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\tmxmaploader\TMXMap.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\tmxmaploader\TMXObjectGroup.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\tmxmaploader\TMXTileLayer.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\tmxmaploader\TMXTileSet.cpp">
+      <Filter>Source Files\Framework\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\Animation.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\gameobject\Body.cpp">
+      <Filter>Source Files\Framework\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\camera\Camera.cpp">
+      <Filter>Source Files\Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\collision\Collision.cpp">
+      <Filter>Source Files\Framework\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\gameobject\Game.cpp">
+      <Filter>Source Files\Framework\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\gameobject\GameObject.cpp">
+      <Filter>Source Files\Framework\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\input\Input.cpp">
+      <Filter>Source Files\Framework\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\gameobject\Object.cpp">
+      <Filter>Source Files\Framework\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\others\Global.cpp">
+      <Filter>Source Files\Framework\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\Sprite.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\SpriteBatch.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\Texture.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\TexturePacker.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\textures\TextureRegion.cpp">
+      <Filter>Source Files\Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\others\Utility.cpp">
+      <Filter>Source Files\Framework\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\others\Vector2.cpp">
+      <Filter>Source Files\Framework\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\world\World.cpp">
+      <Filter>Source Files\Framework\World</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\src\world\WorldContactListener.cpp">
+      <Filter>Source Files\Framework\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteBatch.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRegion.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Global.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturePacker.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml.hpp">
-      <Filter>Header Files\Framework\RapidXML</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_iterators.hpp">
-      <Filter>Header Files\Framework\RapidXML</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_print.hpp">
-      <Filter>Header Files\Framework\RapidXML</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_utils.hpp">
-      <Filter>Header Files\Framework\RapidXML</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXLoader.h">
-      <Filter>Header Files\Framework\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXMap.h">
-      <Filter>Header Files\Framework\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXTileLayer.h">
-      <Filter>Header Files\Framework\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXTileSet.h">
-      <Filter>Header Files\Framework\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="Body.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXObjectGroup.h">
-      <Filter>Header Files\Framework\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldContactListener.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="MetroidGame.h">
-      <Filter>Header Files\MetroidGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="WorldListener.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\Framework</Filter>
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_iterators.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_print.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_utils.hpp">
+      <Filter>Header Files\Framework\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TMXLoader.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TMXMap.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TMXObjectGroup.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TMXTileLayer.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TMXTileSet.h">
+      <Filter>Header Files\Framework\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Body.h">
+      <Filter>Header Files\Framework\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Animation.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Camera.h">
+      <Filter>Header Files\Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Collision.h">
+      <Filter>Header Files\Framework\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Game.h">
+      <Filter>Header Files\Framework\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\GameObject.h">
+      <Filter>Header Files\Framework\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Global.h">
+      <Filter>Header Files\Framework\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Input.h">
+      <Filter>Header Files\Framework\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Object.h">
+      <Filter>Header Files\Framework\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Sprite.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\SpriteBatch.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\src\others\stdafx.h">
+      <Filter>Header Files\Framework\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Texture.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TexturePacker.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\TextureRegion.h">
+      <Filter>Header Files\Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\src\others\Utility.h">
+      <Filter>Header Files\Framework\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\Vector2.h">
+      <Filter>Header Files\Framework\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\World.h">
+      <Filter>Header Files\Framework\World</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\include\WorldContactListener.h">
+      <Filter>Header Files\Framework\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Readme.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="license.txt">
+    <Text Include="framework\extensions\rapidxml\license.txt">
       <Filter>Header Files\Framework\RapidXML</Filter>
+    </Text>
+    <Text Include="framework\doc\Readme.txt">
+      <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -230,7 +272,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="manual.html">
+    <None Include="framework\extensions\rapidxml\manual.html">
       <Filter>Header Files\Framework\RapidXML</Filter>
     </None>
   </ItemGroup>

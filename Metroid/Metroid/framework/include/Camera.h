@@ -1,6 +1,8 @@
-#pragma once
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include "stdafx.h"
+
+#include "..\src\others\stdafx.h"
 
 //
 class Camera:public GameObject
@@ -32,3 +34,5 @@ public:
 
 
 };
+
+#endif

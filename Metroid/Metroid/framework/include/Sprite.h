@@ -1,6 +1,7 @@
-#pragma once
+#ifndef SPRITE_H
+#define SPRITE_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Texture.h"
 #include "TextureRegion.h"
 //Texture + Texture Region
@@ -67,4 +68,6 @@ public:
 
 
 };
+
+#endif
 

@@ -1,7 +1,8 @@
 //a class to easily manage the animation of an object 
-#pragma once
+#ifndef ANIMATION_H
+#define ANIMATION_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "TextureRegion.h"
 
 class Animation: public GameObject
@@ -40,3 +41,4 @@ public:
 	void AddRegion(const std::vector<TextureRegion> &region);
 };
 
+#endif

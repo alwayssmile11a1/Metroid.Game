@@ -2,7 +2,7 @@
 
 
 #include <unordered_map>
-#include "rapidxml.hpp"
+#include "..\extensions\rapidxml\rapidxml.hpp"
 #include "TMXMap.h"
 #include "TMXTileLayer.h"
 #include "TMXTileSet.h"

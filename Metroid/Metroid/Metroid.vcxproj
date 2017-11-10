@@ -70,12 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)framework\include\;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <IncludePath>$(ProjectDir)framework\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(DXSDK_DIR)Lib\x64</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,77 +129,77 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Body.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Global.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="framework\src\textures\Animation.cpp" />
+    <ClCompile Include="framework\src\gameobject\Body.cpp" />
+    <ClCompile Include="framework\src\camera\Camera.cpp" />
+    <ClCompile Include="framework\src\collision\Collision.cpp" />
+    <ClCompile Include="framework\src\gameobject\Game.cpp" />
+    <ClCompile Include="framework\src\gameobject\GameObject.cpp" />
+    <ClCompile Include="framework\src\others\Global.cpp" />
+    <ClCompile Include="framework\src\input\Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MetroidGame.cpp" />
-    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="framework\src\gameobject\Object.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteBatch.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TexturePacker.cpp" />
-    <ClCompile Include="TextureRegion.cpp" />
-    <ClCompile Include="TMXLoader.cpp" />
-    <ClCompile Include="TMXMap.cpp" />
-    <ClCompile Include="TMXObjectGroup.cpp" />
-    <ClCompile Include="TMXTileLayer.cpp" />
-    <ClCompile Include="TMXTileSet.cpp" />
-    <ClCompile Include="Utility.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="World.cpp" />
-    <ClCompile Include="WorldContactListener.cpp" />
+    <ClCompile Include="framework\src\textures\Sprite.cpp" />
+    <ClCompile Include="framework\src\textures\SpriteBatch.cpp" />
+    <ClCompile Include="framework\src\textures\Texture.cpp" />
+    <ClCompile Include="framework\src\textures\TexturePacker.cpp" />
+    <ClCompile Include="framework\src\textures\TextureRegion.cpp" />
+    <ClCompile Include="framework\src\tmxmaploader\TMXLoader.cpp" />
+    <ClCompile Include="framework\src\tmxmaploader\TMXMap.cpp" />
+    <ClCompile Include="framework\src\tmxmaploader\TMXObjectGroup.cpp" />
+    <ClCompile Include="framework\src\tmxmaploader\TMXTileLayer.cpp" />
+    <ClCompile Include="framework\src\tmxmaploader\TMXTileSet.cpp" />
+    <ClCompile Include="framework\src\others\Utility.cpp" />
+    <ClCompile Include="framework\src\others\Vector2.cpp" />
+    <ClCompile Include="framework\src\world\World.cpp" />
+    <ClCompile Include="framework\src\world\WorldContactListener.cpp" />
     <ClCompile Include="WorldListener.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Body.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Global.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="framework\include\Animation.h" />
+    <ClInclude Include="framework\include\Body.h" />
+    <ClInclude Include="framework\include\Camera.h" />
+    <ClInclude Include="framework\include\Collision.h" />
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml.hpp" />
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="framework\extensions\rapidxml\rapidxml_utils.hpp" />
+    <ClInclude Include="framework\include\Game.h" />
+    <ClInclude Include="framework\include\GameObject.h" />
+    <ClInclude Include="framework\include\Global.h" />
+    <ClInclude Include="framework\include\Input.h" />
     <ClInclude Include="MetroidGame.h" />
-    <ClInclude Include="Object.h" />
+    <ClInclude Include="framework\include\Object.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="rapidxml.hpp" />
-    <ClInclude Include="rapidxml_iterators.hpp" />
-    <ClInclude Include="rapidxml_print.hpp" />
-    <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteBatch.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TexturePacker.h" />
-    <ClInclude Include="TextureRegion.h" />
-    <ClInclude Include="TMXLoader.h" />
-    <ClInclude Include="TMXMap.h" />
-    <ClInclude Include="TMXObjectGroup.h" />
-    <ClInclude Include="TMXTileLayer.h" />
-    <ClInclude Include="TMXTileSet.h" />
-    <ClInclude Include="Utility.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="World.h" />
-    <ClInclude Include="WorldContactListener.h" />
+    <ClInclude Include="framework\include\Sprite.h" />
+    <ClInclude Include="framework\include\SpriteBatch.h" />
+    <ClInclude Include="framework\src\others\stdafx.h" />
+    <ClInclude Include="framework\include\Texture.h" />
+    <ClInclude Include="framework\include\TexturePacker.h" />
+    <ClInclude Include="framework\include\TextureRegion.h" />
+    <ClInclude Include="framework\include\TMXLoader.h" />
+    <ClInclude Include="framework\include\TMXMap.h" />
+    <ClInclude Include="framework\include\TMXObjectGroup.h" />
+    <ClInclude Include="framework\include\TMXTileLayer.h" />
+    <ClInclude Include="framework\include\TMXTileSet.h" />
+    <ClInclude Include="framework\src\others\Utility.h" />
+    <ClInclude Include="framework\include\Vector2.h" />
+    <ClInclude Include="framework\include\World.h" />
+    <ClInclude Include="framework\include\WorldContactListener.h" />
     <ClInclude Include="WorldListener.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="license.txt" />
-    <Text Include="Readme.txt" />
+    <Text Include="framework\extensions\rapidxml\license.txt" />
+    <Text Include="framework\doc\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Metroid.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="manual.html" />
+    <None Include="framework\extensions\rapidxml\manual.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,10 @@
-#pragma once
+#ifndef TEXTUREPACKER_H
+#define TEXTUREPACKER_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include <string>
 #include "TextureRegion.h"
-#include "rapidxml.hpp"
+#include "..\extensions\rapidxml\rapidxml.hpp"
 
 //Get TextureRegion from a texture packer file
 class TexturePacker: public GameObject
@@ -23,3 +24,4 @@ public:
 
 };
 
+#endif

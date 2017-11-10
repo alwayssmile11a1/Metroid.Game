@@ -1,6 +1,6 @@
 //this header contains every variable that should be use globally
 #pragma once
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Input.h"
 
 //Direct3D variables

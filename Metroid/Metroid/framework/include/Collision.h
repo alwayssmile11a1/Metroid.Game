@@ -1,6 +1,8 @@
-﻿#pragma once
+﻿#ifndef COLLISION_H
+#define COLLISION_H
+
 #include "Body.h"
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 
 class Collision
 {
@@ -29,7 +31,7 @@ private:
 
 
 private: //private function
-	bool IsColliding(Body &targetBody, Body &otherBody, float DeltaTime);
+	
 
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
 	bool IsOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime);
@@ -46,7 +48,11 @@ public:
 	~Collision();
 
 	bool PerformCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY);
+
+	bool IsColliding(Body &targetBody, Body &otherBody, float DeltaTime);
 	
 	// 2 body có chồng lên nhau hay không
 	bool IsOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY);
 };
+
+#endif

@@ -1,6 +1,7 @@
 // Vector2.h: a vector with two dimensions x and y
 // a small note is that in C++, class is by default value type
-#pragma once
+#ifndef VECTOR2_H
+#define VECTOR2_H
 
 class Vector2
 {
@@ -27,3 +28,4 @@ public:
 	bool operator!=(const Vector2 &b);
 };
 
+#endif

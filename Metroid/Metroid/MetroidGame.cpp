@@ -14,8 +14,7 @@ void MetroidGame::Release()
 {
 	Game::Release();
 	batch.Release();
-	player->Release();
-	delete player;
+	player.Release();
 	delete body1;
 	delete body2;
 	delete worldListener;
@@ -32,7 +31,7 @@ void MetroidGame::CreateGame()
 	//set the camera to be used by this batch
 	batch.SetCamera(&cam);
 
-	player = new Player(world);
+	player.Create(world);
 
 	//object examples
 	body1 = new Body();
@@ -68,17 +67,17 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::HandlePhysics(float dt)
 {
-	player->HandleInput(dt);
+	player.HandleInput(dt);
 
 	body1->SetVelocity(-2, 0);
 
 	//Update world
 	world.Update(dt);
 	
-	if (player->isJumping)
+	if (player.isJumping)
 	{
-		player->isGrounded = false;
-		player->isJumping = false;
+		player.isGrounded = false;
+		player.isJumping = false;
 	}
 
 }
@@ -92,7 +91,7 @@ void  MetroidGame::Render()
 	map->Render(batch);
 
 	//
-	batch.Draw(*player);
+	batch.Draw(player);
 	//batch.Draw(object2);
 	//batch.Draw(object3);
 
@@ -107,16 +106,16 @@ void MetroidGame::UpdateGame(float dt)
 {
 	HandlePhysics(dt);
 	
-	player->Update(dt);
+	player.Update(dt);
 
-	if (player->GetPosition().x > cam.GetPosition().x)
+	if (player.GetPosition().x > cam.GetPosition().x)
 	{
-		cam.SetPosition(player->GetPosition().x, cam.GetPosition().y);
+		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 	}
 
-	if (player->GetPosition().x < cam.GetPosition().x- 250)
+	if (player.GetPosition().x < cam.GetPosition().x- 250)
 	{
-		cam.SetPosition(player->GetPosition().x + 250, cam.GetPosition().y);
+		cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
 		if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
 	}
 	
@@ -136,7 +135,7 @@ void MetroidGame::UpdateGame(float dt)
 	}
 
 
-	player->foot->SetPosition(player->GetBody()->GetPosition().x, player->GetBody()->GetPosition().y - 30);
+	player.foot->SetPosition(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y - 30);
 
 
 	Render();

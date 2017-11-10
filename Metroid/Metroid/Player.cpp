@@ -12,7 +12,7 @@ Player::~Player()
 
 }
 
-Player::Player(World &world)
+void Player::Create(World &world)
 {
 	//SetSize(34, 66);
 

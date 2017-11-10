@@ -1,5 +1,7 @@
-#pragma once
-#include "stdafx.h"
+#ifndef INPUT_H
+#define INPUT_H
+
+#include "..\src\others\stdafx.h"
 #include <algorithm>    // std::find
 #define KEYBOARD_BUFFER_SIZE	1024
 
@@ -74,3 +76,5 @@ public:
 	void Release();
 
 };
+
+#endif

@@ -1,6 +1,7 @@
-#pragma once
+#ifndef SPRITEBATCH_H
+#define SPRITEBATCH_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Texture.h"
 #include "TextureRegion.h"
 #include "Sprite.h"
@@ -71,3 +72,4 @@ public:
 
 };
 
+#endif

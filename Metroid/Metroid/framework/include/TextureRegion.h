@@ -1,6 +1,7 @@
-#pragma once
+#ifndef TEXTUREREGION_H
+#define TEXTUREREGION_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Texture.h"
 
 // draw a portion of image 
@@ -38,3 +39,4 @@ public:
 	void Flip(bool flipX, bool flipY);
 };
 
+#endif

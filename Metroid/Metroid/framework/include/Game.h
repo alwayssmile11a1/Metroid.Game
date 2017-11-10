@@ -1,6 +1,7 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
-#include "stdafx.h"
+#include "..\src\others\stdafx.h"
 #include "Global.h"
 
 //this abstract class manages game structure, such as DirectX, game run, etc... 
@@ -72,4 +73,5 @@ public:
 
 };
 
+#endif
 
