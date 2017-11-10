@@ -316,3 +316,66 @@ void SpriteBatch::End()
 	//end of drawing
 	_SpriteHandler->End();
 }
+
+void SpriteBatch::DrawSquare(float x, float y, float width, float height, D3DCOLOR color)
+{
+	//virtual position
+	_Position.x = x;
+	_Position.y = y;
+	_Position.z = 0;
+
+	GetActualPosition(&_Position, _Camera);
+
+	CUSTOMVERTEX vertices[5];
+	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+
+	vertices[0].x = _Position.x - width / 2;
+	vertices[0].y = _Position.y + height / 2;
+	vertices[0].z = 0;
+	vertices[0].weight = 1;
+	vertices[0].color = color;
+
+	vertices[1].x = vertices[0].x;
+	vertices[1].y = _Position.y - height / 2;
+	vertices[1].z = 0;
+	vertices[1].weight = 1;
+	vertices[1].color = color;
+
+	vertices[2].x = _Position.x + width/2;
+	vertices[2].y = vertices[1].y;
+	vertices[2].z = 0;
+	vertices[2].weight = 1;
+	vertices[2].color = color;
+
+	vertices[3].x = vertices[2].x;
+	vertices[3].y = vertices[0].y;
+	vertices[3].z = 0;
+	vertices[3].weight = 1;
+	vertices[3].color = color;
+
+	vertices[4].x = vertices[0].x;
+	vertices[4].y = vertices[0].y;
+	vertices[4].z = 0;
+	vertices[4].weight = 1;
+	vertices[4].color = color;
+
+	d3ddevice->CreateVertexBuffer(5 * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vertexBuffer, NULL);
+
+
+	VOID* p_Vertices;
+	if (FAILED(vertexBuffer->Lock(0, 5 * sizeof(CUSTOMVERTEX), (void**)&p_Vertices, 0)))
+	{
+		/*MessageBox(han_Window, "Error trying to lock", "FillVertices()", MB_OK);*/
+	}
+	else {
+		memcpy(p_Vertices, vertices, 5 * sizeof(CUSTOMVERTEX));
+		vertexBuffer->Unlock();
+	}
+
+	d3ddevice->SetStreamSource(0, vertexBuffer, 0, sizeof(CUSTOMVERTEX));
+	d3ddevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+	d3ddevice->DrawPrimitive(D3DPT_LINESTRIP, 0, 4);
+
+	vertexBuffer->Release();
+
+}

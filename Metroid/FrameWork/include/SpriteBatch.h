@@ -10,6 +10,12 @@
 
 #define Pi 3.14159265
 
+struct CUSTOMVERTEX
+{
+	float x, y, z, weight;
+	DWORD color;
+};
+
 
 //Manage drawing things
 //Drawing must be called between the begin and end methods
@@ -63,6 +69,8 @@ public:
 	void Draw(const Texture &texture, float x, float y, float rectLeft, float rectTop, float rectWidth, float rectHeight, float width, float height);
 
 	void Draw(const Sprite &sprite);
+
+	void DrawSquare(float x, float y, float width, float height, D3DCOLOR color);
 
 	//begin drawing
 	void Begin();

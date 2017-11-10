@@ -7,6 +7,7 @@
 #include"Collision.h"
 #include"WorldContactListener.h"
 
+
 // add body to this class and physic things will be handled
 class World: public GameObject
 {
@@ -19,9 +20,7 @@ private:
 	WorldContactListener* _Listener;  //listen to the collision
 	
 
-	Texture _DebugSquareTexture;    //for debug purposes
-	
-	
+
 public:
 	//Constructor and destructor
 	World();

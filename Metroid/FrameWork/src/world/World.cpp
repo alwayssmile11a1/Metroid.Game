@@ -12,11 +12,6 @@ World::World(float gravity)
 {
 	_Gravity = gravity;
 	_Bodies.clear();
-	if (_DebugSquareTexture.GetImage() == NULL)
-	{
-		_DebugSquareTexture = Texture("framework/resources/debugsquare.png");
-	}
-
 }
 
 World::~World()
@@ -179,11 +174,7 @@ void World::RemoveBody(int index)
 
 void World::RenderBodiesDebug(SpriteBatch &batch)
 {
-	if (_DebugSquareTexture.GetImage() == NULL)
-	{
-		_DebugSquareTexture = Texture("framework/resources/debugsquare.png");
-	}
-
+	
 	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)
 	{
 		float x = (*bo)->GetPosition().x;
@@ -191,6 +182,7 @@ void World::RenderBodiesDebug(SpriteBatch &batch)
 		float width = (*bo)->GetSize().x;
 		float height = (*bo)->GetSize().y;
 
-		batch.Draw(_DebugSquareTexture, x, y, 0, 0, _DebugSquareTexture.GetImageSize().x, _DebugSquareTexture.GetImageSize().y, width, height);
+		//batch.Draw(_DebugSquareTexture, x, y, 0, 0, _DebugSquareTexture.GetImageSize().x, _DebugSquareTexture.GetImageSize().y, width, height);
+		batch.DrawSquare(x, y, width, height, D3DCOLOR_ARGB(255, 0, 128, 0));
 	}
 }

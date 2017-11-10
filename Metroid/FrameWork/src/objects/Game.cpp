@@ -341,7 +341,7 @@ int Game::RunGame()
 				{
 					// Fill the bitmap
 					d3ddevice->ColorFill(_Background, NULL, _BackGroundColor);
-
+					
 					// Draw the surface onto the back buffer
 					d3ddevice->StretchRect(
 									_Background,			// from 
@@ -352,7 +352,7 @@ int Game::RunGame()
 				}
 				else //Clear back ground with an image
 				{
-	
+					
 					//draw surface to backbuffer
 					d3ddevice->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
 				}
