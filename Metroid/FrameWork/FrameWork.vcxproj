@@ -20,36 +20,36 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F727D54F-8805-494B-B34C-0EBBBFE94174}</ProjectGuid>
-    <RootNamespace>Metroid</RootNamespace>
+    <ProjectGuid>{9F81AB80-BC7E-4657-AC0A-FD9E96316CE2}</ProjectGuid>
+    <RootNamespace>FrameWork</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -69,22 +69,32 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(SolutionDir)framework\extensions\directX9\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(SolutionDir)framework\extensions\directX9\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(SolutionDir)framework\extensions\directX9\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(SolutionDir)framework\extensions\directX9\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
-    <Link />
-    <Link />
-    <Link />
-    <Link>
+    <Lib>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-    </Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -92,13 +102,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
-    <Link />
-    <Link />
-    <Link>
+    <Lib>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-    </Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -107,13 +118,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-    </Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -122,33 +137,78 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-    </Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MetroidGame.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="WorldListener.cpp" />
+    <ClInclude Include="extensions\rapidxml\rapidxml.hpp" />
+    <ClInclude Include="extensions\rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="extensions\rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="extensions\rapidxml\rapidxml_utils.hpp" />
+    <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="include\Body.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Collision.h" />
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\Global.h" />
+    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\Object.h" />
+    <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\SpriteBatch.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\TexturePacker.h" />
+    <ClInclude Include="include\TextureRegion.h" />
+    <ClInclude Include="include\TMXLoader.h" />
+    <ClInclude Include="include\TMXMap.h" />
+    <ClInclude Include="include\TMXObjectGroup.h" />
+    <ClInclude Include="include\TMXTileLayer.h" />
+    <ClInclude Include="include\TMXTileSet.h" />
+    <ClInclude Include="include\Vector2.h" />
+    <ClInclude Include="include\World.h" />
+    <ClInclude Include="include\WorldContactListener.h" />
+    <ClInclude Include="src\others\stdafx.h" />
+    <ClInclude Include="src\others\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MetroidGame.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="WorldListener.h" />
+    <Text Include="extensions\rapidxml\license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Metroid.rc" />
+    <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FrameWork\FrameWork.vcxproj">
-      <Project>{9f81ab80-bc7e-4657-ac0a-fd9e96316ce2}</Project>
-    </ProjectReference>
+    <ClCompile Include="src\camera\Camera.cpp" />
+    <ClCompile Include="src\collision\Collision.cpp" />
+    <ClCompile Include="src\input\Input.cpp" />
+    <ClCompile Include="src\objects\Body.cpp" />
+    <ClCompile Include="src\objects\Game.cpp" />
+    <ClCompile Include="src\objects\GameObject.cpp" />
+    <ClCompile Include="src\objects\Object.cpp" />
+    <ClCompile Include="src\others\Global.cpp" />
+    <ClCompile Include="src\others\Utility.cpp" />
+    <ClCompile Include="src\others\Vector2.cpp" />
+    <ClCompile Include="src\textures\Animation.cpp" />
+    <ClCompile Include="src\textures\Sprite.cpp" />
+    <ClCompile Include="src\textures\SpriteBatch.cpp" />
+    <ClCompile Include="src\textures\Texture.cpp" />
+    <ClCompile Include="src\textures\TexturePacker.cpp" />
+    <ClCompile Include="src\textures\TextureRegion.cpp" />
+    <ClCompile Include="src\tmxmaploader\TMXLoader.cpp" />
+    <ClCompile Include="src\tmxmaploader\TMXMap.cpp" />
+    <ClCompile Include="src\tmxmaploader\TMXObjectGroup.cpp" />
+    <ClCompile Include="src\tmxmaploader\TMXTileLayer.cpp" />
+    <ClCompile Include="src\tmxmaploader\TMXTileSet.cpp" />
+    <ClCompile Include="src\world\World.cpp" />
+    <ClCompile Include="src\world\WorldContactListener.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

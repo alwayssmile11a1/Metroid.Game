@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{18d3badb-5940-4e16-b34a-d28922f2ccd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{cbed28df-db77-4ebc-9d8d-dafd5f7fb59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{76f7dace-8644-472e-97b4-54276d70cf91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{e5663e15-748b-4453-9a88-20e03b913c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Others">
+      <UniqueIdentifier>{ce3bcfd7-0f3b-4b40-a5b3-016be614816e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Textures">
+      <UniqueIdentifier>{ad192472-a20f-4983-b485-32c36dcee8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TMXMapLoader">
+      <UniqueIdentifier>{2c1283a6-bdf6-4550-bc66-121f1732b1c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{ad188794-4d9b-4cdc-8e0a-4a46b9755b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Camera">
+      <UniqueIdentifier>{de834a01-c1b1-40d1-82e0-9df7db356cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{011fc63b-2419-4a68-9f20-c0fb92fe6600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{f2b0d9e6-5ae2-450c-8b86-0466b3e628a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RapidXML">
+      <UniqueIdentifier>{dc89287d-4011-406e-a5ac-802db66026a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World">
+      <UniqueIdentifier>{b458f2a9-51d7-4d90-a7a7-56c840f16ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TMXMapLoader">
+      <UniqueIdentifier>{98457965-02c1-4c84-a7f1-2842c261a63d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Textures">
+      <UniqueIdentifier>{f546245d-5483-42bd-a5aa-f9e2e2ace8fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Others">
+      <UniqueIdentifier>{2e4cf4bf-6797-4d19-9254-a0fd684e10ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{ec9e1a44-0170-4c3c-854c-8cdec5781856}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\others\stdafx.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="src\others\Utility.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\rapidxml\rapidxml.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\rapidxml\rapidxml_iterators.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\rapidxml\rapidxml_print.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\rapidxml\rapidxml_utils.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Collision.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Body.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Global.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Vector2.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Animation.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sprite.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpriteBatch.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TexturePacker.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextureRegion.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TMXLoader.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TMXMap.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TMXObjectGroup.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TMXTileLayer.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TMXTileSet.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WorldContactListener.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\World.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="extensions\rapidxml\license.txt">
+      <Filter>Header Files\RapidXML</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="extensions\rapidxml\manual.html">
+      <Filter>Header Files\RapidXML</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\camera\Camera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collision\Collision.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\world\World.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\world\WorldContactListener.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tmxmaploader\TMXLoader.cpp">
+      <Filter>Source Files\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tmxmaploader\TMXMap.cpp">
+      <Filter>Source Files\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tmxmaploader\TMXObjectGroup.cpp">
+      <Filter>Source Files\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tmxmaploader\TMXTileLayer.cpp">
+      <Filter>Source Files\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tmxmaploader\TMXTileSet.cpp">
+      <Filter>Source Files\TMXMapLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\Animation.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\Sprite.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\SpriteBatch.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\Texture.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\TexturePacker.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textures\TextureRegion.cpp">
+      <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\others\Global.cpp">
+      <Filter>Source Files\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="src\others\Utility.cpp">
+      <Filter>Source Files\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="src\others\Vector2.cpp">
+      <Filter>Source Files\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Body.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Game.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\GameObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
