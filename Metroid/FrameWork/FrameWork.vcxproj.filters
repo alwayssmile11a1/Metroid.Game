@@ -64,6 +64,12 @@
     <Filter Include="Header Files\Objects">
       <UniqueIdentifier>{ec9e1a44-0170-4c3c-854c-8cdec5781856}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{0e4b0346-d05a-469c-9174-8ca9e6d4f44e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{71a6997d-48b7-40e1-ada1-2887c2caa017}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\others\stdafx.h">
@@ -150,6 +156,12 @@
     <ClInclude Include="include\World.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
+    <ClInclude Include="include\DirectSound.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MySound.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt">
@@ -230,6 +242,12 @@
     </ClCompile>
     <ClCompile Include="src\objects\Object.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\DirectSound.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound\MySound.cpp">
+      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 //Direct3D variables
 LPDIRECT3D9 d3d;
 LPDIRECT3DDEVICE9 d3ddevice;
-
+Sound sound;
 //input 
 Input input;
 
