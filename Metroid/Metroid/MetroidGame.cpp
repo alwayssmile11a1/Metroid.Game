@@ -76,12 +76,30 @@ void MetroidGame::CreateGame()
 
 void MetroidGame::HandlePhysics(float dt)
 {
-	player.HandleInput(dt);
+	if (input.GetKey(DIK_RIGHT))
+	{
+		player.GetMainBody()->SetVelocity(5, player.GetMainBody()->GetVelocity().y);
+	}
+
+	if (input.GetKey(DIK_LEFT))
+	{
+		player.GetMainBody()->SetVelocity(-5, player.GetMainBody()->GetVelocity().y);
+	
+	}
+
+	if (input.GetKeyDown(DIK_SPACE) && player.isGrounded && !player.isJumping)
+	{
+		player.GetMainBody()->SetVelocity(player.GetMainBody()->GetVelocity().x, 8);
+		player.isGrounded = false;
+		player.isJumping = true;
+	}
 
 	body1->SetVelocity(-2, 0);
 
 	//Update world
 	world.Update(dt);
+
+
  	if (player.isJumping)
 	{
 		player.isGrounded = false;

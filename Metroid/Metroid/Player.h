@@ -25,7 +25,7 @@ public:
 
 	void Create(World &world);
 
-	void HandleInput(float dt);
+	void Update(float dt);
 
 	void Release();
 

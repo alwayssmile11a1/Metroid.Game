@@ -10,7 +10,7 @@
 #include "Object.h"
 #include "Player.h"
 #include "WorldListener.h"
-//#include "MySound.h"
+#include "MySound.h"
 
 class MetroidGame: public Game, public WorldContactListener
 {

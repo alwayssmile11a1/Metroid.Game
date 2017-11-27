@@ -164,6 +164,7 @@
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\MySound.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\SpriteBatch.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="include\WorldContactListener.h" />
     <ClInclude Include="src\others\stdafx.h" />
     <ClInclude Include="src\others\Utility.h" />
+    <ClInclude Include="src\sound\DirectSound.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt" />
@@ -198,6 +200,8 @@
     <ClCompile Include="src\others\Global.cpp" />
     <ClCompile Include="src\others\Utility.cpp" />
     <ClCompile Include="src\others\Vector2.cpp" />
+    <ClCompile Include="src\sound\DirectSound.cpp" />
+    <ClCompile Include="src\sound\MySound.cpp" />
     <ClCompile Include="src\textures\Animation.cpp" />
     <ClCompile Include="src\textures\Sprite.cpp" />
     <ClCompile Include="src\textures\SpriteBatch.cpp" />

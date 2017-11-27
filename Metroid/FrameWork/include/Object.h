@@ -30,12 +30,11 @@ public:
 
 	const Vector2& GetVelocity() const;
 	float GetMass() const;
-	Body* GetBody();
+	Body* GetMainBody();
 
 	//Set the position and the size of the body equal sprite'
 	void FitBody();
 
-	void Update(float dt);
 };
 
 #endif

@@ -12,6 +12,7 @@ Player::~Player()
 
 }
 
+
 void Player::Create(World &world)
 {
 	//SetSize(34, 66);
@@ -31,14 +32,14 @@ void Player::Create(World &world)
 	mainBody->SetMass(2);
 	mainBody->SetID("Player");
 	mainBody->SetSize(34, 66);
-	mainBody->PutExtra(this);
+	
 
 	//create foot
 	foot = new Body();
 	foot->SetSize(25, 20);
 	foot->IsSensor(true);
 	foot->SetID("Foot");
-	foot->PutExtra(this);
+
 
 	world.AddBody(mainBody);
 	world.AddBody(foot);
@@ -50,32 +51,33 @@ void Player::Create(World &world)
 }
 
 
-void Player::HandleInput(float dt)
+void Player::Update(float dt)
 {
+	mainBody->PutExtra(this);
+	foot->PutExtra(this);
+
 	if (mainBody->GetVelocity().x == 0)
 	{
-		SetRegion(standingAnimation.Next(dt,-1));
+		SetRegion(standingAnimation.Next(dt, -1));
+	}
+	else
+	{
+		if (mainBody->GetVelocity().x > 0)
+		{
+			SetRegion(movingAnimation.Next(dt, true));
+		}
+		else
+		{
+			SetRegion(movingAnimation.Next(dt, false));
+		}
 	}
 
-	if (input.GetKey(DIK_RIGHT))
-	{
-		mainBody->SetVelocity(5, mainBody->GetVelocity().y);
-		SetRegion(movingAnimation.Next(dt, true));
-	}
 
-	if (input.GetKey(DIK_LEFT))
-	{
-		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
-		SetRegion(movingAnimation.Next(dt, false));
-	}
 
-	if (input.GetKeyDown(DIK_SPACE) && isGrounded && !isJumping)
-	{
-		mainBody->SetVelocity(mainBody->GetVelocity().x, 8);
-		isGrounded = false;
-		isJumping = true;
-	}
+	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
+	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 30);
 }
+
 
 void Player::Release()
 {

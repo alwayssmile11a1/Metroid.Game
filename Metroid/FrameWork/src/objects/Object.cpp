@@ -34,7 +34,7 @@ Object::~Object()
 //	return *this;
 //}
 
-Body* Object::GetBody() 
+Body* Object::GetMainBody() 
 {
 	return mainBody;
 }
@@ -73,10 +73,6 @@ float Object::GetMass() const
 	return mainBody->GetMass();
 }
 
-void Object::Update(float dt)
-{
-	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
-}
 
 void Object::FitBody()
 {

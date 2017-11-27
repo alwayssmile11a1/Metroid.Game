@@ -92,8 +92,8 @@ void Game::Release()
 	//Release input
 	input.Release();
 
-	////shut down for sure
-	//sound.DirectSound_Shutdown();
+	//shut down for sure
+	sound.DirectSound_Shutdown();
 
 }
 
@@ -282,7 +282,7 @@ bool Game::InitGame()
 	//init input manager
 	input.Init(_HInstance, _HWnd);
 
-	/*sound.DirectSound_Init(_HWnd);*/
+	sound.DirectSound_Init(_HWnd);
 
 	//create game
 	CreateGame();
