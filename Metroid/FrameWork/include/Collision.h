@@ -2,7 +2,6 @@
 #define COLLISION_H
 
 #include "Body.h"
-
 #include "..\src\others\stdafx.h"
 
 class Collision

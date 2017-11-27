@@ -8,11 +8,12 @@
 class Player : public Object
 {
 private:
-	Texture* characterTexture;
+	Texture characterTexture;
 
 	Animation standingAnimation;
 	Animation movingAnimation;
-	Body* foot;
+	Body mainBody;
+	Body foot;
 
 public:
 

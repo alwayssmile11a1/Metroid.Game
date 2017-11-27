@@ -5,10 +5,11 @@
 #include "Sprite.h"
 #include "Body.h"
 //a sprite class but having a body 
+//this class is kind of useless (LOL)
 class Object: public Sprite
 {
-protected:
-	Body* mainBody;
+private:
+	Body* _MainBody;
 
 public:
 
@@ -22,7 +23,7 @@ public:
 	/*Object& operator=(const Object &object);
 	Object& operator=(const Object &object);*/
 
-	void SetBody(Body *body);
+	void SetMainBody(Body *body);
 	void SetBodyPosition(float x, float y);
 	void SetVelocity(float vx, float vy);
 	void SetBodySize(float width, float height);
@@ -30,7 +31,7 @@ public:
 
 	const Vector2& GetVelocity() const;
 	float GetMass() const;
-	Body* GetMainBody();
+	 Body* GetMainBody();
 
 	//Set the position and the size of the body equal sprite'
 	void FitBody();

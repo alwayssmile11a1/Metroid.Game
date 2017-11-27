@@ -136,11 +136,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MetroidGame.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="WorldListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MetroidGame.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WorldListener.h" />
   </ItemGroup>

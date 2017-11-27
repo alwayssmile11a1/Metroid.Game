@@ -9,7 +9,7 @@ public:
 	~WorldListener();
 
 	//Override OnContact of WorldContactListener
-	void OnContact(Body* bodyA, Body *bodyB);
+	void OnContact(Body* bodyA, Body *bodyB) override;
 
 };
 

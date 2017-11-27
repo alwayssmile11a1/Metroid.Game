@@ -179,6 +179,7 @@
     <ClInclude Include="include\Vector2.h" />
     <ClInclude Include="include\World.h" />
     <ClInclude Include="include\WorldContactListener.h" />
+    <ClInclude Include="include\Scene.h" />
     <ClInclude Include="src\others\stdafx.h" />
     <ClInclude Include="src\others\Utility.h" />
     <ClInclude Include="src\sound\DirectSound.h" />
@@ -190,24 +191,25 @@
     <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\collision\Collision.cpp" />
     <ClCompile Include="src\input\Input.cpp" />
-    <ClCompile Include="src\objects\Body.cpp" />
-    <ClCompile Include="src\objects\Game.cpp" />
-    <ClCompile Include="src\objects\GameObject.cpp" />
-    <ClCompile Include="src\objects\Object.cpp" />
+    <ClCompile Include="src\Body.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\others\GameObject.cpp" />
+    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\others\Global.cpp" />
     <ClCompile Include="src\others\Utility.cpp" />
     <ClCompile Include="src\others\Vector2.cpp" />
     <ClCompile Include="src\sound\DirectSound.cpp" />
     <ClCompile Include="src\sound\MySound.cpp" />
-    <ClCompile Include="src\textures\Animation.cpp" />
-    <ClCompile Include="src\textures\Sprite.cpp" />
-    <ClCompile Include="src\textures\SpriteBatch.cpp" />
-    <ClCompile Include="src\textures\Texture.cpp" />
-    <ClCompile Include="src\textures\TexturePacker.cpp" />
-    <ClCompile Include="src\textures\TextureRegion.cpp" />
+    <ClCompile Include="src\drawable\Animation.cpp" />
+    <ClCompile Include="src\drawable\Sprite.cpp" />
+    <ClCompile Include="src\drawable\SpriteBatch.cpp" />
+    <ClCompile Include="src\drawable\Texture.cpp" />
+    <ClCompile Include="src\drawable\TexturePacker.cpp" />
+    <ClCompile Include="src\drawable\TextureRegion.cpp" />
     <ClCompile Include="src\tmxmaploader\TMXLoader.cpp" />
     <ClCompile Include="src\tmxmaploader\TMXMap.cpp" />
     <ClCompile Include="src\tmxmaploader\TMXObjectGroup.cpp" />

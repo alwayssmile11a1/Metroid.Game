@@ -18,31 +18,36 @@ void Player::Create(World &world)
 	//SetSize(34, 66);
 
 	//get characterTexture
-	characterTexture = new Texture("Resources/samusaran_sheet.png");
+	characterTexture = Texture("Resources/samusaran_sheet.png");
 
 	//get animations
-	TexturePacker p = TexturePacker(characterTexture, "Resources/samusaran_packer.xml");
+	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
 	standingAnimation.AddRegion(p.GetRegion("characterstand"));
 	movingAnimation.AddRegion(p.GetRegion("charactermove"));
 
 	//setup mainbody
-	mainBody = new Body();
-	mainBody->SetBodyType(Body::BodyType::Dynamic);
-	mainBody->SetLinearDrag(10, 0.2);
-	mainBody->SetMass(2);
-	mainBody->SetID("Player");
-	mainBody->SetSize(34, 66);
-	
+	mainBody.SetBodyType(Body::BodyType::Dynamic);
+	mainBody.SetLinearDrag(10, 0.2);
+	mainBody.SetMass(2);
+	mainBody.SetID("Player");
+	mainBody.SetSize(34, 66);
+	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
+	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
+	//this line of code will very likely cause you a problem of null pointer
+	//in which case, putting this line of code into update method may be a solution
+	mainBody.PutExtra(this);
+
+	SetMainBody(&mainBody);
 
 	//create foot
-	foot = new Body();
-	foot->SetSize(25, 20);
-	foot->IsSensor(true);
-	foot->SetID("Foot");
+	//foot = new Body();
+	foot.SetSize(25, 20);
+	foot.IsSensor(true);
+	foot.SetID("Foot");
+	foot.PutExtra(this);
 
-
-	world.AddBody(mainBody);
-	world.AddBody(foot);
+	world.AddBody(&mainBody);
+	world.AddBody(&foot);
 
 	SetRegion(standingAnimation.GetKeyAnimation());
 	SetSize(34, 66);
@@ -53,16 +58,15 @@ void Player::Create(World &world)
 
 void Player::Update(float dt)
 {
-	mainBody->PutExtra(this);
-	foot->PutExtra(this);
 
-	if (mainBody->GetVelocity().x == 0)
+	//update state
+	if (mainBody.GetVelocity().x == 0)
 	{
 		SetRegion(standingAnimation.Next(dt, -1));
 	}
 	else
 	{
-		if (mainBody->GetVelocity().x > 0)
+		if (mainBody.GetVelocity().x > 0)
 		{
 			SetRegion(movingAnimation.Next(dt, true));
 		}
@@ -73,15 +77,15 @@ void Player::Update(float dt)
 	}
 
 
-
-	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
-	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 30);
+	//update position
+	SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y);
+	foot.SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y - 30);
 }
 
 
 void Player::Release()
 {
-	delete characterTexture;
-	delete mainBody;
-	delete foot;
+	characterTexture.Release();
+	//delete mainBody;
+	//delete foot;
 }

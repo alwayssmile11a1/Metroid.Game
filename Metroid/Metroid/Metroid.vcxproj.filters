@@ -33,6 +33,9 @@
     <ClCompile Include="MetroidGame.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="WorldListener.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>

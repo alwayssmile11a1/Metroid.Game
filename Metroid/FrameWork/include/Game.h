@@ -3,7 +3,7 @@
 
 #include "..\src\others\stdafx.h"
 #include "Global.h"
-
+#include "Scene.h"
 
 	//this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game : public GameObject
@@ -37,10 +37,12 @@ private:
 	bool InitDirectX();
 	bool InitGame();
 
+
+	//Scene
+	Scene* _CurrentScene;
+
 protected:
 	//RECOMMEND: overide these two function and do all the things you want
-
-
 	//create all the things of a game here, such as world, object, ...
 	void virtual CreateGame() = 0;
 	//update game by one frame (render, control game) - just write your game here
@@ -53,6 +55,7 @@ protected:
 	//create a background from this image. If you want to disable this function, just set the filePath to be NULL
 	void SetBackGroundImage(LPWSTR filePath);
 
+	void SetScene(Scene *scene);
 
 	//call postmessage to shut down application
 	void ShutDownApplication();
@@ -70,7 +73,7 @@ public:
 	int RunGame();
 
 	//Release game
-	void Release();
+	void virtual Release();
 
 };
 

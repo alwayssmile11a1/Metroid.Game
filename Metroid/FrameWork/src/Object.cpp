@@ -36,46 +36,46 @@ Object::~Object()
 
 Body* Object::GetMainBody() 
 {
-	return mainBody;
+	return _MainBody;
 }
 
-void  Object::SetBody(Body *body)
+void  Object::SetMainBody(Body *body)
 {
-	mainBody = body;
+	_MainBody = body;
 }
 
 void  Object::SetBodyPosition(float x, float y)
 {
-	mainBody->SetPosition(x, y);
+	_MainBody->SetPosition(x, y);
 }
 void  Object::SetVelocity(float vx, float vy)
 {
-	mainBody->SetVelocity(vx, vy);
+	_MainBody->SetVelocity(vx, vy);
 }
 void  Object::SetBodySize(float width, float height)
 {
-	mainBody->SetSize(width, height);
+	_MainBody->SetSize(width, height);
 }
 
 const Vector2& Object::GetVelocity() const
 {
-	return mainBody->GetVelocity();
+	return _MainBody->GetVelocity();
 }
 
 void Object::SetMass(float mass)
 {
-	mainBody->SetMass(mass);
+	_MainBody->SetMass(mass);
 }
 
 
 float Object::GetMass() const
 {
-	return mainBody->GetMass();
+	return _MainBody->GetMass();
 }
 
 
 void Object::FitBody()
 {
-	mainBody->SetPosition(GetPosition().x, GetPosition().y);
-	mainBody->SetSize(GetSize().x, GetSize().y);
+	_MainBody->SetPosition(GetPosition().x, GetPosition().y);
+	_MainBody->SetSize(GetSize().x, GetSize().y);
 }

@@ -391,6 +391,16 @@ int Game::RunGame()
 
 }
 
+void Game::UpdateGame(float dt)
+{
+	_CurrentScene->Update(dt);
+}
+
+void Game::SetScene(Scene *scene)
+{
+	_CurrentScene = scene;
+}
+
 void Game::ShutDownApplication()
 {
 	//trace(L"Escape key pressed!");

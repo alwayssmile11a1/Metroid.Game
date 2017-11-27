@@ -1,48 +1,25 @@
 #pragma once
 
 #include "Game.h"
-#include "World.h"
-#include "Animation.h"
-#include "SpriteBatch.h"
-#include "TexturePacker.h"
-#include "Collision.h"
-#include "TMXLoader.h"
-#include "Object.h"
-#include "Player.h"
-#include "WorldListener.h"
-#include "MySound.h"
+#include "PlayScene.h"
 
-class MetroidGame: public Game, public WorldContactListener
+class MetroidGame: public Game
 {
 private:
 	SpriteBatch batch;
-	Camera cam;
+	PlayScene playScene;
 
-	TMXLoader mapLoader;
-	TMXMap* map;
-
-	World world;
-
-	Body* body1;
-	Body* body2;
-
-	Player player;
-
-	WorldListener* worldListener;
 
 protected:
 	//create all the things of a game here, such as world, object, ...
-	void CreateGame();
+	void CreateGame() override;
 	//update game by one frame (render, control game) - just write your game here
-	void UpdateGame(float dt);
+	void UpdateGame(float dt) override;
 
-	void HandlePhysics(float dt);
-
-	void Render();
 
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~MetroidGame();
 
-	void Release();
+	void Release() override;
 };
