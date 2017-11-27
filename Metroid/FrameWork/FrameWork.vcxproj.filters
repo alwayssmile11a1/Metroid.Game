@@ -156,12 +156,6 @@
     <ClInclude Include="include\World.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="include\DirectSound.h">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="include\MySound.h">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt">
@@ -242,12 +236,6 @@
     </ClCompile>
     <ClCompile Include="src\objects\Object.cpp">
       <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\DirectSound.cpp">
-      <Filter>Source Files\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sound\MySound.cpp">
-      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

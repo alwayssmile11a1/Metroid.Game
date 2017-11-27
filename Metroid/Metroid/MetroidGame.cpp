@@ -1,7 +1,7 @@
 ﻿#include "MetroidGame.h"
 
-CSound *BrinstarTheme = NULL;
-CSound *Jump = NULL;
+//CSound *BrinstarTheme = NULL;
+//CSound *Jump = NULL;
 
 MetroidGame::MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
 	:Game(hInstance, windowName, screenWidth, screenHeight, isFullScreen, frameRate)
@@ -67,10 +67,10 @@ void MetroidGame::CreateGame()
 	world.AddBody(map->GetObjectGroup("Platform")->GetBodies());
 
 
-	//load sound brinstar theme
-	BrinstarTheme = sound.LoadSound("Resources/BrinstarTheme.wav");
-	//play sound brinstar theme
-	sound.PlaySound(BrinstarTheme);
+	////load sound brinstar theme
+	//BrinstarTheme = sound.LoadSound("Resources/BrinstarTheme.wav");
+	////play sound brinstar theme
+	//sound.PlaySound(BrinstarTheme);
 
 }
 
@@ -142,8 +142,6 @@ void MetroidGame::UpdateGame(float dt)
 		ShutDownApplication();
 	}
 
-
-	player.foot->SetPosition(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y - 30);
 
 
 	Render();

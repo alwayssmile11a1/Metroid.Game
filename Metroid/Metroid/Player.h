@@ -12,9 +12,10 @@ private:
 
 	Animation standingAnimation;
 	Animation movingAnimation;
+	Body* foot;
 
 public:
-	Body* foot;
+
 	bool isJumping;
 	bool isGrounded;
 

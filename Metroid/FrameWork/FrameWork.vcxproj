@@ -29,7 +29,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -42,7 +42,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -160,12 +160,10 @@
     <ClInclude Include="include\Body.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Collision.h" />
-    <ClInclude Include="include\DirectSound.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Input.h" />
-    <ClInclude Include="include\MySound.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\SpriteBatch.h" />
@@ -200,8 +198,6 @@
     <ClCompile Include="src\others\Global.cpp" />
     <ClCompile Include="src\others\Utility.cpp" />
     <ClCompile Include="src\others\Vector2.cpp" />
-    <ClCompile Include="src\sound\DirectSound.cpp" />
-    <ClCompile Include="src\sound\MySound.cpp" />
     <ClCompile Include="src\textures\Animation.cpp" />
     <ClCompile Include="src\textures\Sprite.cpp" />
     <ClCompile Include="src\textures\SpriteBatch.cpp" />
