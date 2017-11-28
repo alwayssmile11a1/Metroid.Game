@@ -30,7 +30,7 @@ public:
 	//If isSameDirection = 1, the animation will be rendered as the same direction  
 	//Note that the animation will be automatically returned to its original direction in the next animation frame before checking isSameDirection
 	//Set isSameDirection = -1 to disable the effect
-	TextureRegion* Next(float deltaTime, int isSameDirection);
+	TextureRegion* Next(float deltaTime/*, int isSameDirection*/);
 	void Reset();
 	void SetFrameInterval(float frameInterval);
 

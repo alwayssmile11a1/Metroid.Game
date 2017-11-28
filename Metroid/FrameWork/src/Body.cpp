@@ -10,6 +10,9 @@ Body::Body()
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
 	_IsSensor = false;
+	maskBits = 1;
+	categoryBits = 0x0001; //1
+	maskBits = 0xFFFF; //65535
 }
 Body::Body(float x, float y, float width, float height, float vx, float vy)
 {
@@ -29,49 +32,53 @@ Body::~Body()
 
 void Body::CalculateActualVelocity(float dt, float gravity)
 {
-	if (_BodyType == BodyType::Static || _IsSensor)
+	if (_BodyType == BodyType::Static)
 	{
 		_TotalVelocity.Set(0, 0);
 		return;
 	}
 
-	//_Velocity.x = _Velocity.x * 100;
-	_Velocity.y += _Mass * gravity * dt;
-
-	//calculate remaining _Velocity x
-	if (_Velocity.x != 0)
+	if (_BodyType == BodyType::Dynamic) //if dynamic, the body is affected by gravity and linear impulse
 	{
-		float remainingXVelocity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
+		//_Velocity.x = _Velocity.x * 100;
+		_Velocity.y += _Mass * gravity * dt;
 
-		if (remainingXVelocity*_Velocity.x <= 0)
+
+		//calculate remaining _Velocity x
+		if (_Velocity.x != 0)
 		{
-			_Velocity.Set(0, _Velocity.y);
+			float remainingXVelocity = _Velocity.x - 10 * _LinearDrag.x*abs(_Velocity.x) / _Velocity.x * dt;
+
+			if (remainingXVelocity*_Velocity.x <= 0)
+			{
+				_Velocity.Set(0, _Velocity.y);
+			}
+			else
+			{
+				_Velocity.Set(remainingXVelocity, _Velocity.y);
+			}
 		}
+
+		//calculate remaining _Velocity y
+		float remainingYVelocity;
+
+		/*if (_Velocity.y > 0)
+		{*/
+		remainingYVelocity = _Velocity.y - _Velocity.y*_LinearDrag.y * dt;
+		/*}
 		else
 		{
-			_Velocity.Set(remainingXVelocity, _Velocity.y);
-		}
+			if (_Velocity.y < 0)
+			{
+				remainingYVelocity = _Velocity.y + _Velocity.y*_LinearDrag.y * dt;
+			}
+		}*/
+
+		if (remainingYVelocity*_Velocity.y < 0) remainingYVelocity = 0;
+
+		//Set velocity (m/s)
+		_Velocity.Set(_Velocity.x, remainingYVelocity);
 	}
-
-	//calculate remaining _Velocity y
-	float remainingYVelocity;
-
-	/*if (_Velocity.y > 0)
-	{*/
-		remainingYVelocity = _Velocity.y - _Velocity.y*_LinearDrag.y * dt;
-	/*}
-	else
-	{
-		if (_Velocity.y < 0)
-		{
-			remainingYVelocity = _Velocity.y + _Velocity.y*_LinearDrag.y * dt;
-		}
-	}*/
-
-	if (remainingYVelocity*_Velocity.y < 0) remainingYVelocity = 0;
-
-	//Set velocity (m/s)
-	_Velocity.Set(_Velocity.x, remainingYVelocity);
 	
 	//Get actual velocity (cm/s)
 	_TotalVelocity.Set(_Velocity.x * 100, _Velocity.y * 100);
@@ -124,7 +131,7 @@ void Body::SetLinearDrag(float xDrag, float yDrag)
 void Body::Next(float dt, bool moveX, bool moveY)
 {
 
-	if (_BodyType == BodyType::Static || _IsSensor)
+	if (_BodyType == BodyType::Static)
 	{
 		return;
 	}

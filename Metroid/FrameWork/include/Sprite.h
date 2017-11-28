@@ -23,6 +23,9 @@ private:
 
 	//bool _CreateNewTexture; //if true, allocate a new memory for the texture
 
+	bool _FlipX;
+	bool _FlipY;
+
 public:
 	Sprite();
 
@@ -63,6 +66,8 @@ public:
 
 	//Flip the texture. This function is done by multiplying the scale x or y with -1. 
 	void Flip(bool flipX, bool flipY);
+	bool IsFlipX();
+	bool IsFlipY();
 
 	//this also affects the texture being reference to
 	void ResetToWhole();

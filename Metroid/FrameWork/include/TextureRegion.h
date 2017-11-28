@@ -12,7 +12,7 @@ private:
 						//if you do want to allocate a new memory for this texture, consider use _CreateNewTexture variable
 	Vector2 _RectSize; //the width and height of the rectangle portion in the image
 	Vector2 _RectPosition; //the top left position of portion we want to draw
-	Vector2 _ScaleFactor; //scale
+	//Vector2 _ScaleFactor; //scale
 
 
 public:
@@ -29,14 +29,14 @@ public:
 	const Vector2& GetRectSize() const;
 	const Vector2& GetRectPosition() const;
 	Texture* GetTexture() const;
-	const Vector2& GetScale() const;
+	//const Vector2& GetScale() const;
 
 	//all set functions
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
 	void SetTexture(Texture *Texture);
-	//Flip the texture. This function is done by multiplying the scale x or y with -1. 
-	void Flip(bool flipX, bool flipY);
+	////Flip the texture. This function is done by multiplying the scale x or y with -1. 
+	//void Flip(bool flipX, bool flipY);
 };
 
 #endif

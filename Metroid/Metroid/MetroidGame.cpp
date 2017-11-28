@@ -11,12 +11,6 @@ MetroidGame::~MetroidGame()
 
 }
 
-void MetroidGame::Release()
-{
-	Game::Release();
-	batch.Release();
-	playScene.Release();
-}
 
 void MetroidGame::CreateGame()
 {
@@ -40,5 +34,12 @@ void MetroidGame::UpdateGame(float dt)
 		ShutDownApplication();
 	}
 
+}
+
+void MetroidGame::Release()
+{
+	Game::Release();
+	batch.Release();
+	playScene.Release();
 }
 

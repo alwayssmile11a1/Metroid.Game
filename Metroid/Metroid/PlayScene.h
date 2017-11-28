@@ -9,7 +9,8 @@
 #include "Player.h"
 #include "WorldListener.h"
 #include "MySound.h"
-
+#include "Bullet.h"
+#include <list>
 class PlayScene: public Scene
 {
 private:
@@ -32,6 +33,11 @@ private:
 	WorldListener worldListener;
 
 	SpriteBatch* batch;
+
+	std::list<Bullet*> bullets;
+
+	Texture bulletTexture;
+	
 
 public:
 	PlayScene();

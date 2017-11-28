@@ -73,9 +73,3 @@ float Object::GetMass() const
 	return _MainBody->GetMass();
 }
 
-
-void Object::FitBody()
-{
-	_MainBody->SetPosition(GetPosition().x, GetPosition().y);
-	_MainBody->SetSize(GetSize().x, GetSize().y);
-}

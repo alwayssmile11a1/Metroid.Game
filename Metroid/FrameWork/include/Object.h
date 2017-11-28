@@ -33,8 +33,6 @@ public:
 	float GetMass() const;
 	 Body* GetMainBody();
 
-	//Set the position and the size of the body equal sprite'
-	void FitBody();
 
 };
 

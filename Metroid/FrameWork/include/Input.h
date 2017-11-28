@@ -50,7 +50,7 @@ public:
 	//Note that this function just has its affect in the frame after you call it 
 	void ClearBuffedInput();
 
-	//return true while the user holds dow the key, such as auto fire
+	//return true while the user holds down the key, such as auto fire
 	bool GetKey(int keyCode);
 
 	//return true during the time user stars pressing the key until it reaches the very bottom of the key.  

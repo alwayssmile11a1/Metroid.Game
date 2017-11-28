@@ -152,6 +152,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Array.h" />
     <ClInclude Include="extensions\rapidxml\rapidxml.hpp" />
     <ClInclude Include="extensions\rapidxml\rapidxml_iterators.hpp" />
     <ClInclude Include="extensions\rapidxml\rapidxml_print.hpp" />
@@ -191,6 +192,7 @@
     <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Array.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\collision\Collision.cpp" />

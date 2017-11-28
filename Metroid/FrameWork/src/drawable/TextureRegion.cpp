@@ -6,7 +6,7 @@ TextureRegion::TextureRegion()
 	_RectPosition.Set(0, 0);
 	_RectSize.Set(0, 0);
 	_Texture = NULL;
-	_ScaleFactor.Set(1, 1);
+	//_ScaleFactor.Set(1, 1);
 }
 
 
@@ -16,7 +16,7 @@ TextureRegion::TextureRegion(Texture *texture, float rectX, float rectY, float r
 	_Texture = texture;
 	_RectSize = Vector2(rectWidth, rectHeight);
 	_RectPosition = Vector2(rectX, rectY);
-	_ScaleFactor.Set(1, 1);
+	//_ScaleFactor.Set(1, 1);
 }
 
 //TextureRegion::TextureRegion(const TextureRegion &textureRegion)
@@ -68,17 +68,32 @@ Texture* TextureRegion::GetTexture() const
 	return _Texture;
 }
 
-//Flip the image 
-void TextureRegion::Flip(bool flipX, bool flipY)
-{
-	if (flipX) _ScaleFactor.x *= -1;
-	if (flipY) _ScaleFactor.y *= -1;
-}
-
-const Vector2& TextureRegion::GetScale() const
-{
-	return _ScaleFactor;
-}
+////Flip the image 
+//void TextureRegion::Flip(bool flipX, bool flipY)
+//{
+//	if (flipX)
+//	{
+//		_ScaleFactor.x = abs(_ScaleFactor.x)* -1;
+//	}
+//	else
+//	{
+//		_ScaleFactor.x = abs(_ScaleFactor.x);
+//	}
+//
+//	if (flipY)
+//	{
+//		_ScaleFactor.y = abs(_ScaleFactor.y)* -1;;
+//	}
+//	else
+//	{
+//		_ScaleFactor.y = abs(_ScaleFactor.y);
+//	}
+//}
+//
+//const Vector2& TextureRegion::GetScale() const
+//{
+//	return _ScaleFactor;
+//}
 
 TextureRegion::~TextureRegion()
 {

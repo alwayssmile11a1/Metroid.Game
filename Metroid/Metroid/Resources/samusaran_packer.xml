@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<characterstand>
- <rect left="184" top = "36" width = "18" height="34" />
-</characterstand>
+<bullet>
+ <rect left="250" top = "9" width = "6" height="7" />
+</bullet>
 
-<charactermove>
+<appearing>
+ <rect left="184" top = "36" width = "18" height="34" />
+</appearing>
+
+<standing>
+ <rect left="202" top = "76" width = "21" height="34" />
+</standing>
+
+<standandshootup>
+ <rect left="205" top = "113" width = "16" height="40" />
+</standandshootup>
+
+<movewithoutshooting>
  <rect left="244" top = "36" width = "17" height="33" />
  <rect left="283" top = "36" width = "19" height="34" />
  <rect left="322" top = "36" width = "22" height="34" />
-</charactermove>
+</movewithoutshooting>
+
+<moveandshoot>
+ <rect left="242" top = "76" width = "22" height="33" />
+ <rect left="281" top = "76" width = "24" height="34" />
+ <rect left="319" top = "76" width = "27" height="33" />
+</moveandshoot>
+
+<moveandshootup>
+ <rect left="246" top = "113" width = "14" height="40" />
+ <rect left="283" top = "113" width = "19" height="40" />
+ <rect left="322" top = "113" width = "21" height="40" />
+</moveandshootup>
+
+<roll>
+ <rect left="201" top = "165" width = "14" height="15" />
+ <rect left="231" top = "165" width = "14" height="15" />
+</roll>
+
+<jumpwithoutshooting>
+ <rect left="363" top = "39" width = "20" height="27" />
+</jumpwithoutshooting>
+
+<jumpandshoot>
+ <rect left="360" top = "79" width = "25" height="27" />
+</jumpandshoot>
+
+<jumpandshootup>
+ <rect left="363" top = "116" width = "20" height="34" />
+</jumpandshootup>
+
+

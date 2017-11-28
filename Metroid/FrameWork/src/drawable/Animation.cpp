@@ -72,7 +72,7 @@ TextureRegion* Animation::GetKeyAnimation() const
 	return _Regions[_Index];
 }
 
-TextureRegion* Animation::Next(float deltaTime, int isSameDirection)
+TextureRegion* Animation::Next(float deltaTime/*, int flipX, int flipY*/)
 {
 	if (_Regions.size() == 0) return NULL;
 
@@ -91,16 +91,21 @@ TextureRegion* Animation::Next(float deltaTime, int isSameDirection)
 	
 	TextureRegion *currentRegion = _Regions[_Index];
 
-	if (isSameDirection != -1)
-	{
-		//return to origin direction
-		if (currentRegion->GetScale().x < 0) currentRegion->Flip(true, false);
+	//if (isSameDirection != -1)
+	//{
+	//	////return to origin direction
+	//	//if (currentRegion->GetScale().x < 0) currentRegion->Flip(true, false);
 
-		if (isSameDirection == 0)
-		{
-			currentRegion->Flip(true, false);
-		}
-	}
+	//	if (isSameDirection == 0)
+	//	{
+	//		currentRegion->Flip(true, false);
+	//	}
+	//	else
+	//	{
+	//		currentRegion->Flip(true, false);
+	//	}
+
+	//}
 
 	return  currentRegion;
 }
