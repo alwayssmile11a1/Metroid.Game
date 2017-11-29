@@ -48,7 +48,7 @@ public:
 	void RemoveBody(int index);
 
 	//Render all bodies by squares
-	void RenderBodiesDebug(SpriteBatch &batch);
+	void RenderBodiesDebug(SpriteBatch *batch);
 
 };
 

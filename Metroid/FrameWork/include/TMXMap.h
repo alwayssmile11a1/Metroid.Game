@@ -43,7 +43,7 @@ public:
 	TMXObjectGroup* GetObjectGroup(const std::string &groupName) const;
 
 	//Render this map
-	void Render(SpriteBatch &batch);
+	void Render(SpriteBatch *batch);
 
 };
 

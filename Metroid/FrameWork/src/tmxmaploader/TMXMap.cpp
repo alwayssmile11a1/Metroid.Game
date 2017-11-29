@@ -117,7 +117,7 @@ const vector<TMXTileLayer*>& TMXMap::GetLayers() const
 }
 
 //Render this map
-void TMXMap::Render(SpriteBatch &batch)
+void TMXMap::Render(SpriteBatch *batch)
 {
 	//get necessary variables
 	unsigned int **data = _Layers[0]->GetData();
@@ -164,7 +164,7 @@ void TMXMap::Render(SpriteBatch &batch)
 
 			}
 
-			batch.Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, rectWidth, rectHeight);
+			batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, rectWidth, rectHeight);
 		}
 	}
 

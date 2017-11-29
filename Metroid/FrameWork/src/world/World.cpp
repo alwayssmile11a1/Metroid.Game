@@ -172,7 +172,7 @@ void World::RemoveBody(int index)
 	_Bodies.erase(_Bodies.begin() + index);
 }
 
-void World::RenderBodiesDebug(SpriteBatch &batch)
+void World::RenderBodiesDebug(SpriteBatch *batch)
 {
 	
 	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)
@@ -183,6 +183,6 @@ void World::RenderBodiesDebug(SpriteBatch &batch)
 		float height = (*bo)->GetSize().y;
 
 		//batch.Draw(_DebugSquareTexture, x, y, 0, 0, _DebugSquareTexture.GetImageSize().x, _DebugSquareTexture.GetImageSize().y, width, height);
-		batch.DrawSquare(x, y, width, height, D3DCOLOR_ARGB(255, 0, 128, 0));
+		batch->DrawSquare(x, y, width, height, D3DCOLOR_ARGB(255, 0, 128, 0));
 	}
 }

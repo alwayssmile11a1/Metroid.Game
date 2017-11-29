@@ -1,3 +1,4 @@
+#pragma once
 #include "Scene.h"
 #include "World.h"
 #include "Animation.h"
@@ -9,8 +10,7 @@
 #include "Player.h"
 #include "WorldListener.h"
 #include "MySound.h"
-#include "Bullet.h"
-#include <list>
+
 class PlayScene: public Scene
 {
 private:
@@ -34,9 +34,7 @@ private:
 
 	SpriteBatch* batch;
 
-	std::list<Bullet*> bullets;
-
-	Texture bulletTexture;
+	
 	
 
 public:

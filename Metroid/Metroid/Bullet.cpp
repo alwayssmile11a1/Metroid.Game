@@ -4,8 +4,6 @@
 
 Bullet::Bullet()
 {
-	liveTime = 0;
-	isDestroyed = false;
 }
 
 
@@ -16,6 +14,11 @@ Bullet::~Bullet()
 
 Bullet::Bullet(World *world, Texture* texture)
 {
+	isDestroyed = false;
+	stateTime = 0;
+	liveTime = LIVETIME;
+	bulletSpeed = BULLETSPEED;
+
 	this->world = world;
 	SetTexture(texture);
 	SetRectSize(6,7);
@@ -43,12 +46,17 @@ void Bullet::Update(float dt)
 {
 	//mainBody.SetPosition(mainBody.GetPosition().x+10, mainBody.GetPosition().y);
 	SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y);
-	liveTime += dt;
-	if (liveTime > 0.5f)
+	stateTime += dt;
+	if (stateTime > liveTime)
 	{
 		world->RemoveBody(&mainBody);
 		isDestroyed = true;
 	}
+}
+
+float Bullet::GetBulletSpeed()
+{
+	return bulletSpeed;
 }
 
 bool Bullet::IsDestroyed()
