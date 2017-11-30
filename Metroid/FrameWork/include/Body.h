@@ -6,6 +6,9 @@
 class Body: public GameObject
 {
 public: 
+	//Static: can not apply velocity 
+	//Kinematic: can be affected by velocity, but not gravity and linear drag
+	//Dynamic: normal body
     enum BodyType { Static, Kinematic, Dynamic };
 
 private:
@@ -25,14 +28,27 @@ private:
 	GameObject* _Extra; //Extra information for this body
 				 //can be anything
 	
+	//Go to the next position
+	//this function was done by multiplying its velocity and deltatime 
+	void Next(float dt, bool moveX, bool moveY);
+
+	void CalculateActualVelocity(float dt, float gravity);
+	const Vector2& GetTotalVelocity() const;
+	
+	Vector2 _PreviousPosition;
+
+private: //friend class
+	friend class Collision;
+	friend class World;
+
 public:
 	//The categoryBits flag can be thought of as the fixture saying 'I am a ...'
 	//usually just one Bit
 	//NOTE:the value should be the power of two, such as: 1,2,4,8,16 ( 0x0001, 0x0002, 0x0004, 0x0008, 0x0010)
-	short categoryBits;
+	unsigned short categoryBits;
 
 	//the maskBits is like saying 'I will collide with a ...'
-	short maskBits;
+	unsigned short maskBits;
 	//The idea was acquired from: http://www.iforce2d.net/b2dtut/collision-filtering
 public:
 
@@ -52,21 +68,16 @@ public:
 	const Vector2& GetVelocity() const;
 	const Vector2& GetSize() const;
 	const Vector2& GetPosition() const;
-	const Vector2& GetTotalVelocity() const;
 	float GetMass() const;
 	Body::BodyType GetBodyType();
 	const std::string& GetID() const;
 
-	void CalculateActualVelocity(float dt, float gravity);
 	void IsSensor(bool triggered);
 	bool IsSensor() const;
 
 	void PutExtra(GameObject* anything);
 	GameObject* GetExtra();
 
-	//Go to the next position
-	//this function was done by multiplying its velocity and deltatime 
-	void Next(float dt, bool moveX, bool moveY);
 	
 };
 

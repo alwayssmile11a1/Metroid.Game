@@ -18,13 +18,13 @@ void Player::Create(World *world)
 {
 	this->world = world;
 
-	isJumping = false;
 	isGrounded = true;
 	isLookingup = false;
 	isShooting = true;
 
 	lastShot = 0;
-	fireRate = FIRERATE;
+
+	jumpTime = 0;
 
 	//get characterTexture
 	characterTexture = Texture("Resources/samusaran_sheet.png");
@@ -44,7 +44,7 @@ void Player::Create(World *world)
 
 	SetRegion(standingAnimation.GetKeyAnimation());
 	SetSize(34, 66);
-	SetPosition(16 * 8, 16 * 5);
+	SetPosition(16 * 8, 16 * 7);
 
 	//setup mainbody
 	mainBody.SetBodyType(Body::BodyType::Dynamic);
@@ -52,20 +52,22 @@ void Player::Create(World *world)
 	mainBody.SetMass(2);
 	mainBody.SetID("Player");
 	mainBody.SetSize(34, 66);
-	mainBody.SetPosition(16 * 8, 16 * 5);
+	mainBody.SetPosition(16 * 8, 16 * 7);
+	mainBody.categoryBits = PLAYER_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
 	//in which case, putting this line of code into update method may be a solution
 	mainBody.PutExtra(this);
 
-	SetMainBody(&mainBody);
 
 	//create foot
 	//foot = new Body();
-	foot.SetSize(25, 20);
+	foot.SetBodyType(Body::BodyType::Kinematic);
+	foot.SetSize(30, 20);
 	foot.IsSensor(true);
 	foot.SetID("Foot");
+	foot.categoryBits = FOOT_BIT;
 	foot.PutExtra(this);
 
 	world->AddBody(&mainBody);
@@ -88,14 +90,33 @@ void Player::HandleInput()
 		mainBody.SetVelocity(-5, mainBody.GetVelocity().y);
 
 	}
-
-	if (input.GetKeyDown(DIK_Z) && isGrounded && !isJumping)
+	
+	if (input.GetKey(DIK_Z))
 	{
-		mainBody.SetVelocity(mainBody.GetVelocity().x, 8);
-		isGrounded = false;
-		isJumping = true;
+		if (jumpTime < MAXJUMPTIME)
+		{
+			mainBody.SetVelocity(mainBody.GetVelocity().x, mainBody.GetVelocity().y + 0.3f);
+			jumpTime += 0.02f;
+		}
+		else
+		{
+			jumpTime = 100;
+		}
+	}
+	else
+	{
+		jumpTime = 100; //don't jump more
 	}
 
+	if (input.GetKeyDown(DIK_Z) && isGrounded)
+	{
+		mainBody.SetVelocity(mainBody.GetVelocity().x, 5);
+		isGrounded = false;
+		jumpTime = 0;
+	}
+
+
+	
 	
 
 	if (input.GetKey(DIK_UPARROW))
@@ -125,12 +146,13 @@ void Player::HandleInput()
 	{
 		Fire();
 	}
+
 }
 
 void Player::Fire()
 {
 	float currentTime = GetTickCount() / 1000.0f;
-	if (currentTime > fireRate + lastShot)
+	if (currentTime > FIRERATE + lastShot)
 	{
 		//instantiate bullet
 		Bullet* bullet = new Bullet(world, &bulletTexture);
@@ -140,7 +162,7 @@ void Player::Fire()
 		{
 			position.x = GetPosition().x;
 			position.y = GetPosition().y + GetSize().y / 2 + bullet->GetSize().y / 2;
-			velocity.Set(0, bullet->GetBulletSpeed());
+			velocity.Set(0, BULLETSPEED);
 		}
 		else
 		{
@@ -148,18 +170,18 @@ void Player::Fire()
 			{
 				position.x = GetPosition().x + GetSize().x / 2 + bullet->GetSize().x / 2;
 				position.y = GetPosition().y + 10;
-				velocity.Set(bullet->GetBulletSpeed(), 0);
+				velocity.Set(BULLETSPEED, 0);
 			}
 			else
 			{
 				position.x = GetPosition().x - GetSize().x / 2 - bullet->GetSize().x / 2;
 				position.y = GetPosition().y + 10;
-				velocity.Set(-bullet->GetBulletSpeed(), 0);
+				velocity.Set(-BULLETSPEED, 0);
 			}
 		}
 
 		bullet->GetMainBody()->SetPosition(position.x, position.y);
-		bullet->SetVelocity(velocity.x, velocity.y);
+		bullet->GetMainBody()->SetVelocity(velocity.x, velocity.y);
 		bullets.push_back(bullet);
 
 
@@ -169,6 +191,13 @@ void Player::Fire()
 
 	
 }
+
+void Player::OnGrounded()
+{
+	isGrounded = true;
+	jumpTime = 100;
+}
+
 
 void Player::Render(SpriteBatch *batch)
 {
@@ -197,6 +226,7 @@ void Player::Update(float dt)
 			{
 				SetRegion(jumpAndShootAnimation.Next(dt));
 			}
+			
 		}
 		else
 		{
@@ -251,17 +281,10 @@ void Player::Update(float dt)
 		}
 	}
 
-	if (isJumping)
-	{
-		isGrounded = false;
-		isJumping = false;
-	}
-
-
 
 	//update position
 	SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y);
-	foot.SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y - 30);
+	foot.SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y - 35);
 
 	//update bullet
 	for (int i = 0; i < bullets.size(); i++)

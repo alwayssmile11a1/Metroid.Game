@@ -11,14 +11,20 @@ WorldListener::~WorldListener()
 {
 }
 
-void WorldListener::OnContact(Body* bodyA, Body *bodyB)
+void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB)
+{
+	//Console::Log("OnCollisionEnter");
+}
+
+void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 {
 	if (bodyA->GetID()._Equal("Foot") && !bodyB->GetID()._Equal("Player"))
 	{
 		Player*player = (Player *)(bodyA->GetExtra());
 		if (player != NULL)
 		{
-			player->isGrounded = true;
+			Console::Log("Grounded");
+			player->OnGrounded();
 		}
 	}
 }

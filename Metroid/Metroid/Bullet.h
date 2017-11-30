@@ -1,16 +1,12 @@
-#include"Object.h"
 #include"World.h"
 
 #define LIVETIME 0.1f
 #define BULLETSPEED 5.0f
+#define BULLET_BIT 4
 
-
-class Bullet: public Object
+class Bullet: public Sprite
 {
 private:
-	float liveTime;
-	float bulletSpeed;
-
 	Body mainBody;
 	float stateTime;
 	World *world;
@@ -28,6 +24,8 @@ public:
 	bool IsDestroyed();
 
 	float GetBulletSpeed();
+
+	Body* GetMainBody();
 
 };
 

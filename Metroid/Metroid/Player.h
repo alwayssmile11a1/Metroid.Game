@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 #include "World.h"
 #include "TexturePacker.h"
 #include "Animation.h" 
@@ -7,9 +6,12 @@
 #include <vector>
 
 #define FIRERATE 0.1f
+#define PLAYER_BIT 1
+#define FOOT_BIT 2
+#define MAXJUMPTIME 0.3
 
 //Main character
-class Player : public Object
+class Player : public Sprite
 {
 private:
 	Texture characterTexture;
@@ -31,17 +33,16 @@ private:
 
 	World* world;
 	
-	//fire rate 
-	float fireRate;
+	//
 	float lastShot;
 
+	float jumpTime;
 
-public:
-
-	bool isJumping;
 	bool isGrounded;
 	bool isLookingup;
 	bool isShooting;
+public:
+
 
 public:
 	Player();
@@ -56,6 +57,8 @@ public:
 	void Update(float dt);
 
 	void Fire();
+
+	void OnGrounded();
 
 	void Release();
 

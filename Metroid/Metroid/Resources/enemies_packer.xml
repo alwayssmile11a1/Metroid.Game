@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zoomer>
+ <rect left="9" top = "7" width = "16" height="14" />
+  <rect left="27" top = "7" width = "16" height="14" />
+</zoomer>
+
+<skree>
+ <rect left="15" top = "30" width = "16" height="24" />
+  <rect left="33" top = "30" width = "18" height="24" />
+</skree>

@@ -9,7 +9,9 @@ public:
 	~WorldListener();
 
 	//Override OnContact of WorldContactListener
-	void OnContact(Body* bodyA, Body *bodyB) override;
+	void OnCollisionEnter(Body* bodyA, Body *bodyB) override;
+
+	void OnSersorEnter(Body *bodyA, Body *bodyB) override;
 
 };
 

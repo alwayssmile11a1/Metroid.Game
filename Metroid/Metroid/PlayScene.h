@@ -6,7 +6,6 @@
 #include "TexturePacker.h"
 #include "Collision.h"
 #include "TMXLoader.h"
-#include "Object.h"
 #include "Player.h"
 #include "WorldListener.h"
 #include "MySound.h"

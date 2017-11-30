@@ -4,6 +4,7 @@
 #include "..\src\others\stdafx.h"
 #include "Input.h"
 #include "MySound.h"
+#include "Console.h"
 
 //Direct3D variables
 extern LPDIRECT3D9 d3d;

@@ -75,71 +75,65 @@ void World::SetGravity(float gravity)
 
 void World::Update(float dt)
 {
-	////Check collision
-	//Collision collision;
-
-	//for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
-	//{
-
-	//	if ((*body1)->GetBodyType() == Body::BodyType::Static) continue;
-
-	//	bool doNextAction = true;
-	//	bool moveX = true, moveY = true;
-
-	//	for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
-	//	{
-	//		if ((*body1) == (*body2)) continue;
-
-
-	//		if (collision.checkCollision(**body1, **body2, dt, 0, moveX, moveY))
-	//		{
-	//			doNextAction = false;
-	//		}
-
-	//	}
-
-	//	/*if (doNextAction == true)
-	//	{*/
-	//		(*body1)->Next(dt, moveX, moveY);
-	//	//}
-
-	//	for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
-	//	{
-	//		if ((*body1) == (*body2)) continue;
-
-	//		collision.checkOverlaying(**body1, **body2, dt, 0);
-
-	//	}
-
-	//}
 
 	//Check collision
 	Collision collision;
+	collision.SetContactListener(_Listener);
 
 	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 	{
-		if ((*body1)->GetBodyType() == Body::BodyType::Static && (*body1)->IsSensor() != true) continue;
+		if ((*body1)->GetBodyType() == Body::BodyType::Static)
+		{
+			(*body1)->Next(dt, false, false);
+			continue;
+		}
 
+
+		//calculate actual velocity
 		(*body1)->CalculateActualVelocity(dt, _Gravity);
 
-		//bool doNextAction = true;
-		bool moveX = true, moveY = true;
+		//get broadphase rect 
+		RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
 
+		bool moveX = true, moveY = true;
+		
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
 			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
 
-			if (collision.PerformCollision(**body1, **body2, dt, 0, moveX, moveY))
+			bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
+
+			if (!collide) continue;
+
+			//get static rect 
+			RECT staticRect = collision.GetRECT(*body2);
+
+			//check overlaying broadphase
+			if (collision.IsOverlayingBroadphaseRect(broadphaseRect, staticRect))
 			{
-				_Listener->OnContact(*body1, *body2);
+				if (collision.IsColliding(*body1, *body2, dt))
+				{
+					collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
+				}
+			}
+		
+
+			if (collision.IsOverlaying(*body1, *body2))
+			{
+				collision.PerformOverlaying(*body1, *body2, moveX, moveY);
 			}
 
+			collision.Reset();
 		}
 
 		(*body1)->Next(dt, moveX, moveY);
+		
 	}
 
+	
+
 }
+
 
 void World::AddBody(Body *body)
 {
@@ -158,14 +152,13 @@ void World::SetContactListener(WorldContactListener *listener)
 
 void World::RemoveBody(Body* body)
 {
-	for (std::vector<Body*>::iterator bo = _Bodies.begin(); bo != _Bodies.end(); ++bo)
+
+	std::vector<Body*>::iterator it = std::find(_Bodies.begin(), _Bodies.end(), body);
+	if (it != _Bodies.end())
 	{
-		if ((*bo) == body)
-		{
-			_Bodies.erase(bo);
-			break;
-		}
+		_Bodies.erase(it);
 	}
+
 }
 void World::RemoveBody(int index)
 {

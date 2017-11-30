@@ -1,12 +1,16 @@
 ﻿#ifndef COLLISION_H
 #define COLLISION_H
 
+#include "Rectangle.h"
 #include "Body.h"
 #include "..\src\others\stdafx.h"
+#include "WorldContactListener.h"
 
 class Collision
 {
 private:
+	WorldContactListener *_Listener;
+
 	// Kết quả của thuật toán kiểm tra va chạm,
 	// không có va chạm sẽ trả về 1, 
 	float _CollisionRatio;
@@ -28,31 +32,44 @@ private:
 	float rentry;  //khoảng thời gian cần để thực sự xảy ra đụng độ
 	float rexit; 	//khoảng thời gian cần để vật a thực sự thoát khỏi vật b
 
+	float moveX, moveY;
 
+	bool IsSensorEntered;
 
 private: //private function
 	
+	void UpdateTargetPosition(Body *body, Vector2 move);
 
-	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
-	bool IsOverlayingBroadphaseRect(Body &targetBody, Body &otherBody, float DeltaTime);
+	void Push(Body *body);
+	void Slide(Body *body);
+	void Deflect(Body *body);
 
-	void UpdateTargetPosition(Body &body, Vector2 move);
-
-
-	void Push(Body &body);
-	void Slide(Body &body);
-	void Deflect(Body &body);
+	//
+	bool IsPreviousOverlayed(Body *targetBody, Body *otherBody);
 
 public:
 	Collision();
 	~Collision();
 
-	bool PerformCollision(Body &targetBody, Body &otherBody, float DeltaTime, int collisionAction, bool &moveX, bool &moveY);
+	RECT GetBroadphaseRect(Body *body, float DeltaTime);
+	RECT GetRECT(Body *body);
+	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
+	bool IsOverlayingBroadphaseRect(const RECT &dynamicRect, const RECT &staticRect);
 
-	bool IsColliding(Body &targetBody, Body &otherBody, float DeltaTime);
+	void PerformCollision(Body *targetBody, Body *otherBody, float DeltaTime, int collisionAction, bool &needMoveX, bool &needMoveY);
+
+	bool IsColliding(Body *targetBody, Body *otherBody, float DeltaTime);
 	
 	// 2 body có chồng lên nhau hay không
-	bool IsOverlaying(Body &targetBody, Body &otherBody, float& moveX, float& moveY);
+	bool IsOverlaying(Body *targetBody, Body *otherBody);
+
+	void PerformOverlaying(Body *targetBody, Body *otherBody, bool &needMoveX, bool &needMoveY);
+	
+	void SetContactListener(WorldContactListener *listener);
+
+	//Reset to use as a new one
+	void Reset();
+
 };
 
 #endif

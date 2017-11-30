@@ -13,7 +13,6 @@ private:
 	D3DCOLOR _Transcolor; //what color is needed to be transparent?
 	Vector2 _ImageSize; //the whole width and height of the image
 
-	std::wstring StringToWstring(const std::string& s);
 
 public:
 	Texture();

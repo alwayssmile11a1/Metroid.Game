@@ -24,6 +24,8 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_TotalVelocity.Set(0, 0);
 	_BodyType = BodyType::Static;
 	_IsSensor = false;
+	categoryBits = 0x0001; //1
+	maskBits = 0xFFFF; //65535
 }
 Body::~Body()
 {
@@ -130,11 +132,12 @@ void Body::SetLinearDrag(float xDrag, float yDrag)
 
 void Body::Next(float dt, bool moveX, bool moveY)
 {
+	_PreviousPosition.Set(_Position.x, _Position.y);
 
-	if (_BodyType == BodyType::Static)
-	{
-		return;
-	}
+	//if (_BodyType == BodyType::Static)
+	//{
+	//	return;
+	//}
 
 	//Set body to the next position
 	if (moveX)

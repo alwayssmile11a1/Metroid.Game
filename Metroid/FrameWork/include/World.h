@@ -6,7 +6,7 @@
 #include"SpriteBatch.h"
 #include"Collision.h"
 #include"WorldContactListener.h"
-
+#include <algorithm>  
 
 // add body to this class and physic things will be handled
 class World: public GameObject
@@ -19,7 +19,8 @@ private:
 
 	WorldContactListener* _Listener;  //listen to the collision
 	
-
+private:
+	friend class Collision;
 
 public:
 	//Constructor and destructor

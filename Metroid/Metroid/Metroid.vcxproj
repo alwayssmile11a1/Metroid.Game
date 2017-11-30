@@ -138,7 +138,9 @@
     <ClCompile Include="MetroidGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Skree.cpp" />
     <ClCompile Include="WorldListener.cpp" />
+    <ClCompile Include="Zoomer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -146,7 +148,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Skree.h" />
     <ClInclude Include="WorldListener.h" />
+    <ClInclude Include="Zoomer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Metroid.rc" />

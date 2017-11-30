@@ -152,6 +152,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Console.h" />
     <ClInclude Include="include\Array.h" />
     <ClInclude Include="extensions\rapidxml\rapidxml.hpp" />
     <ClInclude Include="extensions\rapidxml\rapidxml_iterators.hpp" />
@@ -166,7 +167,6 @@
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\MySound.h" />
-    <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\SpriteBatch.h" />
     <ClInclude Include="include\Texture.h" />
@@ -181,6 +181,7 @@
     <ClInclude Include="include\World.h" />
     <ClInclude Include="include\WorldContactListener.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Rectangle.h" />
     <ClInclude Include="src\others\stdafx.h" />
     <ClInclude Include="src\others\Utility.h" />
     <ClInclude Include="src\sound\DirectSound.h" />
@@ -192,6 +193,8 @@
     <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Console.cpp" />
+    <ClCompile Include="src\Rectangle.cpp" />
     <ClCompile Include="src\Array.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
@@ -200,7 +203,6 @@
     <ClCompile Include="src\Body.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\others\GameObject.cpp" />
-    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\others\Global.cpp" />
     <ClCompile Include="src\others\Utility.cpp" />
     <ClCompile Include="src\others\Vector2.cpp" />
