@@ -34,6 +34,7 @@ Bullet::Bullet(World *world, Texture* texture)
 	//create body
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = BULLET_BIT;
+	mainBody->maskBits = PLATFORM_BIT | SKREE_BIT;
 	
 }
 

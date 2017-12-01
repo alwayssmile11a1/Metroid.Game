@@ -1,6 +1,7 @@
 #pragma once
 #include"WorldContactListener.h"
 #include"Player.h"
+#include "Skree.h"
 
 class WorldListener: public WorldContactListener
 {

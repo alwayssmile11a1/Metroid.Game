@@ -58,17 +58,24 @@ void PlayScene::Create()
 
 	//skree
 	skreeTexture = Texture("Resources/enemies.png");
-	skree = Skree(&world, &skreeTexture);
+	skree.Create(&world, &skreeTexture);
 }
 
 void PlayScene::HandlePhysics(float dt)
 {
+	if (input.GetKeyDown(DIK_SPACE))
+	{
+		skree.OnHitPlayer();
+	}
+
 	player.HandleInput();
 
+	skree.Follow(&player);
 	//body1.SetVelocity(-2, 0);
 
 	//Update world
 	world.Update(dt);
+
 
 }
 
@@ -81,7 +88,8 @@ void  PlayScene::Render()
 	map->Render(batch);
 	
 	player.Render(batch);
-	batch->Draw(skree);
+
+	skree.Render(batch);
 
 	//draw bodies
 	world.RenderBodiesDebug(batch);

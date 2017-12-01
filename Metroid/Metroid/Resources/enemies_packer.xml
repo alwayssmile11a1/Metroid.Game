@@ -8,3 +8,7 @@
  <rect left="15" top = "30" width = "16" height="24" />
   <rect left="33" top = "30" width = "18" height="24" />
 </skree>
+
+<skreebullet>
+ <rect left="205" top = "47" width = "7" height="7" />
+</skreebullet>

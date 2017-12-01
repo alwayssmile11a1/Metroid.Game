@@ -201,3 +201,12 @@ GameObject* Body::GetExtra()
 {
 	return _Extra;
 }
+
+void Body::IsActived(bool actived)
+{
+	_IsActived = actived;
+}
+bool Body::IsActived() const
+{
+	return _IsActived;
+}

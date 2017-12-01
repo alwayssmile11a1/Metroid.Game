@@ -56,6 +56,7 @@ void Player::Create(World *world)
 	bodyDef.position.Set(16 * 8, 16 * 7);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
+	mainBody->maskBits = SKREE_BIT | PLATFORM_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
@@ -70,6 +71,7 @@ void Player::Create(World *world)
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
+	foot->maskBits = PLATFORM_BIT;
 	foot->PutExtra(this);
 
 

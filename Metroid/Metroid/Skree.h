@@ -2,25 +2,57 @@
 #include "World.h"
 #include "Animation.h"
 #include "TexturePacker.h"
+#include<vector>
+#include "CollisionBit.h"
+#include "Player.h"
 
-#define SKREE_BIT 16
+#define SKREELIVETIME 0.5f
+#define SKREEBULLETLIVETIME 1
+#define PI 3.14159265
+
+
+class SkreeBullet
+{
+public:
+	Body* body;
+	Sprite sprite;
+};
+
 
 class Skree:public Sprite
 {
 private:
-	Animation movingAnimation;
+	Animation skreeAnimation;
 	Body* body;
+
+	std::vector<SkreeBullet> skreeBullets;
+
+	Animation skreeBulletAnimation;
+
+	float stateTime;
+
+	World* world;
+
+	bool isDead;
+
+	Player* player;
 
 public:
 	Skree();
 	~Skree();
-	Skree(World *world, Texture *texture);
+	void Create(World *world, Texture *skreeTexture);
 
-	void HandleInput();
+	void HandlePhysics();
 
 	void Render(SpriteBatch *batch);
 
 	void Update(float dt);
+
+	void OnHitPlayer();
+
+	void OnHitGround();
+
+	void Follow(Player* player);
 
 };
 

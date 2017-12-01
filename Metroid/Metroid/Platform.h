@@ -1,7 +1,7 @@
 #pragma once
 #include "World.h"
 
-#define PLATFORM_BIT 1
+#include "CollisionBit.h"
 
 class Platform
 {

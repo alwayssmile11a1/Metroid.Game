@@ -4,10 +4,9 @@
 #include "Animation.h" 
 #include "Bullet.h"
 #include <vector>
+#include "CollisionBit.h"
 
 #define FIRERATE 0.1f
-#define PLAYER_BIT 2
-#define FOOT_BIT 4
 #define MAXJUMPTIME 0.3
 
 //Main character

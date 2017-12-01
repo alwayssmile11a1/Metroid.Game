@@ -28,6 +28,8 @@ private:
 	
 	bool _IsSensor;
 
+	bool _IsActived;
+
 	GameObject* _Extra; //Extra information for this body
 				 //can be anything
 	
@@ -77,6 +79,9 @@ public:
 
 	void IsSensor(bool triggered);
 	bool IsSensor() const;
+
+	void IsActived(bool actived);
+	bool IsActived() const;
 
 	void PutExtra(GameObject* anything);
 	GameObject* GetExtra();

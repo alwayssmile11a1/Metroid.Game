@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CollisionBit.h" />
     <ClInclude Include="MetroidGame.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />

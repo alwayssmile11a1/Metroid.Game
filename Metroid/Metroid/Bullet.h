@@ -1,8 +1,7 @@
 #include"World.h"
-
+#include "CollisionBit.h"
 #define LIVETIME 0.1f
 #define BULLETSPEED 5.0f
-#define BULLET_BIT 8
 
 class Bullet: public Sprite
 {
