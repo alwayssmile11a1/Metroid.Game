@@ -2,8 +2,9 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
 #include "TextureRegion.h"
+#include <vector>
 
 class Animation: public GameObject
 {

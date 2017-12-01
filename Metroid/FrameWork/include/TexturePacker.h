@@ -1,10 +1,13 @@
 #ifndef TEXTUREPACKER_H
 #define TEXTUREPACKER_H
 
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
 #include <string>
 #include "TextureRegion.h"
 #include "..\extensions\rapidxml\rapidxml.hpp"
+#include "..\src\others\Utility.h"
+
+
 
 //Get TextureRegion from a texture packer file
 class TexturePacker: public GameObject

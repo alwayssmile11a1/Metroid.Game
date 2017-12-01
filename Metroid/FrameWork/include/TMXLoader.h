@@ -7,6 +7,8 @@
 #include "TMXMap.h"
 #include "TMXTileLayer.h"
 #include "TMXTileSet.h"
+#include "..\src\others\Utility.h"
+
 
 class TMXLoader
 {

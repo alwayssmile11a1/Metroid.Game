@@ -1,7 +1,9 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "..\src\others\stdafx.h"
+#include <Windows.h>
+#include <string>
+#include "..\src\others\Utility.h"
 
 class Console
 {

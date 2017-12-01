@@ -1,7 +1,8 @@
 //this header contains every variable that should be use globally
 #pragma once
 
-#include "..\src\others\stdafx.h"
+#include "..\extensions\directX9\Include\d3d9.h"
+#include "..\extensions\directX9\Include\d3dx9.h" //please read the readme.txt file if you have any problems with this include line. 
 #include "Input.h"
 #include "MySound.h"
 #include "Console.h"

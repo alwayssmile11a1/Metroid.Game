@@ -3,26 +3,26 @@
 
 #include <string>
 #include <vector>
-#include "Body.h"
+#include "Rectangle.h"
 
 
 class TMXObjectGroup
 {
 private:
 	std::string _Name;
-	std::vector<Body*> _Bodies;
+	std::vector<Shape::Rectangle> _Rectangles;
 
 public:
 	TMXObjectGroup();
 	~TMXObjectGroup();
-	TMXObjectGroup(const TMXObjectGroup &tmxObjectGroup);
-	TMXObjectGroup& operator=(const TMXObjectGroup &tmxObjectGroup);
+	//TMXObjectGroup(const TMXObjectGroup &tmxObjectGroup);
+	//TMXObjectGroup& operator=(const TMXObjectGroup &tmxObjectGroup);
 
 	void SetAttributes(const std::string& name);
-	void AddBody(const Body &body);
+	void AddRect(const Shape::Rectangle &rectangle);
 
 	std::string GetName();
-	const std::vector<Body*>& GetBodies() const;
+	const std::vector<Shape::Rectangle>& GetRects() const;
 
 };
 

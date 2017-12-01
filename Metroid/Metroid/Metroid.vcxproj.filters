@@ -45,6 +45,9 @@
     <ClCompile Include="Skree.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="Zoomer.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>

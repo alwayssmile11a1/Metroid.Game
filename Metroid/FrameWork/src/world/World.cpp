@@ -1,5 +1,5 @@
 #include"World.h"
-
+#include "stdafx.h"
 
 World::World()
 {
@@ -16,11 +16,6 @@ World::World(float gravity)
 
 World::~World()
 {
-	//if (_DebugSquareTexture != NULL)
-	//{
-	//	delete _DebugSquareTexture;
-	//	_DebugSquareTexture = NULL;
-	//}
 
 	//for (std::vector<Body*>::iterator obj = _Bodies.begin(); obj != _Bodies.end(); ++obj)
 	//{
@@ -34,11 +29,22 @@ World::~World()
 	//}
 }
 
+void World::Release()
+{
+	for (std::vector<Body*>::iterator obj = _Bodies.begin(); obj != _Bodies.end(); ++obj)
+	{
+		//just for sure
+		if (*obj != NULL)
+		{
+			delete *obj;
+			(*obj) = NULL;
+		}
+	}
+}
+
 //World::World(const World &world)
 //{
 //	this->_Gravity = world._Gravity;
-//	this->_Bodies = world._Bodies;
-//	_DebugSquareTexture = world._DebugSquareTexture;
 //	/*std::vector<Object*> vectorCopy = world.GetObjectsList();
 //	for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
 //	{
@@ -51,8 +57,6 @@ World::~World()
 //World& World::operator=(const World &world)
 //{
 //	this->_Gravity = world._Gravity;
-//	this->_Bodies = world._Bodies;
-//	_DebugSquareTexture = world._DebugSquareTexture;
 //	//std::vector<Object*> vectorCopy = world.GetObjectsList();
 //	//for (std::vector<Object*>::iterator obj = vectorCopy.begin(); obj != vectorCopy.end(); ++obj)
 //	//{
@@ -135,14 +139,29 @@ void World::Update(float dt)
 }
 
 
-void World::AddBody(Body *body)
-{
-	_Bodies.push_back(body);
-}
+//void World::AddBody(Body *body)
+//{
+//	_Bodies.push_back(body);
+//}
 
-void World::AddBody(const std::vector<Body*> &bodies)
+//void World::AddBody(const std::vector<Body*> &bodies)
+//{
+//	_Bodies.insert(_Bodies.end(), bodies.begin(),bodies.end());
+//}
+
+Body* World::CreateBody(const BodyDef &bodyDef)
 {
-	_Bodies.insert(_Bodies.end(), bodies.begin(),bodies.end());
+	Body* body = new Body();
+	body->_Position = bodyDef.position;
+	body->_Size = bodyDef.size;
+	body->_Mass = bodyDef.mass;
+	body->_BodyType = bodyDef.bodyType;
+	body->_IsSensor = bodyDef.isSensor;
+	body->_LinearDrag = bodyDef.linearDrag;
+
+	_Bodies.push_back(body);
+
+	return body;
 }
 
 void World::SetContactListener(WorldContactListener *listener)
@@ -150,19 +169,17 @@ void World::SetContactListener(WorldContactListener *listener)
 	_Listener = listener;
 }
 
-void World::RemoveBody(Body* body)
+void World::DestroyBody(Body* body)
 {
 
 	std::vector<Body*>::iterator it = std::find(_Bodies.begin(), _Bodies.end(), body);
 	if (it != _Bodies.end())
 	{
+		delete *it;
+		*it = NULL;
 		_Bodies.erase(it);
 	}
 
-}
-void World::RemoveBody(int index)
-{
-	_Bodies.erase(_Bodies.begin() + index);
 }
 
 void World::RenderBodiesDebug(SpriteBatch *batch)

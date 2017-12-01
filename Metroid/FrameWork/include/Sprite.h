@@ -1,9 +1,10 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "..\src\others\stdafx.h"
+#include "Vector2.h"
 #include "Texture.h"
 #include "TextureRegion.h"
+#include "GameObject.h"
 
 //Texture + Texture Region
 class Sprite :public GameObject

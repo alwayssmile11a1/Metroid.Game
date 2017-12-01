@@ -1,7 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "..\src\others\stdafx.h"
+#include <time.h>
+#include <Windows.h>
+#include "GameObject.h"
 #include "Global.h"
 #include "Scene.h"
 

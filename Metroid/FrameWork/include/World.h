@@ -1,12 +1,13 @@
 ﻿#ifndef WORLD_H
 #define WORLD_H
 
-#include "..\src\others\stdafx.h"
-#include"Body.h"
+#include<vector>
+#include "GameObject.h"
 #include"SpriteBatch.h"
 #include"Collision.h"
 #include"WorldContactListener.h"
 #include <algorithm>  
+#include "BodyDef.h"
 
 // add body to this class and physic things will be handled
 class World: public GameObject
@@ -43,13 +44,17 @@ public:
 
 	//Update world (update all the objects in this world)
 	void Update(float dt);
-	void AddBody(Body *body);
-	void AddBody(const std::vector<Body*> &bodies);
-	void RemoveBody(Body* body);
-	void RemoveBody(int index);
+	//void AddBody(Body *body);
+	//void AddBody(const std::vector<Body*> &bodies);
+	void DestroyBody(Body* body);
+
+	Body* CreateBody(const BodyDef &bodyDef);
 
 	//Render all bodies by squares
 	void RenderBodiesDebug(SpriteBatch *batch);
+
+
+	void Release();
 
 };
 

@@ -90,6 +90,8 @@
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>$(SolutionDir)framework\include\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>
@@ -106,6 +108,8 @@
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>$(SolutionDir)framework\include\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>
@@ -121,6 +125,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>$(SolutionDir)framework\include\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -140,6 +146,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)framework\include\</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>$(SolutionDir)framework\include\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -152,6 +160,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\BodyDef.h" />
+    <ClInclude Include="include\Font.h" />
     <ClInclude Include="include\Console.h" />
     <ClInclude Include="include\Array.h" />
     <ClInclude Include="extensions\rapidxml\rapidxml.hpp" />
@@ -182,7 +192,8 @@
     <ClInclude Include="include\WorldContactListener.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Rectangle.h" />
-    <ClInclude Include="src\others\stdafx.h" />
+    <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="include\Label.h" />
     <ClInclude Include="src\others\Utility.h" />
     <ClInclude Include="src\sound\DirectSound.h" />
   </ItemGroup>
@@ -193,6 +204,9 @@
     <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BodyDef.cpp" />
+    <ClCompile Include="src\Label.cpp" />
+    <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Console.cpp" />
     <ClCompile Include="src\Rectangle.cpp" />
     <ClCompile Include="src\Array.cpp" />

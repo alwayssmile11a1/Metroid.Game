@@ -1,10 +1,10 @@
 ﻿#ifndef COLLISION_H
 #define COLLISION_H
 
-#include "Rectangle.h"
 #include "Body.h"
-#include "..\src\others\stdafx.h"
 #include "WorldContactListener.h"
+#include <iostream>
+#include <Windows.h>
 
 class Collision
 {

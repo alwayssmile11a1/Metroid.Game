@@ -1,8 +1,9 @@
 ﻿#ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
 #include "Global.h"
+#include "Vector2.h"
 
 //Just like a image
 class Texture: public GameObject

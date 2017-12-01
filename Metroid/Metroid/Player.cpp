@@ -46,32 +46,32 @@ void Player::Create(World *world)
 	SetSize(34, 66);
 	SetPosition(16 * 8, 16 * 7);
 
+	
 	//setup mainbody
-	mainBody.SetBodyType(Body::BodyType::Dynamic);
-	mainBody.SetLinearDrag(10, 0.2);
-	mainBody.SetMass(2);
-	mainBody.SetID("Player");
-	mainBody.SetSize(34, 66);
-	mainBody.SetPosition(16 * 8, 16 * 7);
-	mainBody.categoryBits = PLAYER_BIT;
+	BodyDef bodyDef;
+	bodyDef.bodyType = Body::BodyType::Dynamic;
+	bodyDef.linearDrag.Set(10, 0.2);
+	bodyDef.mass = 2;
+	bodyDef.size.Set(34, 66);
+	bodyDef.position.Set(16 * 8, 16 * 7);
+	mainBody = world->CreateBody(bodyDef);
+	mainBody->categoryBits = PLAYER_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
 	//in which case, putting this line of code into update method may be a solution
-	mainBody.PutExtra(this);
+	mainBody->PutExtra(this);
 
 
 	//create foot
-	//foot = new Body();
-	foot.SetBodyType(Body::BodyType::Kinematic);
-	foot.SetSize(30, 20);
-	foot.IsSensor(true);
-	foot.SetID("Foot");
-	foot.categoryBits = FOOT_BIT;
-	foot.PutExtra(this);
+	BodyDef footDef;
+	footDef.bodyType = Body::BodyType::Kinematic;
+	footDef.size.Set(30, 20);
+	footDef.isSensor= true;
+	foot = world->CreateBody(footDef);
+	foot->categoryBits = FOOT_BIT;
+	foot->PutExtra(this);
 
-	world->AddBody(&mainBody);
-	world->AddBody(&foot);
 
 	
 
@@ -82,12 +82,12 @@ void Player::HandleInput()
 {
 	if (input.GetKey(DIK_RIGHT))
 	{
-		mainBody.SetVelocity(5, mainBody.GetVelocity().y);
+		mainBody->SetVelocity(5, mainBody->GetVelocity().y);
 	}
 
 	if (input.GetKey(DIK_LEFT))
 	{
-		mainBody.SetVelocity(-5, mainBody.GetVelocity().y);
+		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
 
 	}
 	
@@ -95,7 +95,7 @@ void Player::HandleInput()
 	{
 		if (jumpTime < MAXJUMPTIME)
 		{
-			mainBody.SetVelocity(mainBody.GetVelocity().x, mainBody.GetVelocity().y + 0.3f);
+			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.3f);
 			jumpTime += 0.02f;
 		}
 		else
@@ -110,7 +110,7 @@ void Player::HandleInput()
 
 	if (input.GetKeyDown(DIK_Z) && isGrounded)
 	{
-		mainBody.SetVelocity(mainBody.GetVelocity().x, 5);
+		mainBody->SetVelocity(mainBody->GetVelocity().x, 5);
 		isGrounded = false;
 		jumpTime = 0;
 	}
@@ -239,7 +239,7 @@ void Player::Update(float dt)
 		if (!isLookingup)
 		{
 			//update state
-			if (mainBody.GetVelocity().x == 0)
+			if (mainBody->GetVelocity().x == 0)
 			{
 				SetRegion(standingAnimation.Next(dt));
 			}
@@ -257,7 +257,7 @@ void Player::Update(float dt)
 		}
 		else
 		{
-			if (mainBody.GetVelocity().x == 0)
+			if (mainBody->GetVelocity().x == 0)
 			{
 				SetRegion(standAndShootupAnimation.Next(dt));
 			}
@@ -269,13 +269,13 @@ void Player::Update(float dt)
 	}
 
 	//flip if necessary
-	if (mainBody.GetVelocity().x > 0)
+	if (mainBody->GetVelocity().x > 0)
 	{
 		this->Flip(false, false);
 	}
 	else
 	{
-		if (mainBody.GetVelocity().x < 0)
+		if (mainBody->GetVelocity().x < 0)
 		{
 			this->Flip(true, false);
 		}
@@ -283,8 +283,8 @@ void Player::Update(float dt)
 
 
 	//update position
-	SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y);
-	foot.SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y - 35);
+	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
+	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 35);
 
 	//update bullet
 	for (int i = 0; i < bullets.size(); i++)

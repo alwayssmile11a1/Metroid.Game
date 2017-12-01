@@ -1,8 +1,12 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "..\src\others\stdafx.h"
+#include "..\extensions\directX9\Include\d3d9.h"
+#include "..\extensions\directX9\Include\d3dx9.h" //please read the readme.txt file if you have any problems with this include line. 
+#include<vector>
+#include "dinput.h"
 #include <algorithm>    // std::find
+#include "Vector2.h"
 #define KEYBOARD_BUFFER_SIZE	1024
 
 //Input class (Keyboard, mouse, etc)

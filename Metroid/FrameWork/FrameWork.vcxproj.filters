@@ -66,9 +66,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\others\stdafx.h">
-      <Filter>Header Files\Others</Filter>
-    </ClInclude>
     <ClInclude Include="src\others\Utility.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
@@ -165,6 +162,18 @@
     <ClInclude Include="include\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BodyDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt">
@@ -259,6 +268,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyDef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

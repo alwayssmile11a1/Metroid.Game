@@ -1,8 +1,9 @@
 #ifndef TEXTUREREGION_H
 #define TEXTUREREGION_H
 
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
 #include "Texture.h"
+#include "Vector2.h"
 
 // draw a portion of image 
 class TextureRegion: public GameObject

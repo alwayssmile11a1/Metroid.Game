@@ -24,14 +24,16 @@ Bullet::Bullet(World *world, Texture* texture)
 	SetSize(6,7);
 	SetPosition(16 * 8, 16 * 12);
 
-	//body
-	mainBody.SetBodyType(Body::BodyType::Kinematic);
-	mainBody.SetID("Bullet");
-	mainBody.IsSensor(true);
-	mainBody.SetSize(6,7);
-	mainBody.SetPosition(16 * 8, 16 * 12);
-	mainBody.categoryBits = BULLET_BIT;
-	world->AddBody(&mainBody);
+	//body definition
+	BodyDef bodyDef;
+	bodyDef.bodyType = Body::BodyType::Kinematic;
+	bodyDef.isSensor = true;
+	bodyDef.size.Set(6,7);
+	bodyDef.position.Set(16 * 8, 16 * 12);
+
+	//create body
+	mainBody = world->CreateBody(bodyDef);
+	mainBody->categoryBits = BULLET_BIT;
 	
 }
 
@@ -43,11 +45,11 @@ void Bullet::Render(SpriteBatch &batch)
 void Bullet::Update(float dt)
 {
 	//mainBody.SetPosition(mainBody.GetPosition().x+10, mainBody.GetPosition().y);
-	SetPosition(mainBody.GetPosition().x, mainBody.GetPosition().y);
+	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
 	stateTime += dt;
 	if (stateTime > LIVETIME)
 	{
-		world->RemoveBody(&mainBody);
+		world->DestroyBody(mainBody);
 		isDestroyed = true;
 	}
 }
@@ -59,7 +61,7 @@ float Bullet::GetBulletSpeed()
 
 Body* Bullet::GetMainBody()
 {
-	return &mainBody;
+	return mainBody;
 }
 
 bool Bullet::IsDestroyed()

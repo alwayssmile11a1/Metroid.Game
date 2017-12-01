@@ -1,8 +1,9 @@
 #ifndef WORLDCONTACTLISTENER_H
 #define WORLDCONTACTLISTENER_H
 
+
 #include "Body.h"
-class WorldContactListener: public GameObject
+class WorldContactListener
 {
 public:
 	WorldContactListener();

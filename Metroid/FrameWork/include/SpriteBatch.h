@@ -1,7 +1,7 @@
 #ifndef SPRITEBATCH_H
 #define SPRITEBATCH_H
 
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
 #include "Texture.h"
 #include "TextureRegion.h"
 #include "Sprite.h"

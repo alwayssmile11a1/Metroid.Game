@@ -26,15 +26,15 @@ void PlayScene::Create()
 	player.Create(&world);
 
 	//object examples
-	//body1 = new Body();
-	body1.SetSize(34, 66);
-	body1.SetPosition(16 * 30, 16 * 5);
-	body1.SetBodyType(Body::BodyType::Dynamic);
+	//
+	//body1.SetSize(34, 66);
+	//body1.SetPosition(16 * 30, 16 * 5);
+	//body1.SetBodyType(Body::BodyType::Dynamic);
 
 
-	//body2 = new Body();
-	body2.SetSize(34, 66);
-	body2.SetPosition(16 * 11, 16 * 5);
+	////body2 = new Body();
+	//body2.SetSize(34, 66);
+	//body2.SetPosition(16 * 11, 16 * 5);
 
 
 
@@ -46,20 +46,26 @@ void PlayScene::Create()
 
 	//world
 	world.SetGravity(-10);
-	world.AddBody(&body1);
-	world.AddBody(&body2);
-
 	world.SetContactListener(&worldListener);
-	
-	world.AddBody(map->GetObjectGroup("Platform")->GetBodies());
 
+	std::vector<Shape::Rectangle> rects = map->GetObjectGroup("Platform")->GetRects();
+
+	for (std::vector<Shape::Rectangle>::iterator rect = rects.begin(); rect!= rects.end(); ++rect)
+	{
+		Platform platform(&world, (*rect).x, (*rect).y, (*rect).width, (*rect).height);
+		
+	}
+
+	//skree
+	skreeTexture = Texture("Resources/enemies.png");
+	skree = Skree(&world, &skreeTexture);
 }
 
 void PlayScene::HandlePhysics(float dt)
 {
 	player.HandleInput();
 
-	body1.SetVelocity(-2, 0);
+	//body1.SetVelocity(-2, 0);
 
 	//Update world
 	world.Update(dt);
@@ -75,7 +81,7 @@ void  PlayScene::Render()
 	map->Render(batch);
 	
 	player.Render(batch);
-
+	batch->Draw(skree);
 
 	//draw bodies
 	world.RenderBodiesDebug(batch);
@@ -90,6 +96,8 @@ void PlayScene::Update(float dt)
 	HandlePhysics(dt);
 
 	player.Update(dt);
+
+	skree.Update(dt);
 
 
 	if (player.GetPosition().x > cam.GetPosition().x)
@@ -118,7 +126,9 @@ void PlayScene::Update(float dt)
 
 void PlayScene::Release()
 {
+	world.Release();
 	player.Release();
+	skreeTexture.Release();
 	//delete body1;
 	//delete body2;
 }

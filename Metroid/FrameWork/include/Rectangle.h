@@ -16,12 +16,7 @@ namespace Shape
 		Rectangle(float x, float y, float width, float height);
 		
 		void Set(float x, float y, float width, float height);
-		//void Set(float top, float left, float bottom, float right);
-
-		//float GetTop();
-		//float GetLeft();
-		//float GetBottom();
-		//float GetRight();
+		
 
 	};
 

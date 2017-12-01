@@ -1,9 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-
-
-#include "..\src\others\stdafx.h"
+#include "GameObject.h"
+#include "Vector2.h"
 
 //
 class Camera:public GameObject

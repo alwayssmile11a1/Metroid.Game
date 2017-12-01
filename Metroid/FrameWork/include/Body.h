@@ -1,7 +1,10 @@
 #ifndef BODY_H
 #define BODY_H
 
-#include "..\src\others\stdafx.h"
+
+#include"Vector2.h"
+#include "GameObject.h"
+#include<string>
 
 class Body: public GameObject
 {

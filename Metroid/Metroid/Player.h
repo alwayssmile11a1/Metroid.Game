@@ -6,8 +6,8 @@
 #include <vector>
 
 #define FIRERATE 0.1f
-#define PLAYER_BIT 1
-#define FOOT_BIT 2
+#define PLAYER_BIT 2
+#define FOOT_BIT 4
 #define MAXJUMPTIME 0.3
 
 //Main character
@@ -26,8 +26,8 @@ private:
 	Animation jumpAndShootupAnimation;
 	Animation jumpAndShootAnimation;
 
-	Body mainBody;
-	Body foot;
+	Body* mainBody;
+	Body* foot;
 
 	std::vector<Bullet*> bullets;
 

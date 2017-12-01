@@ -176,9 +176,9 @@ void TMXLoader::LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode)
 			float width = atoi(childNode->first_attribute("width")->value());
 			float height = atoi(childNode->first_attribute("height")->value());
 
-			Body body(x + width/2, map->GetHeight()*map->GetTileHeight() - y - height/2, width, height, 0, 0);
+			Shape::Rectangle rect(x + width/2, map->GetHeight()*map->GetTileHeight() - y - height/2, width, height);
 
-			objectGroup.AddBody(body);
+			objectGroup.AddRect(rect);
 
 			//next
 			childNode = childNode->next_sibling("object");
