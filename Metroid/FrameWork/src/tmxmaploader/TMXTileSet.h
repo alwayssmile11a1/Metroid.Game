@@ -2,7 +2,7 @@
 #define TMXTILESET_H
 
 #include <string>
-#include "Texture.h"
+#include "..\drawable\Texture.h"
 
 class TMXTileSet
 {

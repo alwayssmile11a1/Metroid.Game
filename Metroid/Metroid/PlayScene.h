@@ -1,16 +1,13 @@
 #pragma once
-#include "Scene.h"
-#include "World.h"
-#include "Animation.h"
-#include "SpriteBatch.h"
-#include "TexturePacker.h"
-#include "Collision.h"
-#include "TMXLoader.h"
+#include "HanabiScene.h"
+#include "HanabiWorld.h"
+#include "HanabiSprite.h"
+#include "HanabiMap.h"
 #include "Player.h"
 #include "WorldListener.h"
-#include "MySound.h"
+#include "HanabiSound.h"
 #include "Skree.h"
-#include "Rectangle.h"
+#include "HanabiShape.h"
 #include "Platform.h"
 
 class PlayScene: public Scene

@@ -2,7 +2,7 @@
 #define BODY_H
 
 
-#include"Vector2.h"
+#include"..\math\Vector2.h"
 #include "GameObject.h"
 #include<string>
 

@@ -2,8 +2,8 @@
 #define TEXTURE_H
 
 #include "GameObject.h"
-#include "Global.h"
-#include "Vector2.h"
+#include "..\others\Global.h"
+#include "..\math\Vector2.h"
 
 //Just like a image
 class Texture: public GameObject

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Rectangle.h"
+#include "..\shape\Rectangle.h"
 
 
 class TMXObjectGroup

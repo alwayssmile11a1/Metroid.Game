@@ -81,97 +81,133 @@
     <ClInclude Include="extensions\rapidxml\rapidxml_utils.hpp">
       <Filter>Header Files\RapidXML</Filter>
     </ClInclude>
-    <ClInclude Include="include\Camera.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Collision.h">
-      <Filter>Header Files\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Input.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Global.h">
-      <Filter>Header Files\Others</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Vector2.h">
-      <Filter>Header Files\Others</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Animation.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Sprite.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SpriteBatch.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TexturePacker.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TextureRegion.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TMXLoader.h">
-      <Filter>Header Files\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TMXMap.h">
-      <Filter>Header Files\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TMXObjectGroup.h">
-      <Filter>Header Files\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TMXTileLayer.h">
-      <Filter>Header Files\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TMXTileSet.h">
-      <Filter>Header Files\TMXMapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WorldContactListener.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="include\World.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="include\MySound.h">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="src\sound\DirectSound.h">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
     <ClInclude Include="include\GameObject.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
-    <ClInclude Include="include\Body.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\stdafx.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
-    <ClInclude Include="include\Label.h">
+    <ClInclude Include="src\world\Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\BodyDef.h">
+    <ClInclude Include="src\world\BodyDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\world\World.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\world\WorldContactListener.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\world\Collision.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tmxmaploader\TMXMap.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tmxmaploader\TMXLoader.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tmxmaploader\TMXObjectGroup.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tmxmaploader\TMXTileLayer.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tmxmaploader\TMXTileSet.h">
+      <Filter>Header Files\TMXMapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sound\MySound.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiSound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\Animation.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\SpriteBatch.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\Sprite.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\Texture.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\TexturePacker.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\TextureRegion.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\others\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\label\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\label\Label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shape\Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\others\Global.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="src\camera\Camera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Vector2.h">
+      <Filter>Header Files\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawable\StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\console\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -188,9 +224,6 @@
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
       <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="src\collision\Collision.cpp">
-      <Filter>Source Files\Collision</Filter>
     </ClCompile>
     <ClCompile Include="src\input\Input.cpp">
       <Filter>Source Files\Input</Filter>
@@ -222,9 +255,6 @@
     <ClCompile Include="src\others\Utility.cpp">
       <Filter>Source Files\Others</Filter>
     </ClCompile>
-    <ClCompile Include="src\others\Vector2.cpp">
-      <Filter>Source Files\Others</Filter>
-    </ClCompile>
     <ClCompile Include="src\sound\DirectSound.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
@@ -252,31 +282,40 @@
     <ClCompile Include="src\others\GameObject.cpp">
       <Filter>Source Files\Others</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
+    <ClCompile Include="src\world\Body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Body.cpp">
+    <ClCompile Include="src\world\BodyDef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scene.cpp">
+    <ClCompile Include="src\world\Collision.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Array.cpp">
+    <ClCompile Include="src\others\Array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rectangle.cpp">
+    <ClCompile Include="src\label\Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Console.cpp">
+    <ClCompile Include="src\label\Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Font.cpp">
+    <ClCompile Include="src\shape\Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Label.cpp">
+    <ClCompile Include="src\math\Vector2.cpp">
+      <Filter>Source Files\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drawable\StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BodyDef.cpp">
+    <ClCompile Include="src\scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\console\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

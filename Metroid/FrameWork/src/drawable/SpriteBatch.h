@@ -5,8 +5,8 @@
 #include "Texture.h"
 #include "TextureRegion.h"
 #include "Sprite.h"
-#include "Camera.h"
-#include "Global.h"
+#include "..\camera\Camera.h"
+#include "..\others\Global.h"
 
 #define Pi 3.14159265
 

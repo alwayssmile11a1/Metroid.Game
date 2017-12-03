@@ -1,7 +1,7 @@
 #ifndef BODYDEF_H
 #define BODYDEF_H
 
-#include "Vector2.h"
+#include "..\math\Vector2.h"
 #include "Body.h"
 
 class BodyDef

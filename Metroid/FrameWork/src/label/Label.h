@@ -2,8 +2,8 @@
 #define LABEL_H
 
 #include "Font.h"
-#include "Camera.h"
-#include "Vector2.h"
+#include "..\camera\Camera.h"
+#include "..\math\Vector2.h"
 
 class Label
 {

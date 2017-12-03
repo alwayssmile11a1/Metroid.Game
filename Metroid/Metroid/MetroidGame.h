@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game.h"
+#include "HanabiGame.h"
 #include "PlayScene.h"
 
 class MetroidGame: public Game

@@ -1,7 +1,6 @@
 #pragma once
-#include "World.h"
-#include "TexturePacker.h"
-#include "Animation.h" 
+#include "HanabiWorld.h"
+#include "HanabiSprite.h"
 #include "Bullet.h"
 #include <vector>
 #include "CollisionBit.h"

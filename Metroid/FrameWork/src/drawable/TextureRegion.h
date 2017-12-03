@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "Texture.h"
-#include "Vector2.h"
+#include "..\math\Vector2.h"
 
 // draw a portion of image 
 class TextureRegion: public GameObject

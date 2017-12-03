@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include "GameObject.h"
-#include "Vector2.h"
+#include "..\math\Vector2.h"
 
 //
 class Camera:public GameObject

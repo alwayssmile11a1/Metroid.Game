@@ -2,7 +2,7 @@
 #define FONT_H
 
 #include "..\extensions\directX9\Include\d3dx9.h"
-#include "Global.h"
+#include "..\others\Global.h"
 #include <string>
 #include "..\src\others\Utility.h"
 

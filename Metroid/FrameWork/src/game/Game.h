@@ -4,8 +4,8 @@
 #include <time.h>
 #include <Windows.h>
 #include "GameObject.h"
-#include "Global.h"
-#include "Scene.h"
+#include "..\others\Global.h"
+#include "..\scene\Scene.h"
 
 	//this abstract class manages game structure, such as DirectX, game run, etc... 
 class Game : public GameObject

@@ -1,5 +1,6 @@
-#include"World.h"
+#include"HanabiWorld.h"
 #include "CollisionBit.h"
+#include "HanabiSprite.h"
 #define LIVETIME 0.1f
 #define BULLETSPEED 5.0f
 

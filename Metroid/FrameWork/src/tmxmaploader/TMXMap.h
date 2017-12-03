@@ -5,7 +5,7 @@
 #include "TMXTileSet.h"
 #include "TMXTileLayer.h"
 #include "TMXObjectGroup.h"
-#include "SpriteBatch.h"
+#include "..\drawable\SpriteBatch.h"
 #include <unordered_map>
 
 class TMXMap

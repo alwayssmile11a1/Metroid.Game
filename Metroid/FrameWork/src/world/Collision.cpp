@@ -1,6 +1,6 @@
 ﻿#include "Collision.h"
 
-#include"Console.h"
+#include"..\console\Console.h"
 
 Collision::Collision()
 {
