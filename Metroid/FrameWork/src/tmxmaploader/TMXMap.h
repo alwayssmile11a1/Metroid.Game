@@ -22,6 +22,8 @@ private:
 
 	Camera* _Cam; //hold camera reference
 
+	float _ScaleFactor;
+
 public:
 	TMXMap();
 	~TMXMap();
@@ -45,6 +47,8 @@ public:
 	//Render this map
 	void Render(SpriteBatch *batch);
 
+	void SetScale(float scale);
+	float GetScale();
 };
 
 #endif

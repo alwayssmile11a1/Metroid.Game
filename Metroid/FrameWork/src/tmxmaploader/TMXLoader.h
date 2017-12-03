@@ -24,11 +24,13 @@ private:
 	void LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode);
 	void LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode);
 
+	float _ScaleFactor;
+
 public:
 	TMXLoader();
 	~TMXLoader();
 
-	void AddMap(const std::string& mapName, const std::string& filePath);
+	void AddMap(const std::string& mapName, const std::string& filePath, float scale);
 	TMXMap* GetMap(const std::string& mapName) const;
 
 };

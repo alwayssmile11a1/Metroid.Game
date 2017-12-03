@@ -12,6 +12,8 @@ TMXMap::TMXMap()
 	_Layers.clear();
 	_ObjectGroups.clear();
 	_Cam = NULL;
+
+	_ScaleFactor = 1;
 }
 
 TMXMap::~TMXMap()
@@ -130,7 +132,12 @@ void TMXMap::Render(SpriteBatch *batch)
 	unsigned int tileSetHeight = _TileSet->GetTileHeight();
 
 	float x, y, rectLeft, rectTop, rectWidth, rectHeight;
-	
+	rectWidth = tileSetWidth;
+	rectHeight = tileSetHeight;
+
+	float width = tileSetWidth * _ScaleFactor;
+	float height = tileSetHeight * _ScaleFactor;
+
 	//Get cam position 
 	Vector2 camPostion;
 	if (_Cam != NULL)
@@ -144,29 +151,37 @@ void TMXMap::Render(SpriteBatch *batch)
 		{
 			if (data[row][column] == 0) continue;
 
-			rectLeft = (data[row][column] % columns - 1) * tileSetWidth;
-			rectTop = (data[row][column] / columns) * tileSetHeight;
-			rectWidth = tileSetWidth;
-			rectHeight = tileSetHeight;
+			rectLeft = (data[row][column] % columns - 1) * rectWidth;
+			rectTop = (data[row][column] / columns) * rectHeight;
 
-			x = column*tileSetWidth + rectWidth / 2;
-			y = (layerHeight - 1 - row)*tileSetHeight + rectHeight / 2;
+			x = column*width + width / 2;
+			y = (layerHeight - 1 - row)*height + height / 2;
 
 			//check to see if this tile is out of the scope of the camera
 			if (_Cam != NULL)
 			{
 
-				if (x + rectWidth / 2 < camPostion.x - screenWidth/2 ||
-					x - rectWidth / 2 > camPostion.x + screenWidth/2 ||
-					y + rectHeight/2 < camPostion.y - screenHeight/2 ||
-					y - rectHeight / 2 > camPostion.y + screenHeight / 2)
+				if (x + width / 2 < camPostion.x - screenWidth/2 ||
+					x - width / 2 > camPostion.x + screenWidth/2 ||
+					y + height/2 < camPostion.y - screenHeight/2 ||
+					y - height / 2 > camPostion.y + screenHeight / 2)
 					continue;
 
 			}
 
-			batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, rectWidth, rectHeight);
+			batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, width, height);
 		}
 	}
 
 
+}
+
+void TMXMap::SetScale(float scale)
+{
+	_ScaleFactor = scale;
+}
+
+float TMXMap::GetScale()
+{
+	return _ScaleFactor;
 }

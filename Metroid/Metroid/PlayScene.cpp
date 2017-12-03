@@ -39,10 +39,9 @@ void PlayScene::Create()
 
 
 	//load map
-	mapLoader.AddMap("map1", "Resources/map2.tmx");
+	mapLoader.AddMap("map1", "Resources/map2.tmx",1);
 	map = mapLoader.GetMap("map1");
 	map->SetCamera(&cam);
-
 
 	//world
 	world.SetGravity(-10);

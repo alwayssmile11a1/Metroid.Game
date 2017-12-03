@@ -15,8 +15,10 @@ TMXLoader::~TMXLoader()
 }
 
 
-void TMXLoader::AddMap(const std::string& mapName, const std::string& filePath)
+void TMXLoader::AddMap(const std::string& mapName, const std::string& filePath, float scale)
 {
+	_ScaleFactor = scale;
+
 	// String to hold file contents
 	std::string fileContents = "";
 
@@ -74,6 +76,7 @@ void TMXLoader::LoadMapSettings(TMXMap* map, rapidxml::xml_node<> *parentNode)
 	unsigned int tileHeight = atoi(parentNode->first_attribute("tileheight")->value());
 	
 	map->SetAttributes(width, height, tileWidth, tileHeight);
+	map->SetScale(_ScaleFactor);
 }
 
 
@@ -171,12 +174,12 @@ void TMXLoader::LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode)
 		rapidxml::xml_node<> *childNode = currentNode->first_node("object");
 		while (childNode != nullptr)
 		{
-			float x = atoi(childNode->first_attribute("x")->value());
-			float y = atoi(childNode->first_attribute("y")->value());
-			float width = atoi(childNode->first_attribute("width")->value());
-			float height = atoi(childNode->first_attribute("height")->value());
+			float x = atoi(childNode->first_attribute("x")->value())*_ScaleFactor;
+			float y = atoi(childNode->first_attribute("y")->value())*_ScaleFactor;
+			float width = atoi(childNode->first_attribute("width")->value())*_ScaleFactor;
+			float height = atoi(childNode->first_attribute("height")->value())*_ScaleFactor;
 
-			Shape::Rectangle rect(x + width/2, map->GetHeight()*map->GetTileHeight() - y - height/2, width, height);
+			Shape::Rectangle rect(x + width/2, map->GetHeight()*map->GetTileHeight()*_ScaleFactor - y - height/2, width, height);
 
 			objectGroup.AddRect(rect);
 
