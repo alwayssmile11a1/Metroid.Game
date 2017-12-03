@@ -4,8 +4,14 @@
 class GameObject
 {
 public:
-	GameObject();
-	virtual ~GameObject();
+	GameObject()
+	{
+
+	}
+	virtual ~GameObject()
+	{
+
+	}
 };
 
 #endif

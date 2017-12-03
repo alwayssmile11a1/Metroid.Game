@@ -1,7 +1,7 @@
 #ifndef STATEMANAGER_H
 #define STATEMANAGER_H
 
-#include"Animation.h"
+#include"../drawable/Animation.h"
 #include <map>
 #include <string>
 
@@ -54,7 +54,7 @@ private:
 	friend class StateManager;
 
 	Animation *nextAnimation;
-	std::initializer_list<Condition> conditions;
+	std::vector<Condition> conditions;
 
 };
 
@@ -65,13 +65,15 @@ private:
 	std::map<std::string, Condition> conditionMap;
 	std::multimap<Animation*, ConditionAnimation> aniMultiMap;
 	Animation* currentAnimation;
+
+
 public:
 	StateManager();
 	~StateManager();
 
 	void AddCondition(const std::string &conditionName);
 
-	void Add(Animation *ani1, Animation *ani2,const  std::initializer_list<Condition>& conditions);
+	void Add(Animation *ani1, Animation *ani2, const std::initializer_list<Condition>& conditions);
 
 	void SetCurrentAnimation(Animation *ani);
 	void Set(const std::string &conditionName, float value);

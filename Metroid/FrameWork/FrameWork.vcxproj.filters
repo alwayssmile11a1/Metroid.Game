@@ -189,9 +189,6 @@
     <ClInclude Include="src\math\Vector2.h">
       <Filter>Header Files\Others</Filter>
     </ClInclude>
-    <ClInclude Include="src\drawable\StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\HanabiMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -207,7 +204,13 @@
     <ClInclude Include="src\console\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Header.h">
+    <ClInclude Include="src\statemanager\StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,9 +282,6 @@
     <ClCompile Include="src\drawable\TextureRegion.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="src\others\GameObject.cpp">
-      <Filter>Source Files\Others</Filter>
-    </ClCompile>
     <ClCompile Include="src\world\Body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -309,13 +309,13 @@
     <ClCompile Include="src\math\Vector2.cpp">
       <Filter>Source Files\Others</Filter>
     </ClCompile>
-    <ClCompile Include="src\drawable\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\console\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\statemanager\StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

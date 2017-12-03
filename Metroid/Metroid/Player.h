@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include <vector>
 #include "CollisionBit.h"
+#include "HanabiStateManager.h"
 
 #define FIRERATE 0.1f
 #define MAXJUMPTIME 0.3
@@ -39,6 +40,9 @@ private:
 	bool isGrounded;
 	bool isLookingup;
 	bool isShooting;
+
+	StateManager characterStateManager;
+
 public:
 
 

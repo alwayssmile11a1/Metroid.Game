@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\HanabiCamera.h" />
+    <ClInclude Include="include\HanabiConsole.h" />
     <ClInclude Include="include\HanabiGame.h" />
     <ClInclude Include="include\HanabiLabel.h" />
     <ClInclude Include="include\HanabiMap.h" />
@@ -169,8 +170,8 @@
     <ClInclude Include="include\HanabiShape.h" />
     <ClInclude Include="include\HanabiSound.h" />
     <ClInclude Include="include\HanabiSprite.h" />
+    <ClInclude Include="include\HanabiStateManager.h" />
     <ClInclude Include="include\HanabiWorld.h" />
-    <ClInclude Include="include\Header.h" />
     <ClInclude Include="src\world\BodyDef.h" />
     <ClInclude Include="src\label\Font.h" />
     <ClInclude Include="src\console\Console.h" />
@@ -207,7 +208,7 @@
     <ClInclude Include="src\label\Label.h" />
     <ClInclude Include="src\others\Utility.h" />
     <ClInclude Include="src\sound\DirectSound.h" />
-    <ClInclude Include="src\drawable\StateManager.h" />
+    <ClInclude Include="src\statemanager\StateManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt" />
@@ -228,7 +229,6 @@
     <ClCompile Include="src\input\Input.cpp" />
     <ClCompile Include="src\world\Body.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
-    <ClCompile Include="src\others\GameObject.cpp" />
     <ClCompile Include="src\others\Global.cpp" />
     <ClCompile Include="src\others\Utility.cpp" />
     <ClCompile Include="src\math\Vector2.cpp" />
@@ -247,7 +247,7 @@
     <ClCompile Include="src\tmxmaploader\TMXTileSet.cpp" />
     <ClCompile Include="src\world\World.cpp" />
     <ClCompile Include="src\world\WorldContactListener.cpp" />
-    <ClCompile Include="src\drawable\StateManager.cpp" />
+    <ClCompile Include="src\statemanager\StateManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

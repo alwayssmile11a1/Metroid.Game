@@ -42,6 +42,74 @@ void Player::Create(World *world)
 	jumpAndShootupAnimation.AddRegion(p.GetRegion("jumpandshootup"));
 
 
+	//SETUP STATE MANAGER - THIS WAY IS EVEN MUCH MORE DIFFICULT THAN THE NORMAL WAY (LOL) 
+	//						BUT THIS MAYBE MORE VISUALIZABLE
+	//add condition 
+	characterStateManager.AddCondition("grounded");
+	characterStateManager.AddCondition("lookingup");
+	characterStateManager.AddCondition("shooting");
+	characterStateManager.AddCondition("moving");
+
+	characterStateManager.SetCurrentAnimation(&standingAnimation);
+
+	//add transition animation
+	characterStateManager.Add(&standingAnimation, &movingAnimation, { Condition("moving", Condition::ConditionType::Greater, 0) });
+	characterStateManager.Add(&movingAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
+
+	characterStateManager.Add(&standingAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+	characterStateManager.Add(&jumpingAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
+
+	characterStateManager.Add(&standingAnimation, &standAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&standAndShootupAnimation, &standingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
+	
+	characterStateManager.Add(&movingAnimation, &moveAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&moveAndShootAnimation, &movingAnimation, { Condition("shooting", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&movingAnimation, &moveAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&moveAndShootupAnimation, &movingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&jumpingAnimation, &jumpAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&jumpAndShootAnimation, &jumpingAnimation, { Condition("shooting", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&jumpingAnimation, &jumpAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&jumpAndShootupAnimation, &jumpingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&jumpAndShootAnimation, &jumpAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&jumpAndShootupAnimation, &jumpAndShootAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&movingAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+	characterStateManager.Add(&jumpingAnimation, &movingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
+	
+	characterStateManager.Add(&moveAndShootAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
+
+	characterStateManager.Add(&moveAndShootupAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
+
+	characterStateManager.Add(&standAndShootupAnimation, &movingAnimation, { Condition("moving", Condition::ConditionType::Greater, 0) });
+
+	characterStateManager.Add(&moveAndShootAnimation, &moveAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
+
+	characterStateManager.Add(&jumpAndShootAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
+
+	characterStateManager.Add(&jumpAndShootupAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
+
+	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&moveAndShootAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&moveAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
+
+	//ANOTHER JUST-MAYBE-EASIER WAY AROUND STATE MANAGER: 
+	//we have 3 main animations: standing, moving and jumping
+	//if isGrounded == true, set characterStateManager.CurrentAnimation to standing animation
+	//if isGrounded == false, set characterStateManager.CurrentAnimation to jumping animation
+	//........
+
+
+	//set size and position
 	SetRegion(standingAnimation.GetKeyAnimation());
 	SetSize(34, 66);
 	SetPosition(16 * 8, 16 * 7);
@@ -74,8 +142,6 @@ void Player::Create(World *world)
 	foot->maskBits = PLATFORM_BIT;
 	foot->PutExtra(this);
 
-
-	
 
 
 }
@@ -216,59 +282,66 @@ void Player::Render(SpriteBatch *batch)
 
 void Player::Update(float dt)
 {
-	if (!isGrounded)
-	{
-		if (!isLookingup)
-		{
-			if (!isShooting)
-			{
-				SetRegion(jumpingAnimation.Next(dt));
-			}
-			else
-			{
-				SetRegion(jumpAndShootAnimation.Next(dt));
-			}
-			
-		}
-		else
-		{
-			SetRegion(jumpAndShootupAnimation.Next(dt));
-		}
+	//if (!isGrounded)
+	//{
+	//	if (!isLookingup)
+	//	{
+	//		if (!isShooting)
+	//		{
+	//			SetRegion(jumpingAnimation.Next(dt));
+	//		}
+	//		else
+	//		{
+	//			SetRegion(jumpAndShootAnimation.Next(dt));
+	//		}
+	//		
+	//	}
+	//	else
+	//	{
+	//		SetRegion(jumpAndShootupAnimation.Next(dt));
+	//	}
 
-	}
-	else
-	{
-		if (!isLookingup)
-		{
-			//update state
-			if (mainBody->GetVelocity().x == 0)
-			{
-				SetRegion(standingAnimation.Next(dt));
-			}
-			else
-			{
-				if (!isShooting)
-				{
-					SetRegion(movingAnimation.Next(dt));
-				}
-				else
-				{
-					SetRegion(moveAndShootAnimation.Next(dt));
-				}
-			}
-		}
-		else
-		{
-			if (mainBody->GetVelocity().x == 0)
-			{
-				SetRegion(standAndShootupAnimation.Next(dt));
-			}
-			else
-			{
-				SetRegion(moveAndShootupAnimation.Next(dt));
-			}
-		}
-	}
+	//}
+	//else
+	//{
+	//	if (!isLookingup)
+	//	{
+	//		//update state
+	//		if (mainBody->GetVelocity().x == 0)
+	//		{
+	//			SetRegion(standingAnimation.Next(dt));
+	//		}
+	//		else
+	//		{
+	//			if (!isShooting)
+	//			{
+	//				SetRegion(movingAnimation.Next(dt));
+	//			}
+	//			else
+	//			{
+	//				SetRegion(moveAndShootAnimation.Next(dt));
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (mainBody->GetVelocity().x == 0)
+	//		{
+	//			SetRegion(standAndShootupAnimation.Next(dt));
+	//		}
+	//		else
+	//		{
+	//			SetRegion(moveAndShootupAnimation.Next(dt));
+	//		}
+	//	}
+	//}
+
+	characterStateManager.Set("moving", abs(mainBody->GetVelocity().x));
+	characterStateManager.Set("grounded", isGrounded);
+	characterStateManager.Set("lookingup", isLookingup);
+	characterStateManager.Set("shooting", isShooting);
+
+	SetRegion(characterStateManager.GetTargetAnimation()->Next(dt));
 
 	//flip if necessary
 	if (mainBody->GetVelocity().x > 0)

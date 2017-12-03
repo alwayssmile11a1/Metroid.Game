@@ -28,7 +28,6 @@ void StateManager::Add(Animation *ani1, Animation *ani2,const std::initializer_l
 	conditionAni.conditions = conditions;
 	conditionAni.nextAnimation = ani2;
 	aniMultiMap.insert(std::multimap< Animation*, ConditionAnimation >::value_type(ani1, conditionAni));
-
 }
 
 void StateManager::SetCurrentAnimation(Animation *ani)
@@ -58,7 +57,7 @@ Animation* StateManager::GetTargetAnimation()
 	{
 		bool isConditionTrue = true;
 		//loop through all condition 
-		for (std::initializer_list<Condition>::iterator itCon = itAni->second.conditions.begin(); itCon != itAni->second.conditions.end(); ++itCon)
+		for (std::vector<Condition>::iterator itCon = itAni->second.conditions.begin(); itCon != itAni->second.conditions.end(); ++itCon)
 		{
 			if (!conditionMap[(*itCon).conditionName].IsTrue((*itCon).type, (*itCon).comparedValue))
 			{
@@ -74,6 +73,8 @@ Animation* StateManager::GetTargetAnimation()
 
 
 	}
+
+
 
 	return currentAnimation;
 }
