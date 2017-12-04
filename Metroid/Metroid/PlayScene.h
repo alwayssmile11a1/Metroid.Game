@@ -7,6 +7,7 @@
 #include "WorldListener.h"
 #include "HanabiSound.h"
 #include "Skree.h"
+#include "Zoomer.h"
 #include "HanabiShape.h"
 #include "Platform.h"
 
@@ -36,8 +37,8 @@ private:
 	//enemy
 	Skree skree;
 	Texture skreeTexture;
-
-	
+	Zoomer zoomer;
+	Texture zoomerTexture;
 
 public:
 	PlayScene();
