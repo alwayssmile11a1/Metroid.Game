@@ -111,8 +111,8 @@ void Player::Create(World *world)
 
 	//set size and position
 	SetRegion(standingAnimation.GetKeyAnimation());
-	SetSize(34, 66);
-	SetPosition(16 * 8, 16 * 7);
+	SetSize(34, 60);
+	SetPosition(16 * 73, 16 * 13);
 
 	
 	//setup mainbody
@@ -120,8 +120,8 @@ void Player::Create(World *world)
 	bodyDef.bodyType = Body::BodyType::Dynamic;
 	bodyDef.linearDrag.Set(10, 0.2);
 	bodyDef.mass = 2;
-	bodyDef.size.Set(34, 66);
-	bodyDef.position.Set(16 * 8, 16 * 7);
+	bodyDef.size.Set(34, 60);
+	bodyDef.position.Set(16 * 73, 16 * 13);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
 	mainBody->maskBits = SKREE_BIT | PLATFORM_BIT;
@@ -135,7 +135,7 @@ void Player::Create(World *world)
 	//create foot
 	BodyDef footDef;
 	footDef.bodyType = Body::BodyType::Kinematic;
-	footDef.size.Set(30, 20);
+	footDef.size.Set(30, 5);
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
@@ -178,7 +178,7 @@ void Player::HandleInput()
 
 	if (input.GetKeyDown(DIK_Z) && isGrounded)
 	{
-		mainBody->SetVelocity(mainBody->GetVelocity().x, 5);
+		mainBody->SetVelocity(mainBody->GetVelocity().x, 7);
 		isGrounded = false;
 		jumpTime = 0;
 	}
@@ -359,7 +359,7 @@ void Player::Update(float dt)
 
 	//update position
 	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
-	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 35);
+	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 30);
 
 	//update bullet
 	for (int i = 0; i < bullets.size(); i++)
