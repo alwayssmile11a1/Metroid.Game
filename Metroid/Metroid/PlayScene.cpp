@@ -62,6 +62,10 @@ void PlayScene::Create()
 	//zoomer
 	zoomerTexture = Texture("Resources/enemies.png");
 	zoomer.Create(&world, &zoomerTexture);
+
+	//rio
+	rioTexture = Texture("Resources/enemies.png");
+	rio.Create(&world, &rioTexture);
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -96,6 +100,8 @@ void  PlayScene::Render()
 
 	zoomer.Render(batch);
 
+	rio.Render(batch);
+
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
@@ -113,6 +119,8 @@ void PlayScene::Update(float dt)
 	skree.Update(dt);
 
 	zoomer.Update(dt);
+
+	rio.Update(dt);
 	if (player.GetPosition().x > cam.GetPosition().x)
 	{
 		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
@@ -143,6 +151,7 @@ void PlayScene::Release()
 	player.Release();
 	skreeTexture.Release();
 	zoomerTexture.Release();
+	rioTexture.Release();
 	//delete body1;
 	//delete body2;
 }

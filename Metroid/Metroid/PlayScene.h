@@ -10,6 +10,7 @@
 #include "Zoomer.h"
 #include "HanabiShape.h"
 #include "Platform.h"
+#include "Rio.h"
 
 class PlayScene: public Scene
 {
@@ -39,7 +40,8 @@ private:
 	Texture skreeTexture;
 	Zoomer zoomer;
 	Texture zoomerTexture;
-
+	Rio rio;
+	Texture rioTexture;
 public:
 	PlayScene();
 	~PlayScene();

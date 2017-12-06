@@ -12,3 +12,8 @@
 <skreebullet>
  <rect left="205" top = "47" width = "7" height="7" />
 </skreebullet>
+
+<rio>
+ <rect left="214" top = "35" width = "24" height="19" />
+  <rect left="240" top = "38" width = "24" height="16" />
+</rio>
