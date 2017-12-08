@@ -7,9 +7,14 @@
 #include "WorldListener.h"
 #include "HanabiSound.h"
 #include "Skree.h"
+#include "Zoomer.h"
 #include "HanabiShape.h"
 #include "Platform.h"
+<<<<<<< HEAD
 #include "HanabiSpaceDivisionQuadTree.h"
+=======
+#include "Rio.h"
+>>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
 
 class PlayScene: public Scene
 {
@@ -37,9 +42,16 @@ private:
 	//enemy
 	Skree skree;
 	Texture skreeTexture;
+<<<<<<< HEAD
 
 	SpaceDivisionQuadTree sdQuadTree;
 
+=======
+	Zoomer zoomer;
+	Texture zoomerTexture;
+	Rio rio;
+	Texture rioTexture;
+>>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
 public:
 	PlayScene();
 	~PlayScene();

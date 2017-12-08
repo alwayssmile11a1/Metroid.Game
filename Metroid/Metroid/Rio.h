@@ -5,10 +5,10 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
-class Zoomer: public Sprite
+class Rio : public Sprite
 {
 private:
-	Animation zoomerAnimation;
+	Animation rioAnimation;
 	Body* body;
 
 	float stateTime;
@@ -20,8 +20,8 @@ private:
 	Player* player;
 
 public:
-	Zoomer();
-	~Zoomer();
+	Rio();
+	~Rio();
 	void Create(World *world, Texture *skreeTexture);
 
 	void HandlePhysics();
@@ -36,4 +36,5 @@ public:
 
 	void Follow(Player* player);
 };
+
 
