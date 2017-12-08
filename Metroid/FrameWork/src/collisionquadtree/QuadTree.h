@@ -11,7 +11,7 @@ private:
 	//
 	//Elements
 	//
-	
+
 	//Max levels of the quadtree
 	int MAX_Levels;
 	//Max objects in 1 node of the quadtree
@@ -30,7 +30,7 @@ private:
 	//
 	//Some varieties and methods but in private
 	//
-	
+
 	//An int which returns to the children node's order number (0 to 3) of this node where the object belongs to if it can fit in the children node's size
 	int getIndexFitted(Body *body);
 	//A boolean which returns to True or False of the question "Does this node's area contain any parts of the object?" (use this in case of the object cannot fit in any children node)
@@ -42,21 +42,21 @@ public:
 	//Constructor & Destructor
 	//
 	QuadTree();
-	QuadTree(int level,const Vector2 &size,const Vector2 &position);
+	QuadTree(int level, Vector2 size, Vector2 position);
 	~QuadTree();
-	
-	void Reset(int level,const Vector2& size,const Vector2 &position);
 
 	//
 	//Methods
 	//
-	
+
 	//A function which delete this node's objects and it's children node
 	void Clear();
 	//A function which adds an object into the "right" node of the quadtree
 	void Insert(Body *body);
 	//A vector which contains a list of objects which could collide with the object
 	void Retrieve(std::vector<Body*>  &returnBodies, Body *body);
+	//A function to update the starting position and refesh the quadtree
+	void Update(Vector2 size, Vector2 position);
 };
 
 #endif

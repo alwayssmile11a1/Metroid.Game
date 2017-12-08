@@ -96,133 +96,131 @@ void World::SetGravity(float gravity)
 
 void World::Update(float dt)
 {
-	////some how this quad tree not working
-	//if (_Cam != NULL)
-	//{
-	//	//Check collision
-	//	Collision collision;
-	//	collision.SetContactListener(_Listener);
-
-	//	//memory leak
-	//	//_QuadTree = new QuadTree(0, Vector2((float)screenWidth, (float)screenHeight), cameraposition);
-
-	//	_QuadTree->Reset(0, Vector2((float)screenWidth, (float)screenHeight), _Cam->GetPosition());
-
-	//	for (std::vector<Body*>::iterator body = _Bodies.begin(); body != _Bodies.end(); ++body)
-	//	{
-	//		_QuadTree->Insert(*body);
-	//	}
-
-	//	std::vector<Body*> _BodiesCouldCollide;
-
-	//	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
-	//	{
-	//		if ((*body1)->GetBodyType() == Body::BodyType::Static)
-	//		{
-	//			(*body1)->Next(dt, false, false);
-	//			continue;
-	//		}
-
-	//		(*body1)->CalculateActualVelocity(dt, _Gravity);
-
-	//		RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
-
-	//		bool moveX = true, moveY = true;
-
-	//		_BodiesCouldCollide.clear();
-
-	//		_QuadTree->Retrieve(_BodiesCouldCollide, *body1);
-
-	//		for (std::vector<Body*>::iterator body2 = _BodiesCouldCollide.begin(); body2 != _BodiesCouldCollide.end(); ++body2)
-	//		{
-	//			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
-
-	//			bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
-
-	//			if (!collide) continue;
-
-	//			//get static rect 
-	//			RECT staticRect = collision.GetRECT(*body2);
-
-	//			//check overlaying broadphase
-	//			if (collision.IsOverlayingRect(broadphaseRect, staticRect))
-	//			{
-	//				if (collision.IsColliding(*body1, *body2, dt))
-	//				{
-	//					collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
-	//				}
-	//			}
-
-
-	//			if (collision.IsOverlaying(*body1, *body2))
-	//			{
-	//				collision.PerformOverlaying(*body1, *body2, moveX, moveY);
-	//			}
-
-	//			collision.Reset();
-	//		}
-
-	//		(*body1)->Next(dt, moveX, moveY);
-	//	}
-
-	//	_QuadTree->Clear();
-	//}
-
-
-	//Check collision
-	Collision collision;
-	collision.SetContactListener(_Listener);
-
-	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
+	if (_Cam == NULL)
 	{
-		if ((*body1)->GetBodyType() == Body::BodyType::Static)
+		//Check collision
+		Collision collision;
+		collision.SetContactListener(_Listener);
+
+		for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
 		{
-			(*body1)->Next(dt, false, false);
-			continue;
-		}
-
-
-		//calculate actual velocity
-		(*body1)->CalculateActualVelocity(dt, _Gravity);
-
-		//get broadphase rect 
-		RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
-
-		bool moveX = true, moveY = true;
-
-		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
-		{
-			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
-
-			bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
-
-			if (!collide) continue;
-
-			//get static rect 
-			RECT staticRect = collision.GetRECT(*body2);
-
-			//check overlaying broadphase
-			if (collision.IsOverlayingRect(broadphaseRect, staticRect))
+			if ((*body1)->GetBodyType() == Body::BodyType::Static)
 			{
-				if (collision.IsColliding(*body1, *body2, dt))
+				(*body1)->Next(dt, false, false);
+				continue;
+			}
+
+
+			//calculate actual velocity
+			(*body1)->CalculateActualVelocity(dt, _Gravity);
+
+			//get broadphase rect 
+			RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
+
+			bool moveX = true, moveY = true;
+
+			for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
+			{
+				if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
+
+				bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
+
+				if (!collide) continue;
+
+				//get static rect 
+				RECT staticRect = collision.GetRECT(*body2);
+
+				//check overlaying broadphase
+				if (collision.IsOverlayingRect(broadphaseRect, staticRect))
 				{
-					collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
+					if (collision.IsColliding(*body1, *body2, dt))
+					{
+						collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
+					}
 				}
+
+
+				if (collision.IsOverlaying(*body1, *body2))
+				{
+					collision.PerformOverlaying(*body1, *body2, moveX, moveY);
+				}
+
+				collision.Reset();
 			}
 
+			(*body1)->Next(dt, moveX, moveY);
 
-			if (collision.IsOverlaying(*body1, *body2))
-			{
-				collision.PerformOverlaying(*body1, *body2, moveX, moveY);
-			}
+		}
+	}
+	else
+	{
+		//Check collision
+		Collision collision;
+		collision.SetContactListener(_Listener);
 
-			collision.Reset();
+		//_QuadTree = new QuadTree(0, Vector2((float)screenWidth, (float)screenHeight), );
+
+		_QuadTree->Clear();
+
+		_QuadTree->Update(Vector2((float)screenWidth, (float)screenHeight), _Cam->GetPosition());
+
+		for (std::vector<Body*>::iterator body = _Bodies.begin(); body != _Bodies.end(); ++body)
+		{
+			_QuadTree->Insert(*body);
 		}
 
-		(*body1)->Next(dt, moveX, moveY);
+		std::vector<Body*> _BodiesCouldCollide;
 
+		for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
+		{
+			if ((*body1)->GetBodyType() == Body::BodyType::Static)
+			{
+				(*body1)->Next(dt, false, false);
+				continue;
+			}
+
+			(*body1)->CalculateActualVelocity(dt, _Gravity);
+
+			RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
+
+			bool moveX = true, moveY = true;
+
+			_BodiesCouldCollide.clear();
+
+			_QuadTree->Retrieve(_BodiesCouldCollide, *body1);
+
+			for (std::vector<Body*>::iterator body2 = _BodiesCouldCollide.begin(); body2 != _BodiesCouldCollide.end(); ++body2)
+			{
+				if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
+
+				bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
+
+				if (!collide) continue;
+
+				//get static rect 
+				RECT staticRect = collision.GetRECT(*body2);
+
+				//check overlaying broadphase
+				if (collision.IsOverlayingRect(broadphaseRect, staticRect))
+				{
+					if (collision.IsColliding(*body1, *body2, dt))
+					{
+						collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
+					}
+				}
+
+
+				if (collision.IsOverlaying(*body1, *body2))
+				{
+					collision.PerformOverlaying(*body1, *body2, moveX, moveY);
+				}
+
+				collision.Reset();
+			}
+
+			(*body1)->Next(dt, moveX, moveY);
+		}
 	}
-
 }
 
 

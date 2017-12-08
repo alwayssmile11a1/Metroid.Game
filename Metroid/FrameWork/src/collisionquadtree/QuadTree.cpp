@@ -1,39 +1,26 @@
 #include "QuadTree.h"
 
-
-
-QuadTree::QuadTree(int level, const Vector2& size, const Vector2 &position)
-{
-	MAX_Bodies = 20;
-	MAX_Levels = 5;
-	_Level = level;
-	_Size = size;
-	_Position = Vector2(position.x - size.x / 2, position.y - size.y / 2);
-	_ListBodies.clear();
-	_SubQuadTrees.clear();
-}
-
-
 QuadTree::QuadTree()
 {
 	MAX_Bodies = 20;
 	MAX_Levels = 5;
-	_ListBodies.clear();
-	_SubQuadTrees.clear();
+	_Level = 0;
 }
 
-QuadTree::~QuadTree()
+QuadTree::QuadTree(int level, Vector2 size, Vector2 position)
 {
-
-}
-
-void QuadTree::Reset(int level, const Vector2& size, const Vector2 &position)
-{
+	MAX_Bodies = 20;
+	MAX_Levels = 5;
 	_Level = level;
 	_Size = size;
 	_Position = Vector2(position.x - size.x / 2, position.y - size.y / 2);
 	_ListBodies.clear();
 	_SubQuadTrees.clear();
+}
+
+
+QuadTree::~QuadTree()
+{
 }
 
 
@@ -43,15 +30,14 @@ void QuadTree::Clear()
 
 	//if (_SubQuadTrees.empty() == false)
 	//{
-		for (int i = 0; i < _SubQuadTrees.size(); i++)
+	for (int i = 0; i < _SubQuadTrees.size(); i++)
+	{
+		if (_SubQuadTrees[i] != NULL)
 		{
-			if (_SubQuadTrees[i] != NULL)
-			{
-				_SubQuadTrees[i]->Clear();
-				delete _SubQuadTrees[i];
-				_SubQuadTrees[i] = NULL;
-			}
+			_SubQuadTrees[i]->Clear();
+			_SubQuadTrees[i] = NULL;
 		}
+	}
 	//}
 }
 
@@ -74,7 +60,7 @@ void QuadTree::Split()
 	subPos2.Set((float)PositionX, (float)(PositionY + subHeight));
 	subPos3.Set((float)(PositionX + subWidth), (float)(PositionY + subHeight));
 
-	
+
 	_SubQuadTrees.push_back(new QuadTree(_Level + 1, subSize, subPos0));
 	_SubQuadTrees.push_back(new QuadTree(_Level + 1, subSize, subPos1));
 	_SubQuadTrees.push_back(new QuadTree(_Level + 1, subSize, subPos2));
@@ -174,25 +160,25 @@ void QuadTree::Insert(Body *body)
 	}
 }
 
-void QuadTree::Retrieve(std::vector<Body*> &returnBodies, Body *body) 
+void QuadTree::Retrieve(std::vector<Body*> &returnBodies, Body *body)
 {
 	int index = getIndexFitted(body);
-	if (index != -1 && _SubQuadTrees.empty() == false) 
+	if (index != -1 && _SubQuadTrees.empty() == false)
 	{
 		_SubQuadTrees[index]->Retrieve(returnBodies, body);
 	}
 	else if (index == -1 && _SubQuadTrees.empty() == false)
 	{
-		for (int i = 0; i < 3; i++) 
+		for (int i = 0; i < 3; i++)
 		{
-			if (getIndexNotFitted(_SubQuadTrees[i], body) )
+			if (getIndexNotFitted(_SubQuadTrees[i], body))
 			{
 				_SubQuadTrees[i]->Retrieve(returnBodies, body);
 			}
 		}
 	}
 
-	for (int i = 0; i < _ListBodies.size(); i++) 
+	for (int i = 0; i < _ListBodies.size(); i++)
 	{
 		if (_ListBodies[i] != body)
 		{
@@ -201,4 +187,11 @@ void QuadTree::Retrieve(std::vector<Body*> &returnBodies, Body *body)
 	}
 
 	return;
+}
+
+void QuadTree::Update(Vector2 size, Vector2 position)
+{
+	_Position = Vector2(position.x - size.x / 2, position.y - size.y / 2);
+	_ListBodies.clear();
+	_SubQuadTrees.clear();
 }
