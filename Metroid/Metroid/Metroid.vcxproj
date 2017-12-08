@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F727D54F-8805-494B-B34C-0EBBBFE94174}</ProjectGuid>
     <RootNamespace>Metroid</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,7 +139,6 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
-    <ClCompile Include="Rio.cpp" />
     <ClCompile Include="Skree.cpp" />
     <ClCompile Include="WorldListener.cpp" />
     <ClCompile Include="Zoomer.cpp" />
@@ -152,7 +151,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Rio.h" />
     <ClInclude Include="Skree.h" />
     <ClInclude Include="WorldListener.h" />
     <ClInclude Include="Zoomer.h" />

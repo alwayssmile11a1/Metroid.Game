@@ -48,13 +48,8 @@
     <ClCompile Include="Platform.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Skree.cpp">
       <Filter>Source Files\MetroidGame\Enemies</Filter>
-=======
-    <ClCompile Include="Rio.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
->>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,9 +81,6 @@
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="CollisionBit.h">
-      <Filter>Header Files\MetroidGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Rio.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>

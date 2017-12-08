@@ -56,20 +56,8 @@ void PlayScene::Create()
 	}
 
 	skreeTexture = Texture("Resources/enemies.png");
-<<<<<<< HEAD
 	skree.Create(&world, &skreeTexture, 16 * 73, 16*13);
 
-=======
-	skree.Create(&world, &skreeTexture);
-	
-	//zoomer
-	zoomerTexture = Texture("Resources/enemies.png");
-	zoomer.Create(&world, &zoomerTexture);
-
-	//rio
-	rioTexture = Texture("Resources/enemies.png");
-	rio.Create(&world, &rioTexture);
->>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -104,10 +92,6 @@ void  PlayScene::Render()
 
 	skree.Render(batch);
 
-	zoomer.Render(batch);
-
-	rio.Render(batch);
-
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
@@ -126,12 +110,6 @@ void PlayScene::Update(float dt)
 
 	skree.Update(dt);
 
-<<<<<<< HEAD
-=======
-	zoomer.Update(dt);
-
-	rio.Update(dt);
->>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
 	if (player.GetPosition().x > cam.GetPosition().x)
 	{
 		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
@@ -160,16 +138,10 @@ void PlayScene::Release()
 {
 	world.Release();
 	player.Release();
-<<<<<<< HEAD
 	//skreeTexture.Release();
 
 	
 
-=======
-	skreeTexture.Release();
-	zoomerTexture.Release();
-	rioTexture.Release();
->>>>>>> 92ddb9dc936e10263078a575922efbe7f7601c93
 	//delete body1;
 	//delete body2;
 }
