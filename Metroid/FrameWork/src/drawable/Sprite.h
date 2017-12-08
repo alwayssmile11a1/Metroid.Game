@@ -71,7 +71,7 @@ public:
 	bool IsFlipX();
 	bool IsFlipY();
 
-	//this also affects the texture being reference to
+	//Reset the size of this sprite to the actual size of the texture
 	void ResetToWhole();
 
 

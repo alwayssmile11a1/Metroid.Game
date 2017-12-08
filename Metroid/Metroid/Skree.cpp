@@ -12,24 +12,26 @@ Skree::~Skree()
 {
 }
 
-void Skree::Create(World *world, Texture *skreeTexture)
+void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 {
 	this->world = world;
+
 	TexturePacker p = TexturePacker(skreeTexture, "Resources/enemies_packer.xml");
 
 	skreeAnimation.AddRegion(p.GetRegion("skree"));
 	skreeAnimation.SetFrameInterval(0.04);
 
 	skreeBulletAnimation.AddRegion(p.GetRegion("skreebullet"));
+	
 
 	SetRegion(skreeAnimation.GetKeyAnimation());
 	SetSize(16, 33);
-	SetPosition(16 * 8, 16 * 20);
+	SetPosition(x, y);
 	
 	//setup body
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Static;
-	bodyDef.position.Set(16 * 8, 16 * 20);
+	bodyDef.position.Set(x, y);
 	bodyDef.size.Set(16, 33);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = SKREE_BIT;

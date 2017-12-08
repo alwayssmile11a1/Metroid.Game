@@ -54,7 +54,7 @@ public:
 	RECT GetBroadphaseRect(Body *body, float DeltaTime);
 	RECT GetRECT(Body *body);
 	// Hàm dùng để dự đoán vùng bao phủ của object trong frame kế
-	bool IsOverlayingBroadphaseRect(const RECT &dynamicRect, const RECT &staticRect);
+	bool IsOverlayingRect(const RECT &rect1, const RECT &rect2);
 
 	void PerformCollision(Body *targetBody, Body *otherBody, float DeltaTime, int collisionAction, bool &needMoveX, bool &needMoveY);
 

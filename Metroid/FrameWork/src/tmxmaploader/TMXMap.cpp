@@ -14,6 +14,8 @@ TMXMap::TMXMap()
 	_Cam = NULL;
 
 	_ScaleFactor = 1;
+
+	_SDQuadTree = NULL;
 }
 
 TMXMap::~TMXMap()
@@ -32,7 +34,7 @@ TMXMap::~TMXMap()
 	{
 		delete it->second;
 	}
-
+	
 }
 
 void TMXMap::SetCamera(Camera* camera)
@@ -118,58 +120,102 @@ const vector<TMXTileLayer*>& TMXMap::GetLayers() const
 	return _Layers;
 }
 
+const std::unordered_map<std::string, TMXObjectGroup*>& TMXMap::GetObjectGroups() const
+{
+	return _ObjectGroups;
+}
+
+void TMXMap::SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdquadtree)
+{
+	_SDQuadTree = sdquadtree;
+
+}
+
 //Render this map
 void TMXMap::Render(SpriteBatch *batch)
 {
-	//get necessary variables
-	unsigned int **data = _Layers[0]->GetData();
-	unsigned int layerWidth = _Layers[0]->GetWidth();
-	unsigned int layerHeight = _Layers[0]->GetHeight();
-
-	Texture* texture = _TileSet->GetTexture();
-	unsigned int columns = _TileSet->GetColumns();
-	unsigned int tileSetWidth = _TileSet->GetTileWidth();
-	unsigned int tileSetHeight = _TileSet->GetTileHeight();
-
-	float x, y, rectLeft, rectTop, rectWidth, rectHeight;
-	rectWidth = tileSetWidth;
-	rectHeight = tileSetHeight;
-
-	float width = tileSetWidth * _ScaleFactor;
-	float height = tileSetHeight * _ScaleFactor;
-
-	//Get cam position 
-	Vector2 camPostion;
-	if (_Cam != NULL)
+	if (_SDQuadTree==NULL)
 	{
-		camPostion = _Cam->GetPosition();
-	}
 
-	for (unsigned int row = 0; row < layerHeight; row++)
-	{
-		for (unsigned int column = 0; column < layerWidth; column++)
+		//get necessary variables
+		unsigned int **data = _Layers[0]->GetData();
+		unsigned int layerWidth = _Layers[0]->GetWidth();
+		unsigned int layerHeight = _Layers[0]->GetHeight();
+
+		Texture* texture = _TileSet->GetTexture();
+		unsigned int columns = _TileSet->GetColumns();
+		unsigned int tileSetWidth = _TileSet->GetTileWidth();
+		unsigned int tileSetHeight = _TileSet->GetTileHeight();
+
+		float x, y, rectLeft, rectTop, rectWidth, rectHeight;
+		rectWidth = tileSetWidth;
+		rectHeight = tileSetHeight;
+
+		float width = tileSetWidth * _ScaleFactor;
+		float height = tileSetHeight * _ScaleFactor;
+
+		//Get cam position 
+		Vector2 camPostion;
+		if (_Cam != NULL)
 		{
-			if (data[row][column] == 0) continue;
+			camPostion = _Cam->GetPosition();
+		}
 
-			rectLeft = (data[row][column] % columns - 1) * rectWidth;
-			rectTop = (data[row][column] / columns) * rectHeight;
+		for (unsigned int row = 0; row < layerHeight; row++)
+		{
+			for (unsigned int column = 0; column < layerWidth; column++)
+			{
+				if (data[row][column] == 0) continue;
 
-			x = column*width + width / 2;
-			y = (layerHeight - 1 - row)*height + height / 2;
+				rectLeft = (data[row][column] % columns - 1) * rectWidth;
+				rectTop = (data[row][column] / columns) * rectHeight;
+
+				x = column*width + width / 2;
+				y = (layerHeight - 1 - row)*height + height / 2;
+
+				//check to see if this tile is out of the scope of the camera
+				if (_Cam != NULL)
+				{
+
+					if (x + width / 2 < camPostion.x - screenWidth / 2 ||
+						x - width / 2 > camPostion.x + screenWidth / 2 ||
+						y + height / 2 < camPostion.y - screenHeight / 2 ||
+						y - height / 2 > camPostion.y + screenHeight / 2)
+						continue;
+
+				}
+
+				batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, width, height);
+			}
+		}
+
+	}
+	else
+	{
+		if (_Cam == NULL) return;
+		Vector2 camPostion = _Cam->GetPosition();
+
+		_SDQuadTree->LoadObjectsInViewport(_Cam);
+		Texture* texture = _TileSet->GetTexture();
+		std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();
+		for (std::vector<Shape::Rectangle*>::const_iterator it = tileRectsInViewport.begin(); it != tileRectsInViewport.end(); ++it)
+		{
+			float x = (*it)->x;
+			float y = (*it)->y;
+			float width = (*it)->width;
+			float height = (*it)->height;
+			float rectImageLeft = (*it)->extraX;
+			float rectImageTop = (*it)->extraY;
 
 			//check to see if this tile is out of the scope of the camera
-			if (_Cam != NULL)
-			{
+			if (x + width / 2 < camPostion.x - screenWidth / 2 ||
+				x - width / 2 > camPostion.x + screenWidth / 2 ||
+				y + height / 2 < camPostion.y - screenHeight / 2 ||
+				y - height / 2 > camPostion.y + screenHeight / 2)
+				continue;
 
-				if (x + width / 2 < camPostion.x - screenWidth/2 ||
-					x - width / 2 > camPostion.x + screenWidth/2 ||
-					y + height/2 < camPostion.y - screenHeight/2 ||
-					y - height / 2 > camPostion.y + screenHeight / 2)
-					continue;
 
-			}
-
-			batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, width, height);
+			batch->Draw(*texture, x, y, rectImageLeft, rectImageTop, width, height, width, height);
 		}
 	}
 
@@ -179,6 +225,7 @@ void TMXMap::Render(SpriteBatch *batch)
 void TMXMap::SetScale(float scale)
 {
 	_ScaleFactor = scale;
+
 }
 
 float TMXMap::GetScale()

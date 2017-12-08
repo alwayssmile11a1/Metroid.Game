@@ -175,11 +175,11 @@ void Collision::SetContactListener(WorldContactListener *listener)
 	_Listener = listener;
 }
 
-bool Collision::IsOverlayingBroadphaseRect(const RECT &dynamicRect, const RECT &staticRect)
+bool Collision::IsOverlayingRect(const RECT &rect1, const RECT &rect2)
 {
 	//if it's not overlaying rect
-	if (dynamicRect.right < staticRect.left || dynamicRect.left > staticRect.right ||
-		dynamicRect.bottom > staticRect.top || dynamicRect.top < staticRect.bottom) {
+	if (rect1.right < rect2.left || rect1.left > rect2.right ||
+		rect1.bottom > rect2.top || rect1.top < rect2.bottom) {
 		return false;
 	}
 

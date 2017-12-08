@@ -5,18 +5,35 @@ World::World()
 {
 	_Gravity = 9.8f;
 	_Bodies.clear();
-	
+	_Cam = NULL;
+	if (_QuadTree != NULL)
+	{
+		_QuadTree->Clear();
+		delete _QuadTree;
+	}
+	_QuadTree = new QuadTree();
 }
 
 World::World(float gravity)
 {
 	_Gravity = gravity;
 	_Bodies.clear();
+	_Cam = NULL;
+	if (_QuadTree != NULL)
+	{
+		_QuadTree->Clear();
+		delete _QuadTree;
+	}
+	_QuadTree = new QuadTree();
 }
 
 World::~World()
 {
-
+	if (_QuadTree != NULL)
+	{
+		_QuadTree->Clear();
+		delete _QuadTree;
+	}
 	//for (std::vector<Body*>::iterator obj = _Bodies.begin(); obj != _Bodies.end(); ++obj)
 	//{
 	//	//just for sure
@@ -79,6 +96,78 @@ void World::SetGravity(float gravity)
 
 void World::Update(float dt)
 {
+	////some how this quad tree not working
+	//if (_Cam != NULL)
+	//{
+	//	//Check collision
+	//	Collision collision;
+	//	collision.SetContactListener(_Listener);
+
+	//	//memory leak
+	//	//_QuadTree = new QuadTree(0, Vector2((float)screenWidth, (float)screenHeight), cameraposition);
+
+	//	_QuadTree->Reset(0, Vector2((float)screenWidth, (float)screenHeight), _Cam->GetPosition());
+
+	//	for (std::vector<Body*>::iterator body = _Bodies.begin(); body != _Bodies.end(); ++body)
+	//	{
+	//		_QuadTree->Insert(*body);
+	//	}
+
+	//	std::vector<Body*> _BodiesCouldCollide;
+
+	//	for (std::vector<Body*>::iterator body1 = _Bodies.begin(); body1 != _Bodies.end(); ++body1)
+	//	{
+	//		if ((*body1)->GetBodyType() == Body::BodyType::Static)
+	//		{
+	//			(*body1)->Next(dt, false, false);
+	//			continue;
+	//		}
+
+	//		(*body1)->CalculateActualVelocity(dt, _Gravity);
+
+	//		RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
+
+	//		bool moveX = true, moveY = true;
+
+	//		_BodiesCouldCollide.clear();
+
+	//		_QuadTree->Retrieve(_BodiesCouldCollide, *body1);
+
+	//		for (std::vector<Body*>::iterator body2 = _BodiesCouldCollide.begin(); body2 != _BodiesCouldCollide.end(); ++body2)
+	//		{
+	//			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
+
+	//			bool collide = ((*body1)->maskBits & (*body2)->categoryBits) != 0 && ((*body1)->categoryBits & (*body2)->maskBits) != 0;
+
+	//			if (!collide) continue;
+
+	//			//get static rect 
+	//			RECT staticRect = collision.GetRECT(*body2);
+
+	//			//check overlaying broadphase
+	//			if (collision.IsOverlayingRect(broadphaseRect, staticRect))
+	//			{
+	//				if (collision.IsColliding(*body1, *body2, dt))
+	//				{
+	//					collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
+	//				}
+	//			}
+
+
+	//			if (collision.IsOverlaying(*body1, *body2))
+	//			{
+	//				collision.PerformOverlaying(*body1, *body2, moveX, moveY);
+	//			}
+
+	//			collision.Reset();
+	//		}
+
+	//		(*body1)->Next(dt, moveX, moveY);
+	//	}
+
+	//	_QuadTree->Clear();
+	//}
+
 
 	//Check collision
 	Collision collision;
@@ -100,7 +189,7 @@ void World::Update(float dt)
 		RECT broadphaseRect = collision.GetBroadphaseRect(*body1, dt);
 
 		bool moveX = true, moveY = true;
-		
+
 		for (std::vector<Body*>::iterator body2 = _Bodies.begin(); body2 != _Bodies.end(); ++body2)
 		{
 			if ((*body1) == (*body2) || (*body2)->IsSensor() == true) continue;
@@ -113,14 +202,14 @@ void World::Update(float dt)
 			RECT staticRect = collision.GetRECT(*body2);
 
 			//check overlaying broadphase
-			if (collision.IsOverlayingBroadphaseRect(broadphaseRect, staticRect))
+			if (collision.IsOverlayingRect(broadphaseRect, staticRect))
 			{
 				if (collision.IsColliding(*body1, *body2, dt))
 				{
 					collision.PerformCollision(*body1, *body2, dt, 0, moveX, moveY);
 				}
 			}
-		
+
 
 			if (collision.IsOverlaying(*body1, *body2))
 			{
@@ -131,10 +220,8 @@ void World::Update(float dt)
 		}
 
 		(*body1)->Next(dt, moveX, moveY);
-		
-	}
 
-	
+	}
 
 }
 
@@ -148,6 +235,11 @@ void World::Update(float dt)
 //{
 //	_Bodies.insert(_Bodies.end(), bodies.begin(),bodies.end());
 //}
+
+void  World::SetCamera(Camera *cam)
+{
+	_Cam = cam;
+}
 
 Body* World::CreateBody(const BodyDef &bodyDef)
 {

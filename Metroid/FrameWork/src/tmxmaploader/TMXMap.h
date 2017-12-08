@@ -7,6 +7,7 @@
 #include "TMXObjectGroup.h"
 #include "..\drawable\SpriteBatch.h"
 #include <unordered_map>
+#include "..\spacedivisionquadtree\SpaceDivisionQuadTree.h"
 
 class TMXMap
 {
@@ -23,6 +24,8 @@ private:
 	Camera* _Cam; //hold camera reference
 
 	float _ScaleFactor;
+
+	SpaceDivisionQuadTree* _SDQuadTree;
 
 public:
 	TMXMap();
@@ -43,12 +46,15 @@ public:
 	TMXTileSet *GetTileSet() const;
 	const vector<TMXTileLayer*>& GetLayers() const;
 	TMXObjectGroup* GetObjectGroup(const std::string &groupName) const;
-
+	const std::unordered_map<std::string, TMXObjectGroup*>& GetObjectGroups() const;
 	//Render this map
 	void Render(SpriteBatch *batch);
 
 	void SetScale(float scale);
 	float GetScale();
+
+	//set this to reduce the amount of tile have to render
+	void SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdquadtree);
 };
 
 #endif

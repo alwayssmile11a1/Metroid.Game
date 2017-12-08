@@ -250,10 +250,16 @@ void Player::Fire()
 
 		bullet->GetMainBody()->SetPosition(position.x, position.y);
 		bullet->GetMainBody()->SetVelocity(velocity.x, velocity.y);
+
+
 		bullets.push_back(bullet);
 
 
 		lastShot = currentTime;
+
+
+		//PLAY SOUND HERE
+
 
 	}
 
@@ -380,8 +386,8 @@ void Player::Update(float dt)
 
 void Player::Release()
 {
-	characterTexture.Release();
-	bulletTexture.Release();
+	//characterTexture.Release();
+	//bulletTexture.Release();
 	//draw bullets
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it)
 	{

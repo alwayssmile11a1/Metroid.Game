@@ -12,8 +12,10 @@ WorldListener::~WorldListener()
 {
 }
 
+
 void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB)
 {
+
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
 	case PLAYER_BIT*SKREE_BIT:
@@ -71,11 +73,15 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB)
 		break;
 
 	}
+	
+
+
+
 }
 
 void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 {
-	if (bodyA->categoryBits == FOOT_BIT && bodyB->categoryBits!=PLAYER_BIT)
+	if (bodyA->categoryBits == FOOT_BIT)
 	{
 		Player*player = (Player *)(bodyA->GetExtra());
 		if (player != NULL)

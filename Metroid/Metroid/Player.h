@@ -9,6 +9,8 @@
 #define FIRERATE 0.1f
 #define MAXJUMPTIME 0.3
 
+#include "HanabiSound.h"
+
 //Main character
 class Player : public Sprite
 {

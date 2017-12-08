@@ -18,8 +18,9 @@ public:
 };
 
 
-class Skree:public Sprite
+class Skree: public Sprite
 {
+
 private:
 	Animation skreeAnimation;
 	Body* body;
@@ -39,7 +40,7 @@ private:
 public:
 	Skree();
 	~Skree();
-	void Create(World *world, Texture *skreeTexture);
+	void Create(World *world, Texture *skreeTexture, int x, int y);
 
 	void HandlePhysics();
 

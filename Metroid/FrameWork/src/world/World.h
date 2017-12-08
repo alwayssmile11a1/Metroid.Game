@@ -8,6 +8,7 @@
 #include"WorldContactListener.h"
 #include <algorithm>  
 #include "BodyDef.h"
+#include "..\collisionquadtree\QuadTree.h"
 
 // add body to this class and physic things will be handled
 class World: public GameObject
@@ -20,6 +21,10 @@ private:
 
 	WorldContactListener* _Listener;  //listen to the collision
 	
+	QuadTree* _QuadTree;			//Quadtree of this world
+
+	Camera* _Cam;
+
 private:
 	friend class Collision;
 
@@ -31,7 +36,7 @@ public:
 
 	//World(const World &world);
 	//World& operator=(const World &world);
-
+	void SetCamera(Camera *cam);
 
 	//All get functions
 	const std::vector<Body*>& GetBodysList() const;
@@ -52,7 +57,6 @@ public:
 
 	//Render all bodies by squares
 	void RenderBodiesDebug(SpriteBatch *batch);
-
 
 	void Release();
 

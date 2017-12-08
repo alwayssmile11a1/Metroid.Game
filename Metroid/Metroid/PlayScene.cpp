@@ -37,27 +37,27 @@ void PlayScene::Create()
 	//body2.SetPosition(16 * 11, 16 * 5);
 
 
-
+	sdQuadTree.Load("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
 	//load map
 	mapLoader.AddMap("map1", "Resources/map3.tmx",1);
 	map = mapLoader.GetMap("map1");
 	map->SetCamera(&cam);
+	map->SetSpaceDivisionQuadTree(&sdQuadTree);
 
 	//world
 	world.SetGravity(-10);
 	world.SetContactListener(&worldListener);
+	world.SetCamera(&cam);
 
 	std::vector<Shape::Rectangle> rects = map->GetObjectGroup("Platform")->GetRects();
-
 	for (std::vector<Shape::Rectangle>::iterator rect = rects.begin(); rect!= rects.end(); ++rect)
 	{
 		Platform platform(&world, (*rect).x, (*rect).y, (*rect).width, (*rect).height);
-		
 	}
 
-	//skree
 	skreeTexture = Texture("Resources/enemies.png");
-	skree.Create(&world, &skreeTexture);
+	skree.Create(&world, &skreeTexture, 16 * 73, 16*13);
+
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -66,6 +66,8 @@ void PlayScene::HandlePhysics(float dt)
 	{
 		skree.OnHitPlayer();
 	}
+
+	
 
 	player.HandleInput();
 
@@ -93,8 +95,10 @@ void  PlayScene::Render()
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
+
 	//end drawing
 	batch->End();
+
 }
 
 
@@ -105,7 +109,6 @@ void PlayScene::Update(float dt)
 	player.Update(dt);
 
 	skree.Update(dt);
-
 
 	if (player.GetPosition().x > cam.GetPosition().x)
 	{
@@ -135,7 +138,10 @@ void PlayScene::Release()
 {
 	world.Release();
 	player.Release();
-	skreeTexture.Release();
+	//skreeTexture.Release();
+
+	
+
 	//delete body1;
 	//delete body2;
 }

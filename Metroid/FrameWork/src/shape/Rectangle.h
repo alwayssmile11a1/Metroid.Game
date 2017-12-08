@@ -7,6 +7,8 @@ namespace Shape
 	class Rectangle
 	{
 	public:
+		int id; //
+		float extraX, extraY;
 
 		float x, y, width, height;
 
@@ -16,7 +18,6 @@ namespace Shape
 		Rectangle(float x, float y, float width, float height);
 		
 		void Set(float x, float y, float width, float height);
-		
 
 	};
 

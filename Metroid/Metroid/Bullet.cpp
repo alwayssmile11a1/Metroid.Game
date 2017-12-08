@@ -36,6 +36,7 @@ Bullet::Bullet(World *world, Texture* texture)
 	mainBody->categoryBits = BULLET_BIT;
 	mainBody->maskBits = PLATFORM_BIT | SKREE_BIT;
 	
+	
 }
 
 void Bullet::Render(SpriteBatch &batch)

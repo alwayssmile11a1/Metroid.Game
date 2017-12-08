@@ -80,7 +80,6 @@ std::vector<TextureRegion> TexturePacker::GetRegion(std::string regionName) cons
 			//get rectTop
 			float rectTop = atoi(currentNode->first_attribute("top")->value());
 
-
 			//get rectWidth
 			float rectWidth = atoi(currentNode->first_attribute("width")->value());
 

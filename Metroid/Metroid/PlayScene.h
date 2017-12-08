@@ -9,6 +9,7 @@
 #include "Skree.h"
 #include "HanabiShape.h"
 #include "Platform.h"
+#include "HanabiSpaceDivisionQuadTree.h"
 
 class PlayScene: public Scene
 {
@@ -37,7 +38,7 @@ private:
 	Skree skree;
 	Texture skreeTexture;
 
-	
+	SpaceDivisionQuadTree sdQuadTree;
 
 public:
 	PlayScene();

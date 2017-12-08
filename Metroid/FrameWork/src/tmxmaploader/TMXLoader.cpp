@@ -174,13 +174,14 @@ void TMXLoader::LoadObjectGroups(TMXMap* map, rapidxml::xml_node<> *parentNode)
 		rapidxml::xml_node<> *childNode = currentNode->first_node("object");
 		while (childNode != nullptr)
 		{
+			float id = atoi(childNode->first_attribute("id")->value());
 			float x = atoi(childNode->first_attribute("x")->value())*_ScaleFactor;
 			float y = atoi(childNode->first_attribute("y")->value())*_ScaleFactor;
 			float width = atoi(childNode->first_attribute("width")->value())*_ScaleFactor;
 			float height = atoi(childNode->first_attribute("height")->value())*_ScaleFactor;
 
 			Shape::Rectangle rect(x + width/2, map->GetHeight()*map->GetTileHeight()*_ScaleFactor - y - height/2, width, height);
-
+			rect.id = id;
 			objectGroup.AddRect(rect);
 
 			//next

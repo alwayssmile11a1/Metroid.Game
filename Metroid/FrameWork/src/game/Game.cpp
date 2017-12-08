@@ -363,6 +363,7 @@ int Game::RunGame()
 					d3ddevice->StretchRect(_Background, NULL, _Backbuffer, NULL, D3DTEXF_NONE);
 				}
 
+				//
 				UpdateGame(DeltaTime/1000.0f);
 
 				//clear buffedInput after we has done update game

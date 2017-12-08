@@ -19,6 +19,9 @@
     <Filter Include="Header Files\MetroidGame">
       <UniqueIdentifier>{38d4209f-26ec-4089-8f22-fa9189f101d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MetroidGame\Enemies">
+      <UniqueIdentifier>{8fd22af4-6c15-4d9f-9e21-b35b085d127a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -42,11 +45,11 @@
     <ClCompile Include="Zoomer.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
-    <ClCompile Include="Skree.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
-    </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Skree.cpp">
+      <Filter>Source Files\MetroidGame\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
