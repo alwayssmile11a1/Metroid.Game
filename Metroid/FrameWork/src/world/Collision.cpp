@@ -149,7 +149,7 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 		{
 			if (rxentry != 0 && ryentry != 0)
 			{
-				_Listener->OnCollisionEnter(targetBody, otherBody);
+				_Listener->OnCollisionEnter(targetBody, otherBody, _CollisionDirection);
 			}
 		}
 		else

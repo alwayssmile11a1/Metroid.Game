@@ -58,6 +58,9 @@ void PlayScene::Create()
 	skreeTexture = Texture("Resources/enemies.png");
 	skree.Create(&world, &skreeTexture, 16 * 73, 16*13);
 
+	//zoomer
+	zoomerTexture = Texture("Resources/enemies.png");
+	zoomer.Create(&world, &zoomerTexture);
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -70,6 +73,8 @@ void PlayScene::HandlePhysics(float dt)
 	
 
 	player.HandleInput();
+
+	zoomer.Update(dt);
 
 	skree.Follow(&player);
 	//body1.SetVelocity(-2, 0);
@@ -92,6 +97,8 @@ void  PlayScene::Render()
 
 	skree.Render(batch);
 
+	zoomer.Render(batch);
+
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
@@ -109,6 +116,8 @@ void PlayScene::Update(float dt)
 	player.Update(dt);
 
 	skree.Update(dt);
+
+	//zoomer.Update(dt);
 
 	if (player.GetPosition().x > cam.GetPosition().x)
 	{

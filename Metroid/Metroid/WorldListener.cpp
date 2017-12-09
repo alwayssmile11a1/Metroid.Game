@@ -13,7 +13,7 @@ WorldListener::~WorldListener()
 }
 
 
-void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB)
+void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, Vector2 CollisionDirection)
 {
 
 	switch (bodyA->categoryBits * bodyB->categoryBits)
@@ -68,6 +68,30 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB)
 					skree->OnHitGround();
 				}
 
+			}
+		}
+		break;
+
+		case ZOOMER_BIT*PLATFORM_BIT:
+		if (bodyA->categoryBits == ZOOMER_BIT)
+		{
+			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
+			if (zoomer != NULL)
+			{
+				zoomer->curCollisionDirection.x = CollisionDirection.x;
+				zoomer->curCollisionDirection.y = CollisionDirection.y;
+			}
+		}
+		else
+		{
+			if (bodyB->categoryBits == ZOOMER_BIT)
+			{
+				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
+				if (zoomer != NULL)
+				{
+					zoomer->curCollisionDirection.x = CollisionDirection.x;
+					zoomer->curCollisionDirection.y = CollisionDirection.y;
+				}
 			}
 		}
 		break;
