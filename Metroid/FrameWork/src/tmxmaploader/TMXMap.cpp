@@ -167,9 +167,9 @@ void TMXMap::Render(SpriteBatch *batch)
 			{
 				if (data[row][column] == 0) continue;
 
-				rectLeft = (data[row][column] % columns - 1) * rectWidth;
-				rectTop = (data[row][column] / columns) * rectHeight;
-
+				rectLeft = ((data[row][column]-1) % columns) * rectWidth;
+				rectTop = ((data[row][column]-1) / columns) * rectHeight;
+				
 				x = column*width + width / 2;
 				y = (layerHeight - 1 - row)*height + height / 2;
 

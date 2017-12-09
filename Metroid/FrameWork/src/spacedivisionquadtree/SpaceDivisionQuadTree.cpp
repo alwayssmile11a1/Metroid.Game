@@ -494,8 +494,8 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 			{
 				if (data[row][column] == 0) continue;
 
-				rectImageLeft = (data[row][column] % columns - 1) * width;
-				rectImageTop = (data[row][column] / columns) * height;
+				rectImageLeft = ((data[row][column]-1) % columns) * width;
+				rectImageTop = ((data[row][column]-1) / columns) * height;
 
 				x = column*width + width / 2;
 				y = (layerHeight - 1 - row)*height + height / 2;
