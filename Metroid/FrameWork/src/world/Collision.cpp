@@ -89,21 +89,22 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 
 		(rxentry > 1.0f) || (ryentry > 1.0f)) //trường hợp không xảy ra va chạm thứ 3: trong khoảng thời gian delta_time đang xét (thời gian của 1 frame) thì vật a di chuyển chưa tới vật b
 	{
+		_CollisionDirection.x = NOT_COLLIDED;
+		_CollisionDirection.y = NOT_COLLIDED;
+
 		int previousTouching = IsPreviousTouching(targetBody, otherBody);
-		if (previousTouching ==1 && targetBody->GetTotalVelocity().y!=0)
+		if (previousTouching == 1 && targetBody->GetTotalVelocity().y != 0)
 		{
-			_Listener->OnCollisionExit(targetBody, otherBody);
+			_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
 		}
 		else
 		{
-			if (previousTouching == 2 && targetBody->GetTotalVelocity().x!=0)
+			if (previousTouching == 2 && targetBody->GetTotalVelocity().x != 0)
 			{
-				_Listener->OnCollisionExit(targetBody, otherBody);
+				_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
 			}
 		}
 
-		_CollisionDirection.x = 0.0f;
-		_CollisionDirection.y = 0.0f;
 		_CollisionRatio = 1.0f;
 		_RemainingTime = std::numeric_limits<float>::infinity();
 		_CollisionPosition.x = 0.0f;
@@ -119,19 +120,19 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 			if (dxentry == 0.0f)//nếu vật a ngay sát bên phải/trái vật b thì không cho xảy ra va chạm
 			{
 				_CollisionDirection.x = -targetVelocity.x;
-				_CollisionDirection.y = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+				_CollisionDirection.y = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 			}
 			else
 			{
 				if (dxentry < 0.0f)//nếu vật a nằm bên phải vật b => vật a va chạm cạnh bên phải của hình bao vật b
 				{
 					_CollisionDirection.x = abs(targetVelocity.x);
-					_CollisionDirection.y = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+					_CollisionDirection.y = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 				}
 				else //nếu vật a nằm bên trái vật b => vật a va chạm cạnh bên trái của hình bao vật b
 				{
 					_CollisionDirection.x = -abs(targetVelocity.x);
-					_CollisionDirection.y = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+					_CollisionDirection.y = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 				}
 			}
 		}
@@ -141,19 +142,19 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 			// và ngăn không cho vật a thay đổi theo y
 			if (dyentry == 0.0f)
 			{
-				_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+				_CollisionDirection.x = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 				_CollisionDirection.y = -targetVelocity.y;
 			}
 			else
 			{
 				if (dyentry < 0.0f)//nếu vật a nằm bên dưới vật b => vật a sẽ va chạm cạnh dưới hình bao vât b
 				{
-					_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+					_CollisionDirection.x = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 					_CollisionDirection.y = abs(targetVelocity.y);
 				}
 				else//nếu vật a nằm bên trên vật b => vật a sẽ va chạm cạnh trên hình bao vât b
 				{
-					_CollisionDirection.x = 100.0f; //hardcode 100.0f để báo là ko va chạm theo chiều này
+					_CollisionDirection.x = NOT_COLLIDED; //hardcode 100.0f để báo là ko va chạm theo chiều này
 					_CollisionDirection.y = -abs(targetVelocity.y);
 				}
 			}
@@ -190,7 +191,7 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 
 int Collision::IsPreviousTouching(Body *targetBody, Body *otherBody)
 {
-	
+
 	float left = otherBody->_PreviousPosition.x - otherBody->GetSize().x / 2 - (targetBody->_PreviousPosition.x + targetBody->GetSize().x / 2);
 	float top = otherBody->_PreviousPosition.y + otherBody->GetSize().y / 2 - (targetBody->_PreviousPosition.y - targetBody->GetSize().y / 2);
 	float right = otherBody->_PreviousPosition.x + otherBody->GetSize().x / 2 - (targetBody->_PreviousPosition.x - targetBody->GetSize().x / 2);
@@ -251,7 +252,7 @@ RECT Collision::GetBroadphaseRect(Body *body, float DeltaTime)
 	rect.bottom = distance.y > 0 ? body->GetPosition().y - body->GetSize().y / 2 : body->GetPosition().y - body->GetSize().y / 2 + distance.y;
 	rect.left = distance.x > 0 ? body->GetPosition().x - body->GetSize().x / 2 : body->GetPosition().x - body->GetSize().x / 2 + distance.x;
 	rect.right = distance.x > 0 ? body->GetPosition().x + body->GetSize().x / 2 + distance.x : body->GetPosition().x + body->GetSize().x / 2;
-	
+
 	return rect;
 }
 
@@ -322,7 +323,7 @@ void Collision::PerformCollision(Body *targetBody, Body *otherBody, float DeltaT
 {
 	Vector2 targetVelocity = targetBody->GetTotalVelocity();
 
-	if (_CollisionDirection != Vector2(0, 0))
+	if (_CollisionDirection != Vector2(NOT_COLLIDED, NOT_COLLIDED))
 	{
 		// nếu va chạm theo trục x
 		if (_CollisionDirection.x == targetVelocity.x * -1)
@@ -367,7 +368,7 @@ void  Collision::PerformOverlaying(Body *targetBody, Body* otherBody, bool &need
 	if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
 		needMoveY = false;
 
-	if (targetBody->_IsSensor && !IsPreviousOverlayed(targetBody,otherBody) && !IsSensorEntered)
+	if (targetBody->_IsSensor && !IsPreviousOverlayed(targetBody, otherBody) && !IsSensorEntered)
 	{
 		//Console::Log("Hello");
 		_Listener->OnSersorEnter(targetBody, otherBody);

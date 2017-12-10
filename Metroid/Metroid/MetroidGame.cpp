@@ -14,8 +14,8 @@ MetroidGame::~MetroidGame()
 
 void MetroidGame::CreateGame()
 {
-	/*SpaceDivisionQuadTree quad;
-	quad.BuildTreeNodesFromTMX("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");*/
+	//SpaceDivisionQuadTree quad;
+	//quad.BuildTreeNodesFromTMX("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
 
 
 	//quad.Load("Resources/mytest.xml");

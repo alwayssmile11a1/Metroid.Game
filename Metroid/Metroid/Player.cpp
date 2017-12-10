@@ -112,7 +112,7 @@ void Player::Create(World *world)
 	//set size and position
 	SetRegion(standingAnimation.GetKeyAnimation());
 	SetSize(34, 60);
-	SetPosition(16 * 73, 16 * 13);
+	SetPosition(16 * 100, 16 * 13);
 
 	
 	//setup mainbody
@@ -121,7 +121,7 @@ void Player::Create(World *world)
 	bodyDef.linearDrag.Set(10, 0.2);
 	bodyDef.mass = 2;
 	bodyDef.size.Set(30, 60);
-	bodyDef.position.Set(16 * 70, 16 * 13);
+	bodyDef.position.Set(16 * 100, 16 * 13);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
 	mainBody->maskBits = SKREE_BIT | PLATFORM_BIT;

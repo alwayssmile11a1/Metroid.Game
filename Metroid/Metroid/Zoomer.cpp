@@ -21,24 +21,25 @@ void Zoomer::Create(World *world, Texture *skreeTexture)
 
 	SetRegion(zoomerAnimation.GetKeyAnimation());
 	SetSize(16, 14);
-	SetPosition(16 * 80, 16 * 6.7);
-	prevCollisionDirection.x = 100.0f;
-	prevCollisionDirection.y = 50.0f;
-	curCollisionDirection.x = 100.0f;
-	curCollisionDirection.y = 50.0f;
-	prevVelocity.x = 2.0f;
-	prevVelocity.y = -0.5f;
+	SetPosition(16 * 105, 16 * 14);
+	prevVelocity.x = 0.7f;
+	prevVelocity.y = -0.7f;
+	prevCollisionDirection.x = NOT_COLLIDED;
+	prevCollisionDirection.y = -prevVelocity.y * 100;
+	curCollisionDirection.x = NOT_COLLIDED;
+	curCollisionDirection.y = -prevVelocity.y * 100;
 
 	//setup body
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Kinematic;
-	bodyDef.position.Set(16 * 80, 16 * 6.7);
+	bodyDef.position.Set(16 * 105, 16 * 14);
 	bodyDef.size.Set(16, 14);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = ZOOMER_BIT;
 	body->maskBits = PLAYER_BIT | PLATFORM_BIT;
 	body->PutExtra(this);
-	body->SetVelocity(2.0f, -0.5f);
+	body->SetVelocity(0.7f, -0.7f);
+	cooldownAfterCollisionChange = 3;
 }
 
 void Zoomer::HandlePhysics()
@@ -64,21 +65,34 @@ void Zoomer::Update(float dt)
 
 void Zoomer::SetCurCollisionDirection(Vector2 collisionDirection)
 {
-	curCollisionDirection = collisionDirection;
+	if (collisionDirection.x == prevCollisionDirection.y && collisionDirection.y == prevCollisionDirection.x)
+	{
+		if (prevCollisionDirection.x != NOT_COLLIDED)
+		{
+			curCollisionDirection.y = collisionDirection.y;
+		}
+		else
+		{
+			curCollisionDirection.x = collisionDirection.x;
+		}
+	}
+	else
+		curCollisionDirection = collisionDirection;
 }
 
 void Zoomer::StickToGround()
 {
-	if (curCollisionDirection.x != 100.0f && curCollisionDirection.y != 100.0f)
+	if (curCollisionDirection.x != NOT_COLLIDED && curCollisionDirection.y != NOT_COLLIDED && cooldownAfterCollisionChange == 0)
 	{
 		body->SetVelocity(prevVelocity.x, -prevVelocity.y);
 		prevVelocity.y = -prevVelocity.y * 100;
 		prevCollisionDirection.x = curCollisionDirection.x;
-		prevCollisionDirection.y = 100.0f;
+		prevCollisionDirection.y = NOT_COLLIDED;
+		cooldownAfterCollisionChange = 3;
 	}
 	else
 	{
-		if (prevCollisionDirection.x != curCollisionDirection.x || prevCollisionDirection.y != curCollisionDirection.y)
+		if ((prevCollisionDirection.x != curCollisionDirection.x || prevCollisionDirection.y != curCollisionDirection.y) && cooldownAfterCollisionChange == 0)
 		{
 			if (prevCollisionDirection.x == curCollisionDirection.x && prevCollisionDirection.y != curCollisionDirection.y)
 			{
@@ -86,6 +100,7 @@ void Zoomer::StickToGround()
 				prevCollisionDirection.x = prevVelocity.x * 100;
 				prevVelocity.x = -prevVelocity.x;
 				prevCollisionDirection.y = curCollisionDirection.y;
+				cooldownAfterCollisionChange = 3;
 			}
 			else
 			{
@@ -95,12 +110,15 @@ void Zoomer::StickToGround()
 					prevCollisionDirection.x = curCollisionDirection.x;
 					prevCollisionDirection.y = prevVelocity.y * 100;
 					prevVelocity.y = -prevVelocity.y;
+					cooldownAfterCollisionChange = 3;
 				}
 			}
 		}
 		else
 		{
 			body->SetVelocity(prevVelocity.x, prevVelocity.y);
+			if (cooldownAfterCollisionChange > 0)
+				cooldownAfterCollisionChange--;
 		}
 	}
 }

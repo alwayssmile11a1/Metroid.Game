@@ -100,7 +100,7 @@ void  PlayScene::Render()
 	zoomer.Render(batch);
 
 	//draw bodies
-	world.RenderBodiesDebug(batch);
+	//world.RenderBodiesDebug(batch);
 
 
 	//end drawing

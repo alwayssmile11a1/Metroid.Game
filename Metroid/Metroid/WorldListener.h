@@ -14,7 +14,7 @@ public:
 	//Override OnContact of WorldContactListener
 	void OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &CollisionDirection) override;
 
-	void OnCollisionExit(Body* bodyA, Body* bodyB) override;
+	void OnCollisionExit(Body* bodyA, Body* bodyB, Vector2 collisionDirection) override;
 
 	void virtual OnColliding(Body*bodyA, Body* BodyB) override;
 

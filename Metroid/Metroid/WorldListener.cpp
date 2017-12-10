@@ -110,9 +110,36 @@ void  WorldListener::OnColliding(Body*bodyA, Body* BodyB)
 }
 
 
-void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB)
+void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, Vector2 collisionDirection)
 {
-
+	switch (bodyA->categoryBits * bodyB->categoryBits)
+	{
+	case ZOOMER_BIT*PLATFORM_BIT:
+		if (bodyA->categoryBits == ZOOMER_BIT)
+		{
+			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
+			if (zoomer != NULL)
+			{
+				zoomer->SetCurCollisionDirection(collisionDirection);
+				//zoomer->curCollisionDirection.x = CollisionDirection.x;
+				//zoomer->curCollisionDirection.y = CollisionDirection.y;
+			}
+		}
+		else
+		{
+			if (bodyB->categoryBits == ZOOMER_BIT)
+			{
+				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
+				if (zoomer != NULL)
+				{
+					zoomer->SetCurCollisionDirection(collisionDirection);
+					//zoomer->curCollisionDirection.x = CollisionDirection.x;
+					//zoomer->curCollisionDirection.y = CollisionDirection.y;
+				}
+			}
+		}
+		break;
+	}
 }
 
 

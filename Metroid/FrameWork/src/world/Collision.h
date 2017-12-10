@@ -6,6 +6,8 @@
 #include <iostream>
 #include <Windows.h>
 
+#define NOT_COLLIDED 10000.0f
+
 class Collision
 {
 private:

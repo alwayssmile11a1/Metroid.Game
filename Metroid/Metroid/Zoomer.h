@@ -5,6 +5,8 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
+#define NOT_COLLIDED 10000.0f
+
 class Zoomer : public Sprite
 {
 private:
@@ -19,6 +21,7 @@ private:
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
 	Vector2 prevVelocity;
+	int cooldownAfterCollisionChange;
 
 	Player* player;
 
