@@ -130,12 +130,5 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 void  WorldListener::OnSensorExit(Body*bodyA, Body* bodyB)
 {
-	if (bodyA->categoryBits == FOOT_BIT)
-	{
-		Player*player = (Player *)(bodyA->GetExtra());
-		if (player != NULL)
-		{
-			player->OnLeaveGround();
-		}
-	}
+	
 }

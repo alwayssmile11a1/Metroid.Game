@@ -120,7 +120,7 @@ void Player::Create(World *world)
 	bodyDef.bodyType = Body::BodyType::Dynamic;
 	bodyDef.linearDrag.Set(10, 0.2);
 	bodyDef.mass = 2;
-	bodyDef.size.Set(34, 60);
+	bodyDef.size.Set(30, 60);
 	bodyDef.position.Set(16 * 70, 16 * 13);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
@@ -179,6 +179,8 @@ void Player::HandleInput()
 	if (input.GetKeyDown(DIK_Z) && isGrounded)
 	{
 		mainBody->SetVelocity(mainBody->GetVelocity().x, 7);
+		isGrounded = false;
+		jumpTime = 0;
 	}
 
 
@@ -270,11 +272,6 @@ void Player::OnGrounded()
 	jumpTime = 100;
 }
 
-void  Player::OnLeaveGround()
-{
-	isGrounded = false;
-	jumpTime = 0;
-}
 
 void Player::Render(SpriteBatch *batch)
 {
