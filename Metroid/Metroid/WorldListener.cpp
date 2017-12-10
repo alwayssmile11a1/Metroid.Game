@@ -13,13 +13,12 @@ WorldListener::~WorldListener()
 }
 
 
-void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, Vector2 CollisionDirection)
+void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &CollisionDirection)
 {
-
+	
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
 	case PLAYER_BIT*SKREE_BIT:
-		Console::Log("HitPLAYER\n");
 		if (bodyA->categoryBits == SKREE_BIT)
 		{
 			Skree* skree = (Skree*)bodyA->GetExtra();
@@ -46,7 +45,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, Vector2 Collision
 		break;
 
 	case PLATFORM_BIT*SKREE_BIT:
-		Console::Log("HitGround\n");
 		if (bodyA->categoryBits == SKREE_BIT)
 		{
 			Skree* skree = (Skree*)bodyA->GetExtra();
@@ -106,6 +104,18 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, Vector2 Collision
 
 }
 
+void  WorldListener::OnColliding(Body*bodyA, Body* BodyB)
+{
+	
+}
+
+
+void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB)
+{
+
+}
+
+
 void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 {
 	if (bodyA->categoryBits == FOOT_BIT)
@@ -113,8 +123,19 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		Player*player = (Player *)(bodyA->GetExtra());
 		if (player != NULL)
 		{
-			//Console::Log("Grounded\n");
 			player->OnGrounded();
+		}
+	}
+}
+
+void  WorldListener::OnSensorExit(Body*bodyA, Body* bodyB)
+{
+	if (bodyA->categoryBits == FOOT_BIT)
+	{
+		Player*player = (Player *)(bodyA->GetExtra());
+		if (player != NULL)
+		{
+			player->OnLeaveGround();
 		}
 	}
 }

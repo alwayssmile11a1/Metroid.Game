@@ -89,6 +89,19 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 
 		(rxentry > 1.0f) || (ryentry > 1.0f)) //trường hợp không xảy ra va chạm thứ 3: trong khoảng thời gian delta_time đang xét (thời gian của 1 frame) thì vật a di chuyển chưa tới vật b
 	{
+		int previousTouching = IsPreviousTouching(targetBody, otherBody);
+		if (previousTouching ==1 && targetBody->GetTotalVelocity().y!=0)
+		{
+			_Listener->OnCollisionExit(targetBody, otherBody);
+		}
+		else
+		{
+			if (previousTouching == 2 && targetBody->GetTotalVelocity().x!=0)
+			{
+				_Listener->OnCollisionExit(targetBody, otherBody);
+			}
+		}
+
 		_CollisionDirection.x = 0.0f;
 		_CollisionDirection.y = 0.0f;
 		_CollisionRatio = 1.0f;
@@ -151,12 +164,18 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 			{
 				_Listener->OnCollisionEnter(targetBody, otherBody, _CollisionDirection);
 			}
+			else
+			{
+				_Listener->OnColliding(targetBody, otherBody);
+			}
 		}
 		else
 		{
 			_Listener->OnSersorEnter(targetBody, otherBody);
 			IsSensorEntered = true;
 		}
+
+
 
 		_CollisionRatio = rentry;
 		_RemainingTime = DeltaTime - rentry*DeltaTime;
@@ -167,6 +186,42 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 
 		return true;
 	}
+}
+
+int Collision::IsPreviousTouching(Body *targetBody, Body *otherBody)
+{
+	
+	float left = otherBody->_PreviousPosition.x - otherBody->GetSize().x / 2 - (targetBody->_PreviousPosition.x + targetBody->GetSize().x / 2);
+	float top = otherBody->_PreviousPosition.y + otherBody->GetSize().y / 2 - (targetBody->_PreviousPosition.y - targetBody->GetSize().y / 2);
+	float right = otherBody->_PreviousPosition.x + otherBody->GetSize().x / 2 - (targetBody->_PreviousPosition.x - targetBody->GetSize().x / 2);
+	float bottom = otherBody->_PreviousPosition.y - otherBody->GetSize().y / 2 - (targetBody->_PreviousPosition.y + targetBody->GetSize().y / 2);
+
+	if (top == 0 || bottom == 0)
+	{
+		return 1;
+	}
+
+	if (left == 0 || right == 0)
+	{
+		return 2;
+	}
+
+	return 0;
+}
+
+bool Collision::IsTouching(Body *targetBody, Body *otherBody)
+{
+	float left = otherBody->GetPosition().x - otherBody->GetSize().x / 2 - (targetBody->GetPosition().x + targetBody->GetSize().x / 2);
+	float top = otherBody->GetPosition().y + otherBody->GetSize().y / 2 - (targetBody->GetPosition().y - targetBody->GetSize().y / 2);
+	float right = otherBody->GetPosition().x + otherBody->GetSize().x / 2 - (targetBody->GetPosition().x - targetBody->GetSize().x / 2);
+	float bottom = otherBody->GetPosition().y - otherBody->GetSize().y / 2 - (targetBody->GetPosition().y + targetBody->GetSize().y / 2);
+
+	if (left == 0 || right == 0 || top == 0 || bottom == 0)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -254,10 +309,12 @@ bool Collision::IsPreviousOverlayed(Body *targetBody, Body *otherBody)
 	//  CÓ va chạm khi 
 	//  left < 0 && right > 0 && top > 0 && bottom < 0
 	//
-	if (left >= 0 || right <= 0 || top <= 0 || bottom >= 0)
-		return false;
 
-	return true;
+
+	if (left >= 0 || right <= 0 || top <= 0 || bottom >= 0)
+		return 0;
+
+	return 1;
 }
 
 

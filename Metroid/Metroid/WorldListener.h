@@ -12,9 +12,14 @@ public:
 
 
 	//Override OnContact of WorldContactListener
-	void OnCollisionEnter(Body* bodyA, Body *bodyB, Vector2 CollisionDirection) override;
+	void OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &CollisionDirection) override;
+
+	void OnCollisionExit(Body* bodyA, Body* bodyB) override;
+
+	void virtual OnColliding(Body*bodyA, Body* BodyB) override;
 
 	void OnSersorEnter(Body *bodyA, Body *bodyB) override;
 
+	void  OnSensorExit(Body*bodyA, Body* bodyB) override;
 };
 

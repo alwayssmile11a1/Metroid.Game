@@ -44,8 +44,7 @@ private: //private function
 	void Slide(Body *body);
 	void Deflect(Body *body);
 
-	//
-	bool IsPreviousOverlayed(Body *targetBody, Body *otherBody);
+
 
 public:
 	Collision();
@@ -60,8 +59,16 @@ public:
 
 	bool IsColliding(Body *targetBody, Body *otherBody, float DeltaTime);
 	
+	//return 1 if bottom or top, return 2 if left or right and return 0 if not previous touching
+	int IsPreviousTouching(Body *targetBody, Body *otherBody);
+	
+	bool IsTouching(Body *targetBody, Body *otherBody);
+
 	// 2 body có chồng lên nhau hay không
 	bool IsOverlaying(Body *targetBody, Body *otherBody);
+
+	bool IsPreviousOverlayed(Body *targetBody, Body *otherBody);
+
 
 	void PerformOverlaying(Body *targetBody, Body *otherBody, bool &needMoveX, bool &needMoveY);
 	
@@ -69,6 +76,7 @@ public:
 
 	//Reset to use as a new one
 	void Reset();
+
 
 };
 

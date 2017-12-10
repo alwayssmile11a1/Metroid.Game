@@ -43,6 +43,8 @@ private:
 	
 	Vector2 _PreviousPosition;
 
+
+
 private: //friend class
 	friend class Collision;
 	friend class World;

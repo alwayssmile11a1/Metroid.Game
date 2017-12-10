@@ -64,6 +64,8 @@ public:
 
 	void OnGrounded();
 
+	void OnLeaveGround();
+
 	void Release();
 
 };
