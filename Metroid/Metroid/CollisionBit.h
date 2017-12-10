@@ -4,4 +4,4 @@
 #define FOOT_BIT  4
 #define BULLET_BIT  8
 #define SKREE_BIT  16
-#define ZOOMER_BIT  33
+#define ZOOMER_BIT  64

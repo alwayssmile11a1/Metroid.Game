@@ -16,13 +16,14 @@ private:
 	World* world;
 
 	bool isDead;
-
+	Vector2 prevCollisionDirection;
+	Vector2 curCollisionDirection;
+	Vector2 prevVelocity;
 
 	Player* player;
 
 public:
-	Vector2 prevCollisionDirection;
-	Vector2 curCollisionDirection;
+
 	Zoomer();
 	~Zoomer();
 	void Create(World *world, Texture *skreeTexture);
@@ -38,4 +39,6 @@ public:
 	void OnHitGround();
 
 	void StickToGround();
+
+	void SetCurCollisionDirection(Vector2 collisionDirection);
 };
