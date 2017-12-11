@@ -8,7 +8,7 @@ Texture::Texture()
 	_Image = NULL;
 }
 
-Texture::Texture(std::string filePath)
+Texture::Texture(const std::string &filePath)
 {
 	//set basic information
 	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);

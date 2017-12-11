@@ -19,7 +19,7 @@ public:
 	Texture();
 
 	//create a texture from file
-	Texture(std::string filePath);
+	Texture(const std::string &filePath);
 	~Texture();
 
 	////copy constructor - this is really important 

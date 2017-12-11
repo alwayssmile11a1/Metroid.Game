@@ -75,7 +75,7 @@ public:
 	int RunGame();
 
 	//Release game
-	void virtual Release();
+	void virtual Release() = 0;
 
 };
 
