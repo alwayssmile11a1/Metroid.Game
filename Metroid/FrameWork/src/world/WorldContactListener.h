@@ -14,9 +14,9 @@ public:
 	//Note that if it's possible, don't try to perform any of the physic things here because it may lead to wrong physic results later. 
 	void virtual OnCollisionEnter(Body *bodyA, Body *bodyB, const Vector2 &CollisionDirection) = 0;
 
-	void virtual OnColliding(Body*bodyA, Body* BodyB) = 0;
+	void virtual OnColliding(Body*bodyA, Body* BodyB, const Vector2 &collisionDirection) = 0;
 
-	void virtual OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &collisionDirection) = 0;
+	void virtual OnCollisionExit(Body* bodyA, Body* bodyB, const Vector2 &collisionDirection) = 0;
 
 	void virtual OnSersorEnter(Body *bodyA, Body *bodyB) = 0;
 

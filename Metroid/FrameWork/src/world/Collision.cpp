@@ -173,7 +173,7 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 			}
 			else
 			{
-				_Listener->OnColliding(targetBody, otherBody);
+				_Listener->OnColliding(targetBody, otherBody, _CollisionDirection);
 			}
 		}
 		else

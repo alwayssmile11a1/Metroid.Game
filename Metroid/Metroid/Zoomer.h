@@ -13,15 +13,20 @@ private:
 	Animation zoomerAnimation;
 	Body* body;
 
-	float stateTime;
-
 	World* world;
 
 	bool isDead;
+
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
 	Vector2 prevVelocity;
+
+	// Zoomer will continue to move in the same direction if on cooldown
 	int cooldownAfterCollisionChange;
+
+	// Keeps track of where the curCollisionDirection was being set from
+	// Either from OnCollisionEnter or OnColliding
+	int prevSource;
 
 	Player* player;
 
@@ -29,7 +34,7 @@ public:
 
 	Zoomer();
 	~Zoomer();
-	void Create(World *world, Texture *skreeTexture);
+	void Create(World *world, Texture *zoomerTexture, float x, float y);
 
 	void HandlePhysics();
 
@@ -39,9 +44,7 @@ public:
 
 	void OnHitPlayer();
 
-	void OnHitGround();
-
 	void StickToGround();
 
-	void SetCurCollisionDirection(Vector2 collisionDirection);
+	void SetCurCollisionDirection(Vector2 collisionDirection, int source);
 };

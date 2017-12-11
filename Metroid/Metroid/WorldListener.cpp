@@ -69,13 +69,14 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		}
 		break;
 
+
 	case ZOOMER_BIT*PLATFORM_BIT:
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 			if (zoomer != NULL)
 			{
-				zoomer->SetCurCollisionDirection(CollisionDirection);
+				zoomer->SetCurCollisionDirection(CollisionDirection, 0);
 				//zoomer->curCollisionDirection.x = CollisionDirection.x;
 				//zoomer->curCollisionDirection.y = CollisionDirection.y;
 			}
@@ -87,7 +88,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
 				if (zoomer != NULL)
 				{
-					zoomer->SetCurCollisionDirection(CollisionDirection);
+					zoomer->SetCurCollisionDirection(CollisionDirection, 0);
 					//zoomer->curCollisionDirection.x = CollisionDirection.x;
 					//zoomer->curCollisionDirection.y = CollisionDirection.y;
 				}
@@ -103,15 +104,8 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 }
 
-void  WorldListener::OnColliding(Body*bodyA, Body* BodyB)
+void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collisionDirection)
 {
-	
-}
-
-
-void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &collisionDirection)
-{
-	//Console::Log("End Collide");
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
 	case ZOOMER_BIT*PLATFORM_BIT:
@@ -120,7 +114,7 @@ void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &coll
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 			if (zoomer != NULL)
 			{
-				zoomer->SetCurCollisionDirection(collisionDirection);
+				zoomer->SetCurCollisionDirection(collisionDirection, 1);
 				//zoomer->curCollisionDirection.x = CollisionDirection.x;
 				//zoomer->curCollisionDirection.y = CollisionDirection.y;
 			}
@@ -132,7 +126,7 @@ void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &coll
 				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
 				if (zoomer != NULL)
 				{
-					zoomer->SetCurCollisionDirection(collisionDirection);
+					zoomer->SetCurCollisionDirection(collisionDirection, 1);
 					//zoomer->curCollisionDirection.x = CollisionDirection.x;
 					//zoomer->curCollisionDirection.y = CollisionDirection.y;
 				}
@@ -140,6 +134,40 @@ void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &coll
 		}
 		break;
 	}
+}
+
+
+void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, const Vector2 &collisionDirection)
+{
+	//Console::Log("End Collide");
+	//switch (bodyA->categoryBits * bodyB->categoryBits)
+	//{
+	//case ZOOMER_BIT*PLATFORM_BIT:
+	//	if (bodyA->categoryBits == ZOOMER_BIT)
+	//	{
+	//		Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
+	//		if (zoomer != NULL)
+	//		{
+	//			zoomer->SetCurCollisionDirection(collisionDirection);
+	//			//zoomer->curCollisionDirection.x = CollisionDirection.x;
+	//			//zoomer->curCollisionDirection.y = CollisionDirection.y;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (bodyB->categoryBits == ZOOMER_BIT)
+	//		{
+	//			Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
+	//			if (zoomer != NULL)
+	//			{
+	//				zoomer->SetCurCollisionDirection(collisionDirection);
+	//				//zoomer->curCollisionDirection.x = CollisionDirection.x;
+	//				//zoomer->curCollisionDirection.y = CollisionDirection.y;
+	//			}
+	//		}
+	//	}
+	//	break;
+	//}
 }
 
 

@@ -60,7 +60,8 @@ void PlayScene::Create()
 
 	//zoomer
 	zoomerTexture = Texture("Resources/enemies.png");
-	zoomer.Create(&world, &zoomerTexture);
+	Shape::Rectangle Zoomer0Pos = map->GetObjectGroup("Zoomer0")->GetRects().front();
+	zoomer.Create(&world, &zoomerTexture, Zoomer0Pos.x, Zoomer0Pos.y);
 
 
 	//set cam position
