@@ -52,7 +52,7 @@ public:
 	Player();
 	~Player();
 
-	void Create(World *world);
+	void Create(World *world, float x, float y);
 
 	void HandleInput();
 

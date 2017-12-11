@@ -133,6 +133,7 @@ void Body::SetLinearDrag(float xDrag, float yDrag)
 void Body::Next(float dt, bool moveX, bool moveY)
 {
 	_PreviousPosition.Set(_Position.x, _Position.y);
+	//_PreviousVelocity.Set(_Velocity.x, _Velocity.y);
 
 	//if (_BodyType == BodyType::Static)
 	//{

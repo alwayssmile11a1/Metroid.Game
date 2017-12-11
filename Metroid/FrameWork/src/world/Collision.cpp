@@ -1,7 +1,7 @@
 ﻿#include "Collision.h"
 
-#include"..\console\Console.h"
-
+//#include"..\console\Console.h"
+//#include"..\others\Global.h"
 Collision::Collision()
 {
 }
@@ -92,18 +92,24 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 		_CollisionDirection.x = NOT_COLLIDED;
 		_CollisionDirection.y = NOT_COLLIDED;
 
-		int previousTouching = IsPreviousTouching(targetBody, otherBody);
-		if (previousTouching == 1 && targetBody->GetTotalVelocity().y != 0)
+		int touching = IsTouching(targetBody, otherBody);
+		if (touching == 1 && targetVelocity.y != 0)
 		{
 			_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
 		}
 		else
 		{
-			if (previousTouching == 2 && targetBody->GetTotalVelocity().x != 0)
+
+			if (touching == 2 && targetVelocity.x != 0)
 			{
 				_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
 			}
 		}
+	
+		//if (IsPreviousCollding(targetBody, otherBody,DeltaTime))
+		//{
+		//	_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
+		//}
 
 		_CollisionRatio = 1.0f;
 		_RemainingTime = std::numeric_limits<float>::infinity();
@@ -189,6 +195,83 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 	}
 }
 
+//bool Collision::IsPreviousCollding(Body *targetBody, Body *otherBody, float DeltaTime)
+//{
+//	Vector2 targetVelocity = Vector2(targetBody->_PreviousVelocity.x*100, targetBody->_PreviousVelocity.y*100);
+//	Vector2 otherVelocity = Vector2(otherBody->_PreviousVelocity.x*100, otherBody->_PreviousVelocity.y*100);
+//
+//	//tính toán dx entry và dx exit, có 2 trường hợp là vật a di chuyển ngược và xuôi với trục toạ độ
+//	tempvx = targetVelocity.x - otherVelocity.x;
+//	tempvy = targetVelocity.y - otherVelocity.y;
+//
+//	if (tempvx > 0.0f)
+//	{
+//		dxentry = (otherBody->_PreviousPosition.x - otherBody->GetSize().x / 2) - (targetBody->_PreviousPosition.x + targetBody->GetSize().x / 2);
+//		dxexit = (otherBody->_PreviousPosition.x + otherBody->GetSize().x / 2) - (targetBody->_PreviousPosition.x - targetBody->GetSize().x / 2);
+//	}
+//	else
+//	{
+//		dxentry = (otherBody->_PreviousPosition.x + otherBody->GetSize().x / 2) - (targetBody->_PreviousPosition.x - targetBody->GetSize().x / 2);
+//		dxexit = (otherBody->_PreviousPosition.x - otherBody->GetSize().x / 2) - (targetBody->_PreviousPosition.x + targetBody->GetSize().x / 2);
+//	}
+//
+//	//tính toán dy entry và exit, tương tự với dx entry/ exit
+//	if (tempvy > 0.0f)
+//	{
+//		dyentry = (otherBody->_PreviousPosition.y - otherBody->GetSize().y / 2) - (targetBody->_PreviousPosition.y + targetBody->GetSize().y / 2);
+//		dyexit = (otherBody->_PreviousPosition.y + otherBody->GetSize().y / 2) - (targetBody->_PreviousPosition.y - targetBody->GetSize().y / 2);
+//	}
+//	else
+//	{
+//		dyentry = (otherBody->_PreviousPosition.y + otherBody->GetSize().y / 2) - (targetBody->_PreviousPosition.y - targetBody->GetSize().y / 2);
+//		dyexit = (otherBody->_PreviousPosition.y - otherBody->GetSize().y / 2) - (targetBody->_PreviousPosition.y + targetBody->GetSize().y / 2);
+//	}
+//
+//	//tính toán t x entry/ exit
+//	if (targetVelocity.x == 0.0f) //tránh trường hợp a.velocity = 0 dẫn tới việc chia cho 0, nên ta gán x entry/ exit = +/-vô cùng
+//	{
+//		rxentry = -std::numeric_limits<float>::infinity();
+//		rxexit = std::numeric_limits<float>::infinity();
+//	}
+//	else
+//	{
+//		rxentry = dxentry / (tempvx*DeltaTime);
+//		rxexit = dxexit / (tempvx*DeltaTime);
+//	}
+//
+//	//tính toán t y entry/ exit, tương tự x entry/ exit
+//	if (targetVelocity.y == 0.0f)
+//	{
+//		ryentry = -std::numeric_limits<float>::infinity();
+//		ryexit = std::numeric_limits<float>::infinity();
+//	}
+//	else
+//	{
+//		ryentry = dyentry / (tempvy*DeltaTime);
+//		ryexit = dyexit / (tempvy*DeltaTime);
+//	}
+//
+//	// tính toán thời gian va chạm và thoát khỏi thực sự của vật a chuyển động đối với vật b đứng yên
+//	rentry = max(rxentry, ryentry);
+//	rexit = min(rxexit, ryexit);
+//
+//	//sau khi tính toán được thời gian thực sự va chạm và thoát khỏi, ta kiểm tra xem việc va chạm có xảy ra hay không
+//	if ((rentry > rexit) || //trường hợp không xảy ra va chạm 1: thời gian thực sự xảy ra va chạm > thời gian thực sự a thoát khỏi b
+//
+//		(rxentry < 0.0f && ryentry < 0.0f) || //trường hợp không xảy ra va chạm thứ 2: vật a có vận tốc = 0 dẫn đến x entry/ y entry = -vô cùng, hoặc vật a di chuyển hướng ra khỏi vật b
+//
+//		(rxentry > 1.0f) || (ryentry > 1.0f)) //trường hợp không xảy ra va chạm thứ 3: trong khoảng thời gian delta_time đang xét (thời gian của 1 frame) thì vật a di chuyển chưa tới vật b
+//	{
+//		return false;
+//	}
+//	else
+//	{
+//		return true;
+//	}
+//
+//}
+
+
 int Collision::IsPreviousTouching(Body *targetBody, Body *otherBody)
 {
 
@@ -210,19 +293,25 @@ int Collision::IsPreviousTouching(Body *targetBody, Body *otherBody)
 	return 0;
 }
 
-bool Collision::IsTouching(Body *targetBody, Body *otherBody)
+int Collision::IsTouching(Body *targetBody, Body *otherBody)
 {
 	float left = otherBody->GetPosition().x - otherBody->GetSize().x / 2 - (targetBody->GetPosition().x + targetBody->GetSize().x / 2);
 	float top = otherBody->GetPosition().y + otherBody->GetSize().y / 2 - (targetBody->GetPosition().y - targetBody->GetSize().y / 2);
 	float right = otherBody->GetPosition().x + otherBody->GetSize().x / 2 - (targetBody->GetPosition().x - targetBody->GetSize().x / 2);
 	float bottom = otherBody->GetPosition().y - otherBody->GetSize().y / 2 - (targetBody->GetPosition().y + targetBody->GetSize().y / 2);
 
-	if (left == 0 || right == 0 || top == 0 || bottom == 0)
+	if (top == 0 || bottom == 0)
 	{
-		return true;
+		return 1;
 	}
 
-	return false;
+
+	if (left == 0 || right == 0)
+	{
+		return 2;
+	}
+
+	return 0;
 }
 
 

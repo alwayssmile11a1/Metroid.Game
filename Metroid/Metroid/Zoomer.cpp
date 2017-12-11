@@ -44,7 +44,7 @@ void Zoomer::Create(World *world, Texture *skreeTexture)
 
 void Zoomer::HandlePhysics()
 {
-
+	StickToGround();
 }
 
 void Zoomer::Render(SpriteBatch *batch)
@@ -58,7 +58,7 @@ void Zoomer::Update(float dt)
 	//set sprite position
 	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 	//body->SetVelocity(0.5f, -0.5f);
-	StickToGround();
+	//StickToGround();
 	SetRegion(zoomerAnimation.Next(dt));
 
 }

@@ -16,7 +16,7 @@ public:
 
 	void virtual OnColliding(Body*bodyA, Body* BodyB) = 0;
 
-	void virtual OnCollisionExit(Body* bodyA, Body* bodyB, Vector2 collisionDirection) = 0;
+	void virtual OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &collisionDirection) = 0;
 
 	void virtual OnSersorEnter(Body *bodyA, Body *bodyB) = 0;
 

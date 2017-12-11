@@ -243,6 +243,9 @@
     <ClInclude Include="include\HanabiCollisionQuadTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\HanabiInput.h">
+      <Filter>Header Files\_Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt">

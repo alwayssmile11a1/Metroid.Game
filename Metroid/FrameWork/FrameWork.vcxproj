@@ -160,6 +160,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\HanabiInput.h" />
     <ClInclude Include="include\HanabiBody.h" />
     <ClInclude Include="include\HanabiCamera.h" />
     <ClInclude Include="include\HanabiCollisionQuadTree.h" />

@@ -20,10 +20,6 @@ void PlayScene::SetBatch(SpriteBatch* batch)
 
 void PlayScene::Create()
 {
-	//set cam position
-	cam.SetPosition(320, 240);
-
-	player.Create(&world);
 
 	//object examples
 	//
@@ -55,12 +51,20 @@ void PlayScene::Create()
 		Platform platform(&world, (*rect).x, (*rect).y, (*rect).width, (*rect).height);
 	}
 
+	//player
+	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
+	player.Create(&world, playerRect.x,playerRect.y);
+
 	skreeTexture = Texture("Resources/enemies.png");
 	skree.Create(&world, &skreeTexture, 16 * 73, 16*13);
 
 	//zoomer
 	zoomerTexture = Texture("Resources/enemies.png");
 	zoomer.Create(&world, &zoomerTexture);
+
+
+	//set cam position
+	cam.SetPosition(playerRect.x, playerRect.y+110);
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -74,10 +78,10 @@ void PlayScene::HandlePhysics(float dt)
 
 	player.HandleInput();
 
-	zoomer.Update(dt);
-
 	skree.Follow(&player);
 	//body1.SetVelocity(-2, 0);
+
+	zoomer.HandlePhysics();
 
 	//Update world
 	world.Update(dt);
@@ -100,7 +104,7 @@ void  PlayScene::Render()
 	zoomer.Render(batch);
 
 	//draw bodies
-	//world.RenderBodiesDebug(batch);
+	world.RenderBodiesDebug(batch);
 
 
 	//end drawing
@@ -116,6 +120,8 @@ void PlayScene::Update(float dt)
 	player.Update(dt);
 
 	skree.Update(dt);
+
+	zoomer.Update(dt);
 
 	//zoomer.Update(dt);
 

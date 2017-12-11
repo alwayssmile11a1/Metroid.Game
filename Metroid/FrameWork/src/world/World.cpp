@@ -210,6 +210,7 @@ void World::Update(float dt)
 				bool collide = (body1->maskBits & body2->categoryBits) != 0 && (body1->categoryBits & body2->maskBits) != 0;
 
 				if (!collide) continue;
+				
 
 				//get static rect 
 				RECT staticRect = collision.GetRECT(body2);
@@ -220,9 +221,9 @@ void World::Update(float dt)
 					if (collision.IsColliding(body1, body2, dt))
 					{
 						collision.PerformCollision(body1, body2, dt, 0, moveX, moveY);
-		
 					}
 				}
+
 
 				if (collision.IsOverlaying(body1, body2))
 				{

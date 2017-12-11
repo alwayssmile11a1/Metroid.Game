@@ -61,10 +61,12 @@ public:
 
 	bool IsColliding(Body *targetBody, Body *otherBody, float DeltaTime);
 	
+	//bool IsPreviousCollding(Body *targetBody, Body *otherBody, float DeltaTime);
+
 	//return 1 if bottom or top, return 2 if left or right and return 0 if not previous touching
 	int IsPreviousTouching(Body *targetBody, Body *otherBody);
 	
-	bool IsTouching(Body *targetBody, Body *otherBody);
+	int IsTouching(Body *targetBody, Body *otherBody);
 
 	// 2 body có chồng lên nhau hay không
 	bool IsOverlaying(Body *targetBody, Body *otherBody);

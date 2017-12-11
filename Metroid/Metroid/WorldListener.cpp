@@ -15,7 +15,6 @@ WorldListener::~WorldListener()
 
 void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &CollisionDirection)
 {
-	
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
 	case PLAYER_BIT*SKREE_BIT:
@@ -110,8 +109,9 @@ void  WorldListener::OnColliding(Body*bodyA, Body* BodyB)
 }
 
 
-void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, Vector2 collisionDirection)
+void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB,const Vector2 &collisionDirection)
 {
+	//Console::Log("End Collide");
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
 	case ZOOMER_BIT*PLATFORM_BIT:

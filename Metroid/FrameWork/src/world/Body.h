@@ -43,7 +43,7 @@ private:
 	
 	Vector2 _PreviousPosition;
 
-
+	//Vector2 _PreviousVelocity;
 
 private: //friend class
 	friend class Collision;
