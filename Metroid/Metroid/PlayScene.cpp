@@ -126,7 +126,7 @@ void PlayScene::Update(float dt)
 
 	//zoomer.Update(dt);
 
-	if (player.GetPosition().x > cam.GetPosition().x)
+	/*if (player.GetPosition().x > cam.GetPosition().x)
 	{
 		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 	}
@@ -135,7 +135,9 @@ void PlayScene::Update(float dt)
 	{
 		cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
 		if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
-	}
+	}*/
+
+	cam.SetPosition(player.GetPosition().x, player.GetPosition().y + 110);
 
 	//if (input.GetKey(DIK_UP))
 	//{
