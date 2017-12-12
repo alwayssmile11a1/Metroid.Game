@@ -240,6 +240,10 @@ void World::Update(float dt)
 				collision.Reset();
 			}
 
+			//Stop objects outside of window from updating
+			Vector2 campos = Vector2(_Cam->GetPosition().x - (int)screenWidth/2, _Cam->GetPosition().y -(int)screenHeight/2);
+			if (((body1->GetPosition().x + body1->GetSize().x > campos.x) && (body1->GetPosition().x < campos.x + screenWidth)) &&
+				((body1->GetPosition().y + body1->GetSize().y > campos.y) && (body1->GetPosition().y < campos.y + screenWidth)))
 			body1->Next(dt, moveX, moveY);
 		}
 	}

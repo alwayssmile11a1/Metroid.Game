@@ -43,7 +43,7 @@ void PlayScene::Create()
 	//world
 	world.SetGravity(-10);
 	world.SetContactListener(&worldListener);
-	world.SetCamera(&cam);
+	world.SetCamera(NULL);
 
 	std::vector<Shape::Rectangle> rects = map->GetObjectGroup("Platform")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = rects.begin(); rect!= rects.end(); ++rect)
