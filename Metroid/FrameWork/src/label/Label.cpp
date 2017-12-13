@@ -19,9 +19,18 @@ Label::Label(const std::string &text, Font* font, float x, float y, float width,
 	_Position.Set(x, y);
 	_Size.Set(width, height);
 
-	std::wstring stemp = StringToWstring(text);
-	_Text = stemp.c_str();
+	_Text = text;
 }
+
+
+//Label::Label(const Label& label)
+//{
+//
+//}
+//Label& Label::operator=(const Label &label)
+//{
+//
+//}
 
 void Label::Draw(Camera *cam)
 {
@@ -48,13 +57,30 @@ void Label::Draw(Camera *cam)
 
 	RECT rect = { postion.x,postion.y,_Size.x,_Size.y };
 
-	_Font->_pFont->DrawText(NULL, _Text, -1, &rect, DT_TOP | DT_LEFT,
+	//get LPCWSTR from _Text
+	std::wstring stemp = StringToWstring(_Text);
+	LPCWSTR text = stemp.c_str();
+
+	_Font->_pFont->DrawText(NULL, text, -1, &rect, DT_TOP | DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 0));
 
 }
 
 void Label::SetText(std::string &text)
 {
-	std::wstring stemp = StringToWstring(text);
-	_Text = stemp.c_str();
+	_Text = text;
+}
+
+void Label::SetPosition(float x, float y)
+{
+	_Position.Set(x, y);
+}
+void Label::SetSize(float width, float height)
+{
+	_Size.Set(width, height);
+}
+
+void Label::SetFont(Font *font)
+{
+	_Font = font;
 }

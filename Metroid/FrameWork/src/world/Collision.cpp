@@ -410,6 +410,8 @@ bool Collision::IsPreviousOverlayed(Body *targetBody, Body *otherBody)
 
 void Collision::PerformCollision(Body *targetBody, Body *otherBody, float DeltaTime, int collisionAction, bool &needMoveX, bool &needMoveY)
 {
+	if (targetBody->IsSensor()) return;
+
 	Vector2 targetVelocity = targetBody->GetTotalVelocity();
 
 	if (_CollisionDirection != Vector2(NOT_COLLIDED, NOT_COLLIDED))
@@ -452,11 +454,13 @@ void Collision::UpdateTargetPosition(Body *targetBody, Vector2 move)
 
 void  Collision::PerformOverlaying(Body *targetBody, Body* otherBody, bool &needMoveX, bool &needMoveY)
 {
-	if (moveX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
-		needMoveX = false;
-	if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
-		needMoveY = false;
-
+	if (!targetBody->_IsSensor)
+	{
+		if (moveX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
+			needMoveX = false;
+		if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
+			needMoveY = false;
+	}
 	if (targetBody->_IsSensor && !IsPreviousOverlayed(targetBody, otherBody) && !IsSensorEntered)
 	{
 		//Console::Log("Hello");

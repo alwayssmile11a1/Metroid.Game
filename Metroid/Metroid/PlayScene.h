@@ -11,6 +11,9 @@
 #include "HanabiShape.h"
 #include "Platform.h"
 #include "HanabiSpaceDivisionQuadTree.h"
+#include "RollAbilityItem.h"
+#include "HanabiLabel.h"
+#include "HealthItem.h"
 
 class PlayScene: public Scene
 {
@@ -26,6 +29,8 @@ private:
 	TMXMap* map;
 	//world
 	World world;
+	//quadtree
+	SpaceDivisionQuadTree sdQuadTree;
 
 	//player
 	Player player;
@@ -36,12 +41,18 @@ private:
 	SpriteBatch* batch;
 
 	//enemy
-	Skree skree;
-	Texture skreeTexture;
-	Zoomer zoomer;
-	Texture zoomerTexture;
+	Texture enemiesTexture;
 
-	SpaceDivisionQuadTree sdQuadTree;
+	std::vector<Skree*> skrees;
+	std::vector<Zoomer*> zoomers;
+
+	Font font;
+	Label playerHealthLabel;
+
+	//Items
+	Texture itemsTexture;
+	RollAbilityItem rollAbilityItem;
+	std::vector<HealthItem*> healthItems;
 
 public:
 	PlayScene();

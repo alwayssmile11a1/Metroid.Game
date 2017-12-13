@@ -181,7 +181,6 @@
     <ClInclude Include="src\world\BodyDef.h" />
     <ClInclude Include="src\label\Font.h" />
     <ClInclude Include="src\console\Console.h" />
-    <ClInclude Include="src\others\Array.h" />
     <ClInclude Include="extensions\rapidxml\rapidxml.hpp" />
     <ClInclude Include="extensions\rapidxml\rapidxml_iterators.hpp" />
     <ClInclude Include="extensions\rapidxml\rapidxml_print.hpp" />
@@ -230,7 +229,6 @@
     <ClCompile Include="src\label\Font.cpp" />
     <ClCompile Include="src\console\Console.cpp" />
     <ClCompile Include="src\shape\Rectangle.cpp" />
-    <ClCompile Include="src\others\Array.cpp" />
     <ClCompile Include="src\scene\Scene.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\world\Collision.cpp" />

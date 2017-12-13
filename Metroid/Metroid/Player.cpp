@@ -18,13 +18,16 @@ void Player::Create(World *world, float x, float y)
 {
 	this->world = world;
 
-	isGrounded = true;
+	isGrounded = false;
 	isLookingup = false;
-	isShooting = true;
+	isShooting = false;
+	canRoll = false;
 
 	lastShot = 0;
 
 	jumpTime = 0;
+
+	health = 30;
 
 	//get characterTexture
 	characterTexture = Texture("Resources/samusaran_sheet.png");
@@ -40,6 +43,8 @@ void Player::Create(World *world, float x, float y)
 	moveAndShootupAnimation.AddRegion(p.GetRegion("moveandshootup"));
 	jumpAndShootAnimation.AddRegion(p.GetRegion("jumpandshoot"));
 	jumpAndShootupAnimation.AddRegion(p.GetRegion("jumpandshootup"));
+	rollingAnimation.AddRegion(p.GetRegion("rolling"));
+	jumpAndRollAnimation.AddRegion(p.GetRegion("jumpandroll"));
 
 
 	//SETUP STATE MANAGER - THIS WAY IS EVEN MUCH MORE DIFFICULT THAN THE NORMAL WAY (LOL) 
@@ -49,12 +54,16 @@ void Player::Create(World *world, float x, float y)
 	characterStateManager.AddCondition("lookingup");
 	characterStateManager.AddCondition("shooting");
 	characterStateManager.AddCondition("moving");
+	characterStateManager.AddCondition("rolling");
 
 	characterStateManager.SetCurrentAnimation(&standingAnimation);
 
 	//add transition animation
 	characterStateManager.Add(&standingAnimation, &movingAnimation, { Condition("moving", Condition::ConditionType::Greater, 0) });
 	characterStateManager.Add(&movingAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
+
+	characterStateManager.Add(&standingAnimation, &rollingAnimation, { Condition("rolling", Condition::ConditionType::Equal, true) });
+	characterStateManager.Add(&rollingAnimation, &standingAnimation, { Condition("rolling", Condition::ConditionType::Equal, false) });
 
 	characterStateManager.Add(&standingAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
 	characterStateManager.Add(&jumpingAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
@@ -124,7 +133,7 @@ void Player::Create(World *world, float x, float y)
 	bodyDef.position.Set(x, y);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
-	mainBody->maskBits = SKREE_BIT | PLATFORM_BIT;
+	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | ROLLITEM_BIT | HEALTHITEM_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
@@ -158,7 +167,13 @@ void Player::HandleInput()
 		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
 
 	}
-	
+
+	if (input.GetKeyDown(DIK_DOWN) && canRoll && isGrounded && mainBody->GetVelocity().x==0)
+	{
+		mainBody->SetSize(mainBody->GetSize().x, 25);
+		isRolling = true;
+	}
+
 	if (input.GetKey(DIK_Z))
 	{
 		if (jumpTime < MAXJUMPTIME)
@@ -178,14 +193,20 @@ void Player::HandleInput()
 
 	if (input.GetKeyDown(DIK_Z) && isGrounded)
 	{
-		mainBody->SetVelocity(mainBody->GetVelocity().x, 7);
+		mainBody->SetVelocity(mainBody->GetVelocity().x, 6);
 		isGrounded = false;
 		jumpTime = 0;
 	}
 
-
-	
-	
+	if (input.GetKeyDown(DIK_UP) || input.GetKeyDown(DIK_Z))
+	{
+		mainBody->SetSize(mainBody->GetSize().x, 60);
+		if (isRolling)
+		{
+			isGrounded = true;
+		}
+		isRolling = false;
+	}
 
 	if (input.GetKey(DIK_UPARROW))
 	{
@@ -342,10 +363,12 @@ void Player::Update(float dt)
 	//	}
 	//}
 
+
 	characterStateManager.Set("moving", abs(mainBody->GetVelocity().x));
 	characterStateManager.Set("grounded", isGrounded);
 	characterStateManager.Set("lookingup", isLookingup);
 	characterStateManager.Set("shooting", isShooting);
+	characterStateManager.Set("rolling", isRolling);
 
 	SetRegion(characterStateManager.GetTargetAnimation()->Next(dt));
 
@@ -381,6 +404,26 @@ void Player::Update(float dt)
 	
 
 	
+}
+
+void Player::OnHitRollItem()
+{
+	canRoll = true;
+}
+
+void Player::OnHitHealthItem()
+{
+	health += 6;
+}
+
+void Player::OnHitEnemy()
+{
+	health -= 8;
+}
+
+int  Player::GetHealth()
+{
+	return health;
 }
 
 

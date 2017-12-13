@@ -50,4 +50,14 @@
  <rect left="363" top = "116" width = "20" height="34" />
 </jumpandshootup>
 
+<rolling>
+ <rect left="201" top = "165" width = "14" height="15" />
+  <rect left="231" top = "165" width = "14" height="15" />
+</rolling>
 
+<jumpandroll>
+ <rect left="272" top = "164" width = "21" height="17" />
+  <rect left="305" top = "160" width = "16" height="25" />
+   <rect left="332" top = "164" width = "21" height="17" />
+   <rect left="365" top = "160" width = "16" height="25" />
+</jumpandroll>

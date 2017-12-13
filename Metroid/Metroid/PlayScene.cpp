@@ -45,44 +45,76 @@ void PlayScene::Create()
 	world.SetContactListener(&worldListener);
 	world.SetCamera(NULL);
 
-	std::vector<Shape::Rectangle> rects = map->GetObjectGroup("Platform")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = rects.begin(); rect!= rects.end(); ++rect)
+	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = platformRects.begin(); rect!= platformRects.end(); ++rect)
 	{
-		Platform platform(&world, (*rect).x, (*rect).y, (*rect).width, (*rect).height);
+		Platform platform(&world, rect->x, rect->y, rect->width, rect->height);
 	}
 
-	//player
+	//get player position
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x,playerRect.y);
 
-	skreeTexture = Texture("Resources/enemies.png");
-	skree.Create(&world, &skreeTexture, 16 * 73, 16*13);
+	//set cam position
+	cam.SetPosition(playerRect.x, playerRect.y + 110);
+
+	//--------------------------ENEMIES-------------------------------
+	enemiesTexture = Texture("Resources/enemies.png");
+
+	//skree
+	std::vector<Shape::Rectangle> skreeRects = map->GetObjectGroup("Skree")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = skreeRects.begin(); rect != skreeRects.end(); ++rect)
+	{
+		Skree *skree = new Skree();
+		skree->Create(&world, &enemiesTexture, rect->x, rect->y);
+		skrees.push_back(skree);
+	}
 
 	//zoomer
-	zoomerTexture = Texture("Resources/enemies.png");
-	Shape::Rectangle Zoomer0Pos = map->GetObjectGroup("Zoomer0")->GetRects().front();
-	zoomer.Create(&world, &zoomerTexture, Zoomer0Pos.x, Zoomer0Pos.y);
+	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("Zoomer")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	{
+		Zoomer *zoomer = new Zoomer();
+		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y);
+
+		zoomers.push_back(zoomer);
+	}
 
 
-	//set cam position
-	cam.SetPosition(playerRect.x, playerRect.y+110);
+
+	//---------------------------ITEMS------------------------------------
+	itemsTexture = Texture("Resources/items.png");
+
+	//roll ability item
+	Shape::Rectangle rollItemRect = map->GetObjectGroup("RollAbilityItem")->GetRects().front();
+	rollAbilityItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
+
+
+
+
+
+	//--------------------------UI--------------------------------------
+	font = Font("Arial");
+	playerHealthLabel = Label("30", &font, cam.GetPosition().x, cam.GetPosition().y, 640, 480);
 }
 
 void PlayScene::HandlePhysics(float dt)
 {
-	if (input.GetKeyDown(DIK_SPACE))
+	//handle input of player
+	player.HandleInput();
+	
+	//handle physics skrees
+	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
 	{
-		skree.OnHitPlayer();
+		(*it)->HandlePhysics(&player);
 	}
 
-	
+	//handle physics zoomer
+	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	{
+		(*it)->HandlePhysics();
+	}
 
-	player.HandleInput();
-
-	skree.Follow(&player);
-	//body1.SetVelocity(-2, 0);
-
-	zoomer.HandlePhysics();
 
 	//Update world
 	world.Update(dt);
@@ -98,11 +130,28 @@ void  PlayScene::Render()
 	//render map
 	map->Render(batch);
 	
+	//render player
 	player.Render(batch);
 
-	skree.Render(batch);
+	//render skrees
+	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
 
-	zoomer.Render(batch);
+	//render zoomers
+	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+	
+	//draw items
+	batch->Draw(rollAbilityItem);
+
+	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
 
 	//draw bodies
 	world.RenderBodiesDebug(batch);
@@ -110,7 +159,12 @@ void  PlayScene::Render()
 
 	//end drawing
 	batch->End();
+	
 
+	//Label
+	playerHealthLabel.SetText(std::to_string(player.GetHealth()));
+	playerHealthLabel.SetPosition(cam.GetPosition().x-300, cam.GetPosition().y+200);
+	playerHealthLabel.Draw(&cam);
 }
 
 
@@ -120,34 +174,45 @@ void PlayScene::Update(float dt)
 
 	player.Update(dt);
 
-	skree.Update(dt);
-
-	zoomer.Update(dt);
-
-	//zoomer.Update(dt);
-
-	/*if (player.GetPosition().x > cam.GetPosition().x)
+	//update skrees
+	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
 	{
-		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
+		(*it)->Update(dt);
+		/*if ((*it)->IsDead())
+		{
+			HealthItem *healthItem = new HealthItem();
+			healthItem->Create(&world, &itemsTexture, (*it)->GetPosition().x, (*it)->GetPosition().y);
+			healthItems.push_back(healthItem);
+		}*/
 	}
 
-	if (player.GetPosition().x < cam.GetPosition().x - 250)
+	//update zoomers
+	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
 	{
-		cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
-		if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
-	}*/
+		(*it)->Update(dt);
+	}
 
-	cam.SetPosition(player.GetPosition().x, player.GetPosition().y + 110);
+	//update items
+	rollAbilityItem.Update(dt);
 
-	//if (input.GetKey(DIK_UP))
+	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
+	//if (player.GetPosition().x > cam.GetPosition().x)
 	//{
-	//	cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + +dt * 200);
+	//	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 	//}
 
-	//if (input.GetKey(DIK_DOWN))
+	//if (player.GetPosition().x < cam.GetPosition().x - 250)
 	//{
-	//	cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y - dt * 200);
+	//	cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
+	//	if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
 	//}
+
+	cam.SetPosition(player.GetPosition().x,  cam.GetPosition().y);
+
 
 	Render();
 }
@@ -156,10 +221,23 @@ void PlayScene::Release()
 {
 	world.Release();
 	player.Release();
-	//skreeTexture.Release();
+	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
 
-	
+	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
 
-	//delete body1;
-	//delete body2;
+	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+
+	font.Release();
 }

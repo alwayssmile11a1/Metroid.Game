@@ -7,6 +7,7 @@
 
 #define SKREELIVETIME 0.5f
 #define SKREEBULLETLIVETIME 1
+#define MAXHITBULLETTIME 0.2
 #define PI 3.14159265
 
 
@@ -23,6 +24,7 @@ class Skree: public Sprite
 
 private:
 	Animation skreeAnimation;
+	Animation skreeHitAnimation;
 	Body* body;
 
 	std::vector<SkreeBullet> skreeBullets;
@@ -37,22 +39,26 @@ private:
 
 	Player* player;
 
+	float hitBulletTime;
+
+	float health;
+
+
 public:
 	Skree();
 	~Skree();
 	void Create(World *world, Texture *skreeTexture, int x, int y);
 
-	void HandlePhysics();
+	void HandlePhysics(Player* player);
 
 	void Render(SpriteBatch *batch);
 
 	void Update(float dt);
 
-	void OnHitPlayer();
-
 	void OnHitGround();
 
-	void Follow(Player* player);
+	void OnHitBullet();
 
+	bool IsDead();
 };
 

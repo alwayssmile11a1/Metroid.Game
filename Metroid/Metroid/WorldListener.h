@@ -3,6 +3,8 @@
 #include"Player.h"
 #include "Skree.h"
 #include "Zoomer.h"
+#include "RollAbilityItem.h"
+#include "HealthItem.h"
 
 class WorldListener: public WorldContactListener
 {

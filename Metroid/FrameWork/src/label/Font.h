@@ -20,6 +20,7 @@ public:
 
 	Font(const std::string &fontName);
 	
+	void Release();
 };
 
 #endif

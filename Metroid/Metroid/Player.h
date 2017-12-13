@@ -6,8 +6,9 @@
 #include "CollisionBit.h"
 #include "HanabiStateManager.h"
 
-#define FIRERATE 0.1f
-#define MAXJUMPTIME 0.3
+#define FIRERATE 0.1
+#define MAXJUMPTIME 0.5
+#define UNTOUCHABLETIME 0.3 
 
 #include "HanabiSound.h"
 
@@ -26,6 +27,9 @@ private:
 	Animation moveAndShootupAnimation;
 	Animation jumpAndShootupAnimation;
 	Animation jumpAndShootAnimation;
+	Animation rollingAnimation;
+	Animation jumpAndRollAnimation;
+	StateManager characterStateManager;
 
 	Body* mainBody;
 	Body* foot;
@@ -42,8 +46,9 @@ private:
 	bool isGrounded;
 	bool isLookingup;
 	bool isShooting;
-
-	StateManager characterStateManager;
+	bool isRolling;
+	bool canRoll;
+	int health;
 
 public:
 
@@ -64,7 +69,16 @@ public:
 
 	void OnGrounded();
 
+	void OnHitRollItem();
+
+	void OnHitHealthItem();
+
+	void OnHitEnemy();
+
+	int GetHealth();
+
 	void Release();
 
+	
 };
 

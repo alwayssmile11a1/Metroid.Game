@@ -27,14 +27,13 @@ Bullet::Bullet(World *world, Texture* texture)
 	//body definition
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Kinematic;
-	bodyDef.isSensor = true;
 	bodyDef.size.Set(6,7);
 	bodyDef.position.Set(16 * 8, 16 * 12);
 
 	//create body
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = BULLET_BIT;
-	mainBody->maskBits = PLATFORM_BIT | SKREE_BIT;
+	mainBody->maskBits = SKREE_BIT|ZOOMER_BIT;
 	
 	
 }

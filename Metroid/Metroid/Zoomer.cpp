@@ -36,7 +36,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y)
 	bodyDef.size.Set(25, 25);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = ZOOMER_BIT;
-	body->maskBits = PLAYER_BIT | PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT|BULLET_BIT;
 	body->PutExtra(this);
 	body->SetVelocity(0.7f, -0.7f);
 	cooldownAfterCollisionChange = 3;

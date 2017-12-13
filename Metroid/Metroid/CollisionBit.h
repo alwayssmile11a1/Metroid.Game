@@ -5,3 +5,5 @@
 #define BULLET_BIT  8
 #define SKREE_BIT  16
 #define ZOOMER_BIT  64
+#define ROLLITEM_BIT 128
+#define HEALTHITEM_BIT 256

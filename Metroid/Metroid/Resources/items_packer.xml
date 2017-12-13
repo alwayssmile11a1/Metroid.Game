@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rollAbilityItem>
+ <rect left="50" top = "36" width = "12" height="13" />
+  <rect left="36" top = "36" width = "12" height="13" />
+</rollAbilityItem>
+
+<healthItem>
+ <rect left="81" top = "121" width = "8" height="8" />
+ <rect left="91" top = "121" width = "8" height="8" />
+</healthItem>
+
+

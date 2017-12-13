@@ -17,55 +17,16 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 {
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
-	case PLAYER_BIT*SKREE_BIT:
-		if (bodyA->categoryBits == SKREE_BIT)
+	case PLAYER_BIT*ZOOMER_BIT:
+		if (bodyA->categoryBits == PLAYER_BIT)
 		{
-			Skree* skree = (Skree*)bodyA->GetExtra();
+			Player* player = (Player*)bodyA->GetExtra();
 
-			if (skree != NULL)
+			if (player != NULL)
 			{
-				skree->OnHitPlayer();
+				player->OnHitEnemy();
 			}
 
-		}
-		else
-		{
-			if (bodyB->categoryBits == SKREE_BIT)
-			{
-				Skree* skree = (Skree*)bodyB->GetExtra();
-
-				if (skree != NULL)
-				{
-					skree->OnHitPlayer();
-				}
-
-			}
-		}
-		break;
-
-	case PLATFORM_BIT*SKREE_BIT:
-		if (bodyA->categoryBits == SKREE_BIT)
-		{
-			Skree* skree = (Skree*)bodyA->GetExtra();
-
-			if (skree != NULL)
-			{
-				skree->OnHitGround();
-			}
-
-		}
-		else
-		{
-			if (bodyB->categoryBits == SKREE_BIT)
-			{
-				Skree* skree = (Skree*)bodyB->GetExtra();
-
-				if (skree != NULL)
-				{
-					skree->OnHitGround();
-				}
-
-			}
 		}
 		break;
 
@@ -95,7 +56,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			}
 		}
 		break;
-
 
 	}
 	
@@ -173,13 +133,92 @@ void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, const Vector2 &col
 
 void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 {
-	if (bodyA->categoryBits == FOOT_BIT)
+	switch (bodyA->categoryBits * bodyB->categoryBits)
+	{
+	case FOOT_BIT*PLATFORM_BIT:
 	{
 		Player*player = (Player *)(bodyA->GetExtra());
 		if (player != NULL)
 		{
 			player->OnGrounded();
 		}
+		break;
+	}
+
+	case PLAYER_BIT*SKREE_BIT:
+	{
+		if (bodyA->categoryBits == SKREE_BIT)
+		{
+			Player* player = (Player*)bodyB->GetExtra();
+
+			if (player != NULL)
+			{
+				player->OnHitEnemy();
+			}
+
+		}
+		break;
+	}
+	case PLATFORM_BIT*SKREE_BIT:
+	{
+		if (bodyA->categoryBits == SKREE_BIT)
+		{
+			Skree* skree = (Skree*)bodyA->GetExtra();
+
+			if (skree != NULL)
+			{
+				skree->OnHitGround();
+			}
+
+		}
+		break;
+	}
+	case PLAYER_BIT*ROLLITEM_BIT:
+	{
+		if (bodyA->categoryBits == ROLLITEM_BIT)
+		{
+			Player* player = (Player*)bodyB->GetExtra();
+			player->OnHitRollItem();
+
+			RollAbilityItem* item = (RollAbilityItem*)bodyA->GetExtra();
+			item->OnHitPlayer();
+		}
+		break;
+	}
+
+	case PLAYER_BIT*HEALTHITEM_BIT:
+	{
+		if (bodyA->categoryBits == HEALTHITEM_BIT)
+		{
+			HealthItem* healthItem = (HealthItem*)bodyA->GetExtra();
+
+			if (healthItem != NULL)
+			{
+				healthItem->OnHitPlayer();
+			}
+
+			Player* player = (Player*)bodyB->GetExtra();
+			player->OnHitHealthItem();
+		}
+
+		break;
+	}
+
+	case BULLET_BIT*SKREE_BIT:
+	{
+		if (bodyA->categoryBits == SKREE_BIT)
+		{
+			Skree* skree = (Skree*)bodyA->GetExtra();
+
+			if (skree != NULL)
+			{
+				skree->OnHitBullet();
+			}
+		}
+		
+		break;
+	}
+
 	}
 }
 

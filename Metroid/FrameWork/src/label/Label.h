@@ -11,7 +11,7 @@ private:
 	Vector2 _Position;
 	Vector2 _Size;
 	float x, y, width, height;
-	LPCWSTR _Text;
+	std::string _Text;
 
 	Font *_Font;
 
@@ -19,10 +19,17 @@ public:
 	Label();
 	~Label();
 
+	//Label(const Label& label);
+	//Label& operator=(const Label &label);
+
 	void SetText(std::string &text);
 	Label(const std::string &text, Font *font, float x, float y, float width, float height);
 
 	void Draw(Camera *cam);
+
+	void SetPosition(float x, float y);
+	void SetSize(float width, float height);
+	void SetFont(Font *font);
 
 };
 

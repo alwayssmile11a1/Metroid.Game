@@ -27,5 +27,6 @@ public:
 
 	Body* GetMainBody();
 
+	void OnHitEnemy();
 };
 

@@ -6,7 +6,7 @@ Font::Font()
 }
 Font::~Font()
 {
-
+	
 }
 
 Font::Font(const std::string &fontName)
@@ -23,8 +23,12 @@ Font::Font(const std::string &fontName)
 		//failed
 	}
 
-
+	
 
 }
 
+void Font::Release()
+{
+	_pFont->Release();
+}
 
