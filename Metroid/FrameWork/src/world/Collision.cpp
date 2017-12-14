@@ -461,11 +461,23 @@ void  Collision::PerformOverlaying(Body *targetBody, Body* otherBody, bool &need
 		if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
 			needMoveY = false;
 	}
-	if (targetBody->_IsSensor && !IsPreviousOverlayed(targetBody, otherBody) && !IsSensorEntered)
+	if (targetBody->_IsSensor)
 	{
-		//Console::Log("Hello");
-		_Listener->OnSersorEnter(targetBody, otherBody);
+		if (!IsPreviousOverlayed(targetBody, otherBody))
+		{
+			if (!IsSensorEntered)
+			{
+				//Console::Log("Hello");
+				_Listener->OnSersorEnter(targetBody, otherBody);
+			}
+		}
+		else
+		{
+			_Listener->OnSersorOverlaying(targetBody, otherBody);
+		}
 	}
+
+
 
 
 	UpdateTargetPosition(targetBody, Vector2(moveX, moveY));

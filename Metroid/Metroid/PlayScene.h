@@ -14,6 +14,8 @@
 #include "RollAbilityItem.h"
 #include "HanabiLabel.h"
 #include "HealthItem.h"
+#include "ExplosionEffect.h"
+
 
 class PlayScene: public Scene
 {
@@ -53,6 +55,10 @@ private:
 	Texture itemsTexture;
 	RollAbilityItem rollAbilityItem;
 	std::vector<HealthItem*> healthItems;
+
+	//Effect
+	Texture effectsTexture;
+	ExplosionEffect explosionEffect;
 
 public:
 	PlayScene();

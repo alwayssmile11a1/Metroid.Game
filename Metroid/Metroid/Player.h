@@ -33,6 +33,7 @@ private:
 
 	Body* mainBody;
 	Body* foot;
+	Body* head;
 
 	std::vector<Bullet*> bullets;
 
@@ -48,6 +49,7 @@ private:
 	bool isShooting;
 	bool isRolling;
 	bool canRoll;
+	bool isHeadHit;
 	int health;
 
 public:
@@ -74,6 +76,8 @@ public:
 	void OnHitHealthItem();
 
 	void OnHitEnemy();
+
+	void OnHeadHit();
 
 	int GetHealth();
 

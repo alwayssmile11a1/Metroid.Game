@@ -5,7 +5,7 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
-#define SKREELIVETIME 0.5f
+#define SKREELIVETIMEAFTERGROUND 0.5f
 #define SKREEBULLETLIVETIME 1
 #define MAXHITBULLETTIME 0.2
 #define PI 3.14159265
@@ -34,6 +34,8 @@ private:
 	float stateTime;
 
 	World* world;
+
+	bool isHitGround;
 
 	bool isDead;
 

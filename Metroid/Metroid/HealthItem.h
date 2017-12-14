@@ -15,7 +15,6 @@ private:
 
 	bool isHitPlayer;
 
-
 public:
 	HealthItem();
 	~HealthItem();
@@ -27,5 +26,8 @@ public:
 	void Render(SpriteBatch *batch);
 
 	void OnHitPlayer();
+
+	bool IsHitPlayer();
+
 };
 

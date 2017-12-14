@@ -20,6 +20,8 @@ public:
 
 	void virtual OnSersorEnter(Body *bodyA, Body *bodyB) = 0;
 
+	void virtual OnSersorOverlaying(Body *bodyA, Body *bodyB) = 0;
+
 	void virtual OnSensorExit(Body*bodyA, Body* bodyB) = 0;
 
 };

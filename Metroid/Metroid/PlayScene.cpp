@@ -90,8 +90,9 @@ void PlayScene::Create()
 	rollAbilityItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
 
 
-
-
+	//effects
+	effectsTexture = Texture("Resources/metroidfullsheet.png");
+	explosionEffect.Create(&effectsTexture);
 
 	//--------------------------UI--------------------------------------
 	font = Font("Arial");
@@ -152,6 +153,8 @@ void  PlayScene::Render()
 	{
 		(*it)->Render(batch);
 	}
+	
+	explosionEffect.Render(batch);
 
 	//draw bodies
 	world.RenderBodiesDebug(batch);
@@ -175,15 +178,25 @@ void PlayScene::Update(float dt)
 	player.Update(dt);
 
 	//update skrees
-	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	for (int i= 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
 	{
-		(*it)->Update(dt);
-		/*if ((*it)->IsDead())
+		Skree* skree = skrees[i];
+		skree->Update(dt);
+		if (skree->IsDead())
 		{
+			explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
+			explosionEffect.Play();
+			//instantiate health item
 			HealthItem *healthItem = new HealthItem();
-			healthItem->Create(&world, &itemsTexture, (*it)->GetPosition().x, (*it)->GetPosition().y);
+			healthItem->Create(&world, &itemsTexture, skree->GetPosition().x, skree->GetPosition().y);
 			healthItems.push_back(healthItem);
-		}*/
+
+			//delete skree
+			delete skree;
+			skree = NULL;
+			skrees.erase(skrees.begin() + i);
+
+		}
 	}
 
 	//update zoomers
@@ -192,12 +205,21 @@ void PlayScene::Update(float dt)
 		(*it)->Update(dt);
 	}
 
+	explosionEffect.Update(dt);
+
 	//update items
 	rollAbilityItem.Update(dt);
 
-	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	for (int i =0; i< healthItems.size(); i++)
 	{
-		(*it)->Update(dt);
+		HealthItem* healthItem = healthItems[i];
+		healthItem->Update(dt);
+		if (healthItem->IsHitPlayer())
+		{
+			delete healthItem;
+			healthItem = NULL;
+			healthItems.erase(healthItems.begin() + i);
+		}
 	}
 
 	//if (player.GetPosition().x > cam.GetPosition().x)

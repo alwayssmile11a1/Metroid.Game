@@ -22,6 +22,8 @@ public:
 
 	void OnSersorEnter(Body *bodyA, Body *bodyB) override;
 
+	void OnSersorOverlaying(Body *bodyA, Body *bodyB) override;
+
 	void  OnSensorExit(Body*bodyA, Body* bodyB) override;
 };
 

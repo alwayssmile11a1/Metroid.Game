@@ -7,3 +7,4 @@
 #define ZOOMER_BIT  64
 #define ROLLITEM_BIT 128
 #define HEALTHITEM_BIT 256
+#define HEAD_BIT 512

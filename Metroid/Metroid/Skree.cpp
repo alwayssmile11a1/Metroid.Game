@@ -15,7 +15,7 @@ Skree::~Skree()
 void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 {
 	stateTime = 0;
-	hitBulletTime = 100;
+	hitBulletTime = -1;
 	health = 2;
 
 	this->world = world;
@@ -51,7 +51,7 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 
 void Skree::HandlePhysics(Player* player)
 {
-	if (isDead||hitBulletTime!=100) return;
+	if (stateTime > 0||isDead || hitBulletTime!=-1) return;
 	if (abs(player->GetPosition().x - this->GetPosition().x) < 100)
 	{
 		body->SetBodyType(Body::BodyType::Dynamic);
@@ -69,30 +69,41 @@ void Skree::HandlePhysics(Player* player)
 
 void Skree::Render(SpriteBatch *batch)
 {
+	if (isDead) return;
+
 	if (stateTime > SKREEBULLETLIVETIME) return;
 
-	if (stateTime < SKREELIVETIME)
+	if (stateTime < SKREELIVETIMEAFTERGROUND)
 	{
 		batch->Draw(*this);
 	}
+
 	for (std::vector<SkreeBullet>::iterator bullet = skreeBullets.begin(); bullet != skreeBullets.end(); ++bullet)
 	{
-		(*bullet).sprite.SetPosition((*bullet).body->GetPosition().x, (*bullet).body->GetPosition().y);
-		batch->Draw((*bullet).sprite);
+		bullet->sprite.SetPosition(bullet->body->GetPosition().x, bullet->body->GetPosition().y);
+		batch->Draw(bullet->sprite);
 	}
 }
 
 void Skree::Update(float dt)
 {
+	if (isDead) return;
+
 	if (health == 0)
 	{
 		isDead = true;
+		world->DestroyBody(body);
+		return;
 	}
 
-	//set sprite position
-	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	if (body != NULL)
+	{
+		//set sprite position
+		this->SetPosition(body->GetPosition().x, body->GetPosition().y);
+	}
 	
-	if (hitBulletTime==100) //100 means not being hit by bullet
+	if (hitBulletTime==-1) //-1 means not being hit by bullet
 	{
 		SetRegion(skreeAnimation.Next(dt));
 	}
@@ -105,23 +116,24 @@ void Skree::Update(float dt)
 		}
 		else
 		{
-			hitBulletTime = 100;
+			hitBulletTime = -1;
 			body->SetBodyType(Body::BodyType::Dynamic);
 		}
 	}
 	
-	if (isDead)
+	if (!isDead )
 	{
-		stateTime += dt;
-		body->SetBodyType ( Body::BodyType::Static);
-
-		if (stateTime > SKREELIVETIME)
+		if (isHitGround) //hit ground -> fire some bullets
 		{
-			if (health > 0) //instantiate skree bullet only if there is still some health left
+			stateTime += dt;
+			body->SetBodyType(Body::BodyType::Static);
+
+			if (stateTime > SKREELIVETIMEAFTERGROUND)
 			{
+				//instantiate bullets
 				for (int i = 0; i < 5; i++)
 				{
-					//4 skree bullets fired when skree hits ground
+					//5 skree bullets fired when skree hits ground
 					SkreeBullet skreeBullet;
 
 					//create body
@@ -140,26 +152,29 @@ void Skree::Update(float dt)
 					skreeBullet.sprite.SetPosition(body->GetPosition().x, body->GetPosition().y);
 
 					skreeBullets.push_back(skreeBullet);
+
 				}
+
+				world->DestroyBody(body);
+				body = NULL;
+				isHitGround = false; //set this to not instantiate more bullets
 			}
-
-			world->DestroyBody(body);
-			isDead = false; //set this because we don't want to go into the if statement anymore
 		}
-
 	}
 
-	//skree bullet
-	if (stateTime > SKREELIVETIME)
+	//update skree bullets
+	if (stateTime > SKREELIVETIMEAFTERGROUND)
 	{
 		stateTime += dt;
 		if (stateTime > SKREEBULLETLIVETIME)
 		{
 			for (std::vector<SkreeBullet>::iterator bullet = skreeBullets.begin(); bullet != skreeBullets.end(); ++bullet)
 			{
-				world->DestroyBody((*bullet).body);
+				world->DestroyBody(bullet->body);
 			}
 			skreeBullets.clear();
+
+			isDead = true;
 		}
 	}
 
@@ -169,13 +184,13 @@ void Skree::Update(float dt)
 
 void Skree::OnHitGround()
 {
-	isDead = true;
+	isHitGround = true;
 }
 
 
 void Skree::OnHitBullet()
 {
-	if (hitBulletTime != 100) return;
+	if (hitBulletTime != -1) return;
 	health --;
 	hitBulletTime = 0;
 	//stop this body a little bit 

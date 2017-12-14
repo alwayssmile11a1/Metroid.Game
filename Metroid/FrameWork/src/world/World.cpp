@@ -287,7 +287,7 @@ void World::SetContactListener(WorldContactListener *listener)
 
 void World::DestroyBody(Body* body)
 {
-
+	if (body == NULL) return;
 	std::vector<Body*>::iterator it = std::find(_Bodies.begin(), _Bodies.end(), body);
 	if (it != _Bodies.end())
 	{
@@ -295,6 +295,7 @@ void World::DestroyBody(Body* body)
 		*it = NULL;
 		_Bodies.erase(it);
 	}
+
 
 }
 

@@ -45,9 +45,11 @@ void HealthItem::Render(SpriteBatch *batch)
 
 void HealthItem::Update(float dt)
 {
+	if (body == NULL) return;
 	if (isHitPlayer)
 	{
 		world->DestroyBody(body);
+		body = NULL;
 		SetTexture(NULL);
 		return;
 	}
@@ -57,4 +59,9 @@ void HealthItem::Update(float dt)
 void HealthItem::OnHitPlayer()
 {
 	isHitPlayer = true;
+}
+
+bool HealthItem::IsHitPlayer()
+{
+	return isHitPlayer;
 }

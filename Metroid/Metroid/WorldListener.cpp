@@ -222,6 +222,22 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 	}
 }
 
+void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
+{
+	switch (bodyA->categoryBits * bodyB->categoryBits)
+	{
+	case HEAD_BIT*PLATFORM_BIT:
+	{
+		Player*player = (Player *)(bodyA->GetExtra());
+		if (player != NULL)
+		{
+			player->OnHeadHit();
+		}
+		break;
+	}
+	}
+}
+
 void  WorldListener::OnSensorExit(Body*bodyA, Body* bodyB)
 {
 	

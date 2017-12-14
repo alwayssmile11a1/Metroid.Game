@@ -151,7 +151,15 @@ void Player::Create(World *world, float x, float y)
 	foot->maskBits = PLATFORM_BIT;
 	foot->PutExtra(this);
 
-
+	//create head
+	BodyDef headDef;
+	headDef.bodyType = Body::BodyType::Kinematic;
+	headDef.size.Set(30, 5);
+	headDef.isSensor = true;
+	head = world->CreateBody(headDef);
+	head->categoryBits = HEAD_BIT;
+	head->maskBits = PLATFORM_BIT;
+	head->PutExtra(this);
 
 }
 
@@ -198,14 +206,21 @@ void Player::HandleInput()
 		jumpTime = 0;
 	}
 
-	if (input.GetKeyDown(DIK_UP) || input.GetKeyDown(DIK_Z))
+	if (!isHeadHit) // if not being hit on head, player can transform back to original size 
 	{
-		mainBody->SetSize(mainBody->GetSize().x, 60);
-		if (isRolling)
+		if (input.GetKeyDown(DIK_UP) || input.GetKeyDown(DIK_Z))
 		{
-			isGrounded = true;
+			mainBody->SetSize(mainBody->GetSize().x, 60);
+			if (isRolling)
+			{
+				isGrounded = true;
+			}
+			isRolling = false;
 		}
-		isRolling = false;
+	}
+	else
+	{
+		isHeadHit = false;
 	}
 
 	if (input.GetKey(DIK_UPARROW))
@@ -389,6 +404,7 @@ void Player::Update(float dt)
 	//update position
 	SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
 	foot->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y - 30);
+	head->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y + 30);
 
 	//update bullet
 	for (int i = 0; i < bullets.size(); i++)
@@ -398,12 +414,18 @@ void Player::Update(float dt)
 		if (currentBullet->IsDestroyed())
 		{
 			delete currentBullet;
+			currentBullet = NULL;
 			bullets.erase(bullets.begin() + i);
 		}
 	}
 	
 
 	
+}
+
+void Player::OnHeadHit()
+{
+	isHeadHit = true;
 }
 
 void Player::OnHitRollItem()

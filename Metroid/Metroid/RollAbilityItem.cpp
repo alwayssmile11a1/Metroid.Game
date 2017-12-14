@@ -40,10 +40,12 @@ void RollAbilityItem::Create(World *world, Texture *itemsTexture, int x, int y)
 
 void RollAbilityItem::Update(float dt)
 {
+	if (body == NULL) return;
 	if (isHitPlayer)
 	{
 		world->DestroyBody(body);
 		SetTexture(NULL);
+		body = NULL;
 		return;
 	}
 	SetRegion(animation.Next(dt));
