@@ -17,10 +17,11 @@ Bullet::Bullet(World *world, Texture* texture)
 	isDestroyed = false;
 	stateTime = 0;
 
+	//get bullet 
+	TexturePacker p = TexturePacker(texture, "Resources/samusaran_packer.xml");
+	SetRegion(p.GetRegion("bullet").front());
+
 	this->world = world;
-	SetTexture(texture);
-	SetRectSize(6,7);
-	SetRectPosition(250,9);
 	SetSize(6,7);
 	SetPosition(16 * 8, 16 * 12);
 

@@ -58,7 +58,7 @@ public:
 	void SetPosition(float x, float y);
 	void SetSize(float width, float height);
 	void SetTexture(Texture *texture);
-	void SetRegion(TextureRegion *textureRegion);
+	void SetRegion(const TextureRegion &textureRegion);
 	void SetRectPosition(float rectX, float rectY);
 	void SetRectSize(float rectWidth, float rectHeight);
 

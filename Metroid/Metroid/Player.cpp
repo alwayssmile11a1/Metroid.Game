@@ -29,12 +29,15 @@ void Player::Create(World *world, float x, float y)
 
 	health = 30;
 
+	beingHitTime = -1; //not being hit
+
 	//get characterTexture
-	characterTexture = Texture("Resources/samusaran_sheet.png");
-	bulletTexture = Texture("Resources/samusaran_sheet.png");
+	texture = Texture("Resources/metroidfullsheet.png");
 
 	//get animations
-	TexturePacker p = TexturePacker(&characterTexture, "Resources/samusaran_packer.xml");
+	TexturePacker p = TexturePacker(&texture, "Resources/samusaran_packer.xml");
+	appearingAnimation.AddRegion(p.GetRegion("appearing"));
+	appearingAnimation.SetFrameInterval(0.05);
 	standingAnimation.AddRegion(p.GetRegion("standing"));
 	movingAnimation.AddRegion(p.GetRegion("movewithoutshooting"));
 	jumpingAnimation.AddRegion(p.GetRegion("jumpwithoutshooting"));
@@ -45,7 +48,7 @@ void Player::Create(World *world, float x, float y)
 	jumpAndShootupAnimation.AddRegion(p.GetRegion("jumpandshootup"));
 	rollingAnimation.AddRegion(p.GetRegion("rolling"));
 	jumpAndRollAnimation.AddRegion(p.GetRegion("jumpandroll"));
-
+	beingHitAnimation.AddRegion(p.GetRegion("beinghit"));
 
 	//SETUP STATE MANAGER - THIS WAY IS EVEN MUCH MORE DIFFICULT THAN THE NORMAL WAY (LOL) 
 	//						BUT THIS MAYBE MORE VISUALIZABLE
@@ -119,7 +122,7 @@ void Player::Create(World *world, float x, float y)
 
 
 	//set size and position
-	SetRegion(standingAnimation.GetKeyAnimation());
+	SetRegion(*appearingAnimation.GetKeyAnimation());
 	SetSize(34, 60);
 	SetPosition(x, y);
 
@@ -160,6 +163,11 @@ void Player::Create(World *world, float x, float y)
 	head->categoryBits = HEAD_BIT;
 	head->maskBits = PLATFORM_BIT;
 	head->PutExtra(this);
+
+}
+
+void OnFinishAppearing()
+{
 
 }
 
@@ -237,7 +245,7 @@ void Player::HandleInput()
 		isShooting = true;
 	}
 
-	if (input.GetKey(DIK_X))
+	if (input.GetKey(DIK_X) && !isRolling)
 	{
 		isShooting = true;
 	}
@@ -259,7 +267,7 @@ void Player::Fire()
 	if (currentTime > FIRERATE + lastShot)
 	{
 		//instantiate bullet
-		Bullet* bullet = new Bullet(world, &bulletTexture);
+		Bullet* bullet = new Bullet(world, &texture);
 		Vector2 position;
 		Vector2 velocity;
 		if (isLookingup)
@@ -300,6 +308,11 @@ void Player::Fire()
 	}
 
 	
+}
+
+void Player::OnAppearing(float dt)
+{
+	SetRegion(*appearingAnimation.Next(dt));
 }
 
 void Player::OnGrounded()
@@ -378,14 +391,41 @@ void Player::Update(float dt)
 	//	}
 	//}
 
+	if (beingHitTime == -1) //not being hit
+	{
+		characterStateManager.Set("moving", abs(mainBody->GetVelocity().x));
+		characterStateManager.Set("grounded", isGrounded);
+		characterStateManager.Set("lookingup", isLookingup);
+		characterStateManager.Set("shooting", isShooting);
+		characterStateManager.Set("rolling", isRolling);
 
-	characterStateManager.Set("moving", abs(mainBody->GetVelocity().x));
-	characterStateManager.Set("grounded", isGrounded);
-	characterStateManager.Set("lookingup", isLookingup);
-	characterStateManager.Set("shooting", isShooting);
-	characterStateManager.Set("rolling", isRolling);
+		SetRegion(*characterStateManager.GetTargetAnimation()->Next(dt));
+	}
+	else //being hit
+	{
+		if (beingHitTime == 0) //push player a little to left or right only one time
+		{
+			if (beingRightHit)
+			{
+				mainBody->SetVelocity(-15, 5);
+			}
+			else
+			{
+				mainBody->SetVelocity(15, 5);
+			}
+		}
 
-	SetRegion(characterStateManager.GetTargetAnimation()->Next(dt));
+		if (beingHitTime < MAXUNTOUCHABLETIME)
+		{
+			SetRegion(*beingHitAnimation.Next(dt));
+			beingHitTime += dt;
+		}
+		else
+		{
+			beingHitTime = -1;
+		}
+		
+	}
 
 	//flip if necessary
 	if (mainBody->GetVelocity().x > 0)
@@ -438,9 +478,13 @@ void Player::OnHitHealthItem()
 	health += 6;
 }
 
-void Player::OnHitEnemy()
+void Player::OnHitEnemy(bool rightHit)
 {
+	if (beingHitTime != -1) return; //if beinghittime !=-1, it means player has just been hit and we don't want it to be hit in this time
 	health -= 8;
+	SetRegion(*beingHitAnimation.GetKeyAnimation());
+	beingHitTime = 0;
+	beingRightHit = rightHit;
 }
 
 int  Player::GetHealth()

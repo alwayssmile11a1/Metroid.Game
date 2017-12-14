@@ -20,18 +20,7 @@ void PlayScene::SetBatch(SpriteBatch* batch)
 
 void PlayScene::Create()
 {
-
-	//object examples
-	//
-	//body1.SetSize(34, 66);
-	//body1.SetPosition(16 * 30, 16 * 5);
-	//body1.SetBodyType(Body::BodyType::Dynamic);
-
-
-	////body2 = new Body();
-	//body2.SetSize(34, 66);
-	//body2.SetPosition(16 * 11, 16 * 5);
-
+	stateTime = 0;
 
 	sdQuadTree.Load("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
 	//load map
@@ -173,6 +162,14 @@ void  PlayScene::Render()
 
 void PlayScene::Update(float dt)
 {
+	if (stateTime < PLAYERAPPEARINGTIME) //On player appearing, don't do anything except rendering
+	{
+		stateTime += dt;
+		player.OnAppearing(dt);
+		Render();
+		return;
+	}
+
 	HandlePhysics(dt);
 
 	player.Update(dt);
@@ -184,13 +181,15 @@ void PlayScene::Update(float dt)
 		skree->Update(dt);
 		if (skree->IsDead())
 		{
-			explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
-			explosionEffect.Play();
-			//instantiate health item
-			HealthItem *healthItem = new HealthItem();
-			healthItem->Create(&world, &itemsTexture, skree->GetPosition().x, skree->GetPosition().y);
-			healthItems.push_back(healthItem);
-
+			if (skree->GetHealth()<=0)
+			{
+				explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
+				explosionEffect.Play();
+				//instantiate health item
+				HealthItem *healthItem = new HealthItem();
+				healthItem->Create(&world, &itemsTexture, skree->GetPosition().x, skree->GetPosition().y);
+				healthItems.push_back(healthItem);
+			}
 			//delete skree
 			delete skree;
 			skree = NULL;

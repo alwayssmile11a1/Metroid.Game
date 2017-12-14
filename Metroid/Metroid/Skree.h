@@ -43,7 +43,7 @@ private:
 
 	float hitBulletTime;
 
-	float health;
+	int health;
 
 
 public:
@@ -62,5 +62,7 @@ public:
 	void OnHitBullet();
 
 	bool IsDead();
+
+	int GetHealth();
 };
 

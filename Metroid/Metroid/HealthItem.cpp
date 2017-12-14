@@ -19,7 +19,7 @@ void HealthItem::Create(World *world, Texture *itemsTexture, int x, int y)
 
 	animation.AddRegion(p.GetRegion("healthItem"));
 
-	SetRegion(animation.GetKeyAnimation());
+	SetRegion(*animation.GetKeyAnimation());
 	SetSize(10, 10);
 	SetPosition(x, y);
 
@@ -53,7 +53,7 @@ void HealthItem::Update(float dt)
 		SetTexture(NULL);
 		return;
 	}
-	SetRegion(animation.Next(dt));
+	SetRegion(*animation.Next(dt));
 }
 
 void HealthItem::OnHitPlayer()

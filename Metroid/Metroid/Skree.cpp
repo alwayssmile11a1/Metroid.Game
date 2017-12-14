@@ -31,7 +31,7 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 	skreeBulletAnimation.AddRegion(p.GetRegion("skreebullet"));
 	
 
-	SetRegion(skreeAnimation.GetKeyAnimation());
+	SetRegion(*skreeAnimation.GetKeyAnimation());
 	SetSize(16, 33);
 	SetPosition(x, y);
 	
@@ -105,13 +105,13 @@ void Skree::Update(float dt)
 	
 	if (hitBulletTime==-1) //-1 means not being hit by bullet
 	{
-		SetRegion(skreeAnimation.Next(dt));
+		SetRegion(*skreeAnimation.Next(dt));
 	}
 	else
 	{
 		if (hitBulletTime < MAXHITBULLETTIME)
 		{
-			SetRegion(skreeHitAnimation.Next(dt));
+			SetRegion(*skreeHitAnimation.Next(dt));
 			hitBulletTime += dt;
 		}
 		else
@@ -147,7 +147,7 @@ void Skree::Update(float dt)
 					skreeBullet.body->categoryBits = SKREE_BIT;
 					skreeBullet.body->maskBits = PLAYER_BIT;
 					//sprite
-					skreeBullet.sprite.SetRegion(skreeBulletAnimation.GetKeyAnimation());
+					skreeBullet.sprite.SetRegion(*skreeBulletAnimation.GetKeyAnimation());
 					skreeBullet.sprite.SetSize(6, 7);
 					skreeBullet.sprite.SetPosition(body->GetPosition().x, body->GetPosition().y);
 
@@ -200,4 +200,9 @@ void Skree::OnHitBullet()
 bool Skree::IsDead()
 {
 	return isDead;
+}
+
+int Skree::GetHealth()
+{
+	return health;
 }

@@ -17,9 +17,13 @@
 #include "ExplosionEffect.h"
 
 
+#define PLAYERAPPEARINGTIME 1
+
 class PlayScene: public Scene
 {
 private:
+
+	float stateTime;
 
 	//CSound *BrinstarTheme = NULL;
 	//CSound *Jump = NULL;

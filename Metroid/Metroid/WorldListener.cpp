@@ -24,7 +24,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 			if (player != NULL)
 			{
-				player->OnHitEnemy();
+				player->OnHitEnemy(true);
 			}
 
 		}
@@ -153,7 +153,14 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 			if (player != NULL)
 			{
-				player->OnHitEnemy();
+				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+				{
+					player->OnHitEnemy(true);
+				}
+				else
+				{
+					player->OnHitEnemy(false);
+				}
 			}
 
 		}

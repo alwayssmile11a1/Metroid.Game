@@ -19,7 +19,7 @@ void ExplosionEffect::Create(Texture* explosionTexture)
 
 	explosionAnimation.AddRegion(p.GetRegion("explosion"));
 
-	SetRegion(explosionAnimation.GetKeyAnimation());
+	SetRegion(*explosionAnimation.GetKeyAnimation());
 }
 
 void ExplosionEffect::Render(SpriteBatch* batch)
@@ -34,7 +34,7 @@ void ExplosionEffect::Update(float dt)
 	
 	if (stateTime < EFFECTLIVETIME)
 	{
-		SetRegion(explosionAnimation.Next(dt));
+		SetRegion(*explosionAnimation.Next(dt));
 		stateTime += dt;
 	}
 	else

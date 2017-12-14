@@ -8,7 +8,7 @@
 
 #define FIRERATE 0.1
 #define MAXJUMPTIME 0.5
-#define UNTOUCHABLETIME 0.3 
+#define MAXUNTOUCHABLETIME 0.3 
 
 #include "HanabiSound.h"
 
@@ -16,9 +16,9 @@
 class Player : public Sprite
 {
 private:
-	Texture characterTexture;
-	Texture bulletTexture;
+	Texture texture;
 
+	Animation appearingAnimation;
 	Animation standingAnimation;
 	Animation movingAnimation;
 	Animation jumpingAnimation;
@@ -29,6 +29,7 @@ private:
 	Animation jumpAndShootAnimation;
 	Animation rollingAnimation;
 	Animation jumpAndRollAnimation;
+	Animation beingHitAnimation;
 	StateManager characterStateManager;
 
 	Body* mainBody;
@@ -52,6 +53,9 @@ private:
 	bool isHeadHit;
 	int health;
 
+	float beingHitTime;
+	bool beingRightHit;
+
 public:
 
 
@@ -69,13 +73,15 @@ public:
 
 	void Fire();
 
+	void OnAppearing(float dt);
+
 	void OnGrounded();
 
 	void OnHitRollItem();
 
 	void OnHitHealthItem();
 
-	void OnHitEnemy();
+	void OnHitEnemy(bool rightHit);
 
 	void OnHeadHit();
 

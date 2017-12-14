@@ -20,7 +20,7 @@ void RollAbilityItem::Create(World *world, Texture *itemsTexture, int x, int y)
 	animation.AddRegion(p.GetRegion("rollAbilityItem"));
 	animation.SetFrameInterval(0.2);
 
-	SetRegion(animation.GetKeyAnimation());
+	SetRegion(*animation.GetKeyAnimation());
 	SetSize(25, 32);
 	SetPosition(x, y);
 
@@ -48,7 +48,7 @@ void RollAbilityItem::Update(float dt)
 		body = NULL;
 		return;
 	}
-	SetRegion(animation.Next(dt));
+	SetRegion(*animation.Next(dt));
 }
 
 void RollAbilityItem::OnHitPlayer()

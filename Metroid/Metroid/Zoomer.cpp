@@ -19,7 +19,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y)
 	zoomerAnimation.AddRegion(p.GetRegion("zoomer"));
 	zoomerAnimation.SetFrameInterval(0.04);
 
-	SetRegion(zoomerAnimation.GetKeyAnimation());
+	SetRegion(*zoomerAnimation.GetKeyAnimation());
 	SetSize(25, 25);
 	SetPosition(x, y);
 	prevVelocity.x = 0.7f;
@@ -59,7 +59,7 @@ void Zoomer::Update(float dt)
 	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 	//body->SetVelocity(0.5f, -0.5f);
 	StickToGround();
-	SetRegion(zoomerAnimation.Next(dt));
+	SetRegion(*zoomerAnimation.Next(dt));
 
 }
 
