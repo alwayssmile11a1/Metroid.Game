@@ -180,14 +180,27 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		}
 		break;
 	}
-	case PLAYER_BIT*ROLLITEM_BIT:
+	case PLAYER_BIT*MARUMARIITEM_BIT:
 	{
-		if (bodyA->categoryBits == ROLLITEM_BIT)
+		if (bodyA->categoryBits == MARUMARIITEM_BIT)
 		{
 			Player* player = (Player*)bodyB->GetExtra();
 			player->OnHitRollItem();
 
-			RollAbilityItem* item = (RollAbilityItem*)bodyA->GetExtra();
+			MaruMariItem* item = (MaruMariItem*)bodyA->GetExtra();
+			item->OnHitPlayer();
+		}
+		break;
+	}
+
+	case PLAYER_BIT*BOMBITEM_BIT:
+	{
+		if (bodyA->categoryBits == BOMBITEM_BIT)
+		{
+			Player* player = (Player*)bodyB->GetExtra();
+			player->OnHitBombItem();
+
+			BombItem* item = (BombItem*)bodyA->GetExtra();
 			item->OnHitPlayer();
 		}
 		break;
@@ -215,11 +228,18 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 	{
 		if (bodyA->categoryBits == SKREE_BIT)
 		{
+			//Update skree
 			Skree* skree = (Skree*)bodyA->GetExtra();
-
 			if (skree != NULL)
 			{
 				skree->OnHitBullet();
+			}
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyB->GetExtra();
+			if (bullet != NULL)
+			{
+				bullet->OnHitEnemy();
 			}
 		}
 		

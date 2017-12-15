@@ -75,9 +75,12 @@ void PlayScene::Create()
 	itemsTexture = Texture("Resources/items.png");
 
 	//roll ability item
-	Shape::Rectangle rollItemRect = map->GetObjectGroup("RollAbilityItem")->GetRects().front();
-	rollAbilityItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
+	Shape::Rectangle rollItemRect = map->GetObjectGroup("MaruMariItem")->GetRects().front();
+	maruMariItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
 
+	//bomb ability item
+	Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
+	bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
 
 	//effects
 	effectsTexture = Texture("Resources/metroidfullsheet.png");
@@ -85,7 +88,7 @@ void PlayScene::Create()
 
 	//--------------------------UI--------------------------------------
 	font = Font("Arial");
-	playerHealthLabel = Label("30", &font, cam.GetPosition().x, cam.GetPosition().y, 640, 480);
+	playerHealthLabel = Label("30", &font, cam.GetPosition().x-250, cam.GetPosition().y+300, 640, 480);
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -117,9 +120,6 @@ void  PlayScene::Render()
 	//start drawing
 	batch->Begin();
 
-	//render map
-	map->Render(batch);
-	
 	//render player
 	player.Render(batch);
 
@@ -136,7 +136,9 @@ void  PlayScene::Render()
 	}
 	
 	//draw items
-	batch->Draw(rollAbilityItem);
+	batch->Draw(maruMariItem);
+	batch->Draw(bombItem);
+
 
 	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
 	{
@@ -148,14 +150,14 @@ void  PlayScene::Render()
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
+	//render map
+	map->Render(batch);
 
 	//end drawing
 	batch->End();
 	
 
 	//Label
-	playerHealthLabel.SetText(std::to_string(player.GetHealth()));
-	playerHealthLabel.SetPosition(cam.GetPosition().x-300, cam.GetPosition().y+200);
 	playerHealthLabel.Draw(&cam);
 }
 
@@ -207,7 +209,8 @@ void PlayScene::Update(float dt)
 	explosionEffect.Update(dt);
 
 	//update items
-	rollAbilityItem.Update(dt);
+	maruMariItem.Update(dt);
+	bombItem.Update(dt);
 
 	for (int i =0; i< healthItems.size(); i++)
 	{
@@ -234,7 +237,13 @@ void PlayScene::Update(float dt)
 
 	cam.SetPosition(player.GetPosition().x,  cam.GetPosition().y);
 
+	//update Label
+	playerHealthLabel.SetText(std::to_string(player.GetHealth()));
+	playerHealthLabel.SetPosition(cam.GetPosition().x - 250, cam.GetPosition().y + 200);
 
+
+
+	//RENDER
 	Render();
 }
 

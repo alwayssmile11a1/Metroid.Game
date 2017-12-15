@@ -60,14 +60,20 @@
     <ClCompile Include="Zoomer.cpp">
       <Filter>Source Files\MetroidGame\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="RollAbilityItem.cpp">
-      <Filter>Source Files\MetroidGame\Items</Filter>
-    </ClCompile>
     <ClCompile Include="ExplosionEffect.cpp">
       <Filter>Source Files\MetroidGame\Items</Filter>
     </ClCompile>
     <ClCompile Include="HealthItem.cpp">
       <Filter>Source Files\MetroidGame\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="MaruMariItem.cpp">
+      <Filter>Source Files\MetroidGame\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="BombItem.cpp">
+      <Filter>Source Files\MetroidGame\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,14 +107,20 @@
     <ClInclude Include="Zoomer.h">
       <Filter>Header Files\MetroidGame\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="RollAbilityItem.h">
-      <Filter>Header Files\MetroidGame\Items</Filter>
-    </ClInclude>
     <ClInclude Include="ExplosionEffect.h">
       <Filter>Header Files\MetroidGame\Items</Filter>
     </ClInclude>
     <ClInclude Include="HealthItem.h">
       <Filter>Header Files\MetroidGame\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="MaruMariItem.h">
+      <Filter>Header Files\MetroidGame\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="BombItem.h">
+      <Filter>Header Files\MetroidGame\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

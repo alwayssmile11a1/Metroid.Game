@@ -62,7 +62,7 @@ void Label::Draw(Camera *cam)
 	LPCWSTR text = stemp.c_str();
 
 	_Font->_pFont->DrawText(NULL, text, -1, &rect, DT_TOP | DT_LEFT,
-		D3DCOLOR_XRGB(255, 255, 0));
+		D3DCOLOR_XRGB(255, 255, 255));
 
 }
 

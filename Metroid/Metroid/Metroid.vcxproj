@@ -133,6 +133,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ExplosionEffect.cpp" />
     <ClCompile Include="HealthItem.cpp" />
@@ -141,12 +143,14 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
-    <ClCompile Include="RollAbilityItem.cpp" />
+    <ClCompile Include="MaruMariItem.cpp" />
     <ClCompile Include="Skree.cpp" />
     <ClCompile Include="WorldListener.cpp" />
     <ClCompile Include="Zoomer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="BombItem.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CollisionBit.h" />
     <ClInclude Include="ExplosionEffect.h" />
@@ -156,7 +160,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="RollAbilityItem.h" />
+    <ClInclude Include="MaruMariItem.h" />
     <ClInclude Include="Skree.h" />
     <ClInclude Include="WorldListener.h" />
     <ClInclude Include="Zoomer.h" />

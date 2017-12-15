@@ -3,8 +3,9 @@
 #include"Player.h"
 #include "Skree.h"
 #include "Zoomer.h"
-#include "RollAbilityItem.h"
+#include "MaruMariItem.h"
 #include "HealthItem.h"
+#include "BombItem.h"
 
 class WorldListener: public WorldContactListener
 {

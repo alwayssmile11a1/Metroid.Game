@@ -3,6 +3,11 @@
  <rect left="100" top = "678" width = "4" height="5" />
 </bullet>
 
+<bomb>
+ <rect left="168" top = "676" width = "8" height="8" />
+ <rect left="178" top = "676" width = "8" height="8" />
+</bomb>
+
 <appearing>
  <rect left="9" top = "8" width = "16" height="32" />
  <rect left="27" top = "8" width = "16" height="32" />
@@ -36,9 +41,9 @@
 </moveandshoot>
 
 <moveandshootup>
- <rect left="463" top = "2" width = "12" height="38" />
- <rect left="480" top = "2" width = "17" height="38" />
- <rect left="499" top = "2" width = "19" height="38" />
+ <rect left="463" top = "2" width = "12" height="42" />
+ <rect left="480" top = "2" width = "17" height="42" />
+ <rect left="499" top = "2" width = "19" height="42" />
 </moveandshootup>
 
 <rolling>

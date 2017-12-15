@@ -11,11 +11,11 @@
 #include "HanabiShape.h"
 #include "Platform.h"
 #include "HanabiSpaceDivisionQuadTree.h"
-#include "RollAbilityItem.h"
+#include "MaruMariItem.h"
 #include "HanabiLabel.h"
 #include "HealthItem.h"
 #include "ExplosionEffect.h"
-
+#include "BombItem.h"
 
 #define PLAYERAPPEARINGTIME 1
 
@@ -57,8 +57,10 @@ private:
 
 	//Items
 	Texture itemsTexture;
-	RollAbilityItem rollAbilityItem;
+	MaruMariItem maruMariItem;
+	BombItem bombItem;
 	std::vector<HealthItem*> healthItems;
+
 
 	//Effect
 	Texture effectsTexture;

@@ -22,6 +22,8 @@ void Player::Create(World *world, float x, float y)
 	isLookingup = false;
 	isShooting = false;
 	canRoll = false;
+	canBomb = false;
+	isBombing = false;
 
 	lastShot = 0;
 
@@ -136,7 +138,7 @@ void Player::Create(World *world, float x, float y)
 	bodyDef.position.Set(x, y);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
-	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | ROLLITEM_BIT | HEALTHITEM_BIT;
+	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | MARUMARIITEM_BIT | HEALTHITEM_BIT|BOMBITEM_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
@@ -164,42 +166,39 @@ void Player::Create(World *world, float x, float y)
 	head->maskBits = PLATFORM_BIT;
 	head->PutExtra(this);
 
+
+	//bomb
+	bomb = NULL;
+
 }
 
-void OnFinishAppearing()
-{
-
-}
 
 void Player::HandleInput()
 {
+	//Move right
 	if (input.GetKey(DIK_RIGHT))
 	{
 		mainBody->SetVelocity(5, mainBody->GetVelocity().y);
 	}
 
+	//move left
 	if (input.GetKey(DIK_LEFT))
 	{
 		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
 
 	}
 
-	if (input.GetKeyDown(DIK_DOWN) && canRoll && isGrounded && mainBody->GetVelocity().x==0)
-	{
-		mainBody->SetSize(mainBody->GetSize().x, 25);
-		isRolling = true;
-	}
-
+	//hold-jump 
 	if (input.GetKey(DIK_Z))
 	{
-		if (jumpTime < MAXJUMPTIME)
+		if (jumpTime < MAXJUMPTIME) //continue jumping if there is still jumptime
 		{
 			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.3f);
 			jumpTime += 0.02f;
 		}
 		else
-		{
-			jumpTime = 100;
+		{ 
+			jumpTime = 100;  //don't jump more
 		}
 	}
 	else
@@ -207,6 +206,7 @@ void Player::HandleInput()
 		jumpTime = 100; //don't jump more
 	}
 
+	//jump only if grounded
 	if (input.GetKeyDown(DIK_Z) && isGrounded)
 	{
 		mainBody->SetVelocity(mainBody->GetVelocity().x, 6);
@@ -214,11 +214,18 @@ void Player::HandleInput()
 		jumpTime = 0;
 	}
 
+	//roll if possible
+	if (input.GetKeyDown(DIK_DOWN) && canRoll && isGrounded && mainBody->GetVelocity().x == 0)
+	{
+		mainBody->SetSize(mainBody->GetSize().x, 25); //resize to rolling size
+		isRolling = true;
+	}
+
 	if (!isHeadHit) // if not being hit on head, player can transform back to original size 
 	{
 		if (input.GetKeyDown(DIK_UP) || input.GetKeyDown(DIK_Z))
 		{
-			mainBody->SetSize(mainBody->GetSize().x, 60);
+			mainBody->SetSize(mainBody->GetSize().x, 60); //back to original size
 			if (isRolling)
 			{
 				isGrounded = true;
@@ -231,6 +238,7 @@ void Player::HandleInput()
 		isHeadHit = false;
 	}
 
+	//looking up
 	if (input.GetKey(DIK_UPARROW))
 	{
 		isLookingup = true;
@@ -240,11 +248,11 @@ void Player::HandleInput()
 		isLookingup = false;
 	}
 
+	//shooting
 	if (input.GetKeyDown(DIK_X))
 	{
 		isShooting = true;
 	}
-
 	if (input.GetKey(DIK_X) && !isRolling)
 	{
 		isShooting = true;
@@ -252,6 +260,15 @@ void Player::HandleInput()
 	else
 	{
 		isShooting = false;
+	}
+
+	//bombing
+	if (input.GetKeyDown(DIK_SPACE) && !isBombing&&canBomb&&isRolling)
+	{
+		bomb = new Bomb(world, &texture);
+		bomb->GetMainBody()->SetPosition(this->GetPosition().x, this->GetPosition().y);
+		bomb->Play();
+		isBombing = true;
 	}
 
 	if (isShooting)
@@ -270,7 +287,7 @@ void Player::Fire()
 		Bullet* bullet = new Bullet(world, &texture);
 		Vector2 position;
 		Vector2 velocity;
-		if (isLookingup)
+		if (isLookingup) //shoot up
 		{
 			position.x = GetPosition().x;
 			position.y = GetPosition().y + GetSize().y / 2 + bullet->GetSize().y / 2;
@@ -278,13 +295,13 @@ void Player::Fire()
 		}
 		else
 		{
-			if (!IsFlipX())
+			if (!IsFlipX()) //shoot right
 			{
 				position.x = GetPosition().x + GetSize().x / 2 + bullet->GetSize().x / 2;
 				position.y = GetPosition().y + 10;
 				velocity.Set(BULLETSPEED, 0);
 			}
-			else
+			else //shoot left
 			{
 				position.x = GetPosition().x - GetSize().x / 2 - bullet->GetSize().x / 2;
 				position.y = GetPosition().y + 10;
@@ -304,10 +321,10 @@ void Player::Fire()
 
 		//PLAY SOUND HERE
 
-
 	}
 
-	
+
+
 }
 
 void Player::OnAppearing(float dt)
@@ -327,7 +344,13 @@ void Player::Render(SpriteBatch *batch)
 	//draw bullets
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it)
 	{
-		(*it)->Render(*batch);
+		(*it)->Render(batch);
+	}
+
+	//draw bomb
+	if (bomb != NULL)
+	{
+		bomb->Render(batch);
 	}
 
 	//draw player
@@ -459,7 +482,18 @@ void Player::Update(float dt)
 		}
 	}
 	
+	//update bomb
+	if (bomb != NULL)
+	{
+		bomb->Update(dt);
+		if (bomb->IsDestroyed())
+		{
+			delete bomb;
+			bomb = NULL;
+			isBombing = false;
+		}
 
+	}
 	
 }
 
@@ -471,6 +505,11 @@ void Player::OnHeadHit()
 void Player::OnHitRollItem()
 {
 	canRoll = true;
+}
+
+void Player::OnHitBombItem()
+{
+	canBomb = true;
 }
 
 void Player::OnHitHealthItem()
@@ -496,14 +535,18 @@ int  Player::GetHealth()
 
 void Player::Release()
 {
-	//characterTexture.Release();
-	//bulletTexture.Release();
-	//draw bullets
+
+	//release bullets
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it)
 	{
 		delete (*it);
 	}
 
-	//delete mainBody;
-	//delete foot;
+	//release bomb
+	if (bomb != NULL)
+	{
+		delete bomb;
+		bomb = NULL;
+	}
+
 }

@@ -5,12 +5,13 @@
 #include <vector>
 #include "CollisionBit.h"
 #include "HanabiStateManager.h"
+#include "Bomb.h"
+#include "HanabiSound.h"
 
 #define FIRERATE 0.1
 #define MAXJUMPTIME 0.5
 #define MAXUNTOUCHABLETIME 0.3 
 
-#include "HanabiSound.h"
 
 //Main character
 class Player : public Sprite
@@ -18,6 +19,7 @@ class Player : public Sprite
 private:
 	Texture texture;
 
+	//Animation
 	Animation appearingAnimation;
 	Animation standingAnimation;
 	Animation movingAnimation;
@@ -32,11 +34,19 @@ private:
 	Animation beingHitAnimation;
 	StateManager characterStateManager;
 
+	//Body
 	Body* mainBody;
 	Body* foot;
 	Body* head;
 
+	//deadEffect
+	std::vector<Sprite> deadEffect;
+
+	//bullets
 	std::vector<Bullet*> bullets;
+
+	//bomb
+	Bomb* bomb;
 
 	World* world;
 	
@@ -49,9 +59,12 @@ private:
 	bool isLookingup;
 	bool isShooting;
 	bool isRolling;
-	bool canRoll;
 	bool isHeadHit;
+	bool isBombing;
 	int health;
+
+	bool canRoll;
+	bool canBomb;
 
 	float beingHitTime;
 	bool beingRightHit;
@@ -78,6 +91,8 @@ public:
 	void OnGrounded();
 
 	void OnHitRollItem();
+	
+	void OnHitBombItem();
 
 	void OnHitHealthItem();
 

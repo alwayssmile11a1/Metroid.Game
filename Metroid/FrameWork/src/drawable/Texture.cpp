@@ -3,7 +3,7 @@
 Texture::Texture()
 {
 	//set
-	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
+	_Transcolor = D3DCOLOR_ARGB(255,255, 255, 255);
 	_ImageSize.Set(0, 0);
 	_Image = NULL;
 }
@@ -11,7 +11,7 @@ Texture::Texture()
 Texture::Texture(const std::string &filePath)
 {
 	//set basic information
-	_Transcolor = D3DCOLOR_XRGB(255, 255, 255);
+	_Transcolor = D3DCOLOR_ARGB(255, 255, 255, 255);
 	_FilePath = filePath;
 	_Image = NULL;
 

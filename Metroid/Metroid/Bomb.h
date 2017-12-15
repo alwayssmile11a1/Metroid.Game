@@ -1,33 +1,45 @@
 #pragma once
+
 #include"HanabiWorld.h"
 #include "CollisionBit.h"
 #include "HanabiSprite.h"
-#define BULLETLIVETIME 0.2f
-#define BULLETSPEED 5.0f
+#include "ExplosionEffect.h"
 
-class Bullet: public Sprite
+#define BOMBLIVETIME 0.6
+#define EXPLOSIONLIVETIME 0.9
+
+class Bomb : public Sprite
 {
 private:
 	Body *mainBody;
 	float stateTime;
 	World *world;
 	bool isDestroyed;
-public:
-	Bullet();
-	~Bullet();
 
-	Bullet(World *world, Texture* texture);
-	
+	ExplosionEffect explosionEffect;
+
+	Animation animation;
+
+
+
+
+public:
+	Bomb();
+	~Bomb();
+
+	Bomb(World *world, Texture* texture);
+
 	void Render(SpriteBatch *batch);
 	void Update(float dt);
 	//void Release();
 
 	bool IsDestroyed();
 
-	float GetBulletSpeed();
-
 	Body* GetMainBody();
 
 	void OnHitEnemy();
+
+	void Play();
+
 };
 

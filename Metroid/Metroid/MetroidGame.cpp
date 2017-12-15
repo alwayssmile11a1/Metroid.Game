@@ -33,7 +33,6 @@ void MetroidGame::CreateGame()
 }
 void MetroidGame::UpdateGame(float dt)
 {
-
 	Game::UpdateGame(dt);
 	
 	if (input.GetKeyDown(DIK_ESCAPE))

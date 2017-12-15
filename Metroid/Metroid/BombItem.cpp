@@ -1,23 +1,23 @@
-#include "RollAbilityItem.h"
+#include "BombItem.h"
 
 
 
-RollAbilityItem::RollAbilityItem()
+BombItem::BombItem()
 {
 }
 
 
-RollAbilityItem::~RollAbilityItem()
+BombItem::~BombItem()
 {
 }
 
-void RollAbilityItem::Create(World *world, Texture *itemsTexture, int x, int y)
+void BombItem::Create(World *world, Texture *itemsTexture, int x, int y)
 {
 	this->world = world;
 
 	TexturePacker p = TexturePacker(itemsTexture, "Resources/items_packer.xml");
 
-	animation.AddRegion(p.GetRegion("rollAbilityItem"));
+	animation.AddRegion(p.GetRegion("bombitem"));
 	animation.SetFrameInterval(0.2);
 
 	SetRegion(*animation.GetKeyAnimation());
@@ -31,14 +31,14 @@ void RollAbilityItem::Create(World *world, Texture *itemsTexture, int x, int y)
 	bodyDef.size.Set(25, 32);
 	bodyDef.isSensor = true;
 	body = world->CreateBody(bodyDef);
-	body->categoryBits = ROLLITEM_BIT;
+	body->categoryBits = BOMBITEM_BIT;
 	body->maskBits = PLAYER_BIT;
 	body->PutExtra(this);
 
 	isHitPlayer = false;
 }
 
-void RollAbilityItem::Update(float dt)
+void BombItem::Update(float dt)
 {
 	if (body == NULL) return;
 	if (isHitPlayer)
@@ -51,7 +51,7 @@ void RollAbilityItem::Update(float dt)
 	SetRegion(*animation.Next(dt));
 }
 
-void RollAbilityItem::OnHitPlayer()
+void BombItem::OnHitPlayer()
 {
 	isHitPlayer = true;
 }
