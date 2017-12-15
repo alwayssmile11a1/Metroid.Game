@@ -55,6 +55,11 @@ public:
 
 	//set this to reduce the amount of tile have to render
 	void SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdquadtree);
+
+	void SetTileData(int row, int column, int value);
+
+
+
 };
 
 #endif

@@ -34,10 +34,19 @@ void PlayScene::Create()
 	world.SetContactListener(&worldListener);
 	world.SetCamera(NULL);
 
+	//create platform
 	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = platformRects.begin(); rect!= platformRects.end(); ++rect)
 	{
 		Platform platform(&world, rect->x, rect->y, rect->width, rect->height);
+	}
+
+	//create breakableplatform
+	std::vector<Shape::Rectangle> breakablePlatformRects = map->GetObjectGroup("BreakablePlatform")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = breakablePlatformRects.begin(); rect != breakablePlatformRects.end(); ++rect)
+	{
+		BreakablePlatform* breakablePlatform = new BreakablePlatform(&world,map, rect->x, rect->y, rect->width, rect->height);
+		breakablePlatforms.push_back(breakablePlatform);
 	}
 
 	//get player position
@@ -268,6 +277,12 @@ void PlayScene::Release()
 	}
 
 	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+
+	for (std::vector<BreakablePlatform*>::iterator it = breakablePlatforms.begin(); it != breakablePlatforms.end(); ++it)
 	{
 		delete *it;
 		*it = NULL;

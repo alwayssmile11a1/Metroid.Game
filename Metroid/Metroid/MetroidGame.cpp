@@ -26,7 +26,7 @@ void MetroidGame::CreateGame()
 	//play screen
 	playScene.Create();
 	playScene.SetBatch(&batch);
-	
+
 	//set screne which will be rendered
 	SetScene(&playScene);
 
@@ -34,7 +34,7 @@ void MetroidGame::CreateGame()
 void MetroidGame::UpdateGame(float dt)
 {
 	Game::UpdateGame(dt);
-	
+
 	if (input.GetKeyDown(DIK_ESCAPE))
 	{
 		ShutDownApplication();

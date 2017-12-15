@@ -138,6 +138,15 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		}
 		break;
 	}
+	case FOOT_BIT*BREAKABLEPLATFORM_BIT:
+	{
+		Player*player = (Player *)(bodyA->GetExtra());
+		if (player != NULL)
+		{
+			player->OnGrounded();
+		}
+		break;
+	}
 
 	case PLAYER_BIT*SKREE_BIT:
 	{
@@ -277,6 +286,50 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case SKREE_BIT*EXPLOSION_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			Skree* skree = (Skree*)bodyB->GetExtra();
+
+			if (skree != NULL)
+			{
+				skree->OnHitBomb();
+			}
+		}
+
+		break;
+	}
+	case ZOOMER_BIT*EXPLOSION_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
+
+			if (zoomer != NULL)
+			{
+				zoomer->OnHitBomb();
+			}
+		}
+
+		break;
+	}
+	case BREAKABLEPLATFORM_BIT*EXPLOSION_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			BreakablePlatform* breakablePlatform = (BreakablePlatform*)bodyB->GetExtra();
+
+			if (breakablePlatform != NULL)
+			{
+				breakablePlatform->OnHitBomb();
+			}
+		}
+
+		break;
+	}
+
+
 	}
 }
 

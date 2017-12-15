@@ -74,7 +74,7 @@ void Zoomer::Update(float dt)
 {
 	if (isDead) return;
 
-	if (health == 0)
+	if (health <= 0)
 	{
 		isDead = true;
 		world->DestroyBody(body);
@@ -107,7 +107,7 @@ void Zoomer::Update(float dt)
 		else
 		{
 			hitPlayerTime = -1;
-			body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
+			body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | EXPLOSION_BIT;
 		}
 	}
 
@@ -226,6 +226,14 @@ void Zoomer::OnHitBullet()
 {
 	if (hitBulletTime != -1) return;
 	health--;
+	hitBulletTime = 0;
+	//stop this body a little bit 
+	body->SetBodyType(Body::BodyType::Static);
+}
+
+void Zoomer::OnHitBomb()
+{
+	health-=10;
 	hitBulletTime = 0;
 	//stop this body a little bit 
 	body->SetBodyType(Body::BodyType::Static);

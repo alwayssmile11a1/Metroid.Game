@@ -61,6 +61,8 @@ public:
 
 	void OnHitBullet();
 
+	void OnHitBomb();
+
 	bool IsDead();
 
 	int GetHealth();

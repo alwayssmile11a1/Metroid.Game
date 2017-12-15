@@ -159,6 +159,7 @@ public:
 	const std::map<unsigned int, SDQNode*>& GetMapQuadTree();
 
 	const std::map<unsigned int, Body*>& GetMapBody();
+	std::map<unsigned int, Shape::Rectangle*>& GetMapTileRect();
 
 	//SDQNode* GetRootSDQNode();
 

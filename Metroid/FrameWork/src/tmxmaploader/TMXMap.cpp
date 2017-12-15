@@ -131,6 +131,17 @@ void TMXMap::SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdquadtree)
 
 }
 
+void TMXMap::SetTileData(int row, int column, int value)
+{
+	_Layers[0]->GetData()[row][column] = 0;
+	if (_SDQuadTree != NULL)
+	{
+		Shape::Rectangle* tileRect = _SDQuadTree->GetMapTileRect().at(row*_Width+column);
+		tileRect->width = 0;
+		tileRect->height = 0;
+	}
+}
+
 //Render this map
 void TMXMap::Render(SpriteBatch *batch)
 {

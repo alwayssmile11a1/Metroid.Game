@@ -43,7 +43,7 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 	bodyDef.isSensor = true;
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = SKREE_BIT;
-	body->maskBits = PLAYER_BIT|PLATFORM_BIT|BULLET_BIT;
+	body->maskBits = PLAYER_BIT|PLATFORM_BIT|BULLET_BIT|EXPLOSION_BIT;
 	body->PutExtra(this);
 
 }
@@ -89,7 +89,7 @@ void Skree::Update(float dt)
 {
 	if (isDead) return;
 
-	if (health == 0)
+	if (health <= 0)
 	{
 		isDead = true;
 		world->DestroyBody(body);
@@ -194,7 +194,15 @@ void Skree::OnHitBullet()
 	health --;
 	hitBulletTime = 0;
 	//stop this body a little bit 
-	body->SetBodyType(Body::BodyType::Static);
+	body->SetVelocity(0, 0);
+}
+
+void Skree::OnHitBomb()
+{
+	health = 0;
+	hitBulletTime = 0;
+	//stop this body a little bit 
+	body->SetVelocity(0, 0);
 }
 
 bool Skree::IsDead()

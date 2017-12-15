@@ -174,11 +174,13 @@ void SpaceDivisionQuadTree::StartBuildingTreeNodes(const std::string &outpath, c
 		float x, y;
 		float width = tileSetWidth;
 		float height = tileSetHeight;
-		unsigned int id = 0;
+		unsigned int id = -1;
 		for (unsigned int row = 0; row < layerHeight; row++)
 		{
+
 			for (unsigned int column = 0; column < layerWidth; column++)
 			{
+				id++;
 				if (data[row][column] == 0) continue;
 
 				x = column*width + width / 2;
@@ -194,7 +196,6 @@ void SpaceDivisionQuadTree::StartBuildingTreeNodes(const std::string &outpath, c
 
 				rootSDQNode->sdqObjects.push_back(sdqObject);
 
-				id++;
 
 			}
 		}
@@ -487,11 +488,12 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 		float x, y, rectImageLeft, rectImageTop;
 		float width = tileSetWidth;
 		float height = tileSetHeight;
-		unsigned int id = 0;
+		unsigned int id = -1;
 		for (unsigned int row = 0; row < layerHeight; row++)
 		{
 			for (unsigned int column = 0; column < layerWidth; column++)
 			{
+				id++;
 				if (data[row][column] == 0) continue;
 
 				rectImageLeft = ((data[row][column]-1) % columns) * width;
@@ -505,7 +507,6 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 				rect->extraY = rectImageTop;
 				mapTileRectangle[id] = rect;
 
-				id++;
 			}
 		}
 
@@ -779,4 +780,9 @@ const std::vector<Body*>&  SpaceDivisionQuadTree::GetBodiesInViewport()
 const std::vector<Shape::Rectangle*>&  SpaceDivisionQuadTree::GetTileRectsInViewport()
 {
 	return tileRectsInViewport;
+}
+
+std::map<unsigned int, Shape::Rectangle*>& SpaceDivisionQuadTree::GetMapTileRect()
+{
+	return mapTileRectangle;
 }

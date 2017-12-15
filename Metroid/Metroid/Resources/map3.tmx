@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.10.11" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="271">
+<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="265">
  <tileset firstgid="1" name="metroidTileMap" tilewidth="32" tileheight="32" tilecount="48" columns="8">
   <image source="metroidTileMap2.png" width="258" height="193"/>
  </tileset>
@@ -292,18 +292,26 @@
  <objectgroup name="Platform">
   <object id="26" x="480" y="5856" width="32" height="384"/>
   <object id="27" x="480" y="6208" width="2032" height="64"/>
+  <object id="28" x="609" y="6176" width="63" height="32"/>
+  <object id="29" x="608" y="6144" width="32" height="32"/>
   <object id="30" x="704" y="6112" width="32" height="96"/>
+  <object id="31" x="768" y="6176" width="62" height="32"/>
+  <object id="32" x="800" y="6144" width="32" height="32"/>
   <object id="33" x="832" y="5920" width="128" height="128"/>
   <object id="34" x="864" y="5984" width="128" height="128"/>
   <object id="35" x="896" y="6048" width="128" height="128"/>
   <object id="36" x="1184" y="6176" width="224" height="32"/>
+  <object id="37" x="1184" y="5952" width="64" height="156.333"/>
+  <object id="39" x="1184" y="5888" width="32" height="64"/>
   <object id="41" x="704" y="5792" width="448" height="64"/>
   <object id="42" x="1024" y="5856" width="32" height="32"/>
   <object id="43" x="2368" y="6048" width="128" height="32"/>
+  <object id="44" x="2496" y="6048" width="191.3" height="127"/>
   <object id="45" x="2496" y="5792" width="128.667" height="160"/>
   <object id="47" x="2240" y="5792" width="256" height="64"/>
   <object id="75" x="1376" y="5888" width="32" height="224"/>
   <object id="76" x="1344" y="5952" width="32" height="160"/>
+  <object id="82" x="2496" y="6176" width="128" height="2048"/>
   <object id="85" x="2624" y="8192" width="384" height="32"/>
   <object id="86" x="3008" y="7968" width="64" height="256"/>
   <object id="87" x="2912" y="7968" width="96" height="32"/>
@@ -350,23 +358,6 @@
   <object id="205" x="2688" y="5984" width="64" height="32"/>
   <object id="206" x="2880" y="5984" width="64" height="32"/>
   <object id="251" x="3072" y="7968" width="512" height="32"/>
-  <object id="252" x="512" y="5792" width="128" height="64"/>
-  <object id="254" x="608" y="6144" width="32" height="64"/>
-  <object id="255" x="640" y="6176" width="32" height="32"/>
-  <object id="256" x="768" y="6176" width="32" height="32"/>
-  <object id="257" x="800" y="6144" width="32" height="64"/>
-  <object id="259" x="1184" y="5888" width="32" height="224"/>
-  <object id="260" x="1216" y="5952" width="32" height="160"/>
-  <object id="261" x="1216" y="5792" width="192" height="64"/>
-  <object id="262" x="1280" y="5856" width="32" height="32"/>
-  <object id="263" x="1472" y="5792" width="192" height="64"/>
-  <object id="264" x="1536" y="5856" width="32" height="32"/>
-  <object id="265" x="1728" y="5792" width="192" height="64"/>
-  <object id="266" x="1792" y="5856" width="32" height="32"/>
-  <object id="267" x="1984" y="5792" width="192" height="64"/>
-  <object id="268" x="2048" y="5856" width="32" height="32"/>
-  <object id="269" x="2624" y="6048" width="64" height="128"/>
-  <object id="270" x="2496" y="6048" width="128" height="2176"/>
  </objectgroup>
  <objectgroup name="Skree">
   <object id="156" x="1792" y="5888" width="32" height="32"/>

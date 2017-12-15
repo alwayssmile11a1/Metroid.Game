@@ -16,6 +16,7 @@
 #include "HealthItem.h"
 #include "ExplosionEffect.h"
 #include "BombItem.h"
+#include "BreakablePlatform.h"
 
 #define PLAYERAPPEARINGTIME 1
 
@@ -46,6 +47,9 @@ private:
 
 	//draw texture, sprite, ...
 	SpriteBatch* batch;
+
+	
+	std::vector<BreakablePlatform*> breakablePlatforms;
 
 	//enemy
 	Texture enemiesTexture;

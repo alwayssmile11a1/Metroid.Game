@@ -75,6 +75,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
+    <ClCompile Include="BreakablePlatform.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files\MetroidGame\Items</Filter>
     </ClInclude>
     <ClInclude Include="Bomb.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakablePlatform.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>

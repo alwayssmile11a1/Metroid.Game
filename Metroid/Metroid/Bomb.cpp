@@ -33,7 +33,7 @@ Bomb::Bomb(World *world, Texture* texture)
 	//create body
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = 0; //not collide with anything		
-	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLAYER_BIT;
+	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLAYER_BIT| BREAKABLEPLATFORM_BIT;
 	mainBody->PutExtra(this);
 
 	//effects

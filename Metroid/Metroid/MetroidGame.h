@@ -9,7 +9,6 @@ private:
 	SpriteBatch batch;
 	PlayScene playScene;
 
-
 protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame() override;

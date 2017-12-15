@@ -51,6 +51,8 @@ public:
 
 	void OnHitBullet();
 
+	void OnHitBomb();
+
 	void OnHitPlayer();
 
 	void StickToGround();
