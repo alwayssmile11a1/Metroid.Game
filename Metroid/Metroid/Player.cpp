@@ -18,11 +18,11 @@ void Player::Create(World *world, float x, float y)
 {
 	this->world = world;
 
-	isGrounded = false;
+	isGrounded = true;
 	isLookingup = false;
 	isShooting = false;
-	canRoll = false;
-	canBomb = false;
+	canRoll = true;
+	canBomb = true;
 	isBombing = false;
 
 	lastShot = 0;
@@ -32,6 +32,8 @@ void Player::Create(World *world, float x, float y)
 	health = 30;
 
 	beingHitTime = -1; //not being hit
+
+	deadTime = -1;
 
 	//get characterTexture
 	texture = Texture("Resources/metroidfullsheet.png");
@@ -65,62 +67,28 @@ void Player::Create(World *world, float x, float y)
 
 	//add transition animation
 	characterStateManager.Add(&standingAnimation, &movingAnimation, { Condition("moving", Condition::ConditionType::Greater, 0) });
-	characterStateManager.Add(&movingAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
 
 	characterStateManager.Add(&standingAnimation, &rollingAnimation, { Condition("rolling", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&rollingAnimation, &standingAnimation, { Condition("rolling", Condition::ConditionType::Equal, false) });
 
 	characterStateManager.Add(&standingAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-	characterStateManager.Add(&jumpingAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
 
 	characterStateManager.Add(&standingAnimation, &standAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&standAndShootupAnimation, &standingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
-	
-	characterStateManager.Add(&movingAnimation, &moveAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&moveAndShootAnimation, &movingAnimation, { Condition("shooting", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&movingAnimation, &rollingAnimation, { Condition("rolling", Condition::ConditionType::Equal, true) });
+
+	characterStateManager.Add(&movingAnimation, &moveAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true),
+																			Condition("lookingup", Condition::ConditionType::Equal, false) });
 
 	characterStateManager.Add(&movingAnimation, &moveAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&moveAndShootupAnimation, &movingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
 
-	characterStateManager.Add(&jumpingAnimation, &jumpAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&jumpAndShootAnimation, &jumpingAnimation, { Condition("shooting", Condition::ConditionType::Equal, false) });
+	characterStateManager.Add(&jumpingAnimation, &jumpAndRollAnimation, { Condition("moving", Condition::ConditionType::Greater, 0),
+																			Condition("shooting", Condition::ConditionType::Equal, false) });
+
+	characterStateManager.Add(&jumpingAnimation, &jumpAndShootAnimation, { Condition("shooting", Condition::ConditionType::Equal, true),
+																			Condition("lookingup", Condition::ConditionType::Equal, false) });
 
 	characterStateManager.Add(&jumpingAnimation, &jumpAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&jumpAndShootupAnimation, &jumpingAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
 
-	characterStateManager.Add(&jumpAndShootAnimation, &jumpAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
-	characterStateManager.Add(&jumpAndShootupAnimation, &jumpAndShootAnimation, { Condition("lookingup", Condition::ConditionType::Equal, false) });
-
-	characterStateManager.Add(&movingAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-	characterStateManager.Add(&jumpingAnimation, &movingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
-	
-	characterStateManager.Add(&moveAndShootAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
-
-	characterStateManager.Add(&moveAndShootupAnimation, &standingAnimation, { Condition("moving", Condition::ConditionType::Equal, 0) });
-
-	characterStateManager.Add(&standAndShootupAnimation, &movingAnimation, { Condition("moving", Condition::ConditionType::Greater, 0) });
-
-	characterStateManager.Add(&moveAndShootAnimation, &moveAndShootupAnimation, { Condition("lookingup", Condition::ConditionType::Equal, true) });
-
-	characterStateManager.Add(&jumpAndShootAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
-
-	characterStateManager.Add(&jumpAndShootupAnimation, &standingAnimation, { Condition("grounded", Condition::ConditionType::Equal, true) });
-
-	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-
-	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-
-	characterStateManager.Add(&standAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-
-	characterStateManager.Add(&moveAndShootAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-
-	characterStateManager.Add(&moveAndShootupAnimation, &jumpingAnimation, { Condition("grounded", Condition::ConditionType::Equal, false) });
-
-	//ANOTHER JUST-MAYBE-EASIER WAY AROUND STATE MANAGER: 
-	//we have 3 main animations: standing, moving and jumping
-	//if isGrounded == true, set characterStateManager.CurrentAnimation to standing animation
-	//if isGrounded == false, set characterStateManager.CurrentAnimation to jumping animation
-	//........
 
 
 	//set size and position
@@ -138,7 +106,7 @@ void Player::Create(World *world, float x, float y)
 	bodyDef.position.Set(x, y);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
-	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | MARUMARIITEM_BIT | HEALTHITEM_BIT|BOMBITEM_BIT;
+	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | MARUMARIITEM_BIT | HEALTHITEM_BIT | BOMBITEM_BIT | EXPLOSION_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
@@ -169,6 +137,17 @@ void Player::Create(World *world, float x, float y)
 
 	//bomb
 	bomb = NULL;
+
+
+	//Setup Dead effect
+	Sprite deadEffectSprite;
+	deadEffectSprite.SetRegion(p.GetRegion("deadeffect").front());
+	deadEffectSprite.SetSize(8, 8);
+	for (int i = 0; i < 8; i++)
+	{
+		deadEffectSprite.SetRotation(i * 30);
+		deadEffect.push_back(deadEffectSprite);
+	}
 
 }
 
@@ -280,8 +259,9 @@ void Player::HandleInput()
 
 void Player::Fire()
 {
+
 	float currentTime = GetTickCount() / 1000.0f;
-	if (currentTime > FIRERATE + lastShot)
+	if (currentTime > FIRERATE + lastShot) //don't shoot more if we have just shooted 
 	{
 		//instantiate bullet
 		Bullet* bullet = new Bullet(world, &texture);
@@ -308,11 +288,11 @@ void Player::Fire()
 				velocity.Set(-BULLETSPEED, 0);
 			}
 		}
-
+		//set position and velocity of bullet
 		bullet->GetMainBody()->SetPosition(position.x, position.y);
 		bullet->GetMainBody()->SetVelocity(velocity.x, velocity.y);
 
-
+		//push to vector to easily manage these bullets
 		bullets.push_back(bullet);
 
 
@@ -341,81 +321,84 @@ void Player::OnGrounded()
 
 void Player::Render(SpriteBatch *batch)
 {
-	//draw bullets
-	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it)
+	if (health > 0)
 	{
-		(*it)->Render(batch);
-	}
+		//draw bullets
+		for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it)
+		{
+			(*it)->Render(batch);
+		}
 
-	//draw bomb
-	if (bomb != NULL)
+		//draw bomb
+		if (bomb != NULL)
+		{
+			bomb->Render(batch);
+		}
+
+		//draw player
+		batch->Draw(*this);
+	}
+	else
 	{
-		bomb->Render(batch);
-	}
+		if (deadTime < MAXDEADTIME)
+		{
+			int i = 0;
+			for (std::vector<Sprite>::iterator it = deadEffect.begin(); it != deadEffect.end(); ++it)
+			{
+				it->SetPosition(it->GetPosition().x + 5 * cos(45 * i*Pi / 180), it->GetPosition().y + 5 * sin(45 * i*Pi / 180));
+				batch->Draw(*it);
+				i++;
+			}
+		}
 
-	//draw player
-	batch->Draw(*this);
+	}
 }
 
 
 void Player::Update(float dt)
 {
-	//if (!isGrounded)
-	//{
-	//	if (!isLookingup)
-	//	{
-	//		if (!isShooting)
-	//		{
-	//			SetRegion(jumpingAnimation.Next(dt));
-	//		}
-	//		else
-	//		{
-	//			SetRegion(jumpAndShootAnimation.Next(dt));
-	//		}
-	//		
-	//	}
-	//	else
-	//	{
-	//		SetRegion(jumpAndShootupAnimation.Next(dt));
-	//	}
 
-	//}
-	//else
-	//{
-	//	if (!isLookingup)
-	//	{
-	//		//update state
-	//		if (mainBody->GetVelocity().x == 0)
-	//		{
-	//			SetRegion(standingAnimation.Next(dt));
-	//		}
-	//		else
-	//		{
-	//			if (!isShooting)
-	//			{
-	//				SetRegion(movingAnimation.Next(dt));
-	//			}
-	//			else
-	//			{
-	//				SetRegion(moveAndShootAnimation.Next(dt));
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		if (mainBody->GetVelocity().x == 0)
-	//		{
-	//			SetRegion(standAndShootupAnimation.Next(dt));
-	//		}
-	//		else
-	//		{
-	//			SetRegion(moveAndShootupAnimation.Next(dt));
-	//		}
-	//	}
-	//}
+	if (health <= 0)
+	{
+		if (deadTime == -1) 
+		{
+			//setup for deadEffect
+			for (std::vector<Sprite>::iterator it = deadEffect.begin(); it != deadEffect.end(); ++it)
+			{
+				it->SetPosition(mainBody->GetPosition().x, mainBody->GetPosition().y);
+			}
+			deadTime = 0;
+		}
+		else
+		{
+			deadTime += dt;
+		}
+	}
+
 
 	if (beingHitTime == -1) //not being hit
 	{
+		//before anything else, we know that there are 3 main animations: standing, moving and jumping
+		//setup these help us easily to manage animation transaction (You don't have to follow this way but this one is the easiest way I can think of
+		if (isGrounded)
+		{
+
+
+			if (mainBody->GetVelocity().x == 0)
+			{
+				characterStateManager.SetCurrentAnimation(&standingAnimation); //setup main animation
+			}
+			else
+			{
+				characterStateManager.SetCurrentAnimation(&movingAnimation); //setup main animation
+			}
+
+		}
+		else
+		{
+			characterStateManager.SetCurrentAnimation(&jumpingAnimation); //setup main animation
+		}
+
 		characterStateManager.Set("moving", abs(mainBody->GetVelocity().x));
 		characterStateManager.Set("grounded", isGrounded);
 		characterStateManager.Set("lookingup", isLookingup);
@@ -423,6 +406,7 @@ void Player::Update(float dt)
 		characterStateManager.Set("rolling", isRolling);
 
 		SetRegion(*characterStateManager.GetTargetAnimation()->Next(dt));
+
 	}
 	else //being hit
 	{
@@ -531,7 +515,16 @@ int  Player::GetHealth()
 	return health;
 }
 
+bool Player::IsDead()
+{
+	return deadTime > MAXDEADTIME;
+}
 
+
+Body* Player::GetMainBody()
+{
+	return mainBody;
+}
 
 void Player::Release()
 {

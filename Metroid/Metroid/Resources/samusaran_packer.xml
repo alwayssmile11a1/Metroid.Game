@@ -8,6 +8,10 @@
  <rect left="178" top = "676" width = "8" height="8" />
 </bomb>
 
+<deadeffect>
+ <rect left="252" top = "676" width = "8" height="7" />
+</deadeffect>
+
 <appearing>
  <rect left="9" top = "8" width = "16" height="32" />
  <rect left="27" top = "8" width = "16" height="32" />

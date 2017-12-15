@@ -242,10 +242,10 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 				bullet->OnHitEnemy();
 			}
 		}
-		
+
 		break;
 	}
-
+	
 	}
 }
 
@@ -260,6 +260,27 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		{
 			player->OnHeadHit();
 		}
+		break;
+	}
+	case PLAYER_BIT*EXPLOSION_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			Player* player = (Player*)bodyB->GetExtra();
+
+			if (player != NULL)
+			{
+				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+				{
+					player->OnHitEnemy(true);
+				}
+				else
+				{
+					player->OnHitEnemy(false);
+				}
+			}
+		}
+
 		break;
 	}
 	}

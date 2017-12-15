@@ -40,6 +40,7 @@ private:
 
 	//player
 	Player player;
+	Vector2 initPlayerPosition;
 	//listen to collision between bodies
 	WorldListener worldListener;
 

@@ -32,13 +32,13 @@ Bomb::Bomb(World *world, Texture* texture)
 
 	//create body
 	mainBody = world->CreateBody(bodyDef);
-	mainBody->categoryBits = BOMB_BIT;
-	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT;
+	mainBody->categoryBits = 0; //not collide with anything		
+	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLAYER_BIT;
 	mainBody->PutExtra(this);
 
 	//effects
 	explosionEffect.Create(texture);
-	explosionEffect.SetSize(24, 24);
+	explosionEffect.SetSize(32, 32);
 
 }
 
@@ -53,14 +53,17 @@ void Bomb::Update(float dt)
 {
 	stateTime += dt;
 
-	if (mainBody == NULL)
+	if (mainBody->categoryBits == EXPLOSION_BIT)
 	{
 		if (stateTime < EXPLOSIONLIVETIME)
 		{
 			explosionEffect.Update(dt);
+			mainBody->SetSize(mainBody->GetSize().x + 5, mainBody->GetSize().y + 5);
 		}
 		else
 		{
+			world->DestroyBody(mainBody);
+			mainBody = NULL;
 			isDestroyed = true;
 		}
 	}
@@ -70,8 +73,7 @@ void Bomb::Update(float dt)
 
 		if (stateTime > BOMBLIVETIME)
 		{
-			world->DestroyBody(mainBody);
-			mainBody = NULL;
+			mainBody->categoryBits = EXPLOSION_BIT;
 			SetTexture(NULL);
 			explosionEffect.SetPosition(this->GetPosition().x, this->GetPosition().y);
 			explosionEffect.Play();

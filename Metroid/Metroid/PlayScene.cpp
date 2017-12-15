@@ -43,6 +43,7 @@ void PlayScene::Create()
 	//get player position
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x,playerRect.y);
+	initPlayerPosition.Set(playerRect.x, playerRect.y);
 
 	//set cam position
 	cam.SetPosition(playerRect.x, playerRect.y + 110);
@@ -85,6 +86,7 @@ void PlayScene::Create()
 	//effects
 	effectsTexture = Texture("Resources/metroidfullsheet.png");
 	explosionEffect.Create(&effectsTexture);
+	explosionEffect.SetSize(24, 24);
 
 	//--------------------------UI--------------------------------------
 	font = Font("Arial");
@@ -223,19 +225,21 @@ void PlayScene::Update(float dt)
 			healthItems.erase(healthItems.begin() + i);
 		}
 	}
+	
 
-	//if (player.GetPosition().x > cam.GetPosition().x)
-	//{
-	//	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
-	//}
-
-	//if (player.GetPosition().x < cam.GetPosition().x - 250)
-	//{
-	//	cam.SetPosition(player.GetPosition().x + 250, cam.GetPosition().y);
-	//	if (cam.GetPosition().x < 320) cam.SetPosition(320, cam.GetPosition().y);
-	//}
-
-	cam.SetPosition(player.GetPosition().x,  cam.GetPosition().y);
+	//update camera
+	if (player.GetPosition().y > cam.GetPosition().y + 140)
+	{
+		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + 120 * player.GetMainBody()->GetVelocity().y * dt);
+	}
+	else
+	{
+		if (player.GetPosition().y < cam.GetPosition().y - 140)
+		{
+			cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + 120 * player.GetMainBody()->GetVelocity().y* dt);
+		}
+	}
+	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 
 	//update Label
 	playerHealthLabel.SetText(std::to_string(player.GetHealth()));

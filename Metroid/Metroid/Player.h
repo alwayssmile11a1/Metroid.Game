@@ -11,7 +11,7 @@
 #define FIRERATE 0.1
 #define MAXJUMPTIME 0.5
 #define MAXUNTOUCHABLETIME 0.3 
-
+#define MAXDEADTIME 0.5
 
 //Main character
 class Player : public Sprite
@@ -32,6 +32,7 @@ private:
 	Animation rollingAnimation;
 	Animation jumpAndRollAnimation;
 	Animation beingHitAnimation;
+
 	StateManager characterStateManager;
 
 	//Body
@@ -69,6 +70,7 @@ private:
 	float beingHitTime;
 	bool beingRightHit;
 
+	float deadTime;
 public:
 
 
@@ -101,9 +103,12 @@ public:
 	void OnHeadHit();
 
 	int GetHealth();
+	
+	bool IsDead();
+
+	Body* GetMainBody();
 
 	void Release();
 
-	
 };
 
