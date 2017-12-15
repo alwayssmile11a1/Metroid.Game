@@ -11,7 +11,7 @@ Zoomer::~Zoomer()
 {
 }
 
-void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool initalDirection)
+void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool Direction)
 {
 	this->world = world;
 	TexturePacker p = TexturePacker(zoomerTexture, "Resources/enemies_packer.xml");
@@ -39,7 +39,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool
 	curCollisionDirection.y = -prevVelocity.y * 100;
 
 	//set up intial velocity/direction
-	if (initalDirection)
+	if (Direction)
 	{
 		prevVelocity.x = 0.7f;
 		prevVelocity.y = -0.7f;
@@ -53,8 +53,10 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool
 
 		body->SetVelocity(-0.7f, -0.7f);
 	}
+	initalDirection = Direction;
 	cooldownAfterCollisionChange = 3;
 	health = 2;
+	hitBulletTime = -1;
 }
 
 void Zoomer::HandlePhysics()
@@ -168,6 +170,30 @@ void Zoomer::StickToGround()
 		if (prevCollisionDirection.x == NOT_COLLIDED)
 		{
 			body->SetVelocity(prevVelocity.x, -prevVelocity.y);
+
+			if (prevVelocity.x < 0)
+			{
+				if (prevVelocity.y < 0)
+				{
+					SetRotation(GetRotation() + 90);
+				}
+				else
+				{
+					SetRotation(GetRotation() - 90);
+				}				
+			}
+			else
+			{
+				if (prevVelocity.y < 0)
+				{
+					SetRotation(GetRotation() - 90);
+				}
+				else
+				{
+					SetRotation(GetRotation() + 90);
+				}
+			}
+
 			prevVelocity.y = -prevVelocity.y;
 			prevCollisionDirection.x = curCollisionDirection.x;
 			prevCollisionDirection.y = NOT_COLLIDED;
@@ -175,6 +201,30 @@ void Zoomer::StickToGround()
 		else
 		{
 			body->SetVelocity(-prevVelocity.x, prevVelocity.y);
+
+			if (prevVelocity.x < 0)
+			{
+				if (prevVelocity.y < 0)
+				{
+					SetRotation(GetRotation() - 90);
+				}
+				else
+				{
+					SetRotation(GetRotation() + 90);
+				}
+			}
+			else
+			{
+				if (prevVelocity.y < 0)
+				{
+					SetRotation(GetRotation() + 90);
+				}
+				else
+				{
+					SetRotation(GetRotation() - 90);
+				}
+			}
+
 			prevVelocity.x = -prevVelocity.x;
 			prevCollisionDirection.y = curCollisionDirection.y;
 			prevCollisionDirection.x = NOT_COLLIDED;
@@ -211,6 +261,11 @@ void Zoomer::StickToGround()
 					prevSource = -1;
 				}
 			}
+
+			if (initalDirection)
+				SetRotation(GetRotation() + 90);
+			else
+				SetRotation(GetRotation() - 90);
 		}
 		else
 		{
