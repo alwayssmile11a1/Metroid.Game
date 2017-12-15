@@ -7,6 +7,7 @@
 
 #define NOT_COLLIDED 10000.0f
 #define MAXHITBULLETTIME 0.2
+#define MAXHITPLAYERHITTIME 0.3
 
 class Zoomer : public Sprite
 {
@@ -19,6 +20,7 @@ private:
 	bool isDead;
 	int health;
 	float hitBulletTime;
+	float hitPlayerTime;
 
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
@@ -48,6 +50,8 @@ public:
 	void Update(float dt);
 
 	void OnHitBullet();
+
+	void OnHitPlayer();
 
 	void StickToGround();
 

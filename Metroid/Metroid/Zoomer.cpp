@@ -98,6 +98,19 @@ void Zoomer::Update(float dt)
 		}
 	}
 
+	if (hitPlayerTime != -1)
+	{
+		if (hitPlayerTime < MAXHITPLAYERHITTIME)
+		{
+			hitPlayerTime += dt;
+		}
+		else
+		{
+			hitPlayerTime = -1;
+			body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
+		}
+	}
+
 	//set sprite position
 	if (body != NULL)
 		this->SetPosition(body->GetPosition().x, body->GetPosition().y);
@@ -107,8 +120,6 @@ void Zoomer::Update(float dt)
 	{
 		StickToGround();
 	}
-	SetRegion(*zoomerAnimation.Next(dt));
-
 }
 
 void Zoomer::SetCurCollisionDirection(Vector2 collisionDirection, int source)
@@ -218,4 +229,12 @@ void Zoomer::OnHitBullet()
 	hitBulletTime = 0;
 	//stop this body a little bit 
 	body->SetBodyType(Body::BodyType::Static);
+}
+
+void Zoomer::OnHitPlayer()
+{
+	hitPlayerTime = 0;
+	prevSource = 1;
+	cooldownAfterCollisionChange = 2;
+	body->maskBits = PLATFORM_BIT | BULLET_BIT;
 }

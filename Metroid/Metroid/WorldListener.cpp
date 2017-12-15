@@ -31,7 +31,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
 			if (zoomer != NULL)
 			{
-				zoomer->SetCurCollisionDirection(CollisionDirection, 2);
+				zoomer->OnHitPlayer();
 				Console::Log("Zoomer hits player\n");
 			}
 		}
@@ -50,7 +50,8 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 				Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 				if (zoomer != NULL)
 				{
-					zoomer->SetCurCollisionDirection(CollisionDirection, 2);
+					//zoomer->SetCurCollisionDirection(CollisionDirection, 2);
+					zoomer->OnHitPlayer();
 					Console::Log("Zoomer hits player\n");
 				}
 			}
