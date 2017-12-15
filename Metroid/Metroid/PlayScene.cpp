@@ -64,7 +64,7 @@ void PlayScene::Create()
 	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
 	{
 		Zoomer *zoomer = new Zoomer();
-		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y);
+		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
 
 		zoomers.push_back(zoomer);
 	}
