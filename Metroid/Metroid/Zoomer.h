@@ -6,6 +6,7 @@
 #include "Player.h"
 
 #define NOT_COLLIDED 10000.0f
+#define MAXHITBULLETTIME 0.2
 
 class Zoomer : public Sprite
 {
@@ -16,6 +17,8 @@ private:
 	World* world;
 
 	bool isDead;
+	int health;
+	float hitBulletTime;
 
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
@@ -34,7 +37,9 @@ public:
 
 	Zoomer();
 	~Zoomer();
-	void Create(World *world, Texture *zoomerTexture, float x, float y);
+
+	//
+	void Create(World *world, Texture *zoomerTexture, float x, float y, bool initalDirection);
 
 	void HandlePhysics();
 
@@ -42,7 +47,7 @@ public:
 
 	void Update(float dt);
 
-	void OnHitPlayer();
+	void OnHitBullet();
 
 	void StickToGround();
 
