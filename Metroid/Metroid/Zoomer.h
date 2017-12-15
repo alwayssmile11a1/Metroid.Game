@@ -21,6 +21,7 @@ private:
 	int health;
 	float hitBulletTime;
 	float hitPlayerTime;
+	bool initalDirection;
 
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
@@ -41,7 +42,7 @@ public:
 	~Zoomer();
 
 	//
-	void Create(World *world, Texture *zoomerTexture, float x, float y, bool initalDirection);
+	void Create(World *world, Texture *zoomerTexture, float x, float y, bool Direction);
 
 	void HandlePhysics();
 
