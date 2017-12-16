@@ -17,6 +17,11 @@ private:
 	unsigned int _ImageWidth;
 	unsigned int _ImageHeight;
 	Texture *_Texture;
+	
+	void SetAttributes(const std::string& name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight,
+		unsigned int tileCount, unsigned int columns, const std::string& sourcePath, unsigned int imageWidth, unsigned int imageHeight);
+
+	friend class TMXLoader;
 
 public:
 	TMXTileSet();
@@ -24,8 +29,6 @@ public:
 	TMXTileSet(const TMXTileSet &tmxTileSet);
 	TMXTileSet& operator=(const TMXTileSet &tmxTileSet);
 
-	void SetAttributes(const std::string& name, unsigned int firstGid, unsigned int tileWidth, unsigned int tileHeight , 
-		unsigned int tileCount, unsigned int columns, const std::string& sourcePath, unsigned int imageWidth, unsigned int imageHeight);
 
 	const std::string& GetName() const;
 	const std::string& GetSourcePath() const;

@@ -18,7 +18,7 @@ private:
 	unsigned int _TileHeight;
 	
 	TMXTileSet *_TileSet;
-	vector<TMXTileLayer*> _Layers;
+	std::unordered_map<std::string, TMXTileLayer*> _Layers;
 	std::unordered_map<std::string, TMXObjectGroup*> _ObjectGroups;
 
 	Camera* _Cam; //hold camera reference
@@ -27,16 +27,20 @@ private:
 
 	SpaceDivisionQuadTree* _SDQuadTree;
 
+	void SetAttributes(unsigned int width, unsigned int height, unsigned int tileWidth, unsigned int tileHeight);
+	void SetTileSet(const TMXTileSet &tileSet);
+	void AddLayer(const std::string &layerName, const TMXTileLayer &layer);
+	void AddObjectGroup(const std::string &name, const TMXObjectGroup &objectGroup);
+
+	friend class TMXLoader;
+
 public:
 	TMXMap();
 	~TMXMap();
 
 	//set camera to reduce the amount of tiles that have to be loaded 
 	void SetCamera(Camera* camera);
-	void SetAttributes(unsigned int width, unsigned int height, unsigned int tileWidth, unsigned int tileHeight);
-	void SetTileSet(const TMXTileSet &tileSet);
-	void AddLayer(const TMXTileLayer &layer);
-	void AddObjectGroup(const std::string &name, const TMXObjectGroup &objectGroup);
+
 
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
@@ -44,9 +48,12 @@ public:
 	unsigned int GetTileHeight() const;
 
 	TMXTileSet *GetTileSet() const;
-	const vector<TMXTileLayer*>& GetLayers() const;
-	TMXObjectGroup* GetObjectGroup(const std::string &groupName) const;
+	const std::unordered_map<std::string, TMXTileLayer*>& GetLayers() const;
 	const std::unordered_map<std::string, TMXObjectGroup*>& GetObjectGroups() const;
+
+	TMXObjectGroup* GetObjectGroup(const std::string &groupName) const;
+	TMXTileLayer* GetTileLayer(const std::string &tileLayerName) const;
+
 	//Render this map
 	void Render(SpriteBatch *batch);
 

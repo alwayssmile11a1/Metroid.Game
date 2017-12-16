@@ -145,7 +145,7 @@ void TMXLoader::LoadLayers(TMXMap* map, rapidxml::xml_node<> *parentNode)
 		layer.SetData(data);
 
 		//Add layer to map
-		map->AddLayer(layer);
+		map->AddLayer(layerName, layer);
 
 		// Move to the next layer
 		currentNode = currentNode->parent()->next_sibling("layer");

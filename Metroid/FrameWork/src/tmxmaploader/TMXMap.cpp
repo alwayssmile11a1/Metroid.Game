@@ -20,9 +20,9 @@ TMXMap::TMXMap()
 
 TMXMap::~TMXMap()
 {
-	for (std::vector<TMXTileLayer*>::iterator it = _Layers.begin(); it != _Layers.end(); it++)
+	for (std::unordered_map<std::string, TMXTileLayer*>::iterator it = _Layers.begin(); it != _Layers.end(); it++)
 	{
-		delete *it;
+		delete it->second;
 	}
 
 	if (_TileSet != NULL)
@@ -56,11 +56,11 @@ void TMXMap::SetTileSet(const TMXTileSet &tileSet)
 	*_TileSet = tileSet;
 }
 
-void TMXMap::AddLayer(const TMXTileLayer &layer)
+void TMXMap::AddLayer(const std::string &layerName, const TMXTileLayer &layer)
 {
 	TMXTileLayer* tmxlayer = new TMXTileLayer();
 	*tmxlayer = layer;
-	_Layers.push_back(tmxlayer);
+	_Layers[layerName] = tmxlayer;
 }
 
 void TMXMap::AddObjectGroup(const std::string &groupName, const TMXObjectGroup &objectGroup)
@@ -115,9 +115,26 @@ unsigned int TMXMap::GetTileHeight() const
 	return _TileHeight;
 }
 
-const vector<TMXTileLayer*>& TMXMap::GetLayers() const
+const std::unordered_map<std::string, TMXTileLayer*>& TMXMap::GetLayers() const
 {
 	return _Layers;
+}
+
+TMXTileLayer* TMXMap::GetTileLayer(const std::string &tileLayerName) const
+{
+	// Attempt to find and return a map using provided name, else return nullptr
+	std::unordered_map<std::string, TMXTileLayer*>::const_iterator it = _Layers.find(tileLayerName);
+
+	if (it == _Layers.end())
+	{
+		return NULL;
+	}
+	else
+	{
+		//first means key, which is mapName
+		//second means value, which is TMXMap
+		return it->second;
+	}
 }
 
 const std::unordered_map<std::string, TMXObjectGroup*>& TMXMap::GetObjectGroups() const
@@ -149,9 +166,10 @@ void TMXMap::Render(SpriteBatch *batch)
 	{
 
 		//get necessary variables
-		unsigned int **data = _Layers[0]->GetData();
-		unsigned int layerWidth = _Layers[0]->GetWidth();
-		unsigned int layerHeight = _Layers[0]->GetHeight();
+		TMXTileLayer* layer = _Layers.begin()->second;
+		unsigned int **data = layer->GetData();
+		unsigned int layerWidth = layer->GetWidth();
+		unsigned int layerHeight = layer->GetHeight();
 
 		Texture* texture = _TileSet->GetTexture();
 		unsigned int columns = _TileSet->GetColumns();
