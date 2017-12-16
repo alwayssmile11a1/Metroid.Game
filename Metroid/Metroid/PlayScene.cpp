@@ -135,7 +135,7 @@ void PlayScene::HandlePhysics(float dt)
 	}
 
 	//Update world
-	world.Update(dt);
+	//world.Update(dt);
 
 
 }

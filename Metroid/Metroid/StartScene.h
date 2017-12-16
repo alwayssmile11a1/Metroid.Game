@@ -15,6 +15,9 @@ private:
 	SpriteBatch* batch;
 
 	Texture startSceneTexture;
+
+	std::vector<TextureRegion> regions;
+
 public:
 	StartScene();
 	~StartScene();
