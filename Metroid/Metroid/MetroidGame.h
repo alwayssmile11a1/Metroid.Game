@@ -2,13 +2,16 @@
 
 #include "HanabiGame.h"
 #include "PlayScene.h"
-
+#include "IntroScene.h"
+#include "StartScene.h"
 class MetroidGame: public Game
 {
 private:
 	SpriteBatch batch;
 	PlayScene playScene;
-
+	IntroScene introScene;
+	StartScene startScene;
+	Scene *scenes;
 protected:
 	//create all the things of a game here, such as world, object, ...
 	void CreateGame() override;

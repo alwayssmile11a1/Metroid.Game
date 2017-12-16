@@ -31,6 +31,12 @@
     <Filter Include="Source Files\MetroidGame\Items">
       <UniqueIdentifier>{3ae21933-4a23-4720-bf58-eb70a3530c81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MetroidGame\Scenes">
+      <UniqueIdentifier>{4d1f9c08-2647-4916-8599-f3cf7b5e325f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MetroidGame\Scenes">
+      <UniqueIdentifier>{bc776ee0-56d1-4ad5-99be-9a69dfa4bf10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -43,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MetroidGame.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
@@ -78,6 +81,15 @@
     <ClCompile Include="BreakablePlatform.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source Files\MetroidGame\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Source Files\MetroidGame\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>Source Files\MetroidGame\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -90,9 +102,6 @@
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="WorldListener.h">
-      <Filter>Header Files\MetroidGame</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayScene.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
@@ -127,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="BreakablePlatform.h">
       <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Header Files\MetroidGame\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Header Files\MetroidGame\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>Header Files\MetroidGame\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

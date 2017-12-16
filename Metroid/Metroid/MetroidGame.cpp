@@ -27,8 +27,17 @@ void MetroidGame::CreateGame()
 	playScene.Create();
 	playScene.SetBatch(&batch);
 
+
+	//intro scene
+	introScene.Create();
+	introScene.SetBatch(&batch);
+
+	//start scene
+	startScene.Create();
+	startScene.SetBatch(&batch);
 	//set screne which will be rendered
-	SetScene(&playScene);
+	SetScene(&introScene);
+	scenes = &introScene;
 
 }
 void MetroidGame::UpdateGame(float dt)
@@ -39,7 +48,21 @@ void MetroidGame::UpdateGame(float dt)
 	{
 		ShutDownApplication();
 	}
-
+	if (input.GetKeyDown(DIK_RETURN))
+	{
+		if (scenes == &introScene)
+		{
+			SetScene(&startScene);
+			startScene.SetBatch(&batch);
+			scenes = &startScene;
+		}
+		else if (scenes == &startScene)
+		{
+			SetScene(&playScene);
+			playScene.SetBatch(&batch);
+			scenes = &playScene;
+		}
+	}
 
 
 }

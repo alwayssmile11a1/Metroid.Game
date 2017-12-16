@@ -139,6 +139,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ExplosionEffect.cpp" />
     <ClCompile Include="HealthItem.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MetroidGame.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="MaruMariItem.cpp" />
     <ClCompile Include="Skree.cpp" />
+    <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="WorldListener.cpp" />
     <ClCompile Include="Zoomer.cpp" />
   </ItemGroup>
@@ -157,6 +159,7 @@
     <ClInclude Include="CollisionBit.h" />
     <ClInclude Include="ExplosionEffect.h" />
     <ClInclude Include="HealthItem.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="MetroidGame.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="MaruMariItem.h" />
     <ClInclude Include="Skree.h" />
+    <ClInclude Include="StartScene.h" />
     <ClInclude Include="WorldListener.h" />
     <ClInclude Include="Zoomer.h" />
   </ItemGroup>
