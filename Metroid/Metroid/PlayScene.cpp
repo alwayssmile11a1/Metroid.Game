@@ -159,7 +159,7 @@ void  PlayScene::Render()
 	explosionEffect.Render(batch);
 
 	//draw bodies
-	world.RenderBodiesDebug(batch);
+	//world.RenderBodiesDebug(batch);
 
 	//render map
 	map->Render(batch);
