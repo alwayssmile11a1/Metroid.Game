@@ -95,6 +95,25 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		}
 		break;
 
+
+	case RIO_BIT*PLATFORM_BIT:
+		if (bodyA->categoryBits == RIO_BIT)
+		{
+			Rio* rio = (Rio*)bodyA->GetExtra();
+			if (rio != NULL)
+			{
+				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y < 0)
+				{
+					rio->OnHitRoof();
+				}
+				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y > 0)
+				{
+					rio->OnHitGround();
+				}
+			}
+		}
+		break;
+	
 	}
 	
 

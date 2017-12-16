@@ -90,6 +90,9 @@
     <ClCompile Include="StartScene.cpp">
       <Filter>Source Files\MetroidGame\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Rio.cpp">
+      <Filter>Source Files\MetroidGame\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>Header Files\MetroidGame\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rio.h">
+      <Filter>Header Files\MetroidGame\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

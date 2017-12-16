@@ -110,5 +110,7 @@ public:
 
 	void Release();
 
+	bool getisGrounded();
+
 };
 

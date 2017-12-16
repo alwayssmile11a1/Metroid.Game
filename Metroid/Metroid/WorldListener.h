@@ -7,6 +7,7 @@
 #include "HealthItem.h"
 #include "BombItem.h"
 #include "BreakablePlatform.h"
+#include "Rio.h"
 
 class WorldListener: public WorldContactListener
 {

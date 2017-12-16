@@ -17,6 +17,7 @@
 #include "ExplosionEffect.h"
 #include "BombItem.h"
 #include "BreakablePlatform.h"
+#include "Rio.h"
 
 #define PLAYERAPPEARINGTIME 1
 
@@ -56,6 +57,7 @@ private:
 
 	std::vector<Skree*> skrees;
 	std::vector<Zoomer*> zoomers;
+	std::vector<Rio*> rios;
 
 	Font font;
 	Label playerHealthLabel;

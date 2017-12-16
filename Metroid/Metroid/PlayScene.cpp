@@ -78,7 +78,16 @@ void PlayScene::Create()
 
 		zoomers.push_back(zoomer);
 	}
+	
+	//rio
+	std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
+	{
+		Rio *rio = new Rio();
+		rio->Create(&world, &enemiesTexture, rect->x, rect->y);
 
+		rios.push_back(rio);
+	}
 
 
 	//---------------------------ITEMS------------------------------------
@@ -119,6 +128,11 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics();
 	}
 
+	//handle physics rio
+	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	{
+		(*it)->HandlePhysics(&player);
+	}
 
 	//Update world
 	world.Update(dt);
@@ -142,6 +156,12 @@ void  PlayScene::Render()
 
 	//render zoomers
 	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+	//render rios
+	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
 	{
 		(*it)->Render(batch);
 	}
@@ -217,6 +237,12 @@ void PlayScene::Update(float dt)
 		(*it)->Update(dt);
 	}
 
+	//update rios
+	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
 	explosionEffect.Update(dt);
 
 	//update items
@@ -264,6 +290,12 @@ void PlayScene::Release()
 {
 	world.Release();
 	player.Release();
+	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+	
 	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
 	{
 		delete *it;
