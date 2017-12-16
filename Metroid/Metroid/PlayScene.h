@@ -84,5 +84,6 @@ public:
 	void Create() override;
 	void Update(float dt) override;
 	void Release() override;
+	bool isOver();
 };
 

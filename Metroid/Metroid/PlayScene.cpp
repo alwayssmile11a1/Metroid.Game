@@ -322,3 +322,8 @@ void PlayScene::Release()
 
 	font.Release();
 }
+
+bool PlayScene::isOver()
+{
+	return this->player.IsDead();
+}

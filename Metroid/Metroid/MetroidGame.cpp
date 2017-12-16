@@ -23,27 +23,32 @@ void MetroidGame::CreateGame()
 	//create batch to draw everything
 	batch.Create();
 
-	//play screen
-	playScene.Create();
-	playScene.SetBatch(&batch);
-
-
-	//intro scene
+	// 1/intro scene
 	introScene.Create();
 	introScene.SetBatch(&batch);
 
-	//start scene
+	// 2/start scene
 	startScene.Create();
 	startScene.SetBatch(&batch);
-	//set screne which will be rendered
+
+	// 3/play screen
+	playScene.Create();
+	playScene.SetBatch(&batch);
+
+	// 4/gameover scene
+	gameOverScene.Create();
+	gameOverScene.SetBatch(&batch);
+
+
 	SetScene(&introScene);
 	scenes = &introScene;
+	pauseTime = 0;
 
 }
 void MetroidGame::UpdateGame(float dt)
 {
 	Game::UpdateGame(dt);
-
+	
 	if (input.GetKeyDown(DIK_ESCAPE))
 	{
 		ShutDownApplication();
@@ -61,6 +66,16 @@ void MetroidGame::UpdateGame(float dt)
 			SetScene(&playScene);
 			playScene.SetBatch(&batch);
 			scenes = &playScene;
+		}
+	}
+	if (playScene.isOver() == true)
+	{
+		pauseTime += 1;
+		if (pauseTime > 50)
+		{
+			SetScene(&gameOverScene);
+			gameOverScene.SetBatch(&batch);
+			scenes = &gameOverScene;
 		}
 	}
 

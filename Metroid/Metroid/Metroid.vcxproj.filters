@@ -93,6 +93,9 @@
     <ClCompile Include="Rio.cpp">
       <Filter>Source Files\MetroidGame\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Source Files\MetroidGame\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Rio.h">
       <Filter>Header Files\MetroidGame\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Header Files\MetroidGame\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

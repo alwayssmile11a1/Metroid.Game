@@ -4,6 +4,7 @@
 #include "PlayScene.h"
 #include "IntroScene.h"
 #include "StartScene.h"
+#include "GameOverScene.h"
 class MetroidGame: public Game
 {
 private:
@@ -11,6 +12,8 @@ private:
 	PlayScene playScene;
 	IntroScene introScene;
 	StartScene startScene;
+	GameOverScene gameOverScene;
+	float pauseTime;
 	Scene *scenes;
 protected:
 	//create all the things of a game here, such as world, object, ...
