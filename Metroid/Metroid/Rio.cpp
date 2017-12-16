@@ -14,7 +14,6 @@ Rio::~Rio()
 
 void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 {
-	roofTime = 0.5;
 	isHitRoof = true;
 	isHitGround = false;
 	isHitLeft = false;
@@ -27,8 +26,8 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	delayTime = 0.5;
 	delayTimeDuringGame = 0;
 
-	startVelo1 = Vector2(2, -4);
-	startVelo2 = Vector2(-2, -4);
+	startVelo1 = Vector2(2, -6);
+	startVelo2 = Vector2(-2, -6);
 	deacceleration = (float)0.05;
 
 	midVelo1 = Vector2(2, (float)0.05);
@@ -93,11 +92,20 @@ void Rio::HandlePhysics(Player *player)
 						right = true;
 						phase1 = false;
 					}
+					if (isHitRight)
+					{
+						isHitRight = false;
+						isHitLeft = false;
+						right = false;
+						phase2 = true;
+						phase1 = false;
+						startVelo2.Set(-2, -6);
+					}
 				}
 			}
 			else if (phase1 == false)
 			{
-				startVelo1.Set(2, -4);
+				startVelo1.Set(2, -6);
 				if (isHitGround == true)
 				{
 					isHitGround = false;
@@ -132,11 +140,20 @@ void Rio::HandlePhysics(Player *player)
 						right = false;
 						phase2 = false;
 					}
+					if (isHitLeft)
+					{
+						isHitLeft = false;
+						isHitRight = false;
+						right = true;
+						phase1 = true;
+						phase2 = false;
+						startVelo1.Set(2, -6);
+					}
 				}
 			}
 			else if (phase2 == false)
 			{
-				startVelo2.Set(-2, -4);
+				startVelo2.Set(-2, -6);
 				if (isHitGround == true)
 				{
 					isHitGround = false;
@@ -163,6 +180,7 @@ void Rio::Render(SpriteBatch *batch)
 
 void Rio::Update(float dt)
 {
+	
 	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 
 	delayTimeDuringGame += dt;
