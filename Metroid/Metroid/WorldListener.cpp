@@ -110,6 +110,14 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 				{
 					rio->OnHitGround();
 				}
+				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x < 0)
+				{
+					rio->OnHitRight();
+				}
+				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x > 0)
+				{
+					rio->OnHitLeft();
+				}
 			}
 		}
 		break;

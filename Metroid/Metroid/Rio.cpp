@@ -17,10 +17,15 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	roofTime = 0.5;
 	isHitRoof = true;
 	isHitGround = false;
+	isHitLeft = false;
+	isHitRight = false;
 	health = 2;
 	phase1 = true;
 	phase2 = true;
 	right = true;
+	still = false;
+	delayTime = 0.5;
+	delayTimeDuringGame = 0;
 
 	startVelo1 = Vector2(2, -4);
 	startVelo2 = Vector2(-2, -4);
@@ -56,77 +61,96 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 
 void Rio::HandlePhysics(Player *player)
 {
-	if (right == true)
+	if (still)
 	{
-		if (phase1 == true)
+		if (delayTimeDuringGame >= delayTime)
 		{
-			midVelo1.Set(2, (float)0.05);
-			if (isHitRoof)
-			{
-				isHitRoof = false;
-			}
-			if (isHitRoof == false)
-			{
-				body->SetVelocity(startVelo1.x, startVelo1.y);
-				if (isHitGround == false) startVelo1.Set(startVelo1.x, startVelo1.y + deacceleration);
-				if (player->getisGrounded() == false)
-				{
-					right = true;
-					phase1 = false;
-				}
-			}
+			delayTimeDuringGame = 0;
+			still = false;
 		}
-		else if (phase1 == false)
+		else
 		{
-			startVelo1.Set(2, -4);
-			if (isHitGround == true)
-			{
-				isHitGround = false;
-			}
-			body->SetVelocity(midVelo1.x, midVelo1.y);
-			midVelo1.Set(midVelo1.x, midVelo1.y + acceleration);
-			if (isHitRoof == true)
-			{
-				body->SetVelocity(0, 0);
-				right = false;
-				phase1 = true;
-			}
+
 		}
 	}
-	else if (right == false)
+	else
 	{
-		if (phase2 == true)
+		if (right == true)
 		{
-			midVelo2.Set(-2, (float)0.05);
-			if (isHitRoof)
+			if (phase1 == true)
 			{
-				isHitRoof = false;
-			}
-			if (isHitRoof == false)
-			{
-				body->SetVelocity(startVelo2.x, startVelo2.y);
-				if (isHitGround == false) startVelo2.Set(startVelo2.x, startVelo2.y + deacceleration);
-				if (player->getisGrounded() == false)
+				midVelo1.Set(2, 0.05);
+				if (isHitRoof)
 				{
-					right == false;
-					phase2 = false;
+					isHitRoof = false;
+				}
+				if (isHitRoof == false)
+				{
+					body->SetVelocity(startVelo1.x, startVelo1.y);
+					if (isHitGround == false) startVelo1.Set(startVelo1.x, startVelo1.y + deacceleration);
+					if (player->getisGrounded() == false)
+					{
+						right = true;
+						phase1 = false;
+					}
+				}
+			}
+			else if (phase1 == false)
+			{
+				startVelo1.Set(2, -4);
+				if (isHitGround == true)
+				{
+					isHitGround = false;
+				}
+				body->SetVelocity(midVelo1.x, midVelo1.y);
+				midVelo1.Set(midVelo1.x, midVelo1.y + acceleration);
+				if (isHitRoof == true)
+				{
+					still = true;
+					delayTimeDuringGame = 0;
+					body->SetVelocity(0, 0);
+					right = false;
+					phase1 = true;
 				}
 			}
 		}
-		else if (phase2 == false)
+		else if (right == false)
 		{
-			startVelo2.Set(-2, -4);
-			if (isHitGround == true)
+			if (phase2 == true)
 			{
-				isHitGround = false;
+				midVelo2.Set(-2, (float)0.05);
+				if (isHitRoof)
+				{
+					isHitRoof = false;
+				}
+				if (isHitRoof == false)
+				{
+					body->SetVelocity(startVelo2.x, startVelo2.y);
+					if (isHitGround == false) startVelo2.Set(startVelo2.x, startVelo2.y + deacceleration);
+					if (player->getisGrounded() == false)
+					{
+						right = false;
+						phase2 = false;
+					}
+				}
 			}
-			body->SetVelocity(midVelo2.x, midVelo2.y);
-			midVelo2.Set(midVelo2.x, midVelo2.y + acceleration);
-			if (isHitRoof == true)
+			else if (phase2 == false)
 			{
-				body->SetVelocity(0, 0);
-				phase2 = true;
-				right = true;
+				startVelo2.Set(-2, -4);
+				if (isHitGround == true)
+				{
+					isHitGround = false;
+				}
+				body->SetVelocity(midVelo2.x, midVelo2.y);
+				midVelo2.Set(midVelo2.x, midVelo2.y + acceleration);
+				if (isHitRoof == true)
+				{
+					still = true;
+					delayTimeDuringGame = 0;
+					body->SetVelocity(0, 0);
+					phase2 = true;
+					right = true;
+				}
 			}
 		}
 	}
@@ -141,6 +165,8 @@ void Rio::Update(float dt)
 {
 	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 
+	delayTimeDuringGame += dt;
+	
 	SetRegion(*rioAnimation.Next(dt));
 }
 
@@ -154,6 +180,16 @@ void Rio::OnHitGround()
 void Rio::OnHitRoof()
 {
 	isHitRoof = true;
+}
+
+void Rio::OnHitLeft()
+{
+	isHitLeft = true;
+}
+
+void Rio::OnHitRight()
+{
+	isHitRight = true;
 }
 
 bool Rio::IsDead()

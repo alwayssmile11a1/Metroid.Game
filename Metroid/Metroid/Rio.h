@@ -30,10 +30,19 @@ private:
 
 	bool right;
 
+	bool still;
+
 	bool isHitRoof;
 
 	bool isHitGround;
 
+	bool isHitRight;
+
+	bool isHitLeft;
+
+	float delayTime;
+	float delayTimeDuringGame;
+	
 	bool isDead;
 
 	int health;
@@ -63,6 +72,10 @@ public:
 
 	void OnHitRoof();
 
+	void OnHitLeft();
+
+	void OnHitRight();
+	
 	bool IsDead();
 
 	int GetHealth();

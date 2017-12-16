@@ -178,6 +178,10 @@ void World::Update(float dt)
 
 		for (std::vector<Body*>::iterator body = _Bodies.begin(); body != _Bodies.end(); ++body)
 		{
+			Body *it = *body;
+			Vector2 campos = Vector2(_Cam->GetPosition().x - (int)screenWidth / 2, _Cam->GetPosition().y - (int)screenHeight / 2);
+			if (((it->GetPosition().x + it->GetSize().x > campos.x) && (it->GetPosition().x < campos.x + screenWidth)) &&
+				((it->GetPosition().y + it->GetSize().y > campos.y) && (it->GetPosition().y < campos.y + screenWidth)))
 			_QuadTree->Insert(*body);
 		}
 
@@ -244,7 +248,7 @@ void World::Update(float dt)
 			Vector2 campos = Vector2(_Cam->GetPosition().x - (int)screenWidth/2, _Cam->GetPosition().y -(int)screenHeight/2);
 			if (((body1->GetPosition().x + body1->GetSize().x > campos.x) && (body1->GetPosition().x < campos.x + screenWidth)) &&
 				((body1->GetPosition().y + body1->GetSize().y > campos.y) && (body1->GetPosition().y < campos.y + screenWidth)))
-			body1->Next(dt, moveX, moveY);
+					body1->Next(dt, moveX, moveY);
 		}
 	}
 }
