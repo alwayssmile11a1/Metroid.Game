@@ -154,6 +154,12 @@ void Player::Create(World *world, float x, float y)
 
 void Player::HandleInput()
 {
+	if (deadTime > MAXDEADTIME)
+	{
+		mainBody->SetBodyType(Body::BodyType::Static);
+		return;
+	}
+
 	//Move right
 	if (input.GetKey(DIK_RIGHT))
 	{
@@ -357,7 +363,6 @@ void Player::Render(SpriteBatch *batch)
 
 void Player::Update(float dt)
 {
-	if (deadTime > MAXDEADTIME) return;
 
 	if (health <= 0)
 	{
