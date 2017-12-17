@@ -43,7 +43,6 @@ void MetroidGame::CreateGame()
 	SetScene(&introScene);
 	scenes = &introScene;
 	pauseTime = 0;
-
 }
 void MetroidGame::UpdateGame(float dt)
 {
@@ -65,12 +64,14 @@ void MetroidGame::UpdateGame(float dt)
 		{
 			SetScene(&playScene);
 			playScene.SetBatch(&batch);
+			sound.StopSound(&introScene.GetSound());
 			scenes = &playScene;
 		}
 	}
 	if (playScene.isOver() == true)
 	{
 		pauseTime += 1;
+
 		if (pauseTime > 50)
 		{
 			SetScene(&gameOverScene);

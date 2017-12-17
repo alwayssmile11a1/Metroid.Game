@@ -109,6 +109,11 @@ void PlayScene::Create()
 	//--------------------------UI--------------------------------------
 	font = Font("Arial");
 	playerHealthLabel = Label("30", &font, cam.GetPosition().x-250, cam.GetPosition().y+300, 640, 480);
+
+
+	//BrinstarTheme Sound
+	BrinstarTheme = sound.LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
+	
 }
 
 void PlayScene::HandlePhysics(float dt)
@@ -284,6 +289,10 @@ void PlayScene::Update(float dt)
 
 	//RENDER
 	Render();
+
+	//play sound BrinstarTheme
+	sound.LoopSound(BrinstarTheme);
+
 }
 
 void PlayScene::Release()
@@ -326,4 +335,9 @@ void PlayScene::Release()
 bool PlayScene::isOver()
 {
 	return this->player.IsDead();
+}
+
+CSound PlayScene::GetSound()
+{
+	return *this->BrinstarTheme;
 }

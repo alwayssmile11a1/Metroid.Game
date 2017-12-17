@@ -11,7 +11,6 @@
 extern LPDIRECT3D9 d3d;
 extern LPDIRECT3DDEVICE9 d3ddevice;
 extern Sound sound;
-
 //input 
 extern Input input;
 

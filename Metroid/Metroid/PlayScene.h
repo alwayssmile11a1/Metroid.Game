@@ -26,8 +26,8 @@ class PlayScene: public Scene
 private:
 
 	float stateTime;
-
-	//CSound *BrinstarTheme = NULL;
+	//Sound sound;
+	CSound *BrinstarTheme = NULL;
 	//CSound *Jump = NULL;
 
 	//Camera
@@ -85,5 +85,6 @@ public:
 	void Update(float dt) override;
 	void Release() override;
 	bool isOver();
+	CSound GetSound();
 };
 

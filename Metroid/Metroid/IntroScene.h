@@ -3,12 +3,13 @@
 #include "HanabiWorld.h"
 #include "HanabiSprite.h"
 #include "HanabiMap.h"
-
+#include "HanabiSound.h"
 class IntroScene : public Scene
 {
 private:
 	//Camera
 	Camera cam;
+	CSound *TitleTheme = NULL;
 	Sprite background;
 	Animation introSceneAnimation;
 	//draw texture, sprite, ...
@@ -24,4 +25,6 @@ public:
 	void Create() override;
 	void Update(float dt) override;
 	void Release() override;
+	CSound GetSound();//to stop in MetroidGame.cpp
+	
 };

@@ -5,7 +5,8 @@
 #include "IntroScene.h"
 #include "StartScene.h"
 #include "GameOverScene.h"
-class MetroidGame: public Game
+#include "HanabiSound.h"
+class MetroidGame : public Game
 {
 private:
 	SpriteBatch batch;
@@ -25,6 +26,5 @@ protected:
 public:
 	MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate);
 	~MetroidGame();
-
 	void Release() override;
 };
