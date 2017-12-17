@@ -10,17 +10,16 @@ class Label
 private:
 	Vector2 _Position;
 	Vector2 _Size;
-	float x, y, width, height;
-	std::string _Text;
-
+	LPCWSTR _Text;
+	std::wstring stemp;
 	Font *_Font;
 
 public:
 	Label();
 	~Label();
 
-	//Label(const Label& label);
-	//Label& operator=(const Label &label);
+	Label(const Label& label);
+	Label& operator=(const Label &label);
 
 	void SetText(std::string &text);
 	Label(const std::string &text, Font *font, float x, float y, float width, float height);

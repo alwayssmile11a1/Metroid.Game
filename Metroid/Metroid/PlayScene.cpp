@@ -179,7 +179,7 @@ void  PlayScene::Render()
 	explosionEffect.Render(batch);
 
 	//draw bodies
-	//world.RenderBodiesDebug(batch);
+	world.RenderBodiesDebug(batch);
 
 	//render map
 	map->Render(batch);
@@ -263,15 +263,15 @@ void PlayScene::Update(float dt)
 	
 
 	//update camera
-	if (player.GetPosition().y > cam.GetPosition().y + 140)
+	if (player.GetPosition().y > cam.GetPosition().y + 150)
 	{
-		cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + 120 * player.GetMainBody()->GetVelocity().y * dt);
+		cam.SetPosition(cam.GetPosition().x, player.GetPosition().y - 150);
 	}
 	else
 	{
-		if (player.GetPosition().y < cam.GetPosition().y - 140)
+		if (player.GetPosition().y < cam.GetPosition().y - 150)
 		{
-			cam.SetPosition(cam.GetPosition().x, cam.GetPosition().y + 120 * player.GetMainBody()->GetVelocity().y* dt);
+			cam.SetPosition(cam.GetPosition().x, player.GetPosition().y + 150);
 		}
 	}
 	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);

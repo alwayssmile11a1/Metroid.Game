@@ -10,6 +10,7 @@ Label::Label()
 
 Label::~Label()
 {
+	
 }
 
 
@@ -19,18 +20,45 @@ Label::Label(const std::string &text, Font* font, float x, float y, float width,
 	_Position.Set(x, y);
 	_Size.Set(width, height);
 
-	_Text = text;
+
+	//get LPCWSTR from text
+	stemp = StringToWstring(text);
+	_Text = stemp.c_str();
 }
 
 
-//Label::Label(const Label& label)
-//{
-//
-//}
-//Label& Label::operator=(const Label &label)
-//{
-//
-//}
+Label::Label(const Label& label)
+{
+	_Position = label._Position;
+	_Size = label._Size;
+	_Font = label._Font;
+	stemp = label.stemp;
+	_Text = stemp.c_str();
+	//std::vector<wchar_t> thecopy(wcslen(label._Text) + 1); // add one for null terminator
+	//wcscpy_s(thecopy.data(), thecopy.size(), label._Text);
+
+	//// you can get a pointer to the copy this way:
+	//_Text = thecopy.data();
+
+
+
+}
+Label& Label::operator=(const Label &label)
+{
+	_Position = label._Position;
+	_Size = label._Size;
+	_Font = label._Font;
+	stemp = label.stemp;
+	_Text = stemp.c_str();
+
+	//std::vector<wchar_t> thecopy(wcslen(label._Text) + 1); // add one for null terminator
+	//wcscpy_s(thecopy.data(), thecopy.size(), label._Text);
+
+	// you can get a pointer to the copy this way:
+	//_Text = thecopy.data();
+
+	return *this;
+}
 
 void Label::Draw(Camera *cam)
 {
@@ -57,18 +85,21 @@ void Label::Draw(Camera *cam)
 
 	RECT rect = { postion.x,postion.y,_Size.x,_Size.y };
 
-	//get LPCWSTR from _Text
-	std::wstring stemp = StringToWstring(_Text);
-	LPCWSTR text = stemp.c_str();
+	
+	////get LPCWSTR from _Text
+	//std::wstring stemp = StringToWstring(_Text);
+	//LPCWSTR text = stemp.c_str();
 
-	_Font->_pFont->DrawText(NULL, text, -1, &rect, DT_TOP | DT_LEFT,
+	_Font->_pFont->DrawText(NULL, _Text, -1, &rect, DT_TOP | DT_LEFT,
 		D3DCOLOR_XRGB(255, 255, 255));
 
 }
 
 void Label::SetText(std::string &text)
 {
-	_Text = text;
+	//get LPCWSTR from text
+	 stemp = StringToWstring(text);
+	_Text = stemp.c_str();
 }
 
 void Label::SetPosition(float x, float y)

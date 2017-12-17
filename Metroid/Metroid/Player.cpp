@@ -357,6 +357,7 @@ void Player::Render(SpriteBatch *batch)
 
 void Player::Update(float dt)
 {
+	if (deadTime > MAXDEADTIME) return;
 
 	if (health <= 0)
 	{

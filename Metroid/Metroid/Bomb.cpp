@@ -58,7 +58,7 @@ void Bomb::Update(float dt)
 		if (stateTime < EXPLOSIONLIVETIME)
 		{
 			explosionEffect.Update(dt);
-			mainBody->SetSize(mainBody->GetSize().x + 5, mainBody->GetSize().y + 5);
+			mainBody->SetSize(mainBody->GetSize().x + 3, mainBody->GetSize().y + 3);
 		}
 		else
 		{

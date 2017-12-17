@@ -150,7 +150,7 @@ void TMXMap::SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdquadtree)
 
 void TMXMap::SetTileData(int row, int column, int value)
 {
-	_Layers[0]->GetData()[row][column] = 0;
+	_Layers.begin()->second->GetData()[row][column] = 0;
 	if (_SDQuadTree != NULL)
 	{
 		Shape::Rectangle* tileRect = _SDQuadTree->GetMapTileRect().at(row*_Width+column);
