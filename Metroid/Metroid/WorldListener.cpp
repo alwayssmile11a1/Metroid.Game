@@ -17,6 +17,90 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 {
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
+	case RIO_BIT*PLAYER_BIT:
+		if (bodyA->categoryBits == PLAYER_BIT)
+		{
+			Player* player = (Player*)bodyA->GetExtra();
+
+			if (player != NULL)
+			{
+				player->OnHitEnemy(true);
+			}
+
+			Rio* rio = (Rio*)bodyB->GetExtra();
+			if (rio != NULL)
+			{
+				rio->OnHitPlayer();
+			}
+		}
+		else
+		{
+			if (bodyB->categoryBits == PLAYER_BIT)
+			{
+				Player* player = (Player*)bodyB->GetExtra();
+
+				if (player != NULL)
+				{
+					player->OnHitEnemy(true);
+				}
+
+				Rio* rio = (Rio*)bodyA->GetExtra();
+				if (rio != NULL)
+				{
+					rio->OnHitPlayer();
+				}
+			}
+		}
+		break;
+
+	case BULLET_BIT*RIO_BIT:
+		if (bodyA->categoryBits == RIO_BIT)
+		{
+			Rio* rio = (Rio*)bodyA->GetExtra();
+			if (rio != NULL)
+			{
+				rio->OnHitBullet();
+			}
+		}
+		else
+		{
+			if (bodyB->categoryBits == RIO_BIT)
+			{
+				Rio* rio = (Rio*)bodyB->GetExtra();
+				if (rio != NULL)
+				{
+					rio->OnHitBullet();
+				}
+			}
+		}
+		break;
+
+	case RIO_BIT*PLATFORM_BIT:
+		if (bodyA->categoryBits == RIO_BIT)
+		{
+			Rio* rio = (Rio*)bodyA->GetExtra();
+			if (rio != NULL)
+			{
+				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y < 0)
+				{
+					rio->OnHitRoof();
+				}
+				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y > 0)
+				{
+					rio->OnHitGround();
+				}
+				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x < 0)
+				{
+					rio->OnHitRight();
+				}
+				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x > 0)
+				{
+					rio->OnHitLeft();
+				}
+			}
+		}
+		break;
+	
 	case PLAYER_BIT*ZOOMER_BIT:
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
@@ -107,32 +191,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		}
 		break;
 
-
-	case RIO_BIT*PLATFORM_BIT:
-		if (bodyA->categoryBits == RIO_BIT)
-		{
-			Rio* rio = (Rio*)bodyA->GetExtra();
-			if (rio != NULL)
-			{
-				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y < 0)
-				{
-					rio->OnHitRoof();
-				}
-				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y > 0)
-				{
-					rio->OnHitGround();
-				}
-				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x < 0)
-				{
-					rio->OnHitRight();
-				}
-				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x > 0)
-				{
-					rio->OnHitLeft();
-				}
-			}
-		}
-		break;
 	
 	}
 	

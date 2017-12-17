@@ -18,13 +18,15 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	isHitGround = false;
 	isHitLeft = false;
 	isHitRight = false;
-	health = 2;
+	health = 4;
 	phase1 = true;
 	phase2 = true;
 	right = true;
 	still = false;
 	delayTime = 0.5;
 	delayTimeDuringGame = 0;
+
+	hitBulletTime = -1;
 
 	startVelo1 = Vector2(2, -6);
 	startVelo2 = Vector2(-2, -6);
@@ -53,7 +55,7 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	bodyDef.isSensor = false;
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = RIO_BIT;
-	body->maskBits = PLAYER_BIT | PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
 	body->PutExtra(this);
 }
 
@@ -87,6 +89,11 @@ void Rio::HandlePhysics(Player *player)
 				{
 					body->SetVelocity(startVelo1.x, startVelo1.y);
 					if (isHitGround == false) startVelo1.Set(startVelo1.x, startVelo1.y + deacceleration);
+					if (isHitGround == true && player->GetPosition().x - body->GetPosition().x < 0)
+					{
+						right = true;
+						phase1 = false;
+					}
 					if (player->getisGrounded() == false)
 					{
 						right = true;
@@ -135,6 +142,11 @@ void Rio::HandlePhysics(Player *player)
 				{
 					body->SetVelocity(startVelo2.x, startVelo2.y);
 					if (isHitGround == false) startVelo2.Set(startVelo2.x, startVelo2.y + deacceleration);
+					if (isHitGround == true && player->GetPosition().x - body->GetPosition().x > 0)
+					{
+						right = false;
+						phase2 = false;
+					}
 					if (player->getisGrounded() == false)
 					{
 						right = false;
@@ -175,17 +187,56 @@ void Rio::HandlePhysics(Player *player)
 
 void Rio::Render(SpriteBatch *batch)
 {
+	if (isDead)
+		return;
 	batch->Draw(*this);
 }
 
 void Rio::Update(float dt)
 {
-	
-	this->SetPosition(body->GetPosition().x, body->GetPosition().y);
+	if (isDead) return;
 
-	delayTimeDuringGame += dt;
+	if (health <= 0)
+	{
+		isDead = true;
+		world->DestroyBody(body);
+		return;
+	}
 	
-	SetRegion(*rioAnimation.Next(dt));
+	if (hitBulletTime == -1) //-1 means not being hit by bullet
+	{
+		delayTimeDuringGame += dt;
+		SetRegion(*rioAnimation.Next(dt));
+	}
+	else
+	{
+		if (hitBulletTime < MAXHITBULLETTIME)
+		{
+			
+			hitBulletTime += dt;
+		}
+		else
+		{
+			hitBulletTime = -1;
+			body->SetBodyType(Body::BodyType::Kinematic);
+		}
+	}
+
+	if (hitPlayerTime != -1)
+	{
+		if (hitPlayerTime < MAXHITPLAYERHITTIME)
+		{
+			hitPlayerTime += dt;
+		}
+		else
+		{
+			hitPlayerTime = -1;
+			body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | EXPLOSION_BIT | BREAKABLEPLATFORM_BIT;
+		}
+	}
+
+	if (body != NULL)
+		this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 }
 
 
@@ -218,4 +269,27 @@ bool Rio::IsDead()
 int Rio::GetHealth()
 {
 	return health;
+}
+
+void Rio::OnHitPlayer()
+{
+	hitPlayerTime = 0;
+	body->maskBits = PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT | EXPLOSION_BIT;
+}
+
+void Rio::OnHitBullet()
+{
+	if (hitBulletTime != -1) return;
+	health--;
+	hitBulletTime = 0;
+	//stop this body a little bit 
+	body->SetBodyType(Body::BodyType::Static);
+}
+
+void Rio::OnHitBomb()
+{
+	health -= 10;
+	hitBulletTime = 0;
+	//stop this body a little bit 
+	body->SetBodyType(Body::BodyType::Static);
 }

@@ -5,8 +5,8 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
-#define MAXHITBULLETTIME 0.2
-#define MAXHITPLAYERHITTIME 0.3
+#define MAXHITBULLETTIME 0.05
+#define MAXHITPLAYERHITTIME 0.2
 
 
 class Rio : public Sprite
@@ -40,13 +40,9 @@ private:
 	float delayTimeDuringGame;
 	
 	bool isDead;
-	
 	int health;
-	
 	float hitBulletTime;
-	
 	float hitPlayerTime;
-
 
 	Vector2 startVelo1;
 	Vector2 startVelo2;
