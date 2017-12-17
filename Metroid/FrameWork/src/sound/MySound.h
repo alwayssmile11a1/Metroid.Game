@@ -6,14 +6,25 @@ using namespace std;
 class Sound
 {
 private:
-	CSoundManager *dsound;
+	static CSoundManager *dsound;
+
+	Sound()  // Disallow creating an instance of this object
+	{
+
+	}
+
+	~Sound()
+	{
+
+	}
+
 public :
-	bool DirectSound_Init(HWND hwnd);
-	void DirectSound_Shutdown();
-	CSound *LoadSound(string filename);
-	void PlaySound(CSound *sound);
-	void LoopSound(CSound *sound);
-	void StopSound(CSound *sound);
+	static bool DirectSound_Init(HWND hwnd);
+	static void DirectSound_Shutdown();
+	static CSound *LoadSound(string filename);
+	static void Play(CSound *sound);
+	static void Loop(CSound *sound);
+	static void Stop(CSound *sound);
 
 };
 

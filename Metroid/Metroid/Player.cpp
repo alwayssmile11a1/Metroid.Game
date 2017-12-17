@@ -152,7 +152,7 @@ void Player::Create(World *world, float x, float y)
 
 
 	//Iteam Acquisition Sound
-	itemAcquisition = sound.LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
+	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 }
 
 
@@ -165,20 +165,20 @@ void Player::HandleInput()
 	}
 
 	//Move right
-	if (input.GetKey(DIK_RIGHT))
+	if (Input::GetKey(DIK_RIGHT))
 	{
 		mainBody->SetVelocity(5, mainBody->GetVelocity().y);
 	}
 
 	//move left
-	if (input.GetKey(DIK_LEFT))
+	if (Input::GetKey(DIK_LEFT))
 	{
 		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
 
 	}
 
 	//hold-jump 
-	if (input.GetKey(DIK_Z))
+	if (Input::GetKey(DIK_Z))
 	{
 		if (jumpTime < MAXJUMPTIME) //continue jumping if there is still jumptime
 		{
@@ -196,7 +196,7 @@ void Player::HandleInput()
 	}
 
 	//jump only if grounded
-	if (input.GetKeyDown(DIK_Z) && isGrounded)
+	if (Input::GetKeyDown(DIK_Z) && isGrounded)
 	{
 		mainBody->SetVelocity(mainBody->GetVelocity().x, 6);
 		isGrounded = false;
@@ -204,7 +204,7 @@ void Player::HandleInput()
 	}
 
 	//roll if possible
-	if (input.GetKeyDown(DIK_DOWN) && canRoll && isGrounded && mainBody->GetVelocity().x == 0)
+	if (Input::GetKeyDown(DIK_DOWN) && canRoll && isGrounded && mainBody->GetVelocity().x == 0)
 	{
 		mainBody->SetSize(mainBody->GetSize().x, 25); //resize to rolling size
 		isRolling = true;
@@ -212,7 +212,7 @@ void Player::HandleInput()
 
 	if (!isHeadHit) // if not being hit on head, player can transform back to original size 
 	{
-		if (input.GetKeyDown(DIK_UP) || input.GetKeyDown(DIK_Z))
+		if (Input::GetKeyDown(DIK_UP) || Input::GetKeyDown(DIK_Z))
 		{
 			mainBody->SetSize(mainBody->GetSize().x, 60); //back to original size
 			if (isRolling)
@@ -228,7 +228,7 @@ void Player::HandleInput()
 	}
 
 	//looking up
-	if (input.GetKey(DIK_UPARROW))
+	if (Input::GetKey(DIK_UPARROW))
 	{
 		isLookingup = true;
 	}
@@ -238,11 +238,11 @@ void Player::HandleInput()
 	}
 
 	//shooting
-	if (input.GetKeyDown(DIK_X))
+	if (Input::GetKeyDown(DIK_X))
 	{
 		isShooting = true;
 	}
-	if (input.GetKey(DIK_X) && !isRolling)
+	if (Input::GetKey(DIK_X) && !isRolling)
 	{
 		isShooting = true;
 	}
@@ -252,7 +252,7 @@ void Player::HandleInput()
 	}
 
 	//bombing
-	if (input.GetKeyDown(DIK_SPACE) && !isBombing&&canBomb&&isRolling)
+	if (Input::GetKeyDown(DIK_SPACE) && !isBombing&&canBomb&&isRolling)
 	{
 		bomb = new Bomb(world, &texture);
 		bomb->GetMainBody()->SetPosition(this->GetPosition().x, this->GetPosition().y);
@@ -498,7 +498,7 @@ void Player::OnHeadHit()
 
 void Player::OnHitRollItem()
 {
-	sound.PlaySoundW(itemAcquisition);
+	Sound::Play(itemAcquisition);
 	canRoll = true;
 }
 

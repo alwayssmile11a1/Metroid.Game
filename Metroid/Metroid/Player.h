@@ -7,7 +7,7 @@
 #include "HanabiStateManager.h"
 #include "Bomb.h"
 #include "HanabiSound.h"
-
+#include "HanabiInput.h"
 #define FIRERATE 0.1
 #define MAXJUMPTIME 0.5
 #define MAXUNTOUCHABLETIME 0.3 

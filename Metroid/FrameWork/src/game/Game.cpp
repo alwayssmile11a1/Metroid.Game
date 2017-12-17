@@ -90,10 +90,10 @@ void Game::Release()
 	}
 
 	//Release input
-	input.Release();
+	Input::Release();
 
 	//shut down for sure
-	sound.DirectSound_Shutdown();
+	Sound::DirectSound_Shutdown();
 
 }
 
@@ -280,9 +280,9 @@ bool Game::InitGame()
 	}
 
 	//init input manager
-	input.Init(_HInstance, _HWnd);
+	Input::Init(_HInstance, _HWnd);
 
-	sound.DirectSound_Init(_HWnd);
+	Sound::DirectSound_Init(_HWnd);
 
 	//create game
 	CreateGame();
@@ -318,8 +318,8 @@ int Game::RunGame()
 				break;
 		}
 		
-		input.ProcessKeyBoardInformation();
-		input.ProcessMouseInformation();
+		Input::ProcessKeyBoardInformation();
+		Input::ProcessMouseInformation();
 
 		//get "now" time
 		DWORD now = GetTickCount();
@@ -367,7 +367,7 @@ int Game::RunGame()
 				UpdateGame(DeltaTime/1000.0f);
 
 				//clear buffedInput after we has done update game
-				input.ClearBuffedInput();
+				Input::ClearBuffedInput();
 
 				//create pointer to the backbuffer
 				d3ddevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &_Backbuffer);

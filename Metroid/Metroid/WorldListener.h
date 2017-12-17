@@ -8,6 +8,7 @@
 #include "BombItem.h"
 #include "BreakablePlatform.h"
 #include "Rio.h"
+#include "HanabiConsole.h"
 
 class WorldListener: public WorldContactListener
 {

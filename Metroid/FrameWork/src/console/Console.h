@@ -7,9 +7,12 @@
 
 class Console
 {
-public:
+private:
 	Console();
 	~Console();
+
+public:
+
 
 	static void Log(const std::string &message);
 };

@@ -3,6 +3,7 @@
 #include "HanabiWorld.h"
 #include "HanabiSprite.h"
 #include "HanabiMap.h"
+#include "HanabiInput.h"
 
 class StartScene : public Scene
 {

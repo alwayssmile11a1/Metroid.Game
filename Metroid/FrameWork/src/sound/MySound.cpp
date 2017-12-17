@@ -1,7 +1,10 @@
 #include "MySound.h"
+
+CSoundManager* Sound::dsound = NULL;
+
 // New DirectSound code
 //primary DirectSound object
-bool Sound:: DirectSound_Init(HWND hwnd)
+ bool Sound:: DirectSound_Init(HWND hwnd)
 {
 	//create DirectSound manager object
 	dsound = new CSoundManager();
@@ -44,15 +47,15 @@ CSound  *Sound::LoadSound(string filename)
 	return wave;
 }
 
-void Sound::PlaySound(CSound *sound)
+void Sound::Play(CSound *sound)
 {
 	sound->Play();
 }
-void Sound::LoopSound(CSound *sound)
+void Sound::Loop(CSound *sound)
 {
 	sound->Play(0, DSBPLAY_LOOPING);
 }
-void Sound::StopSound(CSound *sound)
+void Sound::Stop(CSound *sound)
 {
 	sound->Stop();
 }

@@ -112,7 +112,7 @@ void PlayScene::Create()
 
 
 	//BrinstarTheme Sound
-	BrinstarTheme = sound.LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
+	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
 	
 }
 
@@ -291,7 +291,7 @@ void PlayScene::Update(float dt)
 	Render();
 
 	//play sound BrinstarTheme
-	sound.LoopSound(BrinstarTheme);
+	Sound::Loop(BrinstarTheme);
 
 }
 

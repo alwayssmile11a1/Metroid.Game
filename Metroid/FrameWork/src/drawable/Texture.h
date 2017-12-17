@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "..\others\Global.h"
 #include "..\math\Vector2.h"
+#include "..\others\Utility.h"
 
 //Just like a image
 class Texture: public GameObject

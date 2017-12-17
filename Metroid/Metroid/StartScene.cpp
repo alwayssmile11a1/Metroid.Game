@@ -34,11 +34,11 @@ void  StartScene::Update(float dt)
 	//start drawing
 	batch->Begin();
 	//batch->Draw(*startSceneTexture, 0, 0,500,500);
-	if (input.GetKeyDown(DIK_DOWN))
+	if (Input::GetKeyDown(DIK_DOWN))
 	{
 		background.SetRegion(regions.at(1));
 	}
-	if (input.GetKeyDown(DIK_UP))
+	if (Input::GetKeyDown(DIK_UP))
 	{
 		background.SetRegion(regions.at(0));
 	}

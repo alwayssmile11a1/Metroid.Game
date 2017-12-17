@@ -48,11 +48,11 @@ void MetroidGame::UpdateGame(float dt)
 {
 	Game::UpdateGame(dt);
 	
-	if (input.GetKeyDown(DIK_ESCAPE))
+	if (Input::GetKeyDown(DIK_ESCAPE))
 	{
 		ShutDownApplication();
 	}
-	if (input.GetKeyDown(DIK_RETURN))
+	if (Input::GetKeyDown(DIK_RETURN))
 	{
 		if (scenes == &introScene)
 		{
@@ -64,7 +64,7 @@ void MetroidGame::UpdateGame(float dt)
 		{
 			SetScene(&playScene);
 			playScene.SetBatch(&batch);
-			sound.StopSound(&introScene.GetSound());
+			Sound::Stop(&introScene.GetSound());
 			scenes = &playScene;
 		}
 	}

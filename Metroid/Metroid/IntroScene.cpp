@@ -31,7 +31,7 @@ void IntroScene::Create()
 	background.SetPosition(0, 0);
 
 
-	TitleTheme= sound.LoadSound("Resources/SoundEffect/TitleTheme.wav");
+	TitleTheme= Sound::LoadSound("Resources/SoundEffect/TitleTheme.wav");
 }
 
 
@@ -44,7 +44,7 @@ void  IntroScene::Update(float dt)
 	batch->Draw(background);
 	//end drawing
 	batch->End();
-	sound.LoopSound(TitleTheme);
+	Sound::Loop(TitleTheme);
 }
 
 void IntroScene::Release()
