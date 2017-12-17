@@ -149,6 +149,10 @@ void Player::Create(World *world, float x, float y)
 		deadEffect.push_back(deadEffectSprite);
 	}
 
+
+
+	//Iteam Acquisition Sound
+	itemAcquisition = sound.LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 }
 
 
@@ -489,6 +493,7 @@ void Player::OnHeadHit()
 
 void Player::OnHitRollItem()
 {
+	sound.PlaySoundW(itemAcquisition);
 	canRoll = true;
 }
 

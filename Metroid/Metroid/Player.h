@@ -71,6 +71,9 @@ private:
 	bool beingRightHit;
 
 	float deadTime;
+
+	//sound
+	CSound *itemAcquisition=NULL;
 public:
 
 

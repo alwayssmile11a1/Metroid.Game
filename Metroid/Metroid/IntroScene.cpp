@@ -29,6 +29,9 @@ void IntroScene::Create()
 	background.SetTexture(&introSceneTexture);*/
 	background.SetSize(screenWidth, screenHeight);
 	background.SetPosition(0, 0);
+
+
+	TitleTheme= sound.LoadSound("Resources/SoundEffect/TitleTheme.wav");
 }
 
 
@@ -41,10 +44,16 @@ void  IntroScene::Update(float dt)
 	batch->Draw(background);
 	//end drawing
 	batch->End();
-
+	sound.LoopSound(TitleTheme);
 }
 
 void IntroScene::Release()
 {
 	//delete IntroSceneTexture;
+}
+
+
+CSound IntroScene::GetSound()
+{
+	return *this->TitleTheme;
 }
