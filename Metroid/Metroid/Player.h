@@ -75,6 +75,10 @@ private:
 	//sound
 	CSound *itemAcquisition=NULL;
 	CSound *jump = NULL;
+	CSound *move = NULL;
+	CSound *appearance = NULL;
+	CSound *fire = NULL;
+	CSound *death = NULL;
 public:
 
 

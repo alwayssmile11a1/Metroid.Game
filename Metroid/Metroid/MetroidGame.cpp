@@ -73,7 +73,7 @@ void MetroidGame::UpdateGame(float dt)
 		Sound::Stop(playScene.GetSound());
 		pauseTime += 1;
 
-		if (pauseTime > 50)
+		if (pauseTime > 40)
 		{
 			SetScene(&gameOverScene);
 			gameOverScene.SetBatch(&batch);

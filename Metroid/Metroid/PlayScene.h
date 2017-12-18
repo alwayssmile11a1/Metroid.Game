@@ -19,7 +19,7 @@
 #include "BreakablePlatform.h"
 #include "Rio.h"
 
-#define PLAYERAPPEARINGTIME 1
+#define PLAYERAPPEARINGTIME 3
 
 class PlayScene: public Scene
 {

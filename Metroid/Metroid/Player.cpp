@@ -154,6 +154,10 @@ void Player::Create(World *world, float x, float y)
 	//Iteam Acquisition Sound
 	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 	jump = Sound::LoadSound("Resources/SoundEffect/Jump.wav");
+	move = Sound::LoadSound("Resources/SoundEffect/Move.wav");
+	appearance =Sound::LoadSound("Resources/SoundEffect/Appearance.wav");
+	fire=Sound::LoadSound("Resources/SoundEffect/Fire.wav");
+	death=Sound::LoadSound("Resources/SoundEffect/Death.wav");
 }
 
 
@@ -175,7 +179,6 @@ void Player::HandleInput()
 	if (Input::GetKey(DIK_LEFT))
 	{
 		mainBody->SetVelocity(-5, mainBody->GetVelocity().y);
-
 	}
 
 	//hold-jump 
@@ -264,6 +267,7 @@ void Player::HandleInput()
 
 	if (isShooting)
 	{
+		
 		Fire();
 	}
 
@@ -321,6 +325,7 @@ void Player::Fire()
 
 void Player::OnAppearing(float dt)
 {
+	Sound::Play(appearance);
 	SetRegion(*appearingAnimation.Next(dt));
 }
 
@@ -374,6 +379,7 @@ void Player::Update(float dt)
 	{
 		if (deadTime == -1) 
 		{
+			Sound::Play(death);
 			//setup for deadEffect
 			for (std::vector<Sprite>::iterator it = deadEffect.begin(); it != deadEffect.end(); ++it)
 			{
