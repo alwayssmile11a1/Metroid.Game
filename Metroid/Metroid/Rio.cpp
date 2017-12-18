@@ -18,6 +18,7 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	isHitGround = false;
 	isHitLeft = false;
 	isHitRight = false;
+	jumpCheck = true;
 	health = 4;
 	phase1 = true;
 	phase2 = true;
@@ -62,6 +63,10 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 
 void Rio::HandlePhysics(Player *player)
 {
+	if (player->getisGrounded() == true)
+	{
+		jumpCheck = true;
+	}
 	if (still)
 	{
 		if (delayTimeDuringGame >= delayTime)
@@ -94,8 +99,9 @@ void Rio::HandlePhysics(Player *player)
 						right = true;
 						phase1 = false;
 					}
-					if (player->getisGrounded() == false)
+					if (player->getisGrounded() == false && jumpCheck == true && abs(player->GetPosition().x - body->GetPosition().x) < 50)
 					{
+						jumpCheck = false;
 						right = true;
 						phase1 = false;
 					}
@@ -147,8 +153,9 @@ void Rio::HandlePhysics(Player *player)
 						right = false;
 						phase2 = false;
 					}
-					if (player->getisGrounded() == false)
+					if (player->getisGrounded() == false && jumpCheck == true && abs(player->GetPosition().x - body->GetPosition().x) < 50)
 					{
+						jumpCheck = false;
 						right = false;
 						phase2 = false;
 					}
