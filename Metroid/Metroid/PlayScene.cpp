@@ -89,6 +89,22 @@ void PlayScene::Create()
 		rios.push_back(rio);
 	}
 
+	//--------------------------BOSSES-------------------------------
+	bossesTexture = Texture("Resources/bosses.png");
+	//Mother Brai
+	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
+	motherBrain.Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
+
+	//Cannons
+	std::vector<Shape::Rectangle> cannonRects = map->GetObjectGroup("Cannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = cannonRects.begin(); rect != cannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+
 
 	//---------------------------ITEMS------------------------------------
 	itemsTexture = Texture("Resources/items.png");
@@ -127,16 +143,22 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
-	//handle physics zoomer
+	//handle physics zoomers
 	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
 	{
 		(*it)->HandlePhysics();
 	}
 
-	//handle physics rio
+	//handle physics rios
 	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
 	{
 		(*it)->HandlePhysics(&player);
+	}
+
+	//handle physics cannons
+	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	{
+		(*it)->HandlePhysics();
 	}
 
 	//Update world
@@ -167,6 +189,15 @@ void  PlayScene::Render()
 
 	//render rios
 	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+	//mother brain
+	motherBrain.Render(batch);
+
+	//render cannons
+	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
 	{
 		(*it)->Render(batch);
 	}
@@ -248,7 +279,17 @@ void PlayScene::Update(float dt)
 		(*it)->Update(dt);
 	}
 
+	//mother brain
+	motherBrain.Update(dt);
+	//update cannons
+	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
+	//update effect
 	explosionEffect.Update(dt);
+
 
 	//update items
 	maruMariItem.Update(dt);
@@ -282,13 +323,20 @@ void PlayScene::Update(float dt)
 	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 
 	//update Label
-	playerHealthLabel.SetText(std::to_string(player.GetHealth()));
+	if (player.GetHealth() < 0)
+	{
+		playerHealthLabel.SetText(std::to_string(0));
+	}
+	else
+	{
+		playerHealthLabel.SetText(std::to_string(player.GetHealth()));
+	}
+
 	playerHealthLabel.SetPosition(cam.GetPosition().x - 250, cam.GetPosition().y + 200);
-
-
 
 	//RENDER
 	Render();
+
 
 	//play sound BrinstarTheme
 	Sound::Loop(BrinstarTheme);
@@ -324,6 +372,12 @@ void PlayScene::Release()
 	}
 
 	for (std::vector<BreakablePlatform*>::iterator it = breakablePlatforms.begin(); it != breakablePlatforms.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+
+	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
 	{
 		delete *it;
 		*it = NULL;

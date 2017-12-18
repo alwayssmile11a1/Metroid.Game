@@ -18,6 +18,9 @@
 #include "BombItem.h"
 #include "BreakablePlatform.h"
 #include "Rio.h"
+#include "MotherBrain.h"
+#include "Cannon.h"
+
 
 #define PLAYERAPPEARINGTIME 3
 
@@ -52,13 +55,21 @@ private:
 	
 	std::vector<BreakablePlatform*> breakablePlatforms;
 
-	//enemy
+	//enemies
 	Texture enemiesTexture;
 
 	std::vector<Skree*> skrees;
 	std::vector<Zoomer*> zoomers;
 	std::vector<Rio*> rios;
 
+	//bosses
+	Texture bossesTexture;
+	MotherBrain motherBrain;
+	std::vector<Cannon*> cannons;
+
+
+
+	//UI
 	Font font;
 	Label playerHealthLabel;
 

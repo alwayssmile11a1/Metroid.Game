@@ -5,24 +5,28 @@
 #include "CollisionBit.h"
 
 
+#define CANNOTFIRERATE 0.3
 
-class MotherBrain : public Sprite
+class Cannon : public Sprite
 {
 
 private:
-	Animation animation;
-	Animation weakAnimation;
+	Animation cannonAnimation;
+	Animation bulletAnimation;
+
 	Body* body;
+	World* world;
+
+	float lastShot;
 
 
-	int health;
-
-	bool isDead;
 
 public:
-	MotherBrain();
-	~MotherBrain();
+	Cannon();
+	~Cannon();
 	void Create(World *world, Texture *skreeTexture, int x, int y);
+
+	void HandlePhysics();
 
 	void Render(SpriteBatch *batch);
 
@@ -32,8 +36,6 @@ public:
 
 	void OnHitBomb();
 
-	bool IsDead();
 
-	int GetHealth();
 };
 

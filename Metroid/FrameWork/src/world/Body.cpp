@@ -12,7 +12,7 @@ Body::Body()
 	_IsSensor = false;
 	maskBits = 1;
 	categoryBits = 0x0001; //1
-	maskBits = 0xFFFF; //65535
+	maskBits = 0xFFFFFFFF; //4,294,967,295
 }
 Body::Body(float x, float y, float width, float height, float vx, float vy)
 {
@@ -25,7 +25,7 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 	_BodyType = BodyType::Static;
 	_IsSensor = false;
 	categoryBits = 0x0001; //1
-	maskBits = 0xFFFF; //65535
+	maskBits = 0xFFFFFFFF; //4,294,967,295
 }
 Body::~Body()
 {

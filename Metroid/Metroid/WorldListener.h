@@ -9,6 +9,7 @@
 #include "BreakablePlatform.h"
 #include "Rio.h"
 #include "HanabiConsole.h"
+#include "MotherBrain.h"
 
 class WorldListener: public WorldContactListener
 {

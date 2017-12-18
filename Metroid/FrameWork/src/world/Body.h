@@ -53,10 +53,10 @@ public:
 	//The categoryBits flag can be thought of as the fixture saying 'I am a ...'
 	//usually just one Bit
 	//NOTE:the value should be the power of two, such as: 1,2,4,8,16 ( 0x0001, 0x0002, 0x0004, 0x0008, 0x0010)
-	unsigned short categoryBits;
+	unsigned long categoryBits;
 
 	//the maskBits is like saying 'I will collide with a ...'
-	unsigned short maskBits;
+	unsigned long maskBits;
 	//The idea was acquired from: http://www.iforce2d.net/b2dtut/collision-filtering
 public:
 

@@ -108,7 +108,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 			if (player != NULL)
 			{
-				Console::Log("Player hits zoomer\n");
 				player->OnHitEnemy(true);
 			}
 
@@ -116,7 +115,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			if (zoomer != NULL)
 			{
 				zoomer->OnHitPlayer();
-				Console::Log("Zoomer hits player\n");
 			}
 		}
 		else
@@ -127,7 +125,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 				if (player != NULL)
 				{
-					Console::Log("Player hits zoomer\n");
 					player->OnHitEnemy(true);
 				}
 
@@ -136,7 +133,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 				{
 					//zoomer->SetCurCollisionDirection(CollisionDirection, 2);
 					zoomer->OnHitPlayer();
-					Console::Log("Zoomer hits player\n");
 				}
 			}
 		}
@@ -144,7 +140,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 
 	case ZOOMER_BIT*PLATFORM_BIT:
-		Console::Log("Zoomer hits platform\n");
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
@@ -156,7 +151,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		break;
 
 	case ZOOMER_BIT*BREAKABLEPLATFORM_BIT:
-		Console::Log("Zoomer hits breakable platform\n");
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
@@ -174,7 +168,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			if (zoomer != NULL)
 			{
 				zoomer->OnHitBullet();
-				Console::Log("Buller hits zoomer\n");
 			}
 		}
 		else
@@ -185,7 +178,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 				if (zoomer != NULL)
 				{
 					zoomer->OnHitBullet();
-					Console::Log("Buller hits zoomer\n");
 				}
 			}
 		}
@@ -215,7 +207,6 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 		break;
 
 	case ZOOMER_BIT*BREAKABLEPLATFORM_BIT:
-		Console::Log("Zoomer hits breakable platform\n");
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
@@ -357,6 +348,25 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case BULLET_BIT*MOTHERBRAIN_BIT:
+	{
+		//Update MotherBrain
+		MotherBrain* motherBrain = (MotherBrain*)bodyA->GetExtra();
+		if (motherBrain != NULL)
+		{
+			motherBrain->OnHitBullet();
+		}
+
+		//Update Bullet
+		Bullet* bullet = (Bullet*)bodyB->GetExtra();
+		if (bullet != NULL)
+		{
+			bullet->OnHitEnemy();
+		}
+
+
+		break;
+	}
 	
 	}
 }
@@ -437,7 +447,20 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case EXPLOSION_BIT*MOTHERBRAIN_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			//Update MotherBrain
+			MotherBrain* motherBrain = (MotherBrain*)bodyB->GetExtra();
+			if (motherBrain != NULL)
+			{
+				motherBrain->OnHitBomb();
+			}
+		}
 
+		break;
+	}
 
 	}
 }

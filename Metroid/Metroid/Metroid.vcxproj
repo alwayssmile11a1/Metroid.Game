@@ -137,6 +137,7 @@
     <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="BreakablePlatform.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="ExplosionEffect.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="HealthItem.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="BombItem.h" />
     <ClInclude Include="BreakablePlatform.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Cannon.h" />
     <ClInclude Include="CollisionBit.h" />
     <ClInclude Include="ExplosionEffect.h" />
     <ClInclude Include="GameOverScene.h" />

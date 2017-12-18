@@ -105,6 +105,9 @@
     <ClCompile Include="MotherBrain.cpp">
       <Filter>Source Files\MetroidGame\Bosses</Filter>
     </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Source Files\MetroidGame\Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files\MetroidGame\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="MotherBrain.h">
+      <Filter>Header Files\MetroidGame\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
       <Filter>Header Files\MetroidGame\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
