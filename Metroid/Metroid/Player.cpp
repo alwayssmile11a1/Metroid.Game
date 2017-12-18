@@ -190,7 +190,7 @@ void Player::HandleInput()
 			jumpTime += 0.02f;
 		}
 		else
-		{ 
+		{
 			jumpTime = 100;  //don't jump more
 		}
 	}
@@ -267,10 +267,16 @@ void Player::HandleInput()
 
 	if (isShooting)
 	{
-		
+
 		Fire();
 	}
 
+
+	//sound for move not jump
+	if ((Input::GetKey(DIK_LEFT) || Input::GetKey(DIK_RIGHT)) && isGrounded==true)
+	{
+		Sound::Play(move);
+	}
 }
 
 void Player::Fire()
