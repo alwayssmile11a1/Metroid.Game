@@ -141,21 +141,19 @@ void World::Update(float dt)
 					{
 						collision.PerformCollision(body1, body2, dt, 0, moveX, moveY);
 					}
-				}
 
-
-
-				if (collision.IsOverlaying(body1, body2))
-				{
-					collision.PerformOverlaying(body1, body2, moveX, moveY);
-				}
-				else
-				{
-					if (collision.IsPreviousOverlayed(body1, body2) && (body1)->_IsSensor)
+					if (collision.IsOverlaying(body1, body2))
 					{
-						_Listener->OnSensorExit(body1, body2);
+						collision.PerformOverlaying(body1, body2, moveX, moveY);
 					}
-				}
+					else
+					{
+						if (collision.IsPreviousOverlayed(body1, body2) && (body1)->_IsSensor)
+						{
+							_Listener->OnSensorExit(body1, body2);
+						}
+					}
+				}	
 
 				collision.Reset();
 			}
@@ -226,20 +224,22 @@ void World::Update(float dt)
 					{
 						collision.PerformCollision(body1, body2, dt, 0, moveX, moveY);
 					}
-				}
 
-
-				if (collision.IsOverlaying(body1, body2))
-				{
-					collision.PerformOverlaying(body1, body2, moveX, moveY);
-				}
-				else
-				{
-					if (collision.IsPreviousOverlayed(body1, body2) && (body1)->_IsSensor)
+					if (collision.IsOverlaying(body1, body2))
 					{
-						_Listener->OnSensorExit(body1, body2);
+						collision.PerformOverlaying(body1, body2, moveX, moveY);
+					}
+					else
+					{
+						if (collision.IsPreviousOverlayed(body1, body2) && (body1)->_IsSensor)
+						{
+							_Listener->OnSensorExit(body1, body2);
+						}
 					}
 				}
+
+
+		
 
 				collision.Reset();
 			}

@@ -37,6 +37,12 @@
     <Filter Include="Header Files\MetroidGame\Scenes">
       <UniqueIdentifier>{bc776ee0-56d1-4ad5-99be-9a69dfa4bf10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MetroidGame\Bosses">
+      <UniqueIdentifier>{26c3ed19-f195-40fa-bde7-231fc9600fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MetroidGame\Bosses">
+      <UniqueIdentifier>{27b33cc5-243a-4380-9d6b-79e5dcb4c19b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Source Files\MetroidGame\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="MotherBrain.cpp">
+      <Filter>Source Files\MetroidGame\Bosses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Header Files\MetroidGame\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MotherBrain.h">
+      <Filter>Header Files\MetroidGame\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
