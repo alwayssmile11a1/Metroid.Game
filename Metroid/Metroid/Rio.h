@@ -36,6 +36,8 @@ private:
 
 	bool isHitLeft;
 
+	bool jumpCheck;
+
 	float delayTime;
 	float delayTimeDuringGame;
 	
