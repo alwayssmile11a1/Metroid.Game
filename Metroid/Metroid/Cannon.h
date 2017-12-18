@@ -3,13 +3,20 @@
 #include "HanabiSprite.h"
 #include<vector>
 #include "CollisionBit.h"
+#include "HanabiEffect.h"
 
+#define CANNOTFIRERATE 1.5
 
-#define CANNOTFIRERATE 0.3
+class CannonBullet: public Sprite
+{
+public:
+	Body * body;
+};
 
 class Cannon : public Sprite
 {
-
+public:
+	enum Type { Left, Right, Top };
 private:
 	Animation cannonAnimation;
 	Animation bulletAnimation;
@@ -19,12 +26,17 @@ private:
 
 	float lastShot;
 
+	CannonBullet cannonBullet;
 
+	bool isBulletDestroyed;
+	
+	Effect bulletExplosionEffect;
+	
 
 public:
 	Cannon();
 	~Cannon();
-	void Create(World *world, Texture *skreeTexture, int x, int y);
+	void Create(World *world, Texture *skreeTexture, Cannon::Type type, int randomIndex , int x, int y);
 
 	void HandlePhysics();
 
@@ -32,9 +44,8 @@ public:
 
 	void Update(float dt);
 
-	void OnHitBullet();
+	void OnHitGround();
 
-	void OnHitBomb();
 
 
 };

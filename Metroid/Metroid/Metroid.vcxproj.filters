@@ -37,17 +37,20 @@
     <Filter Include="Header Files\MetroidGame\Scenes">
       <UniqueIdentifier>{bc776ee0-56d1-4ad5-99be-9a69dfa4bf10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MetroidGame\Bosses">
+    <Filter Include="Header Files\MetroidGame\MotherBrain">
       <UniqueIdentifier>{26c3ed19-f195-40fa-bde7-231fc9600fca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MetroidGame\Bosses">
+    <Filter Include="Source Files\MetroidGame\MotherBrain">
       <UniqueIdentifier>{27b33cc5-243a-4380-9d6b-79e5dcb4c19b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MetroidGame\Player">
+      <UniqueIdentifier>{d78a04bb-24db-4486-9614-074568c25f10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MetroidGame\Player">
+      <UniqueIdentifier>{8b7ce4e4-ce21-4652-abcf-35699d811e74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
-    </ClCompile>
     <ClCompile Include="WorldListener.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
@@ -55,9 +58,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MetroidGame.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
     <ClCompile Include="Platform.cpp">
@@ -69,9 +69,6 @@
     <ClCompile Include="Zoomer.cpp">
       <Filter>Source Files\MetroidGame\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionEffect.cpp">
-      <Filter>Source Files\MetroidGame\Items</Filter>
-    </ClCompile>
     <ClCompile Include="HealthItem.cpp">
       <Filter>Source Files\MetroidGame\Items</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="BombItem.cpp">
       <Filter>Source Files\MetroidGame\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Bomb.cpp">
-      <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
     <ClCompile Include="BreakablePlatform.cpp">
       <Filter>Source Files\MetroidGame</Filter>
@@ -103,26 +97,35 @@
       <Filter>Source Files\MetroidGame\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="MotherBrain.cpp">
-      <Filter>Source Files\MetroidGame\Bosses</Filter>
+      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
     </ClCompile>
     <ClCompile Include="Cannon.cpp">
-      <Filter>Source Files\MetroidGame\Bosses</Filter>
+      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
+    </ClCompile>
+    <ClCompile Include="MotherBrainBullet.cpp">
+      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionEffect.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\MetroidGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\MetroidGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\MetroidGame\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\MetroidGame</Filter>
-    </ClInclude>
     <ClInclude Include="MetroidGame.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="WorldListener.h">
-      <Filter>Header Files\MetroidGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
@@ -137,9 +140,6 @@
     <ClInclude Include="Zoomer.h">
       <Filter>Header Files\MetroidGame\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ExplosionEffect.h">
-      <Filter>Header Files\MetroidGame\Items</Filter>
-    </ClInclude>
     <ClInclude Include="HealthItem.h">
       <Filter>Header Files\MetroidGame\Items</Filter>
     </ClInclude>
@@ -148,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="BombItem.h">
       <Filter>Header Files\MetroidGame\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Bomb.h">
-      <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
     <ClInclude Include="BreakablePlatform.h">
       <Filter>Header Files\MetroidGame</Filter>
@@ -171,10 +168,25 @@
       <Filter>Header Files\MetroidGame\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="MotherBrain.h">
-      <Filter>Header Files\MetroidGame\Bosses</Filter>
+      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
     </ClInclude>
     <ClInclude Include="Cannon.h">
-      <Filter>Header Files\MetroidGame\Bosses</Filter>
+      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="MotherBrainBullet.h">
+      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionEffect.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\MetroidGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\MetroidGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\MetroidGame\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

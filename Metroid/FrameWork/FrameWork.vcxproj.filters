@@ -243,6 +243,12 @@
     <ClInclude Include="include\HanabiInput.h">
       <Filter>Header Files\_Header</Filter>
     </ClInclude>
+    <ClInclude Include="src\effect\Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HanabiEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="extensions\rapidxml\license.txt">
@@ -350,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="src\collisionquadtree\QuadTree.cpp">
       <Filter>Source Files\CollisionQuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\Effect.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

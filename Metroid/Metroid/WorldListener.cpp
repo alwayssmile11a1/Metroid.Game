@@ -367,6 +367,35 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case CANNON_BIT*PLATFORM_BIT:
+	{
+		//Update Cannon
+		Cannon* cannon = (Cannon*)bodyA->GetExtra();
+		if (cannon != NULL)
+		{
+			cannon->OnHitGround();
+		}
+
+		break;
+	}
+	case CANNON_BIT*PLAYER_BIT:
+	{
+		//Update Player
+		Player* player = (Player*)bodyB->GetExtra();
+		if (player != NULL)
+		{
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			{
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+		}
+
+		break;
+	}
 	
 	}
 }

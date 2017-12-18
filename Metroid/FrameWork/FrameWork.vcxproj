@@ -160,6 +160,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\HanabiEffect.h" />
+    <ClInclude Include="src\effect\Effect.h" />
     <ClInclude Include="include\HanabiInput.h" />
     <ClInclude Include="include\HanabiBody.h" />
     <ClInclude Include="include\HanabiCamera.h" />
@@ -222,6 +224,7 @@
     <None Include="extensions\rapidxml\manual.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\effect\Effect.cpp" />
     <ClCompile Include="src\collisionquadtree\QuadTree.cpp" />
     <ClCompile Include="src\spacedivisionquadtree\SpaceDivisionQuadTree.cpp" />
     <ClCompile Include="src\world\BodyDef.cpp" />

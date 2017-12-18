@@ -142,3 +142,13 @@ void Animation::AddRegion(const std::vector<TextureRegion> &regions)
 		_Regions.push_back(textureRegion);
 	}
 }
+
+int Animation::GetIndex()
+{
+	return _Index;
+}
+
+void Animation::SetIndex(int index)
+{
+	_Index = index;
+}

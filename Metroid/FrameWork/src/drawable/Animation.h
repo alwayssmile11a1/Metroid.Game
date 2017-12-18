@@ -40,6 +40,11 @@ public:
 	void AddRegion(const TextureRegion &region);
 	
 	void AddRegion(const std::vector<TextureRegion> &region);
+
+	int GetIndex();
+
+	void SetIndex(int index);
+
 };
 
 #endif

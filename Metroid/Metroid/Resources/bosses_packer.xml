@@ -33,6 +33,10 @@
  <rect left="31" top = "212" width = "17" height="17" />
  <rect left="50" top = "215" width = "20" height="14" />
  <rect left="72" top = "212" width = "17" height="17" />
+ <rect left="15" top = "232" width = "14" height="21" />
+ <rect left="72" top = "212" width = "17" height="17" />
+ <rect left="50" top = "215" width = "20" height="14" />
+ <rect left="31" top = "212" width = "17" height="17" />
 </cannon>
 
 <cannonbullet>
@@ -40,6 +44,10 @@
  <rect left="23" top = "264" width = "7" height="7" />
  <rect left="32" top = "266" width = "8" height="5" />
  <rect left="42" top = "264" width = "7" height="7" />
+ <rect left="51" top = "263" width = "5" height="8" />
+ <rect left="42" top = "264" width = "7" height="7" />
+ <rect left="32" top = "266" width = "8" height="5" />
+ <rect left="23" top = "264" width = "7" height="7" />
 </cannonbullet>
 
 <cannonbulletexplosion>

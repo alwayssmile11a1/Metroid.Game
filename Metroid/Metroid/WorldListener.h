@@ -10,6 +10,7 @@
 #include "Rio.h"
 #include "HanabiConsole.h"
 #include "MotherBrain.h"
+#include "Cannon.h"
 
 class WorldListener: public WorldContactListener
 {

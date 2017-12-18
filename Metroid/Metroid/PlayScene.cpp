@@ -96,11 +96,27 @@ void PlayScene::Create()
 	motherBrain.Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
 
 	//Cannons
-	std::vector<Shape::Rectangle> cannonRects = map->GetObjectGroup("Cannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = cannonRects.begin(); rect != cannonRects.end(); ++rect)
+	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
 	{
 		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, rect->x, rect->y);
+		cannon->Create(&world, &bossesTexture,Cannon::Type::Left, rand()%8, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+	std::vector<Shape::Rectangle> rightCannonRects = map->GetObjectGroup("RightCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = rightCannonRects.begin(); rect != rightCannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+	std::vector<Shape::Rectangle> topCannonRects = map->GetObjectGroup("TopCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = topCannonRects.begin(); rect != topCannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, rect->x, rect->y);
 
 		cannons.push_back(cannon);
 	}
