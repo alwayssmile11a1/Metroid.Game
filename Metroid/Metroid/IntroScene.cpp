@@ -53,7 +53,7 @@ void IntroScene::Release()
 }
 
 
-CSound IntroScene::GetSound()
+CSound *IntroScene::GetSound()
 {
-	return *this->TitleTheme;
+	return this->TitleTheme;
 }

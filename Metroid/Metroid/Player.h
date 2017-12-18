@@ -74,6 +74,7 @@ private:
 
 	//sound
 	CSound *itemAcquisition=NULL;
+	CSound *jump = NULL;
 public:
 
 

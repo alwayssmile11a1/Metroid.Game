@@ -85,6 +85,6 @@ public:
 	void Update(float dt) override;
 	void Release() override;
 	bool isOver();
-	CSound GetSound();
+	CSound *GetSound();
 };
 

@@ -25,6 +25,6 @@ public:
 	void Create() override;
 	void Update(float dt) override;
 	void Release() override;
-	CSound GetSound();//to stop in MetroidGame.cpp
+	CSound *GetSound();//to stop in MetroidGame.cpp
 	
 };

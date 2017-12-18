@@ -153,6 +153,7 @@ void Player::Create(World *world, float x, float y)
 
 	//Iteam Acquisition Sound
 	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
+	jump = Sound::LoadSound("Resources/SoundEffect/Jump.wav");
 }
 
 
@@ -198,6 +199,7 @@ void Player::HandleInput()
 	//jump only if grounded
 	if (Input::GetKeyDown(DIK_Z) && isGrounded)
 	{
+		Sound::Play(jump);
 		mainBody->SetVelocity(mainBody->GetVelocity().x, 6);
 		isGrounded = false;
 		jumpTime = 0;

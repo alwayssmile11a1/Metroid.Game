@@ -337,7 +337,7 @@ bool PlayScene::isOver()
 	return this->player.IsDead();
 }
 
-CSound PlayScene::GetSound()
+CSound *PlayScene::GetSound()
 {
-	return *this->BrinstarTheme;
+	return this->BrinstarTheme;
 }

@@ -64,12 +64,13 @@ void MetroidGame::UpdateGame(float dt)
 		{
 			SetScene(&playScene);
 			playScene.SetBatch(&batch);
-			Sound::Stop(&introScene.GetSound());
+			Sound::Stop(introScene.GetSound());
 			scenes = &playScene;
 		}
 	}
 	if (playScene.isOver() == true)
 	{
+		Sound::Stop(playScene.GetSound());
 		pauseTime += 1;
 
 		if (pauseTime > 50)
