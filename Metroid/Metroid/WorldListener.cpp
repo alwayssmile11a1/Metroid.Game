@@ -200,6 +200,24 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 		break;
 	}
+	case BREAKABLEPLATFORM_BIT*BULLET_BIT:
+	{
+		//Update breakableplatform
+		BreakablePlatform* breakablePlatform = (BreakablePlatform*)bodyB->GetExtra();
+		if (breakablePlatform != NULL)
+		{
+			breakablePlatform->OnHitBullet();
+		}
+
+		//Update Bullet
+		Bullet* bullet = (Bullet*)bodyA->GetExtra();
+		if (bullet != NULL)
+		{
+			bullet->OnHitEnemy();
+		}
+
+		break;
+	}
 	
 	}
 	

@@ -129,6 +129,10 @@ private:
 
 	float minSquareSize;
 
+
+	bool loadBody;
+	bool loadTileRect;
+
 private:
 	void StartBuildingTreeNodes(const std::string &outpath, const std::string &tmxFilePath);
 	//
@@ -163,7 +167,7 @@ public:
 
 	//SDQNode* GetRootSDQNode();
 
-	void LoadObjectsInViewport(Camera *camera);
+	void LoadObjectsInViewport(Camera *camera, bool loadBody, bool loadTileRect);
 
 
 	const std::vector<Body*>& GetBodiesInViewport();

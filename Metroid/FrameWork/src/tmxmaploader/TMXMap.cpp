@@ -224,7 +224,7 @@ void TMXMap::Render(SpriteBatch *batch)
 		if (_Cam == NULL) return;
 		Vector2 camPostion = _Cam->GetPosition();
 
-		_SDQuadTree->LoadObjectsInViewport(_Cam);
+		_SDQuadTree->LoadObjectsInViewport(_Cam,false,true);
 		Texture* texture = _TileSet->GetTexture();
 		std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();
 		for (std::vector<Shape::Rectangle*>::const_iterator it = tileRectsInViewport.begin(); it != tileRectsInViewport.end(); ++it)

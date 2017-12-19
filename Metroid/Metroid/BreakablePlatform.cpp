@@ -13,6 +13,7 @@ BreakablePlatform::~BreakablePlatform()
 
 BreakablePlatform::BreakablePlatform(World *world,TMXMap*map, float x, float y, float width, float height)
 {
+	health = 2;
 	this->map = map;
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Static;
@@ -32,4 +33,18 @@ void BreakablePlatform::OnHitBomb()
 	int row = map->GetHeight() - (int)(body->GetPosition().y / map->GetTileHeight()) - 1;
 	map->SetTileData(row, column, 0);
 
+}
+
+
+void BreakablePlatform::OnHitBullet()
+{
+	health--;
+	if (health <= 0)
+	{
+		body->categoryBits = 0; // not collide more
+
+		int column = (int)(body->GetPosition().x / map->GetTileWidth());
+		int row = map->GetHeight() - (int)(body->GetPosition().y / map->GetTileHeight()) - 1;
+		map->SetTileData(row, column, 0);
+	}
 }

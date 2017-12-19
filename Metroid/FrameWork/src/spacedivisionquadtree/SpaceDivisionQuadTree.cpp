@@ -98,7 +98,7 @@ void SpaceDivisionQuadTree::StartBuildingTreeNodes(const std::string &outpath, c
 		//get all objects in objects group from tmx file and put to rootSDQNode
 		rapidxml::xml_node<> * objectgroupNode = parentNode->first_node("objectgroup");
 
-		while (objectgroupNode != nullptr)
+		while (objectgroupNode != nullptr)	
 		{
 			rapidxml::xml_node<> *currentTMXNode = objectgroupNode->first_node("object");
 
@@ -231,7 +231,7 @@ void SpaceDivisionQuadTree::BuildTree(SDQNode* sdqNode, rapidxml::xml_node<>* pa
 
 	if (sdqNode->rect.top - sdqNode->rect.bottom < minSquareSize)
 	{
-		//append bodyid to this node
+		//append bodyid and tileid to this node
 		for (std::vector<SDQObject>::iterator it = sdqNode->sdqObjects.begin(); it != sdqNode->sdqObjects.end(); ++it)
 		{
 			char* id = doc.allocate_string(std::to_string(it->id).c_str());
@@ -689,7 +689,7 @@ const std::map<unsigned int, Body*>& SpaceDivisionQuadTree::GetMapBody()
 //	return rootSDQNode;
 //}
 
-void SpaceDivisionQuadTree::LoadObjectsInViewport(Camera* camera)
+void SpaceDivisionQuadTree::LoadObjectsInViewport(Camera* camera, bool loadBody, bool loadTileRect)
 {
 	RECT viewportRect;
 	viewportRect.top = camera->GetPosition().y+ screenHeight /2;
@@ -697,6 +697,8 @@ void SpaceDivisionQuadTree::LoadObjectsInViewport(Camera* camera)
 	viewportRect.bottom = camera->GetPosition().y - screenHeight / 2;
 	viewportRect.right = camera->GetPosition().x + screenWidth / 2;
 
+	this->loadBody = loadBody;
+	this->loadTileRect = loadTileRect;
 
 	LoadObjectsInViewport(viewportRect, rootSDQNode);
 
@@ -722,6 +724,8 @@ void SpaceDivisionQuadTree::LoadObjectsInViewport(const RECT &viewport, SDQNode*
 				Body *body = it->body;
 				if (it->body != NULL)
 				{
+					if (!loadBody) continue;
+
 					//find this body in bodiesInViewport
 					std::vector<Body*>::iterator itBody = std::find(bodiesInViewport.begin(), bodiesInViewport.end(), body);
 					if (itBody != bodiesInViewport.end()) //if this vector contains current body
@@ -735,6 +739,8 @@ void SpaceDivisionQuadTree::LoadObjectsInViewport(const RECT &viewport, SDQNode*
 				}
 				else
 				{
+					if (!loadTileRect) continue;
+
 					//find this body in bodiesInViewport
 					std::vector<Shape::Rectangle*>::iterator itRect = std::find(tileRectsInViewport.begin(), tileRectsInViewport.end(), it->tileRectangle);
 					if (itRect != tileRectsInViewport.end()) //if this vector contains current body
