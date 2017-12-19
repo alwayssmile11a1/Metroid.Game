@@ -102,9 +102,6 @@
     <ClCompile Include="Cannon.cpp">
       <Filter>Source Files\MetroidGame\MotherBrain</Filter>
     </ClCompile>
-    <ClCompile Include="MotherBrainBullet.cpp">
-      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
-    </ClCompile>
     <ClCompile Include="ExplosionEffect.cpp">
       <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
@@ -116,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\MetroidGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPile.cpp">
+      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCannon.cpp">
+      <Filter>Source Files\MetroidGame\MotherBrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +176,6 @@
     <ClInclude Include="Cannon.h">
       <Filter>Header Files\MetroidGame\MotherBrain</Filter>
     </ClInclude>
-    <ClInclude Include="MotherBrainBullet.h">
-      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
-    </ClInclude>
     <ClInclude Include="ExplosionEffect.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
@@ -187,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\MetroidGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPile.h">
+      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCannon.h">
+      <Filter>Header Files\MetroidGame\MotherBrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

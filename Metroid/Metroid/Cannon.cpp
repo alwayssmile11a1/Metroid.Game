@@ -12,13 +12,13 @@ Cannon::~Cannon()
 {
 }
 
-void Cannon::Create(World *world, Texture *skreeTexture, Cannon::Type type, int randomIndex, int x, int y)
+void Cannon::Create(World *world, Texture *texture, Cannon::Type type, int randomIndex, int x, int y)
 {
 	isBulletDestroyed = true;
 	this->world = world;
 	lastShot = 0;
 
-	TexturePacker p = TexturePacker(skreeTexture, "Resources/bosses_packer.xml");
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
 
 	cannonAnimation.AddRegion(p.GetRegion("cannon"));
 	cannonAnimation.SetIndex(randomIndex);
@@ -78,19 +78,15 @@ void Cannon::Create(World *world, Texture *skreeTexture, Cannon::Type type, int 
 	bulletExplosionEffect.SetSize(15, 15);
 	
 }
-void Cannon::HandlePhysics()
-{
-
-}
 
 void Cannon::Render(SpriteBatch *batch)
 {
-	batch->Draw(*this);
-
 	if (!isBulletDestroyed)
 	{
 		batch->Draw(cannonBullet);
 	}
+
+	batch->Draw(*this);
 
 	bulletExplosionEffect.Render(batch);
 }

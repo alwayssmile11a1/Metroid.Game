@@ -182,7 +182,24 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			}
 		}
 		break;
+	case HEALTHPILE_BIT*BULLET_BIT:
+	{
+		//Update HealthPile
+		HealthPile* healthPile = (HealthPile*)bodyB->GetExtra();
+		if (healthPile != NULL)
+		{
+			healthPile->OnHitBullet();
+		}
 
+		//Update Bullet
+		Bullet* bullet = (Bullet*)bodyA->GetExtra();
+		if (bullet != NULL)
+		{
+			bullet->OnHitEnemy();
+		}
+
+		break;
+	}
 	
 	}
 	
@@ -396,6 +413,24 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case CIRCLECANNON_BIT*PLAYER_BIT:
+	{
+		//Update Player
+		Player* player = (Player*)bodyB->GetExtra();
+		if (player != NULL)
+		{
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			{
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+		}
+
+		break;
+	}
 	
 	}
 }
@@ -489,6 +524,20 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		}
 
 		break;
+	}
+	case HEALTHPILE_BIT*EXPLOSION_BIT:
+	{
+		if (bodyA->categoryBits == EXPLOSION_BIT)
+		{
+			//Update HealthPile
+			HealthPile* healthPile = (HealthPile*)bodyB->GetExtra();
+			if (healthPile != NULL)
+			{
+				healthPile->OnHitBomb();
+			}
+
+			break;
+		}
 	}
 
 	}

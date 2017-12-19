@@ -11,6 +11,8 @@
 #include "HanabiConsole.h"
 #include "MotherBrain.h"
 #include "Cannon.h"
+#include "HealthPile.h"
+#include "CircleCannon.h"
 
 class WorldListener: public WorldContactListener
 {

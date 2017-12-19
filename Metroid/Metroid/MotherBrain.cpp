@@ -12,11 +12,11 @@ MotherBrain::~MotherBrain()
 {
 }
 
-void MotherBrain::Create(World *world, Texture *skreeTexture, int x, int y)
+void MotherBrain::Create(World *world, Texture *texture, int x, int y)
 {
 	health = 20;
 
-	TexturePacker p = TexturePacker(skreeTexture, "Resources/bosses_packer.xml");
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
 
 	animation.AddRegion(p.GetRegion("motherbrain"));
 	animation.SetFrameInterval(0.2);
@@ -39,7 +39,6 @@ void MotherBrain::Create(World *world, Texture *skreeTexture, int x, int y)
 	body->categoryBits = MOTHERBRAIN_BIT;
 	body->maskBits = PLAYER_BIT| BULLET_BIT | EXPLOSION_BIT;
 	body->PutExtra(this);
-
 }
 
 
@@ -76,9 +75,4 @@ void MotherBrain::OnHitBomb()
 bool MotherBrain::IsDead()
 {
 	return health<=0;
-}
-
-int MotherBrain::GetHealth()
-{
-	return health;
 }

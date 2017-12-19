@@ -5,22 +5,21 @@
 
 
 
-class MotherBrain : public Sprite
+class HealthPile : public Sprite
 {
 
 private:
-	Animation animation;
-	Animation weakAnimation;
+	std::vector<TextureRegion> regions;
 	Body* body;
 
 
 	int health;
-
+	World *world;
 
 public:
-	MotherBrain();
-	~MotherBrain();
-	void Create(World *world, Texture *texture, int x, int y);
+	HealthPile();
+	~HealthPile();
+	void Create(World *world, Texture *skreeTexture, int x, int y);
 
 	void Render(SpriteBatch *batch);
 
@@ -33,4 +32,3 @@ public:
 	bool IsDead();
 
 };
-

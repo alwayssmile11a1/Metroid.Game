@@ -20,7 +20,8 @@
 #include "Rio.h"
 #include "MotherBrain.h"
 #include "Cannon.h"
-
+#include "HealthPile.h"
+#include "CircleCannon.h"
 
 #define PLAYERAPPEARINGTIME 3
 
@@ -66,6 +67,8 @@ private:
 	Texture bossesTexture;
 	MotherBrain motherBrain;
 	std::vector<Cannon*> cannons;
+	std::vector<CircleCannon*> circleCannons;
+	std::vector<HealthPile*> healthPiles;
 
 
 

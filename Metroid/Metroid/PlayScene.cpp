@@ -120,6 +120,28 @@ void PlayScene::Create()
 
 		cannons.push_back(cannon);
 	}
+	
+	//CircleCannons
+	std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
+	{
+		CircleCannon *cannon = new CircleCannon();
+		cannon->Create(&world, &enemiesTexture,&player, rect->x, rect->y);
+
+		circleCannons.push_back(cannon);
+	}
+
+	//HealthPiles
+	std::vector<Shape::Rectangle> healthPileRects = map->GetObjectGroup("HealthPile")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = healthPileRects.begin(); rect != healthPileRects.end(); ++rect)
+	{
+		HealthPile *healthPile = new HealthPile();
+		healthPile->Create(&world, &bossesTexture, rect->x, rect->y);
+
+		healthPiles.push_back(healthPile);
+	}
+
+
 
 
 	//---------------------------ITEMS------------------------------------
@@ -171,12 +193,6 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
-	//handle physics cannons
-	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-	{
-		(*it)->HandlePhysics();
-	}
-
 	//Update world
 	world.Update(dt);
 
@@ -214,6 +230,18 @@ void  PlayScene::Render()
 
 	//render cannons
 	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+	//render circle cannons
+	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+	//render healthPiles
+	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
 	{
 		(*it)->Render(batch);
 	}
@@ -302,6 +330,18 @@ void PlayScene::Update(float dt)
 	{
 		(*it)->Update(dt);
 	}
+	//update circle cannons
+	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
+	//update healthPiles
+	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
 
 	//update effect
 	explosionEffect.Update(dt);
@@ -394,6 +434,19 @@ void PlayScene::Release()
 	}
 
 	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+
+	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+	{
+		delete *it;
+		*it = NULL;
+	}
+
+	//update circle cannons
+	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
 	{
 		delete *it;
 		*it = NULL;

@@ -1,7 +1,6 @@
 #pragma once
 #include "HanabiWorld.h"
 #include "HanabiSprite.h"
-#include<vector>
 #include "CollisionBit.h"
 #include "HanabiEffect.h"
 
@@ -36,9 +35,7 @@ private:
 public:
 	Cannon();
 	~Cannon();
-	void Create(World *world, Texture *skreeTexture, Cannon::Type type, int randomIndex , int x, int y);
-
-	void HandlePhysics();
+	void Create(World *world, Texture *texture, Cannon::Type type, int randomIndex , int x, int y);
 
 	void Render(SpriteBatch *batch);
 
