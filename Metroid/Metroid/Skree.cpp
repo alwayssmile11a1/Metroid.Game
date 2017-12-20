@@ -34,15 +34,16 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 	SetRegion(*skreeAnimation.GetKeyAnimation());
 	SetSize(16, 33);
 	SetPosition(x, y);
-	
+		
+
 	//setup body
 	BodyDef bodyDef;
-	bodyDef.bodyType = Body::BodyType::Static;
+	bodyDef.bodyType = Body::BodyType::Static; 
 	bodyDef.position.Set(x, y);
 	bodyDef.size.Set(16, 33);
 	bodyDef.isSensor = true;
 	body = world->CreateBody(bodyDef);
-	body->categoryBits = SKREE_BIT;
+	body->categoryBits = SKREE_BIT; 
 	body->maskBits = PLAYER_BIT|PLATFORM_BIT|BULLET_BIT|EXPLOSION_BIT;
 	body->PutExtra(this);
 
@@ -64,6 +65,8 @@ void Skree::HandlePhysics(Player* player)
 			body->SetVelocity(-2, -4);
 		}
 	}
+	
+
 
 }
 

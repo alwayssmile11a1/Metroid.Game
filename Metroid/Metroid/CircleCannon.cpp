@@ -32,7 +32,7 @@ void CircleCannon::Create(World *world, Texture *texture,Player* player, int x, 
 	bodyDef.size.Set(32, 32);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = PLATFORM_BIT;
-	body->maskBits = PLAYER_BIT|CANNON_BIT;
+	body->maskBits = PLAYER_BIT|FOOT_BIT|CANNON_BIT;
 	body->PutExtra(this);
 
 

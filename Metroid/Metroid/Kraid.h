@@ -2,24 +2,30 @@
 #include "HanabiWorld.h"
 #include "HanabiSprite.h"
 #include "CollisionBit.h"
+#include "Player.h"
 
+#define TURNINGDELAYTIME 1
 
-
-class HealthPile : public Sprite
+class Kraid : public Sprite
 {
 
 private:
-	std::vector<TextureRegion> regions;
+	Animation animation;
 	Body* body;
-	Body* body2;
+
 
 	int health;
-	World *world;
+	
+	Player* player;
+
+	float stateTime;
+
+
 
 public:
-	HealthPile();
-	~HealthPile();
-	void Create(World *world, Texture *skreeTexture, int x, int y);
+	Kraid();
+	~Kraid();
+	void Create(World *world, Texture *texture, Player*player, int x, int y);
 
 	void Render(SpriteBatch *batch);
 
@@ -32,3 +38,4 @@ public:
 	bool IsDead();
 
 };
+

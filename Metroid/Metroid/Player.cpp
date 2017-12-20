@@ -107,7 +107,7 @@ void Player::Create(World *world, float x, float y)
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;
 	mainBody->maskBits = SKREE_BIT | ZOOMER_BIT | PLATFORM_BIT | MARUMARIITEM_BIT | HEALTHITEM_BIT | BOMBITEM_BIT | EXPLOSION_BIT |BREAKABLEPLATFORM_BIT|RIO_BIT
-												| CANNON_BIT|HEALTHPILE_BIT|CIRCLECANNON_BIT;
+												| CANNON_BIT|HEALTHPILE_BIT|CIRCLECANNON_BIT|MOTHERBRAIN_BIT;
 	//a small note: since "this" is actually a reference to this class, it will be no problem if you use the create method like this one.
 	//but if you use the constructor method such as: Player(World &world) and later you write your code like this: player = Player(world)
 	//this line of code will very likely cause you a problem of null pointer
@@ -122,7 +122,7 @@ void Player::Create(World *world, float x, float y)
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
-	foot->maskBits = PLATFORM_BIT| BREAKABLEPLATFORM_BIT|MOTHERBRAIN_BIT;
+	foot->maskBits = PLATFORM_BIT| BREAKABLEPLATFORM_BIT;
 	foot->PutExtra(this);
 
 	//create head

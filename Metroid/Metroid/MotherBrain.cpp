@@ -26,14 +26,14 @@ void MotherBrain::Create(World *world, Texture *texture, int x, int y)
 
 
 	SetRegion(*animation.GetKeyAnimation());
-	SetSize(80, 65);
+	SetSize(160, 130);
 	SetPosition(x, y);
 
 	//setup body
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Kinematic;
 	bodyDef.position.Set(x, y);
-	bodyDef.size.Set(80, 65);
+	bodyDef.size.Set(160, 130);
 	bodyDef.isSensor = true;
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = MOTHERBRAIN_BIT;

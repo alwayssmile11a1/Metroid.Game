@@ -52,7 +52,6 @@ void PlayScene::Create()
 	//get player position
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x,playerRect.y);
-	initPlayerPosition.Set(playerRect.x, playerRect.y);
 
 	//set cam position
 	cam.SetPosition(playerRect.x, playerRect.y + 110);
@@ -245,6 +244,7 @@ void  PlayScene::Render()
 	{
 		(*it)->Render(batch);
 	}
+
 	
 	//draw items
 	batch->Draw(maruMariItem);
@@ -322,6 +322,8 @@ void PlayScene::Update(float dt)
 	{
 		(*it)->Update(dt);
 	}
+
+
 
 	//mother brain
 	motherBrain.Update(dt);

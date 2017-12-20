@@ -49,6 +49,12 @@
     <Filter Include="Source Files\MetroidGame\Player">
       <UniqueIdentifier>{8b7ce4e4-ce21-4652-abcf-35699d811e74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MetroidGame\Kraid">
+      <UniqueIdentifier>{ac5e465f-23c0-4a5a-917d-95726f32ce36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MetroidGame\Kraid">
+      <UniqueIdentifier>{47dc55cc-3643-4045-b5aa-7c9020db0934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WorldListener.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="CircleCannon.cpp">
       <Filter>Source Files\MetroidGame\MotherBrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Kraid.cpp">
+      <Filter>Source Files\MetroidGame\Kraid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="CircleCannon.h">
       <Filter>Header Files\MetroidGame\MotherBrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Kraid.h">
+      <Filter>Header Files\MetroidGame\Kraid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

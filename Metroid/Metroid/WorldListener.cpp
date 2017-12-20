@@ -182,24 +182,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			}
 		}
 		break;
-	case HEALTHPILE_BIT*BULLET_BIT:
-	{
-		//Update HealthPile
-		HealthPile* healthPile = (HealthPile*)bodyB->GetExtra();
-		if (healthPile != NULL)
-		{
-			healthPile->OnHitBullet();
-		}
-
-		//Update Bullet
-		Bullet* bullet = (Bullet*)bodyA->GetExtra();
-		if (bullet != NULL)
-		{
-			bullet->OnHitEnemy();
-		}
-
-		break;
-	}
 	case BREAKABLEPLATFORM_BIT*BULLET_BIT:
 	{
 		//Update breakableplatform
@@ -218,6 +200,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 
 		break;
 	}
+
 	
 	}
 	
@@ -257,6 +240,8 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 
 void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, const Vector2 &collisionDirection)
 {
+
+
 }
 
 
@@ -402,17 +387,37 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
-	case CANNON_BIT*PLATFORM_BIT:
+	case CANNON_BIT*PLATFORM_BIT: //also equal MOTHERBRAIN_BIT*PLAYER_BIT
 	{
-		//Update Cannon
-		Cannon* cannon = (Cannon*)bodyA->GetExtra();
-		if (cannon != NULL)
+		if (bodyA->categoryBits == CANNON_BIT)
 		{
-			cannon->OnHitGround();
+			//Update Cannon
+			Cannon* cannon = (Cannon*)bodyA->GetExtra();
+			if (cannon != NULL)
+			{
+				cannon->OnHitGround();
+			}
+		}
+		else //Mother Brain
+		{
+			//Update Player
+			Player* player = (Player*)bodyB->GetExtra();
+			if (player != NULL)
+			{
+				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+				{
+					player->OnHitEnemy(true);
+				}
+				else
+				{
+					player->OnHitEnemy(false);
+				}
+			}
 		}
 
 		break;
 	}
+
 	case CANNON_BIT*PLAYER_BIT:
 	{
 		//Update Player
@@ -449,7 +454,9 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
-	
+
+
+
 	}
 }
 
@@ -556,6 +563,24 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 			break;
 		}
+	}
+	case HEALTHPILE_BIT*BULLET_BIT:
+	{
+		//Update HealthPile
+		HealthPile* healthPile = (HealthPile*)bodyA->GetExtra();
+		if (healthPile != NULL)
+		{
+			healthPile->OnHitBullet();
+		}
+
+		//Update Bullet
+		Bullet* bullet = (Bullet*)bodyB->GetExtra();
+		if (bullet != NULL)
+		{
+			bullet->OnHitEnemy();
+		}
+
+		break;
 	}
 
 	}

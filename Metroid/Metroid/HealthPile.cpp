@@ -31,10 +31,20 @@ void HealthPile::Create(World *world, Texture *texture, int x, int y)
 	bodyDef.position.Set(x, y);
 	bodyDef.size.Set(24, 64);
 	body = world->CreateBody(bodyDef);
-	body->categoryBits = HEALTHPILE_BIT;
-	body->maskBits = BULLET_BIT | EXPLOSION_BIT|PLAYER_BIT;
+	body->categoryBits = PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT;
 	body->PutExtra(this);
 
+	//setup body2
+	BodyDef body2Def;
+	body2Def.bodyType = Body::BodyType::Kinematic;
+	body2Def.position.Set(x, y);
+	body2Def.size.Set(30, 64);
+	body2Def.isSensor = true;
+	body2 = world->CreateBody(body2Def);
+	body2->categoryBits = HEALTHPILE_BIT;
+	body2->maskBits = BULLET_BIT | EXPLOSION_BIT;
+	body2->PutExtra(this);
 }
 
 
@@ -66,6 +76,7 @@ void HealthPile::Update(float dt)
 			{
 				SetTexture(NULL);
 				world->DestroyBody(body);
+				world->DestroyBody(body2);
 				body = NULL;
 			}
 		}
