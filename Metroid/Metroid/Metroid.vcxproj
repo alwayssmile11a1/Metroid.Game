@@ -153,6 +153,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="MaruMariItem.cpp" />
     <ClCompile Include="Rio.cpp" />
+    <ClCompile Include="Ripper.cpp" />
     <ClCompile Include="Skree.cpp" />
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="WorldListener.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="MaruMariItem.h" />
     <ClInclude Include="Rio.h" />
+    <ClInclude Include="Ripper.h" />
     <ClInclude Include="Skree.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="WorldListener.h" />

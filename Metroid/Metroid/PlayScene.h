@@ -8,6 +8,7 @@
 #include "HanabiSound.h"
 #include "Skree.h"
 #include "Zoomer.h"
+#include "Ripper.h"
 #include "HanabiShape.h"
 #include "Platform.h"
 #include "HanabiSpaceDivisionQuadTree.h"

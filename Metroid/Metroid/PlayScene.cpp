@@ -88,6 +88,8 @@ void PlayScene::Create()
 		rios.push_back(rio);
 	}
 
+	//ripper
+
 	//--------------------------BOSSES-------------------------------
 	bossesTexture = Texture("Resources/bosses.png");
 	//Mother Brai

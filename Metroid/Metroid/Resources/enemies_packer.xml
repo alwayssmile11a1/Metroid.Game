@@ -31,3 +31,7 @@
   <rect left="444" top = "259" width = "10" height="10"/>
   <rect left="457" top = "259" width = "10" height="10"/>
 </circlecannon>
+
+<ripper>
+ <rect left="422" top = "46" width = "16" height="8"/>
+</ripper>
