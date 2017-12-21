@@ -4,7 +4,16 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
-#define TURNINGDELAYTIME 1
+#define TURNINGDELAYTIME 1.5
+#define KRAIDBULLETLIVETIME 2
+
+class KraidBullet: public Sprite
+{
+public:
+	Body * body;
+};
+
+
 
 class Kraid : public Sprite
 {
@@ -19,13 +28,20 @@ private:
 	Player* player;
 
 	float stateTime;
+	
+	float bulletStateTime;
 
+	float lastShot;
+
+	std::vector<KraidBullet> bullets;
 
 
 public:
 	Kraid();
 	~Kraid();
 	void Create(World *world, Texture *texture, Player*player, int x, int y);
+
+	void HandlePhysics();
 
 	void Render(SpriteBatch *batch);
 

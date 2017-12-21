@@ -23,6 +23,7 @@
 #include "Cannon.h"
 #include "HealthPile.h"
 #include "CircleCannon.h"
+#include "Kraid.h"
 
 #define PLAYERAPPEARINGTIME 3
 
@@ -67,6 +68,7 @@ private:
 	//bosses
 	Texture bossesTexture;
 	MotherBrain motherBrain;
+	Kraid kraid;
 	std::vector<Cannon*> cannons;
 	std::vector<CircleCannon*> circleCannons;
 	std::vector<HealthPile*> healthPiles;

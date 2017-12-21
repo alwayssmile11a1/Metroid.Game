@@ -96,6 +96,10 @@ void PlayScene::Create()
 	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
 	motherBrain.Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
 
+	//Kraid 
+	Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
+	kraid.Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
+
 	//Cannons
 	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
@@ -194,6 +198,10 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
+
+	kraid.HandlePhysics();
+
+
 	//Update world
 	world.Update(dt);
 
@@ -228,6 +236,9 @@ void  PlayScene::Render()
 
 	//mother brain
 	motherBrain.Render(batch);
+
+	//kraid
+	kraid.Render(batch);
 
 	//render cannons
 	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
@@ -329,6 +340,10 @@ void PlayScene::Update(float dt)
 
 	//mother brain
 	motherBrain.Update(dt);
+
+	//update kraid
+	kraid.Update(dt);
+
 	//update cannons
 	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
 	{
