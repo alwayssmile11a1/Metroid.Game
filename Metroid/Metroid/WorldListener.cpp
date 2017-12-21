@@ -13,7 +13,7 @@ WorldListener::~WorldListener()
 }
 
 
-void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &CollisionDirection)
+void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &CollisionDirection)
 {
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
@@ -100,7 +100,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 			}
 		}
 		break;
-	
+
 	case PLAYER_BIT*ZOOMER_BIT:
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
@@ -150,7 +150,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		}
 		break;
 
-	case ZOOMER_BIT*BREAKABLEPLATFORM_BIT:
+	case ZOOMER_BIT*BREAKABLEPLATFORM_BIT: 
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
@@ -201,9 +201,17 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB,const Vector2 &Col
 		break;
 	}
 
-	
+	case RIPPER_BIT*PLAYER_BIT:
+	{
+		Player* player = (Player*)bodyA->GetExtra();
+
+		if (player != NULL)
+		{
+			player->OnHitEnemy(true);
+		}
 	}
-	
+	}
+
 
 
 
@@ -436,27 +444,37 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
-	case CIRCLECANNON_BIT*PLAYER_BIT:
+	case CIRCLECANNON_BIT*PLAYER_BIT://== RIPPER_BIT*PLATFORM_BIT
 	{
-		//Update Player
-		Player* player = (Player*)bodyB->GetExtra();
-		if (player != NULL)
+		if (bodyA->categoryBits == CIRCLECANNON_BIT)
 		{
-			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			//Update Player
+			Player* player = (Player*)bodyB->GetExtra();
+			if (player != NULL)
 			{
-				player->OnHitEnemy(true);
+				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+				{
+					player->OnHitEnemy(true);
+				}
+				else
+				{
+					player->OnHitEnemy(false);
+				}
 			}
-			else
+		}
+		else if (bodyA->categoryBits == RIPPER_BIT)
+		{
+			Ripper* ripper = (Ripper*)bodyA->GetExtra();
+
+			if (ripper != NULL)
 			{
-				player->OnHitEnemy(false);
+				Console::Log("The Ripper has collided with platform\n");
+				ripper->ChangeDirection();
 			}
 		}
 
 		break;
 	}
-
-
-
 	}
 }
 

@@ -3,6 +3,7 @@
 #include"Player.h"
 #include "Skree.h"
 #include "Zoomer.h"
+#include "Ripper.h"
 #include "MaruMariItem.h"
 #include "HealthItem.h"
 #include "BombItem.h"

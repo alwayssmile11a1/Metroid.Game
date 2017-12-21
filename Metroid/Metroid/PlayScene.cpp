@@ -89,6 +89,14 @@ void PlayScene::Create()
 	}
 
 	//ripper
+	std::vector<Shape::Rectangle> ripperRects = map->GetObjectGroup("Ripper")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = ripperRects.begin(); rect != ripperRects.end(); ++rect)
+	{
+		Ripper *ripper = new Ripper();
+		ripper->Create(&world, &enemiesTexture, rect->x, rect->y);
+		rippers.push_back(ripper);
+	}
+
 
 	//--------------------------BOSSES-------------------------------
 	bossesTexture = Texture("Resources/bosses.png");
@@ -198,7 +206,7 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
-
+	
 	kraid.HandlePhysics();
 
 
@@ -230,6 +238,12 @@ void  PlayScene::Render()
 
 	//render rios
 	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+	//render rippers
+	for (std::vector<Ripper*>::iterator it = rippers.begin(); it != rippers.end(); ++it)
 	{
 		(*it)->Render(batch);
 	}
@@ -336,7 +350,11 @@ void PlayScene::Update(float dt)
 		(*it)->Update(dt);
 	}
 
-
+	//update rippers
+	for (std::vector<Ripper*>::iterator it = rippers.begin(); it != rippers.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
 
 	//mother brain
 	motherBrain.Update(dt);

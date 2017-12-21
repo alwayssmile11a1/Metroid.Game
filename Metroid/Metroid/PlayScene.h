@@ -64,6 +64,7 @@ private:
 	std::vector<Skree*> skrees;
 	std::vector<Zoomer*> zoomers;
 	std::vector<Rio*> rios;
+	std::vector<Ripper*>rippers;
 
 	//bosses
 	Texture bossesTexture;

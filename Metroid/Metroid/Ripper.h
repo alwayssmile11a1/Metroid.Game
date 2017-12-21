@@ -11,12 +11,7 @@ class Ripper : public Sprite
 
 private:
 	Animation ripperAnimation;
-	Animation skreeHitAnimation;
 	Body* body;
-
-
-
-	float stateTime;
 
 	World* world;
 
@@ -30,7 +25,7 @@ private:
 
 	int health;
 
-
+	Vector2 velocity;
 public:
 	Ripper();
 	~Ripper();
@@ -43,6 +38,12 @@ public:
 	void Update(float dt);
 
 	void OnHitGround();
+
+	void OnHitBullet();
+
+	void OnHitPlayer();
+
+	void ChangeDirection();
 
 	bool IsDead();
 

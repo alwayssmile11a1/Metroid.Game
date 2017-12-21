@@ -129,6 +129,9 @@
     <ClCompile Include="Kraid.cpp">
       <Filter>Source Files\MetroidGame\Kraid</Filter>
     </ClCompile>
+    <ClCompile Include="Ripper.cpp">
+      <Filter>Source Files\MetroidGame\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="Kraid.h">
       <Filter>Header Files\MetroidGame\Kraid</Filter>
+    </ClInclude>
+    <ClInclude Include="Ripper.h">
+      <Filter>Header Files\MetroidGame\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
