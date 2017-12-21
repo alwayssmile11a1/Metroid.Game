@@ -159,6 +159,17 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 				zoomer->SetCurCollisionDirection(CollisionDirection, 1);
 			}
 		}
+		else if (bodyA->categoryBits == RIPPER_BIT)
+		{
+			Ripper* ripper = (Ripper*)bodyA->GetExtra();
+
+			if (ripper != NULL)
+			{
+				Console::Log("The Ripper has collided with platform\n");
+				ripper->ChangeDirection();
+			}
+
+		}
 		break;
 
 	case BULLET_BIT*ZOOMER_BIT:
@@ -203,13 +214,16 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 
 	case RIPPER_BIT*PLAYER_BIT:
 	{
+		Console::Log("Ripper has collided with Player\n");
 		Player* player = (Player*)bodyA->GetExtra();
 
 		if (player != NULL)
 		{
 			player->OnHitEnemy(true);
 		}
+		break;
 	}
+
 	}
 
 
@@ -297,6 +311,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		}
 		break;
 	}
+	
 	case PLATFORM_BIT*SKREE_BIT:
 	{
 		if (bodyA->categoryBits == SKREE_BIT)
@@ -446,8 +461,8 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 	}
 	case CIRCLECANNON_BIT*PLAYER_BIT://== RIPPER_BIT*PLATFORM_BIT
 	{
-		if (bodyA->categoryBits == CIRCLECANNON_BIT)
-		{
+		/*if (bodyA->categoryBits == CIRCLECANNON_BIT)
+		{*/
 			//Update Player
 			Player* player = (Player*)bodyB->GetExtra();
 			if (player != NULL)
@@ -461,7 +476,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 					player->OnHitEnemy(false);
 				}
 			}
-		}
+		/*}
 		else if (bodyA->categoryBits == RIPPER_BIT)
 		{
 			Ripper* ripper = (Ripper*)bodyA->GetExtra();
@@ -471,7 +486,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 				Console::Log("The Ripper has collided with platform\n");
 				ripper->ChangeDirection();
 			}
-		}
+		}*/
 
 		break;
 	}

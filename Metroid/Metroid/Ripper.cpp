@@ -25,7 +25,7 @@ void Ripper::Create(World *world, Texture *ripperTexture, int x, int y)
 	bodyDef.bodyType = Body::BodyType::Kinematic;
 	bodyDef.position.Set(x, y);
 	bodyDef.size.Set(30, 15);
-	bodyDef.isSensor = true;
+	//bodyDef.isSensor = true;
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = RIPPER_BIT;
 	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
@@ -36,7 +36,7 @@ void Ripper::Create(World *world, Texture *ripperTexture, int x, int y)
 	health = 2;
 	hitBulletTime = -1;
 
-	velocity.x = 0.7f;
+	velocity.x = -0.7f;
 	velocity.y = 0;
 	body->SetVelocity(velocity.x, velocity.y);
 }
@@ -61,12 +61,12 @@ void Ripper::Update(float dt)
 	if (body != NULL)
 		this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 	
-	/*if (isHitGround)
+	if (isHitGround)
 	{
 		velocity.x = -velocity.x;
 		isHitGround = false;
 	}
-	body->SetVelocity(velocity.x, velocity.y);*/
+	body->SetVelocity(velocity.x, velocity.y);
 
 }
 
@@ -86,7 +86,7 @@ void Ripper::OnHitBullet()
 
 void Ripper::OnHitPlayer()
 {
-
+	
 }
 
 bool Ripper::IsDead()
@@ -97,6 +97,7 @@ bool Ripper::IsDead()
 void Ripper::ChangeDirection()
 {		
 	isHitGround = true;
+	Flip(true, false);
 	body->SetVelocity(-body->GetVelocity().x, 0);
 }
 

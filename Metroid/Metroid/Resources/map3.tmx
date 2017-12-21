@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.11.22" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="530">
+<map version="1.0" tiledversion="2017.11.22" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="531">
  <tileset firstgid="1" name="metroidTileMap" tilewidth="32" tileheight="32" tilecount="48" columns="8">
   <image source="metroidTileMap2.png" width="258" height="193"/>
  </tileset>
@@ -298,46 +298,6 @@
   <object id="459" x="4256" y="1696" width="32" height="64"/>
   <object id="460" x="4640" y="1696" width="32" height="64"/>
  </objectgroup>
- <objectgroup name="Ripper">
-  <object id="474" x="5473.33" y="6145.33" width="29.3333" height="29.3333"/>
-  <object id="475" x="5278.67" y="5918.67" width="33.3333" height="32"/>
-  <object id="476" x="5216" y="5662.67" width="30.6667" height="32"/>
-  <object id="477" x="5505.33" y="5409.33" width="30.6667" height="30.6667"/>
-  <object id="480" x="5218" y="5184.67" width="30.6667" height="30.6667"/>
-  <object id="481" x="5506" y="4930" width="30.6667" height="30.6667"/>
-  <object id="482" x="5218" y="4703.33" width="30.6667" height="30.6667"/>
-  <object id="484" x="5504.67" y="4447.33" width="30.6667" height="30.6667"/>
-  <object id="485" x="5216.67" y="4226" width="30.6667" height="30.6667"/>
-  <object id="486" x="5504.67" y="3967.33" width="30.6667" height="30.6667"/>
-  <object id="487" x="5215.33" y="3743.33" width="30.6667" height="30.6667"/>
-  <object id="488" x="5504.67" y="3488.67" width="30.6667" height="30.6667"/>
-  <object id="489" x="5218" y="3263.33" width="30.6667" height="30.6667"/>
-  <object id="490" x="5503.33" y="3010" width="30.6667" height="30.6667"/>
-  <object id="491" x="5280.67" y="2818" width="30.6667" height="30.6667"/>
-  <object id="492" x="5344.67" y="2720.67" width="30.6667" height="30.6667"/>
-  <object id="493" x="5218" y="2590" width="30.6667" height="30.6667"/>
-  <object id="494" x="5376.67" y="2431.33" width="30.6667" height="30.6667"/>
-  <object id="495" x="5216.67" y="2304.67" width="30.6667" height="30.6667"/>
-  <object id="496" x="5504.67" y="2048.67" width="30.6667" height="30.6667"/>
-  <object id="497" x="5471.33" y="1826" width="30.6667" height="30.6667"/>
-  <object id="498" x="5280.67" y="1599.33" width="30.6667" height="30.6667"/>
-  <object id="499" x="5216.67" y="1344.67" width="30.6667" height="30.6667"/>
-  <object id="500" x="5506" y="1087.33" width="30.6667" height="30.6667"/>
-  <object id="501" x="5218" y="864.667" width="30.6667" height="30.6667"/>
-  <object id="502" x="5503.33" y="608.667" width="30.6667" height="30.6667"/>
-  <object id="503" x="5474" y="386" width="30.6667" height="30.6667"/>
-  <object id="504" x="5280.67" y="159.333" width="30.6667" height="30.6667"/>
-  <object id="505" x="2944" y="6240" width="31" height="30"/>
-  <object id="507" x="2656.5" y="6625" width="31" height="30"/>
-  <object id="511" x="2945.5" y="6849" width="31" height="30"/>
-  <object id="523" x="2719.17" y="8097" width="31" height="30"/>
-  <object id="524" x="2816.5" y="7714.33" width="31" height="30"/>
-  <object id="525" x="2784.5" y="8001" width="31" height="30"/>
-  <object id="526" x="2656.5" y="7873" width="31" height="30"/>
-  <object id="527" x="2656.5" y="7586.33" width="31" height="30"/>
-  <object id="528" x="2945.83" y="7330.33" width="31" height="30"/>
-  <object id="529" x="2657.83" y="7105" width="31" height="30"/>
- </objectgroup>
  <objectgroup name="BreakablePlatform">
   <object id="228" x="2688" y="6048" width="32" height="32"/>
   <object id="229" x="2720" y="6048" width="32" height="32"/>
@@ -548,6 +508,9 @@
  <objectgroup name="Rio">
   <object id="275" x="3232" y="5856" width="32" height="32"/>
   <object id="277" x="1536" y="5888" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Ripper">
+  <object id="530" x="2829" y="7709" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="MaruMariItem">
   <object id="159" x="704" y="6080" width="32" height="32"/>
