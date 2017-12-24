@@ -22,7 +22,7 @@ class Kraid : public Sprite
 private:
 	Animation animation;
 	Body* body;
-
+	World*world;
 
 	int health;
 	

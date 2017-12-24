@@ -12,7 +12,7 @@ private:
 	Animation animation;
 	Animation weakAnimation;
 	Body* body;
-
+	World* world;
 
 	int health;
 

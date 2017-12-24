@@ -68,8 +68,8 @@ private:
 
 	//bosses
 	Texture bossesTexture;
-	MotherBrain motherBrain;
-	Kraid kraid;
+	MotherBrain* motherBrain;
+	Kraid *kraid;
 	std::vector<Cannon*> cannons;
 	std::vector<CircleCannon*> circleCannons;
 	std::vector<HealthPile*> healthPiles;

@@ -14,6 +14,7 @@ MotherBrain::~MotherBrain()
 
 void MotherBrain::Create(World *world, Texture *texture, int x, int y)
 {
+	this->world = world;
 	health = 20;
 
 	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
@@ -44,11 +45,21 @@ void MotherBrain::Create(World *world, Texture *texture, int x, int y)
 
 void MotherBrain::Render(SpriteBatch *batch)
 {
+	if (body == NULL) return;
 	batch->Draw(*this);
 }
 
 void MotherBrain::Update(float dt)
 {
+	if (body == NULL) return;
+	if (health <= 0)
+	{
+		world->DestroyBody(body);
+		body = NULL;
+
+	}
+
+
 	if (health > 10)
 	{
 		SetRegion(*animation.Next(dt));

@@ -20,6 +20,7 @@ void ExplosionEffect::Create(Texture* explosionTexture)
 	explosionAnimation.AddRegion(p.GetRegion("explosion"));
 
 	SetRegion(*explosionAnimation.GetKeyAnimation());
+
 }
 
 void ExplosionEffect::Render(SpriteBatch* batch)

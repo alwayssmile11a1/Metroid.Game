@@ -14,6 +14,7 @@ Kraid::~Kraid()
 
 void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 {
+	this->world = world;
 	this->player = player;
 	health = 20;
 	stateTime = -1;
@@ -95,6 +96,8 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 
 void Kraid::HandlePhysics()
 {
+	if (body == NULL) return;
+
 	if (player->GetPosition().x > this->GetPosition().x)
 	{
 		//if (bulletStateTime == 0)
@@ -140,6 +143,8 @@ void Kraid::HandlePhysics()
 
 void Kraid::Render(SpriteBatch *batch)
 {
+	if (body == NULL) return;
+
 	//render bullets
 	for (std::vector<KraidBullet>::iterator it = bullets.begin(); it != bullets.end(); it++)
 	{
@@ -161,6 +166,30 @@ void Kraid::Render(SpriteBatch *batch)
 
 void Kraid::Update(float dt)
 {
+	if (body == NULL) return;
+
+
+	if (health <= 0)
+	{
+		world->DestroyBody(body);
+		body = NULL;
+
+		//destroy bullets
+		for (std::vector<KraidBullet>::iterator it = bullets.begin(); it != bullets.end(); it++)
+		{
+			world->DestroyBody(it->body);
+		
+		}
+
+		//destroy boomerangs
+		for (std::vector<KraidBullet>::iterator it = boomerangs.begin(); it != boomerangs.end(); it++)
+		{
+			world->DestroyBody(it->body);
+		}
+		health = -100;
+		return;
+	}
+
 	SetRegion(*animation.Next(dt));
 
 

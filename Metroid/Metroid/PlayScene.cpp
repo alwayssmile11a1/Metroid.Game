@@ -102,11 +102,13 @@ void PlayScene::Create()
 	bossesTexture = Texture("Resources/bosses.png");
 	//Mother Brai
 	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
-	motherBrain.Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
+	motherBrain = new MotherBrain();
+	motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
 
 	//Kraid 
 	Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
-	kraid.Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
+	kraid = new Kraid();
+	kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
 
 	//Cannons
 	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
@@ -206,8 +208,10 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
-	
-	kraid.HandlePhysics();
+	if (kraid != NULL)
+	{
+		kraid->HandlePhysics();
+	}
 
 
 	//Update world
@@ -248,12 +252,18 @@ void  PlayScene::Render()
 		(*it)->Render(batch);
 	}
 
-	//mother brain
-	motherBrain.Render(batch);
 
 	//kraid
-	kraid.Render(batch);
+	if (kraid != NULL)
+	{
+		kraid->Render(batch);
+	}
 
+	//mother brain
+	if (motherBrain != NULL)
+	{
+		motherBrain->Render(batch);
+	}
 	//render cannons
 	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
 	{
@@ -323,6 +333,7 @@ void PlayScene::Update(float dt)
 		{
 			if (skree->GetHealth()<=0)
 			{
+				explosionEffect.SetSize(32, 32);
 				explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
 				explosionEffect.Play();
 				//instantiate health item
@@ -345,7 +356,7 @@ void PlayScene::Update(float dt)
 		zoomer->Update(dt);
 		if (zoomer->GetHealth() <= 0)
 		{
-
+			explosionEffect.SetSize(32, 32);
 			explosionEffect.SetPosition(zoomer->GetPosition().x, zoomer->GetPosition().y);
 			explosionEffect.Play();
 			//instantiate health item
@@ -368,6 +379,7 @@ void PlayScene::Update(float dt)
 		rio->Update(dt);
 		if (rio->GetHealth() <= 0)
 		{
+			explosionEffect.SetSize(32, 32);
 			explosionEffect.SetPosition(rio->GetPosition().x, rio->GetPosition().y);
 			explosionEffect.Play();
 			//instantiate health item
@@ -390,6 +402,7 @@ void PlayScene::Update(float dt)
 		ripper->Update(dt);
 		if (ripper->GetHealth() <= 0)
 		{
+			explosionEffect.SetSize(32, 32);
 			explosionEffect.SetPosition(ripper->GetPosition().x, ripper->GetPosition().y);
 			explosionEffect.Play();
 			//instantiate health item
@@ -405,28 +418,55 @@ void PlayScene::Update(float dt)
 		}
 	}
 
-	//mother brain
-	motherBrain.Update(dt);
+	
 
 	//update kraid
-	kraid.Update(dt);
+	if (kraid!=NULL )
+	{
+		kraid->Update(dt);
+		if (kraid->IsDead())
+		{
+			explosionEffect.SetSize(64, 64);
+			explosionEffect.SetPosition(kraid->GetPosition().x, kraid->GetPosition().y);
+			explosionEffect.Play();
+			delete kraid;
+			kraid = NULL;
+		}
+	}
 
-	//update cannons
-	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	//mother brain
+	if (motherBrain != NULL)
 	{
-		(*it)->Update(dt);
-	}
-	//update circle cannons
-	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-	{
-		(*it)->Update(dt);
+		motherBrain->Update(dt);
+		if (motherBrain->IsDead())
+		{
+			explosionEffect.SetSize(64, 64);
+			explosionEffect.SetPosition(motherBrain->GetPosition().x, motherBrain->GetPosition().y);
+			explosionEffect.Play();
+			delete motherBrain;
+			motherBrain = NULL;
+		}
+
+		//update cannons
+		for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+		{
+			(*it)->Update(dt);
+		}
+		//update circle cannons
+		for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+		{
+			(*it)->Update(dt);
+		}
+
+		//update healthPiles
+		for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+		{
+			(*it)->Update(dt);
+		}
+
 	}
 
-	//update healthPiles
-	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
-	{
-		(*it)->Update(dt);
-	}
+
 
 
 	//update effect
