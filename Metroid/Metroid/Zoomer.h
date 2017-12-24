@@ -59,4 +59,7 @@ public:
 	void StickToGround();
 
 	void SetCurCollisionDirection(Vector2 collisionDirection, int source);
+
+	int GetHealth();
+
 };

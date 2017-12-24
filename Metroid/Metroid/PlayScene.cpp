@@ -337,23 +337,72 @@ void PlayScene::Update(float dt)
 
 		}
 	}
-
+	
 	//update zoomers
-	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	for (int i = 0; i < zoomers.size(); i++)
 	{
-		(*it)->Update(dt);
+		Zoomer* zoomer = zoomers[i];
+		zoomer->Update(dt);
+		if (zoomer->GetHealth() <= 0)
+		{
+
+			explosionEffect.SetPosition(zoomer->GetPosition().x, zoomer->GetPosition().y);
+			explosionEffect.Play();
+			//instantiate health item
+			HealthItem *healthItem = new HealthItem();
+			healthItem->Create(&world, &itemsTexture, zoomer->GetPosition().x, zoomer->GetPosition().y);
+			healthItems.push_back(healthItem);
+
+			//delete skree
+			delete zoomer;
+			zoomer = NULL;
+			zoomers.erase(zoomers.begin() + i);
+
+		}
 	}
 
 	//update rios
-	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	for (int i = 0; i < rios.size(); i++)
 	{
-		(*it)->Update(dt);
+		Rio* rio = rios[i];
+		rio->Update(dt);
+		if (rio->GetHealth() <= 0)
+		{
+			explosionEffect.SetPosition(rio->GetPosition().x, rio->GetPosition().y);
+			explosionEffect.Play();
+			//instantiate health item
+			HealthItem *healthItem = new HealthItem();
+			healthItem->Create(&world, &itemsTexture, rio->GetPosition().x, rio->GetPosition().y);
+			healthItems.push_back(healthItem);
+
+			//delete skree
+			delete rio;
+			rio = NULL;
+			rios.erase(rios.begin() + i);
+
+		}
 	}
 
 	//update rippers
-	for (std::vector<Ripper*>::iterator it = rippers.begin(); it != rippers.end(); ++it)
+	for (int i = 0; i < rippers.size(); i++)
 	{
-		(*it)->Update(dt);
+		Ripper* ripper = rippers[i];
+		ripper->Update(dt);
+		if (ripper->GetHealth() <= 0)
+		{
+			explosionEffect.SetPosition(ripper->GetPosition().x, ripper->GetPosition().y);
+			explosionEffect.Play();
+			//instantiate health item
+			HealthItem *healthItem = new HealthItem();
+			healthItem->Create(&world, &itemsTexture, ripper->GetPosition().x, ripper->GetPosition().y);
+			healthItems.push_back(healthItem);
+
+			//delete skree
+			delete ripper;
+			ripper = NULL;
+			rippers.erase(rippers.begin() + i);
+
+		}
 	}
 
 	//mother brain

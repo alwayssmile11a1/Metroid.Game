@@ -294,6 +294,11 @@ void Zoomer::OnHitBomb()
 	body->SetBodyType(Body::BodyType::Static);
 }
 
+int Zoomer::GetHealth()
+{
+	return health;
+}
+
 void Zoomer::OnHitPlayer()
 {
 	hitPlayerTime = 0;
