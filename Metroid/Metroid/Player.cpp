@@ -41,9 +41,10 @@ void Player::Create(World *world, float x, float y)
 	//get animations
 	TexturePacker p = TexturePacker(&texture, "Resources/samusaran_packer.xml");
 	appearingAnimation.AddRegion(p.GetRegion("appearing"));
-	appearingAnimation.SetFrameInterval(0.05);
+	appearingAnimation.SetFrameInterval(0.02);
 	standingAnimation.AddRegion(p.GetRegion("standing"));
 	movingAnimation.AddRegion(p.GetRegion("movewithoutshooting"));
+	movingAnimation.SetFrameInterval(0.02);
 	jumpingAnimation.AddRegion(p.GetRegion("jumpwithoutshooting"));
 	standAndShootupAnimation.AddRegion(p.GetRegion("standandshootup"));
 	moveAndShootAnimation.AddRegion(p.GetRegion("moveandshoot"));
@@ -100,7 +101,7 @@ void Player::Create(World *world, float x, float y)
 	//setup mainbody
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Dynamic;
-	bodyDef.linearDrag.Set(10, 0.2);
+	bodyDef.linearDrag.Set(10, 0);
 	bodyDef.mass = 2;
 	bodyDef.size.Set(30, 60);
 	bodyDef.position.Set(x, y);
@@ -204,7 +205,7 @@ void Player::HandleInput()
 	if (Input::GetKeyDown(DIK_Z) && isGrounded)
 	{
 		Sound::Play(jump);
-		mainBody->SetVelocity(mainBody->GetVelocity().x, 6);
+		mainBody->SetVelocity(mainBody->GetVelocity().x, 10);
 		isGrounded = false;
 		jumpTime = 0;
 	}

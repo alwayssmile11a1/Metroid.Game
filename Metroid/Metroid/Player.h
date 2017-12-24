@@ -9,7 +9,7 @@
 #include "HanabiSound.h"
 #include "HanabiInput.h"
 #define FIRERATE 0.1
-#define MAXJUMPTIME 0.5
+#define MAXJUMPTIME 0.6
 #define MAXUNTOUCHABLETIME 0.3 
 #define MAXDEADTIME 0.5
 

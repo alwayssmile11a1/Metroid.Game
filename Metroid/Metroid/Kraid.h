@@ -6,6 +6,7 @@
 
 #define TURNINGDELAYTIME 1.5
 #define KRAIDBULLETLIVETIME 2
+#define KRAIDBOOMERANGLIVETIME 1
 
 class KraidBullet: public Sprite
 {
@@ -31,10 +32,13 @@ private:
 	
 	float bulletStateTime;
 
+	float boomerangStateTime;
+
 	float lastShot;
 
 	std::vector<KraidBullet> bullets;
-
+	std::vector<KraidBullet> boomerangs;
+	Animation boomerangAnimation;
 
 public:
 	Kraid();

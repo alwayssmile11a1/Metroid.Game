@@ -18,6 +18,7 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 	health = 20;
 	stateTime = -1;
 	bulletStateTime = -1;
+	boomerangStateTime = -0.5;
 
 	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
 
@@ -36,7 +37,7 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 	bodyDef.size.Set(48, 64);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = KRAID_BIT;
-	body->maskBits = PLAYER_BIT | BULLET_BIT | EXPLOSION_BIT|PLATFORM_BIT;
+	body->maskBits = BULLET_BIT | EXPLOSION_BIT|PLATFORM_BIT;
 	body->PutExtra(this);
 
 
@@ -57,9 +58,37 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 		bullet.body = world->CreateBody(bulletDef);
 		bullet.body->categoryBits = KRAID_BIT;
 		bullet.body->maskBits = PLAYER_BIT;
+		bullet.body->SetID("bullet");
 		bullet.body->PutExtra(this);
 		bullets.push_back(bullet);
 	}
+
+
+	//setup boomerang
+	boomerangAnimation.AddRegion(p.GetRegion("kraidboomerang"));
+	boomerangAnimation.SetFrameInterval(0.02);
+	for (int i = 0; i < 2; i++)
+	{
+		KraidBullet boomerang;
+		boomerang.SetRegion(*boomerangAnimation.GetKeyAnimation());
+		boomerang.SetSize(16, 14);
+		//setup body
+		BodyDef boomerangDef;
+		boomerangDef.bodyType = Body::BodyType::Dynamic;
+		boomerangDef.position.Set(x, y);
+		boomerangDef.size.Set(16, 14);
+		boomerangDef.isSensor = true;
+		boomerang.body = world->CreateBody(boomerangDef);
+		boomerang.body->categoryBits = KRAID_BIT;
+		boomerang.body->maskBits = PLAYER_BIT;
+		boomerang.body->SetMass(2);
+		boomerang.body->SetLinearDrag(0.5, 1);
+		boomerang.body->SetID("boomerang");
+		boomerang.body->PutExtra(this);
+		boomerangs.push_back(boomerang);
+	}
+
+
 
 
 }
@@ -120,6 +149,14 @@ void Kraid::Render(SpriteBatch *batch)
 	}
 
 	batch->Draw(*this);
+
+	//render boomerangs
+	for (std::vector<KraidBullet>::iterator it = boomerangs.begin(); it != boomerangs.end(); it++)
+	{
+		it->SetRegion(*boomerangAnimation.GetKeyAnimation());
+		it->SetPosition(it->body->GetPosition().x, it->body->GetPosition().y);
+		batch->Draw(*it);
+	}
 }
 
 void Kraid::Update(float dt)
@@ -158,24 +195,29 @@ void Kraid::Update(float dt)
 
 	SetPosition(body->GetPosition().x, body->GetPosition().y);
 
-	//float currentTime = GetTickCount() / 1000.0f;
-	//if (currentTime > FIRERATE + lastShot) //don't shoot more if we have just shooted 
-	//{
-
-	//	lastShot = currentTime;
-	//	bulletStateTime = 0;
-
-	//}
 
 	if (bulletStateTime >= 0)
 	{
 		bulletStateTime += dt;
+		
+	}
+
+	if (boomerangStateTime >= 0)
+	{
+		boomerangStateTime += dt;
+		boomerangAnimation.Next(dt);
 	}
 
 	if (bulletStateTime > KRAIDBULLETLIVETIME)
 	{
 		bulletStateTime = -1;
 	}
+
+	if (boomerangStateTime > KRAIDBOOMERANGLIVETIME)
+	{
+		boomerangStateTime = -0.5;
+	}
+
 
 	if (bulletStateTime < 0)
 	{
@@ -187,19 +229,54 @@ void Kraid::Update(float dt)
 			{
 				it->body->SetPosition(this->GetPosition().x + this->GetSize().x / 2 + it->GetSize().x / 2 - i * 5, this->GetPosition().y + i * 20);
 				it->Flip(true, false);
-				it->body->SetVelocity(3, 0);
+				it->body->SetVelocity(5, 0);
 			}
 			else
 			{
 				it->body->SetPosition(this->GetPosition().x - this->GetSize().x / 2 - it->GetSize().x / 2 + i * 5, this->GetPosition().y + i * 20);
 				it->Flip(false, false);
-				it->body->SetVelocity(-3, 0);
+				it->body->SetVelocity(-5, 0);
 			}
 			i++;
 		}
 
+
 		bulletStateTime += dt;
 	}
+
+	if (boomerangStateTime < 0)
+	{
+		int i = 0;
+		//update boomerang
+		for (std::vector<KraidBullet>::iterator it = boomerangs.begin(); it != boomerangs.end(); it++)
+		{
+			if (player->GetPosition().x > this->GetPosition().x)
+			{
+				it->body->SetVelocity(rand() % 5 + 4, rand() % 6 + 4);
+			}
+			else
+			{
+				it->body->SetVelocity(-(rand() % 5 + 4), rand() % 6 + 4);
+			}
+
+			if (!this->IsFlipX())
+			{
+				it->body->SetPosition(this->GetPosition().x + this->GetSize().x / 2, this->GetPosition().y + this->GetSize().y / 2 - i * 10);
+			}
+			else
+			{
+				it->body->SetPosition(this->GetPosition().x - this->GetSize().x / 2, this->GetPosition().y + this->GetSize().y / 2 - i * 10);
+			}
+
+			i++;
+		}
+
+		boomerangStateTime += dt;
+	}
+
+
+
+
 }
 
 

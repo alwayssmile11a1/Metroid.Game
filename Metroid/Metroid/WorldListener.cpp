@@ -223,6 +223,27 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		}
 		break;
 	}
+	case KRAID_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			//Update Kraid
+			Kraid* kraid = (Kraid*)bodyB->GetExtra();
+			if (kraid != NULL)
+			{
+				kraid->OnHitBullet();
+			}
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			if (bullet != NULL)
+			{
+				bullet->OnHitEnemy();
+			}
+		}
+
+		break;
+	}
 
 	}
 
@@ -490,6 +511,26 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case KRAID_BIT*PLAYER_BIT:
+	{
+		//Update Player
+		Player* player = (Player*)bodyB->GetExtra();
+		if (player != NULL)
+		{
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			{
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+		}
+		
+
+		break;
+	}
+
 	}
 }
 
@@ -615,7 +656,18 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case KRAID_BIT*EXPLOSION_BIT:
+	{
+		//Update HealthPile
+		Kraid* kraid = (Kraid*)bodyB->GetExtra();
+		if (kraid != NULL)
+		{
+			kraid->OnHitBomb();
+		}
 
+		break;
+
+	}
 	}
 }
 

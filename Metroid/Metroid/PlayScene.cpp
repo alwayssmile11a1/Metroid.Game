@@ -30,7 +30,7 @@ void PlayScene::Create()
 	map->SetSpaceDivisionQuadTree(&sdQuadTree);
 
 	//world
-	world.SetGravity(-10);
+	world.SetGravity(-20);
 	world.SetContactListener(&worldListener);
 	world.SetCamera(NULL);
 
