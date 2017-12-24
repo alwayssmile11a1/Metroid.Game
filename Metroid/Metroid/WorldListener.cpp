@@ -21,34 +21,21 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
 			Player* player = (Player*)bodyA->GetExtra();
-
-			if (player != NULL)
-			{
-				player->OnHitEnemy(true);
-			}
+			player->OnHitEnemy(true);
 
 			Rio* rio = (Rio*)bodyB->GetExtra();
-			if (rio != NULL)
-			{
-				rio->OnHitPlayer();
-			}
+			rio->OnHitPlayer();
+
 		}
 		else
 		{
 			if (bodyB->categoryBits == PLAYER_BIT)
 			{
 				Player* player = (Player*)bodyB->GetExtra();
-
-				if (player != NULL)
-				{
-					player->OnHitEnemy(true);
-				}
+				player->OnHitEnemy(true);
 
 				Rio* rio = (Rio*)bodyA->GetExtra();
-				if (rio != NULL)
-				{
-					rio->OnHitPlayer();
-				}
+				rio->OnHitPlayer();
 			}
 		}
 		break;
@@ -57,20 +44,15 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == RIO_BIT)
 		{
 			Rio* rio = (Rio*)bodyA->GetExtra();
-			if (rio != NULL)
-			{
-				rio->OnHitBullet();
-			}
+			rio->OnHitBullet();
+
 		}
 		else
 		{
 			if (bodyB->categoryBits == RIO_BIT)
 			{
 				Rio* rio = (Rio*)bodyB->GetExtra();
-				if (rio != NULL)
-				{
-					rio->OnHitBullet();
-				}
+				rio->OnHitBullet();
 			}
 		}
 		break;
@@ -79,25 +61,24 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == RIO_BIT)
 		{
 			Rio* rio = (Rio*)bodyA->GetExtra();
-			if (rio != NULL)
+
+			if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y < 0)
 			{
-				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y < 0)
-				{
-					rio->OnHitRoof();
-				}
-				if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y > 0)
-				{
-					rio->OnHitGround();
-				}
-				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x < 0)
-				{
-					rio->OnHitRight();
-				}
-				if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x > 0)
-				{
-					rio->OnHitLeft();
-				}
+				rio->OnHitRoof();
 			}
+			if (CollisionDirection.y != NOT_COLLIDED && CollisionDirection.y > 0)
+			{
+				rio->OnHitGround();
+			}
+			if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x < 0)
+			{
+				rio->OnHitRight();
+			}
+			if (CollisionDirection.x != NOT_COLLIDED && CollisionDirection.x > 0)
+			{
+				rio->OnHitLeft();
+			}
+
 		}
 		break;
 
@@ -105,35 +86,23 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
 			Player* player = (Player*)bodyA->GetExtra();
-
-			if (player != NULL)
-			{
-				player->OnHitEnemy(true);
-			}
+			player->OnHitEnemy(true);
 
 			Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->OnHitPlayer();
-			}
+			zoomer->OnHitPlayer();
+
 		}
 		else
 		{
 			if (bodyB->categoryBits == PLAYER_BIT)
 			{
 				Player* player = (Player*)bodyB->GetExtra();
+				player->OnHitEnemy(true);
 
-				if (player != NULL)
-				{
-					player->OnHitEnemy(true);
-				}
 
 				Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-				if (zoomer != NULL)
-				{
-					//zoomer->SetCurCollisionDirection(CollisionDirection, 2);
-					zoomer->OnHitPlayer();
-				}
+				zoomer->OnHitPlayer();
+
 			}
 		}
 		break;
@@ -143,10 +112,8 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->SetCurCollisionDirection(CollisionDirection, 0);
-			}
+			zoomer->SetCurCollisionDirection(CollisionDirection, 0);
+
 		}
 		break;
 
@@ -154,21 +121,13 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->SetCurCollisionDirection(CollisionDirection, 1);
-			}
+			zoomer->SetCurCollisionDirection(CollisionDirection, 1);
+
 		}
 		else if (bodyA->categoryBits == RIPPER_BIT)
 		{
 			Ripper* ripper = (Ripper*)bodyA->GetExtra();
-
-			if (ripper != NULL)
-			{
-				Console::Log("The Ripper has collided with platform\n");
-				ripper->ChangeDirection();
-			}
-
+			ripper->ChangeDirection();
 		}
 		break;
 
@@ -176,73 +135,47 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->OnHitBullet();
-			}
+			zoomer->OnHitBullet();
+
 		}
 		else
 		{
 			if (bodyB->categoryBits == ZOOMER_BIT)
 			{
 				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
-				if (zoomer != NULL)
-				{
-					zoomer->OnHitBullet();
-				}
+				zoomer->OnHitBullet();
 			}
 		}
 		break;
 	case BREAKABLEPLATFORM_BIT*BULLET_BIT:
 	{
-		//Update breakableplatform
-		BreakablePlatform* breakablePlatform = (BreakablePlatform*)bodyB->GetExtra();
-		if (breakablePlatform != NULL)
+		if (bodyA->categoryBits == BULLET_BIT)
 		{
+			//Update breakableplatform
+			BreakablePlatform* breakablePlatform = (BreakablePlatform*)bodyB->GetExtra();
 			breakablePlatform->OnHitBullet();
-		}
 
-		//Update Bullet
-		Bullet* bullet = (Bullet*)bodyA->GetExtra();
-		if (bullet != NULL)
-		{
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
 			bullet->OnHitEnemy();
+
 		}
 
 		break;
 	}
-
-	/*case RIPPER_BIT*PLAYER_BIT:
-	{
-		if (bodyA->categoryBits == PLAYER_BIT)
-		{
-			Console::Log("Ripper has collided with Player\n");
-			Player* player = (Player*)bodyA->GetExtra();
-
-			if (player != NULL)
-			{
-				player->OnHitEnemy(true);
-			}
-		}
-		break;
-	}*/
 	case KRAID_BIT*BULLET_BIT:
 	{
 		if (bodyA->categoryBits == BULLET_BIT)
 		{
 			//Update Kraid
 			Kraid* kraid = (Kraid*)bodyB->GetExtra();
-			if (kraid != NULL)
-			{
-				kraid->OnHitBullet();
-			}
+			kraid->OnHitBullet();
+
 
 			//Update Bullet
 			Bullet* bullet = (Bullet*)bodyA->GetExtra();
-			if (bullet != NULL)
-			{
-				bullet->OnHitEnemy();
-			}
+			bullet->OnHitEnemy();
+
 		}
 
 		break;
@@ -263,10 +196,7 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->SetCurCollisionDirection(collisionDirection, 1);
-			}
+			zoomer->SetCurCollisionDirection(collisionDirection, 1);
 		}
 		break;
 
@@ -274,10 +204,8 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			if (zoomer != NULL)
-			{
-				zoomer->SetCurCollisionDirection(collisionDirection, 1);
-			}
+			zoomer->SetCurCollisionDirection(collisionDirection, 1);
+
 		}
 		break;
 	}
@@ -297,19 +225,20 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 	{
 	case FOOT_BIT*PLATFORM_BIT:
 	{
-		Player*player = (Player *)(bodyA->GetExtra());
-		if (player != NULL)
+		if (bodyA->categoryBits == FOOT_BIT)
 		{
-			player->OnGrounded();
+			Player*player = (Player *)(bodyA->GetExtra());
+			player->OnGrounded();	
 		}
 		break;
 	}
 	case FOOT_BIT*BREAKABLEPLATFORM_BIT:
 	{
-		Player*player = (Player *)(bodyA->GetExtra());
-		if (player != NULL)
+		if (bodyA->categoryBits == FOOT_BIT)
 		{
+			Player*player = (Player *)(bodyA->GetExtra());
 			player->OnGrounded();
+
 		}
 		break;
 	}
@@ -319,17 +248,13 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == SKREE_BIT)
 		{
 			Player* player = (Player*)bodyB->GetExtra();
-
-			if (player != NULL)
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
 			{
-				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
-				{
-					player->OnHitEnemy(true);
-				}
-				else
-				{
-					player->OnHitEnemy(false);
-				}
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
 			}
 
 		}
@@ -341,12 +266,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == SKREE_BIT)
 		{
 			Skree* skree = (Skree*)bodyA->GetExtra();
-
-			if (skree != NULL)
-			{
-				skree->OnHitGround();
-			}
-
+			skree->OnHitGround();
 		}
 		break;
 	}
@@ -381,11 +301,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == HEALTHITEM_BIT)
 		{
 			HealthItem* healthItem = (HealthItem*)bodyA->GetExtra();
-
-			if (healthItem != NULL)
-			{
-				healthItem->OnHitPlayer();
-			}
+			healthItem->OnHitPlayer();
 
 			Player* player = (Player*)bodyB->GetExtra();
 			player->OnHitHealthItem();
@@ -400,37 +316,31 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		{
 			//Update skree
 			Skree* skree = (Skree*)bodyA->GetExtra();
-			if (skree != NULL)
-			{
-				skree->OnHitBullet();
-			}
+			skree->OnHitBullet();
+
 
 			//Update Bullet
 			Bullet* bullet = (Bullet*)bodyB->GetExtra();
-			if (bullet != NULL)
-			{
-				bullet->OnHitEnemy();
-			}
+			bullet->OnHitEnemy();
+
 		}
 
 		break;
 	}
 	case BULLET_BIT*MOTHERBRAIN_BIT:
 	{
-		//Update MotherBrain
-		MotherBrain* motherBrain = (MotherBrain*)bodyA->GetExtra();
-		if (motherBrain != NULL)
+		if (bodyA->categoryBits == MOTHERBRAIN_BIT)
 		{
+			//Update MotherBrain
+			MotherBrain* motherBrain = (MotherBrain*)bodyA->GetExtra();
 			motherBrain->OnHitBullet();
-		}
 
-		//Update Bullet
-		Bullet* bullet = (Bullet*)bodyB->GetExtra();
-		if (bullet != NULL)
-		{
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyB->GetExtra();
 			bullet->OnHitEnemy();
-		}
 
+		}
 
 		break;
 	}
@@ -440,37 +350,13 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		{
 			//Update Cannon
 			Cannon* cannon = (Cannon*)bodyA->GetExtra();
-			if (cannon != NULL)
-			{
-				cannon->OnHitGround();
-			}
+			cannon->OnHitGround();
+
 		}
-		else //Mother Brain
+		else if (bodyA->categoryBits == MOTHERBRAIN_BIT) //Mother Brain
 		{
 			//Update Player
 			Player* player = (Player*)bodyB->GetExtra();
-			if (player != NULL)
-			{
-				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
-				{
-					player->OnHitEnemy(true);
-				}
-				else
-				{
-					player->OnHitEnemy(false);
-				}
-			}
-		}
-
-		break;
-	}
-
-	case CANNON_BIT*PLAYER_BIT:
-	{
-		//Update Player
-		Player* player = (Player*)bodyB->GetExtra();
-		if (player != NULL)
-		{
 			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
 			{
 				player->OnHitEnemy(true);
@@ -479,8 +365,28 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 			{
 				player->OnHitEnemy(false);
 			}
+
 		}
 
+		break;
+	}
+
+	case CANNON_BIT*PLAYER_BIT:
+	{
+		if (bodyA->categoryBits == CANNON_BIT)
+		{
+			//Update Player
+			Player* player = (Player*)bodyB->GetExtra();
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			{
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+
+		}
 		break;
 	}
 	case CIRCLECANNON_BIT*PLAYER_BIT://== RIPPER_BIT*PLATFORM_BIT
@@ -489,51 +395,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		{
 			//Update Player
 			Player* player = (Player*)bodyB->GetExtra();
-			if (player != NULL)
-			{
-				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
-				{
-					player->OnHitEnemy(true);
-				}
-				else
-				{
-					player->OnHitEnemy(false);
-				}
-			}
-		}
-		else if (bodyA->categoryBits == RIPPER_BIT)
-		{
-			Ripper* ripper = (Ripper*)bodyA->GetExtra();
 
-			if (ripper != NULL)
-			{
-				Console::Log("The Ripper has collided with platform\n");
-				ripper->OnHitGround();
-			}
-		}
-
-		break;
-	}
-	case RIPPER_BIT*PLAYER_BIT:
-	{
-		if (bodyA->categoryBits == RIPPER_BIT)
-		{
-			Console::Log("Ripper has collided with Player\n");
-			/*Player* player = (Player*)bodyB->GetExtra();
-
-			if (player != NULL)
-			{
-				player->OnHitEnemy(true);
-			}*/
-		}
-		break;
-	}
-	case KRAID_BIT*PLAYER_BIT:
-	{
-		//Update Player
-		Player* player = (Player*)bodyB->GetExtra();
-		if (player != NULL)
-		{
 			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
 			{
 				player->OnHitEnemy(true);
@@ -542,8 +404,48 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 			{
 				player->OnHitEnemy(false);
 			}
+
+		}
+		else if (bodyA->categoryBits == RIPPER_BIT)
+		{
+			Ripper* ripper = (Ripper*)bodyA->GetExtra();
+			Console::Log("The Ripper has collided with platform\n");
+			ripper->OnHitGround();
+
+		}
+
+		break;
+	}
+	case RIPPER_BIT*PLAYER_BIT:
+	{
+		if (bodyA->categoryBits == RIPPER_BIT)
+		{
+			//Console::Log("Ripper has collided with Player\n");
+			Player* player = (Player*)bodyB->GetExtra();
+			player->OnHitEnemy(true);
+
 		}
 		break;
+	}
+
+	case KRAID_BIT*PLAYER_BIT:
+	{
+		if (bodyA->categoryBits == KRAID_BIT)
+		{
+			//Update Player
+			Player* player = (Player*)bodyB->GetExtra();
+
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
+			{
+				player->OnHitEnemy(true);
+			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+
+			break;
+		}
 	}
 
 	}
@@ -555,9 +457,10 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 	{
 	case HEAD_BIT*PLATFORM_BIT:
 	{
-		Player*player = (Player *)(bodyA->GetExtra());
-		if (player != NULL)
+		if (bodyA->categoryBits == HEAD_BIT)
 		{
+			Player*player = (Player *)(bodyA->GetExtra());
+
 			player->OnHeadHit();
 		}
 		break;
@@ -567,18 +470,15 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == EXPLOSION_BIT)
 		{
 			Player* player = (Player*)bodyB->GetExtra();
-
-			if (player != NULL)
+			if (bodyA->GetPosition().x > bodyB->GetPosition().x)
 			{
-				if (bodyA->GetPosition().x > bodyB->GetPosition().x)
-				{
-					player->OnHitEnemy(true);
-				}
-				else
-				{
-					player->OnHitEnemy(false);
-				}
+				player->OnHitEnemy(true);
 			}
+			else
+			{
+				player->OnHitEnemy(false);
+			}
+
 		}
 
 		break;
@@ -588,11 +488,8 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == EXPLOSION_BIT)
 		{
 			Skree* skree = (Skree*)bodyB->GetExtra();
+			skree->OnHitBomb();
 
-			if (skree != NULL)
-			{
-				skree->OnHitBomb();
-			}
 		}
 
 		break;
@@ -602,11 +499,8 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == EXPLOSION_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
+			zoomer->OnHitBomb();
 
-			if (zoomer != NULL)
-			{
-				zoomer->OnHitBomb();
-			}
 		}
 
 		break;
@@ -616,11 +510,8 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		if (bodyA->categoryBits == EXPLOSION_BIT)
 		{
 			BreakablePlatform* breakablePlatform = (BreakablePlatform*)bodyB->GetExtra();
+			breakablePlatform->OnHitBomb();
 
-			if (breakablePlatform != NULL)
-			{
-				breakablePlatform->OnHitBomb();
-			}
 		}
 
 		break;
@@ -631,10 +522,8 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		{
 			//Update MotherBrain
 			MotherBrain* motherBrain = (MotherBrain*)bodyB->GetExtra();
-			if (motherBrain != NULL)
-			{
-				motherBrain->OnHitBomb();
-			}
+			motherBrain->OnHitBomb();
+
 		}
 
 		break;
@@ -645,41 +534,35 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 		{
 			//Update HealthPile
 			HealthPile* healthPile = (HealthPile*)bodyB->GetExtra();
-			if (healthPile != NULL)
-			{
-				healthPile->OnHitBomb();
-			}
+			healthPile->OnHitBomb();
 
 			break;
 		}
 	}
 	case HEALTHPILE_BIT*BULLET_BIT:
 	{
-		//Update HealthPile
-		HealthPile* healthPile = (HealthPile*)bodyA->GetExtra();
-		if (healthPile != NULL)
+		if (bodyA->categoryBits == HEALTHPILE_BIT)
 		{
+			//Update HealthPile
+			HealthPile* healthPile = (HealthPile*)bodyA->GetExtra();
 			healthPile->OnHitBullet();
-		}
 
-		//Update Bullet
-		Bullet* bullet = (Bullet*)bodyB->GetExtra();
-		if (bullet != NULL)
-		{
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyB->GetExtra();
 			bullet->OnHitEnemy();
-		}
 
+		}
 		break;
 	}
 	case KRAID_BIT*EXPLOSION_BIT:
 	{
-		//Update HealthPile
-		Kraid* kraid = (Kraid*)bodyB->GetExtra();
-		if (kraid != NULL)
+		if (bodyA->categoryBits == EXPLOSION_BIT)
 		{
+			//Update HealthPile
+			Kraid* kraid = (Kraid*)bodyB->GetExtra();
 			kraid->OnHitBomb();
-		}
 
+		}
 		break;
 
 	}
