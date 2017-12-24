@@ -26,6 +26,8 @@ private:
 	int health;
 
 	Vector2 velocity;
+
+	float pauseTime;
 public:
 	Ripper();
 	~Ripper();
