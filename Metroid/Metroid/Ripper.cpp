@@ -36,12 +36,16 @@ void Ripper::Create(World *world, Texture *ripperTexture, int x, int y)
 	health = 2;
 	hitBulletTime = -1;
 
-	velocity.x = -0.7f;
+	velocity.x = -1;
 	velocity.y = 0;
 	body->SetVelocity(velocity.x, velocity.y);
 
 
 	pauseTime = 0.5;
+
+
+	//sound when Ripper is shot
+	isShot= Sound::LoadSound("Resources/SoundEffect/ShootRipper.wav");
 }
 void Ripper::Render(SpriteBatch *batch)
 {
@@ -71,7 +75,7 @@ void Ripper::Update(float dt)
 		else
 		{
 			hitBulletTime = -1;
-			body->SetBodyType(Body::BodyType::Dynamic);
+			body->SetBodyType(Body::BodyType::Kinematic);
 		}
 	}
 
@@ -106,14 +110,15 @@ void Ripper::OnHitGround()
 
 void Ripper::OnHitBullet()
 {
-	if (hitBulletTime != -1) return;
-	health--;
-	hitBulletTime = 0;
-	//stop this body a little bit 
-	//body->SetVelocity(0, 0);
-	body->SetBodyType(Body::BodyType::Static);
+	//if (hitBulletTime != -1) return;
+	//health--;
+	//hitBulletTime = 0;
+	////stop this body a little bit 
+	////body->SetVelocity(0, 0);
+	//body->SetBodyType(Body::BodyType::Static);
 
 	//play sound
+	Sound::Play(isShot);
 }
 
 void Ripper::OnHitPlayer()

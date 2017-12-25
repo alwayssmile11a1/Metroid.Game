@@ -30,6 +30,8 @@ private:
 	Vector2 velocity;
 
 	float pauseTime;
+
+	CSound *isShot = NULL;
 public:
 	Ripper();
 	~Ripper();
