@@ -61,13 +61,28 @@ void Ripper::Update(float dt)
 		world->DestroyBody(body);
 		return;
 	}
+
+	if (hitBulletTime != -1) //is hit by bullet
+	{
+		if (hitBulletTime < MAXHITBULLETTIME)
+		{
+			hitBulletTime += dt;
+		}
+		else
+		{
+			hitBulletTime = -1;
+			body->SetBodyType(Body::BodyType::Dynamic);
+		}
+	}
+
+
 	if (body != NULL)
 		this->SetPosition(body->GetPosition().x, body->GetPosition().y);
 
 	if (pauseTime <= 0)
 		pauseTime = 0;
 	else
-		pauseTime -= 0.05;
+		pauseTime -= 0.1;
 
 	if (isHitGround)
 	{
@@ -95,7 +110,10 @@ void Ripper::OnHitBullet()
 	health--;
 	hitBulletTime = 0;
 	//stop this body a little bit 
-	body->SetVelocity(0, 0);
+	//body->SetVelocity(0, 0);
+	body->SetBodyType(Body::BodyType::Static);
+
+	//play sound
 }
 
 void Ripper::OnHitPlayer()
@@ -110,7 +128,6 @@ bool Ripper::IsDead()
 
 void Ripper::ChangeDirection()
 {		
-	//isHitGround = true;
 	Flip(!IsFlipX(),IsFlipY());
 	body->SetVelocity(-body->GetVelocity().x, 0);
 }

@@ -5,12 +5,14 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
+#define MAXHITBULLETTIME 0.2
 
 class Ripper : public Sprite
 {
 
 private:
 	Animation ripperAnimation;
+
 	Body* body;
 
 	World* world;

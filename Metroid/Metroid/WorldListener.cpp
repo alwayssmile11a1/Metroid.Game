@@ -327,6 +327,22 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 		break;
 	}
+	case BULLET_BIT*RIPPER_BIT:
+	{
+		if (bodyA->categoryBits == RIPPER_BIT)
+		{
+			Console::Log("Ripper is shot\n");
+			Ripper* ripper = (Ripper*)bodyA->GetExtra();
+			ripper->OnHitBullet();
+
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyB->GetExtra();
+			bullet->OnHitEnemy();
+		}
+
+		break;
+	}
 	case BULLET_BIT*MOTHERBRAIN_BIT:
 	{
 		if (bodyA->categoryBits == MOTHERBRAIN_BIT)
