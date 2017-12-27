@@ -202,17 +202,17 @@ void TMXMap::Render(SpriteBatch *batch)
 				x = column*width + width / 2;
 				y = (layerHeight - 1 - row)*height + height / 2;
 
-				//check to see if this tile is out of the scope of the camera
-				if (_Cam != NULL)
-				{
+				////check to see if this tile is out of the scope of the camera
+				//if (_Cam != NULL)
+				//{
 
-					if (x + width / 2 < camPostion.x - screenWidth / 2 ||
-						x - width / 2 > camPostion.x + screenWidth / 2 ||
-						y + height / 2 < camPostion.y - screenHeight / 2 ||
-						y - height / 2 > camPostion.y + screenHeight / 2)
-						continue;
+				//	if (x + width / 2 < camPostion.x - screenWidth / 2 ||
+				//		x - width / 2 > camPostion.x + screenWidth / 2 ||
+				//		y + height / 2 < camPostion.y - screenHeight / 2 ||
+				//		y - height / 2 > camPostion.y + screenHeight / 2)
+				//		continue;
 
-				}
+				//}
 
 				batch->Draw(*texture, x, y, rectLeft, rectTop, rectWidth, rectHeight, width, height);
 			}
@@ -224,7 +224,7 @@ void TMXMap::Render(SpriteBatch *batch)
 		if (_Cam == NULL) return;
 		Vector2 camPostion = _Cam->GetPosition();
 
-		_SDQuadTree->LoadObjectsInViewport(_Cam,false,true);
+		_SDQuadTree->LoadObjectsInViewport(_Cam, false, true);
 		Texture* texture = _TileSet->GetTexture();
 		std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();
 		for (std::vector<Shape::Rectangle*>::const_iterator it = tileRectsInViewport.begin(); it != tileRectsInViewport.end(); ++it)
@@ -236,12 +236,12 @@ void TMXMap::Render(SpriteBatch *batch)
 			float rectImageLeft = (*it)->extraX;
 			float rectImageTop = (*it)->extraY;
 
-			//check to see if this tile is out of the scope of the camera
-			if (x + width / 2 < camPostion.x - screenWidth / 2 ||
-				x - width / 2 > camPostion.x + screenWidth / 2 ||
-				y + height / 2 < camPostion.y - screenHeight / 2 ||
-				y - height / 2 > camPostion.y + screenHeight / 2)
-				continue;
+			////check to see if this tile is out of the scope of the camera
+			//if (x + width / 2 < camPostion.x - screenWidth / 2 ||
+			//	x - width / 2 > camPostion.x + screenWidth / 2 ||
+			//	y + height / 2 < camPostion.y - screenHeight / 2 ||
+			//	y - height / 2 > camPostion.y + screenHeight / 2)
+			//	continue;
 
 
 			batch->Draw(*texture, x, y, rectImageLeft, rectImageTop, width, height, width, height);

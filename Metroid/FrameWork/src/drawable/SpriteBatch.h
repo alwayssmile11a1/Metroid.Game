@@ -41,7 +41,9 @@ private:
 	Camera *_Camera; //the camera is being used by this batch
 
 
-	void GetActualPosition(D3DXVECTOR3 * postion, Camera *cam);
+	void GetActualPosition(D3DXVECTOR3 * postion);
+
+	bool IsOutsideCam(float x, float y, float width, float height);
 
 public:
 	SpriteBatch();

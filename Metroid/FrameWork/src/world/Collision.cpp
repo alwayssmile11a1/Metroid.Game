@@ -92,19 +92,19 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 		_CollisionDirection.x = NOT_COLLIDED;
 		_CollisionDirection.y = NOT_COLLIDED;
 
-		int touching = IsTouching(targetBody, otherBody);
-		if (touching == 1 && targetVelocity.y != 0)
-		{
-			_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
-		}
-		else
-		{
+		//int touching = IsTouching(targetBody, otherBody);
+		//if (touching == 1 && targetVelocity.y != 0)
+		//{
+		//	_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
+		//}
+		//else
+		//{
 
-			if (touching == 2 && targetVelocity.x != 0)
-			{
-				_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
-			}
-		}
+		//	if (touching == 2 && targetVelocity.x != 0)
+		//	{
+		//		_Listener->OnCollisionExit(targetBody, otherBody, _CollisionDirection);
+		//	}
+		//}
 	
 		//if (IsPreviousCollding(targetBody, otherBody,DeltaTime))
 		//{
@@ -165,22 +165,23 @@ bool Collision::IsColliding(Body *targetBody, Body *otherBody, float DeltaTime)
 				}
 			}
 		}
-		if (!targetBody->_IsSensor)
-		{
-			if (rxentry != 0 && ryentry != 0)
-			{
-				_Listener->OnCollisionEnter(targetBody, otherBody, _CollisionDirection);
-			}
-			else
-			{
-				_Listener->OnColliding(targetBody, otherBody, _CollisionDirection);
-			}
-		}
-		else
-		{
-			_Listener->OnSersorEnter(targetBody, otherBody);
-			IsSensorEntered = true;
-		}
+
+		//if (!targetBody->_IsSensor)
+		//{
+		//	if (rxentry != 0 && ryentry != 0)
+		//	{
+		//		_Listener->OnCollisionEnter(targetBody, otherBody, _CollisionDirection);
+		//	}
+		//	else
+		//	{
+		//		_Listener->OnColliding(targetBody, otherBody, _CollisionDirection);
+		//	}
+		//}
+		//else
+		//{
+		//	_Listener->OnSersorEnter(targetBody, otherBody);
+		//	IsSensorEntered = true;
+		//}
 
 
 
@@ -315,10 +316,10 @@ int Collision::IsTouching(Body *targetBody, Body *otherBody)
 }
 
 
-void Collision::SetContactListener(WorldContactListener *listener)
-{
-	_Listener = listener;
-}
+//void Collision::SetContactListener(WorldContactListener *listener)
+//{
+//	_Listener = listener;
+//}
 
 bool Collision::IsOverlayingRect(const RECT &rect1, const RECT &rect2)
 {
@@ -441,11 +442,11 @@ void Collision::PerformCollision(Body *targetBody, Body *otherBody, float DeltaT
 }
 
 
-void Collision::UpdateTargetPosition(Body *targetBody, Vector2 move)
+void Collision::UpdateTargetPosition(Body *targetBody,const Vector2& move)
 {
-	if (targetBody->IsSensor()) return;
+	//if (targetBody->IsSensor()) return;
 
-	if (move == Vector2(0, 0))
+	if (move.x == 0 && move.y == 0)
 		targetBody->SetPosition(_CollisionPosition.x, _CollisionPosition.y);
 	else {
 		targetBody->SetPosition(targetBody->GetPosition().x + move.x, targetBody->GetPosition().y + move.y);
@@ -454,31 +455,29 @@ void Collision::UpdateTargetPosition(Body *targetBody, Vector2 move)
 
 void  Collision::PerformOverlaying(Body *targetBody, Body* otherBody, bool &needMoveX, bool &needMoveY)
 {
-	if (!targetBody->_IsSensor)
-	{
-		if (moveX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
-			needMoveX = false;
-		if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
-			needMoveY = false;
-	}
-	if (targetBody->_IsSensor)
-	{
-		if (!IsPreviousOverlayed(targetBody, otherBody))
-		{
-			if (!IsSensorEntered)
-			{
-				//Console::Log("Hello");
-				_Listener->OnSersorEnter(targetBody, otherBody);
-			}
-		}
-		else
-		{
-			_Listener->OnSersorOverlaying(targetBody, otherBody);
-		}
-	}
+	/*if (!targetBody->_IsSensor)
+	{*/
+	if (moveX != 0) //nếu cần chỉnh lại toạ độ x thì không cho obj thay đổi x trong Body->Next
+		needMoveX = false;
+	if (moveY != 0) //nếu cần chỉnh lại toạ độ y thì không cho obj thay đổi y trong Body->Next
+		needMoveY = false;
+	//}
 
-
-
+	//if (targetBody->_IsSensor)
+	//{
+	//	if (!IsPreviousOverlayed(targetBody, otherBody))
+	//	{
+	//		if (!IsSensorEntered)
+	//		{
+	//			//Console::Log("Hello");
+	//			_Listener->OnSersorEnter(targetBody, otherBody);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		_Listener->OnSersorOverlaying(targetBody, otherBody);
+	//	}
+	//}
 
 	UpdateTargetPosition(targetBody, Vector2(moveX, moveY));
 

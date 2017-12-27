@@ -2,7 +2,6 @@
 #define COLLISION_H
 
 #include "Body.h"
-#include "WorldContactListener.h"
 #include <iostream>
 #include <Windows.h>
 
@@ -11,7 +10,6 @@
 class Collision
 {
 private:
-	WorldContactListener *_Listener;
 
 	// Kết quả của thuật toán kiểm tra va chạm,
 	// không có va chạm sẽ trả về 1, 
@@ -40,12 +38,13 @@ private:
 
 private: //private function
 	
-	void UpdateTargetPosition(Body *body, Vector2 move);
+	void UpdateTargetPosition(Body *body,const Vector2 &move);
 
 	void Push(Body *body);
 	void Slide(Body *body);
 	void Deflect(Body *body);
 
+	friend class World;
 
 
 public:
@@ -76,7 +75,7 @@ public:
 
 	void PerformOverlaying(Body *targetBody, Body *otherBody, bool &needMoveX, bool &needMoveY);
 	
-	void SetContactListener(WorldContactListener *listener);
+	//void SetContactListener(WorldContactListener *listener);
 
 	//Reset to use as a new one
 	void Reset();

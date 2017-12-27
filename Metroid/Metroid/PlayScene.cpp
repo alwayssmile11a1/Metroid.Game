@@ -32,7 +32,7 @@ void PlayScene::Create()
 	//world
 	world.SetGravity(-20);
 	world.SetContactListener(&worldListener);
-	world.SetCamera(NULL);
+	world.SetCamera(&cam);
 
 	//create platform
 	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
