@@ -331,7 +331,6 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 	{
 		if (bodyA->categoryBits == RIPPER_BIT)
 		{
-			Console::Log("Ripper is shot\n");
 			Ripper* ripper = (Ripper*)bodyA->GetExtra();
 			ripper->OnHitBullet();
 
@@ -425,7 +424,6 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		else if (bodyA->categoryBits == RIPPER_BIT)
 		{
 			Ripper* ripper = (Ripper*)bodyA->GetExtra();
-			Console::Log("The Ripper has collided with platform\n");
 			ripper->OnHitGround();
 
 		}

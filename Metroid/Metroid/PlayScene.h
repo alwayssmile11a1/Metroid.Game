@@ -91,6 +91,7 @@ private:
 	Texture effectsTexture;
 	ExplosionEffect explosionEffect;
 
+ 
 public:
 	PlayScene();
 	~PlayScene();

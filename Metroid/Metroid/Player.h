@@ -79,7 +79,6 @@ private:
 	CSound *appearance = NULL;
 	CSound *fire = NULL;
 	CSound *death = NULL;
-public:
 
 
 public:

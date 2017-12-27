@@ -26,6 +26,7 @@ private:
 	Camera* _Cam;
 
 private:
+
 	friend class Collision;
 
 public:

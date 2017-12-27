@@ -5,7 +5,29 @@
 #include"..\math\Vector2.h"
 #include "GameObject.h"
 #include<string>
+#include <unordered_map>
 
+class CollisionInfo
+{
+public:
+	//No means this body haven't been checked collision
+	//Enter means OnCollisionEnter or OnSensorEnter
+	//On means OnColliding or OnSensorOverlaying
+	//Exit means ...
+	enum CollisionType {No, Enter, On, Exit };
+
+public:
+	int sensorState;
+
+	int collisionState;
+
+	CollisionInfo()
+	{
+		sensorState = CollisionType::No;
+		collisionState = CollisionType::No;
+	}
+
+};
 
 class Body: public GameObject
 {
@@ -43,7 +65,8 @@ private:
 	
 	Vector2 _PreviousPosition;
 
-	//Vector2 _PreviousVelocity;
+	std::unordered_map<Body*, CollisionInfo*> _CollisionPairStates;
+
 
 private: //friend class
 	friend class Collision;
