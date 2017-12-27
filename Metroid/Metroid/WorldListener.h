@@ -15,7 +15,7 @@
 #include "HealthPile.h"
 #include "CircleCannon.h"
 #include "Kraid.h"
-
+#include "Door.h"
 class WorldListener: public WorldContactListener
 {
 public:

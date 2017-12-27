@@ -24,6 +24,7 @@
 #include "HealthPile.h"
 #include "CircleCannon.h"
 #include "Kraid.h"
+#include "Door.h"
 
 #define PLAYERAPPEARINGTIME 3
 
@@ -58,6 +59,9 @@ private:
 	
 	std::vector<BreakablePlatform*> breakablePlatforms;
 
+	//Door
+	Texture doorTexture;
+	std::vector<Door*> doors;
 	//enemies
 	Texture enemiesTexture;
 

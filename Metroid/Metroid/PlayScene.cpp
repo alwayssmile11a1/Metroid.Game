@@ -56,6 +56,16 @@ void PlayScene::Create()
 	//set cam position
 	cam.SetPosition(playerRect.x, playerRect.y + 110);
 
+	//Doors
+	doorTexture = Texture("Resources/spriteobjects.png");
+	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("Door")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
+	{
+		Door *door = new Door();
+		door->Create(&world, &doorTexture, rect->x , rect->y);
+		doors.push_back(door);
+	}
+
 	//--------------------------ENEMIES-------------------------------
 	enemiesTexture = Texture("Resources/enemies.png");
 
@@ -227,6 +237,12 @@ void  PlayScene::Render()
 
 	//render player
 	player.Render(batch);
+
+	//render doors
+	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
 
 	//render skrees
 	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
@@ -516,6 +532,12 @@ void PlayScene::Update(float dt)
 
 	playerHealthLabel.SetPosition(cam.GetPosition().x - 250, cam.GetPosition().y + 200);
 
+
+	//update doors
+	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
 	//RENDER
 	Render();
 

@@ -180,7 +180,28 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 
 		break;
 	}
+	case DOOR_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			Door *door = (Door*)bodyB->GetExtra();
+			if (bodyB->GetID() == "right")
+			{
+				Console::Log("Shoot right door\n");
+				door->ROnhitBullet();
+			}
+			else if (bodyB->GetID() == "left")
+			{
+				Console::Log("Shoot left door\n");
+				door->LOnhitBullet();
+			}
 
+			////Update Bullet
+			//Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			//bullet->OnHitEnemy();
+		}
+		break;
+	}
 	}
 
 
