@@ -40,15 +40,15 @@ void SpriteBatch::SetCamera(Camera *camera)
 	_Camera = camera;
 }
 
-void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion, Camera *cam)
+void  SpriteBatch::GetActualPosition(D3DXVECTOR3 * postion)
 {
-	if (cam == NULL) return;
+	if (_Camera == NULL) return;
 
 	//get the actual postion
 	D3DXMatrixIdentity(&_CameraMatrix);
 	_CameraMatrix._22 = -1;
-	_CameraMatrix._41 = -(cam->GetPosition().x - screenWidth / 2.0);
-	_CameraMatrix._42 = +cam->GetPosition().y + screenHeight / 2.0;
+	_CameraMatrix._41 = -(_Camera->GetPosition().x - screenWidth / 2.0);
+	_CameraMatrix._42 = +_Camera->GetPosition().y + screenHeight / 2.0;
 
 	D3DXVec3Transform(&_ActualPosition, postion, &_CameraMatrix);
 	postion->x = _ActualPosition.x;
@@ -61,12 +61,14 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y)
 
 	if (_SpriteHandler == NULL || &texture == NULL) return;
 
+	if (IsOutsideCam(x, y, texture.GetImageSize().x, texture.GetImageSize().y)) return;
+
 	//get virtual position
 	_Position.x = x;
 	_Position.y = y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	//get scale origin
 	_ScaleOrigin.x = _Position.x;
@@ -97,12 +99,14 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float width, fl
 {
 	if (_SpriteHandler == NULL || &texture == NULL) return;
 
+	if (IsOutsideCam(x, y, width, height)) return;
+
 	//get virtual position
 	_Position.x = x;
 	_Position.y = y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	//get scale factor
 	_ScaleFactor.x = width / _RectSize.x;
@@ -139,12 +143,14 @@ void SpriteBatch::Draw(const TextureRegion &textureRegion, float x, float y)
 {
 	if (_SpriteHandler == NULL || &textureRegion == NULL) return;
 
+	if (IsOutsideCam(x, y, textureRegion.GetRectSize().x, textureRegion.GetRectSize().y)) return;
+
 	//virtual position
 	_Position.x = x;
 	_Position.y = y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	//get rect size
 	_RectSize.x = textureRegion.GetRectSize().x;
@@ -191,12 +197,14 @@ void SpriteBatch::Draw(const Texture &texture, float x, float y, float rectLeft,
 {
 	if (_SpriteHandler == NULL || &texture == NULL) return;
 
+	if (IsOutsideCam(x, y, width, height)) return;
+
 	//virtual position
 	_Position.x = x;
 	_Position.y = y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	//get rect size
 	_RectSize.x = rectWidth;
@@ -242,12 +250,14 @@ void SpriteBatch::Draw(const Sprite &sprite)
 {
 	if (_SpriteHandler == NULL || sprite.GetTexture() == NULL) return;
 
+	if (IsOutsideCam(sprite.GetPosition().x, sprite.GetPosition().y, sprite.GetSize().x, sprite.GetSize().y)) return;
+
 	//virtual position
 	_Position.x = sprite.GetPosition().x;
 	_Position.y = sprite.GetPosition().y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	//get rect size
 	_RectSize.x = sprite.GetRectSize().x;
@@ -319,12 +329,15 @@ void SpriteBatch::End()
 
 void SpriteBatch::DrawSquare(float x, float y, float width, float height, D3DCOLOR color)
 {
+
+	if (IsOutsideCam(x, y, width, height)) return;
+
 	//virtual position
 	_Position.x = x;
 	_Position.y = y;
 	_Position.z = 0;
 
-	GetActualPosition(&_Position, _Camera);
+	GetActualPosition(&_Position);
 
 	CUSTOMVERTEX vertices[5];
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
@@ -377,5 +390,21 @@ void SpriteBatch::DrawSquare(float x, float y, float width, float height, D3DCOL
 	d3ddevice->DrawPrimitive(D3DPT_LINESTRIP, 0, 4);
 
 	vertexBuffer->Release();
+
+}
+
+bool SpriteBatch::IsOutsideCam(float x, float y, float width, float height)
+{
+	if (_Camera == NULL) return false;
+
+
+	if (_Camera->GetPosition().x + screenWidth <= x - width / 2 || _Camera->GetPosition().x - screenWidth >= x + width / 2
+		|| _Camera->GetPosition().y + screenHeight <= y - height / 2 || _Camera->GetPosition().y - screenHeight >= y + height / 2)
+	{
+		return true;
+	}
+
+	return false;
+
 
 }
