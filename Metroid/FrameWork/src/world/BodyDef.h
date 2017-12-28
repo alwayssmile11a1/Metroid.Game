@@ -18,7 +18,7 @@ public:
 public:
 	BodyDef();
 	~BodyDef();
-
+	BodyDef(float posx, float posy, float sizex, float sizey, Body::BodyType bodyType, bool isSensor);
 };
 
 #endif

@@ -132,8 +132,11 @@
     <ClCompile Include="Ripper.cpp">
       <Filter>Source Files\MetroidGame\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="AirHole.cpp">
+      <Filter>Source Files\MetroidGame</Filter>
+    </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MetroidGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +219,9 @@
       <Filter>Header Files\MetroidGame\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
+      <Filter>Header Files\MetroidGame</Filter>
+    </ClInclude>
+    <ClInclude Include="AirHole.h">
       <Filter>Header Files\MetroidGame</Filter>
     </ClInclude>
   </ItemGroup>

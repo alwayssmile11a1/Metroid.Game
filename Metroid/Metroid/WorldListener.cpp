@@ -196,9 +196,10 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 				door->LOnhitBullet();
 			}
 
-			////Update Bullet
-			//Bullet* bullet = (Bullet*)bodyA->GetExtra();
-			//bullet->OnHitEnemy();
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+			//bullet->IsDestroyed();
 		}
 		break;
 	}

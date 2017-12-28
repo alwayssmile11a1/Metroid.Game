@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AirHole.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="BreakablePlatform.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Zoomer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirHole.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombItem.h" />
     <ClInclude Include="BreakablePlatform.h" />
