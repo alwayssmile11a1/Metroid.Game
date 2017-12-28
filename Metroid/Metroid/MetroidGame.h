@@ -6,6 +6,8 @@
 #include "StartScene.h"
 #include "GameOverScene.h"
 #include "HanabiSound.h"
+#include "HanabiSpaceDivisionQuadTree.h"
+
 class MetroidGame : public Game
 {
 private:

@@ -9,6 +9,10 @@
 #include <algorithm>  
 #include "BodyDef.h"
 #include "..\collisionquadtree\QuadTree.h"
+#include "../spacedivisionquadtree/SpaceDivisionQuadTree.h"
+
+#define USECOLLISIONINFO 0 //using collision info is more precise for collision callback, but decreasing performance
+
 
 // add body to this class and physic things will be handled
 class World: public GameObject
@@ -25,9 +29,18 @@ private:
 
 	Camera* _Cam;
 
+	Collision collision;
+
+	SpaceDivisionQuadTree *_SDQuadTree;
+
+	
+
 private:
 
 	friend class Collision;
+
+	void CheckCollision(Body* body1, Body* body2, const RECT &broadphaseRect, const RECT &staticRect, bool &moveX, bool &moveY, float dt);
+
 
 public:
 	//Constructor and destructor
@@ -37,6 +50,8 @@ public:
 
 	//World(const World &world);
 	//World& operator=(const World &world);
+
+	//if camera is set, collisionQuadTree will be used
 	void SetCamera(Camera *cam);
 
 	//All get functions
@@ -47,14 +62,18 @@ public:
 
 	void SetContactListener(WorldContactListener *listener);
 
+	void SetSpaceDivisionQuadTree(SpaceDivisionQuadTree *sdQuadTree);
 
 	//Update world (update all the objects in this world)
 	void Update(float dt);
-	//void AddBody(Body *body);
-	//void AddBody(const std::vector<Body*> &bodies);
+
 	void DestroyBody(Body* body);
 
 	Body* CreateBody(const BodyDef &bodyDef);
+
+	void AddBody(Body *body);
+
+	void AddBody(const std::vector<Body*> &bodies);
 
 	//Render all bodies by squares
 	void RenderBodiesDebug(SpriteBatch *batch);

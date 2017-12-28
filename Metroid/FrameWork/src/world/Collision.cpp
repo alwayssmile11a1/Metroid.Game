@@ -486,6 +486,8 @@ void  Collision::PerformOverlaying(Body *targetBody, Body* otherBody, bool &need
 void Collision::Reset()
 {
 	IsSensorEntered = false;
+
+
 }
 
 void Collision::Push(Body *object)

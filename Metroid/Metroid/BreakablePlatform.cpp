@@ -15,6 +15,8 @@ BreakablePlatform::BreakablePlatform(World *world,TMXMap*map, float x, float y, 
 {
 	health = 2;
 	this->map = map;
+
+
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Static;
 	bodyDef.size.Set(width, height);
@@ -23,6 +25,17 @@ BreakablePlatform::BreakablePlatform(World *world,TMXMap*map, float x, float y, 
 	body->categoryBits = BREAKABLEPLATFORM_BIT;
 	body->maskBits = PLAYER_BIT | FOOT_BIT | BULLET_BIT | SKREE_BIT | ZOOMER_BIT | HEAD_BIT |EXPLOSION_BIT;
 	body->PutExtra(this);
+}
+
+BreakablePlatform::BreakablePlatform(TMXMap* map, Body* body)
+{
+	health = 2;
+	this->map = map;
+	this->body = body;
+	this->body->SetBodyType(Body::BodyType::Static);
+	this->body->categoryBits = BREAKABLEPLATFORM_BIT;
+	this->body->maskBits = PLAYER_BIT | FOOT_BIT | BULLET_BIT | SKREE_BIT | ZOOMER_BIT | HEAD_BIT | EXPLOSION_BIT;
+	this->body->PutExtra(this);
 }
 
 void BreakablePlatform::OnHitBomb()

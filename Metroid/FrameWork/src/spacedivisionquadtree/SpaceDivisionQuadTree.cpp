@@ -5,6 +5,7 @@
 SpaceDivisionQuadTree::SpaceDivisionQuadTree()
 {
 	minSquareSize = screenHeight;
+	world = NULL;
 }
 
 
@@ -387,7 +388,7 @@ void SpaceDivisionQuadTree::BuildTreeNodesFromTMX(const std::string &outpath, co
 
 
 
-void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string &tmxFilePath)
+void SpaceDivisionQuadTree::Load(const std::string &quadtreeFilePath, const std::string &tmxFilePath)
 {
 	//load tmx file
 	std::string tmxfileContents = "";
@@ -415,6 +416,9 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 
 		while (currentNode != nullptr)
 		{
+			std::string groupName = currentNode->first_attribute("name")->value();
+			std::vector<Body*> bodiesInGroup;
+
 			//get object node
 			rapidxml::xml_node<> *childNode = currentNode->first_node("object");
 			while (childNode != nullptr)
@@ -427,14 +431,29 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 
 				Shape::Rectangle rect(x + width / 2, mapheight*maptileHeight - y - height / 2, width, height);
 				rect.id = id;
-				
-				Body* body = new Body(rect.x, rect.y, rect.width, rect.height, 0, 0);
 
+				Body* body = new Body(rect.x, rect.y, rect.width, rect.height, 0, 0);
+				body->categoryBits = 0;
+				body->maskBits = 0;
+				//if (world != NULL)
+				//{
+				//	//push to world
+				//	world->AddSDQBody(body);
+
+				//push to vector
+				bodiesInGroup.push_back(body);
+
+				/*}*/
+
+				//push to map body
 				mapBody[rect.id] = body;
 
 				//next
 				childNode = childNode->next_sibling("object");
 			}
+
+			//push to bodyGroups
+			bodyGroups[groupName] = bodiesInGroup;
 
 			// Move to the next objectGroup
 			currentNode = currentNode->next_sibling("objectgroup");
@@ -496,10 +515,10 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 				id++;
 				if (data[row][column] == 0) continue;
 
-				rectImageLeft = ((data[row][column]-1) % columns) * width;
-				rectImageTop = ((data[row][column]-1) / columns) * height;
+				rectImageLeft = ((data[row][column] - 1) % columns) * width;
+				rectImageTop = ((data[row][column] - 1) / columns) * height;
 
-				x = column*width + width / 2;
+				x = column * width + width / 2;
 				y = (layerHeight - 1 - row)*height + height / 2;
 				Shape::Rectangle* rect = new Shape::Rectangle(x, y, width, height);
 				rect->id = id;
@@ -511,52 +530,10 @@ void SpaceDivisionQuadTree::Load(const std::string &filePath, const std::string 
 		}
 
 	}
-	//----------------------------
-
-	////load map body
-	//for (std::unordered_map<std::string, TMXObjectGroup*>::const_iterator it = map->GetObjectGroups().begin(); it != map->GetObjectGroups().end(); ++it)
-	//{
-	//	TMXObjectGroup* tmxobjectgroup = it->second;
-	//	for (std::vector<Shape::Rectangle>::const_iterator it = tmxobjectgroup->GetRects().begin(); it != tmxobjectgroup->GetRects().end(); ++it)
-	//	{
-	//		BodyDef bodyDef;
-	//		bodyDef.size.Set(it->width, it->height);
-	//		bodyDef.position.Set(it->x, it->y);
-	//		mapBody[it->id] = world->CreateBody(bodyDef);
-	//	}
-
-	//}
-
-	////load map tile rectangle
-	//unsigned int **data = map->GetLayers()[0]->GetData();
-	//unsigned int layerWidth = map->GetLayers()[0]->GetWidth();
-	//unsigned int layerHeight = map->GetLayers()[0]->GetHeight();
-
-	//unsigned int columns = map->GetTileSet()->GetColumns();
-	//unsigned int tileSetWidth = map->GetTileSet()->GetTileWidth();
-	//unsigned int tileSetHeight = map->GetTileSet()->GetTileHeight();
-
-	//float x, y;
-	//float width = tileSetWidth;
-	//float height = tileSetHeight;
-
-	//for (unsigned int row = 0; row < layerHeight; row++)
-	//{
-	//	for (unsigned int column = 0; column < layerWidth; column++)
-	//	{
-	//		if (data[row][column] == 0) continue;
-
-	//		x = column*width + width / 2;
-	//		y = (layerHeight - 1 - row)*height + height / 2;
-	//		unsigned int id = std::stoi((std::to_string(row) + std::to_string(column)));
-	//		mapTileRectangle[id] = Shape::Rectangle(x,y, width, height);
-	//	}
-	//}
-
 
 	// String to hold file contents
 	std::string fileContents = "";
-	if (LoadFile(filePath, fileContents) == true)
+	if (LoadFile(quadtreeFilePath, fileContents) == true)
 	{
 		// Create new RapidXML document instance to use to parse data
 		rapidxml::xml_document<char> currentMap;
@@ -739,17 +716,20 @@ void SpaceDivisionQuadTree::LoadObjectsInViewport(const RECT &viewport, SDQNode*
 				}
 				else
 				{
-					if (!loadTileRect) continue;
+					if (it->tileRectangle != NULL)
+					{
+						if (!loadTileRect) continue;
 
-					//find this body in bodiesInViewport
-					std::vector<Shape::Rectangle*>::iterator itRect = std::find(tileRectsInViewport.begin(), tileRectsInViewport.end(), it->tileRectangle);
-					if (itRect != tileRectsInViewport.end()) //if this vector contains current body
-					{
-						continue;
-					}
-					else
-					{
-						tileRectsInViewport.push_back(it->tileRectangle);
+						//find this body in bodiesInViewport
+						std::vector<Shape::Rectangle*>::iterator itRect = std::find(tileRectsInViewport.begin(), tileRectsInViewport.end(), it->tileRectangle);
+						if (itRect != tileRectsInViewport.end()) //if this vector contains current body
+						{
+							continue;
+						}
+						else
+						{
+							tileRectsInViewport.push_back(it->tileRectangle);
+						}
 					}
 				}
 
@@ -788,7 +768,30 @@ const std::vector<Shape::Rectangle*>&  SpaceDivisionQuadTree::GetTileRectsInView
 	return tileRectsInViewport;
 }
 
-std::map<unsigned int, Shape::Rectangle*>& SpaceDivisionQuadTree::GetMapTileRect()
+const std::map<unsigned int, Shape::Rectangle*>& SpaceDivisionQuadTree::GetMapTileRect()
 {
 	return mapTileRectangle;
+}
+
+//void SpaceDivisionQuadTree::SetWorld(World *world)
+//{
+//	this->world = world;
+//}
+
+const std::vector<Body*>& SpaceDivisionQuadTree::GetBodiesGroup(const std::string &groupName)
+{
+	// Attempt to find and return a vector using provided name, else return nullptr
+	std::map<std::string, std::vector<Body*>>::const_iterator it = bodyGroups.find(groupName);
+
+	if (it == bodyGroups.end())
+	{
+		std::vector<Body*> nullVector;
+		return nullVector;
+	}
+	else
+	{
+		//first means key, which is mapName
+		//second means value, which is TMXMap
+		return it->second;
+	}
 }
