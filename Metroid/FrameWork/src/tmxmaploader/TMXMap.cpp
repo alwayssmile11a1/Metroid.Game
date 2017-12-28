@@ -11,7 +11,7 @@ TMXMap::TMXMap()
 	_TileSet = NULL;
 	_Layers.clear();
 	_ObjectGroups.clear();
-	_Cam = NULL;
+	//_Cam = NULL;
 
 	_ScaleFactor = 1;
 
@@ -37,10 +37,10 @@ TMXMap::~TMXMap()
 	
 }
 
-void TMXMap::SetCamera(Camera* camera)
-{
-	_Cam = camera;
-}
+//void TMXMap::SetCamera(Camera* camera)
+//{
+//	_Cam = camera;
+//}
 
 void TMXMap::SetAttributes(unsigned int width, unsigned int height, unsigned int tileWidth, unsigned int tileHeight)
 {
@@ -183,13 +183,6 @@ void TMXMap::Render(SpriteBatch *batch)
 		float width = tileSetWidth * _ScaleFactor;
 		float height = tileSetHeight * _ScaleFactor;
 
-		//Get cam position 
-		Vector2 camPostion;
-		if (_Cam != NULL)
-		{
-			camPostion = _Cam->GetPosition();
-		}
-
 		for (unsigned int row = 0; row < layerHeight; row++)
 		{
 			for (unsigned int column = 0; column < layerWidth; column++)
@@ -221,10 +214,7 @@ void TMXMap::Render(SpriteBatch *batch)
 	}
 	else
 	{
-		if (_Cam == NULL) return;
-		Vector2 camPostion = _Cam->GetPosition();
-
-		_SDQuadTree->LoadObjectsInViewport(_Cam, false, true);
+	
 		Texture* texture = _TileSet->GetTexture();
 		std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();
 		for (std::vector<Shape::Rectangle*>::const_iterator it = tileRectsInViewport.begin(); it != tileRectsInViewport.end(); ++it)

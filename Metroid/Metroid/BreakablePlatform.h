@@ -16,6 +16,7 @@ public:
 	BreakablePlatform();
 	~BreakablePlatform();
 	BreakablePlatform(World *world,TMXMap* map , float x, float y, float width, float height);
+	BreakablePlatform(TMXMap* map, Body* body);
 
 	void OnHitBomb();
 	void OnHitBullet();

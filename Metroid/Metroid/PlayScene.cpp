@@ -1,6 +1,6 @@
 #include "PlayScene.h"
 
-
+#define USESDQUADTREEFORWORLD 1
 
 PlayScene::PlayScene()
 {
@@ -26,35 +26,37 @@ void PlayScene::Create()
 	//load map
 	mapLoader.AddMap("map1", "Resources/map3.tmx",1);
 	map = mapLoader.GetMap("map1");
-	map->SetCamera(&cam);
 	map->SetSpaceDivisionQuadTree(&sdQuadTree);
 
 	//world
 	world.SetGravity(-20);
 	world.SetContactListener(&worldListener);
-	world.SetCamera(&cam);
+	world.SetCamera(NULL);
+
+
+
+#if USESDQUADTREEFORWORLD
+
+	world.SetSpaceDivisionQuadTree(&sdQuadTree);
 
 	//create platform
-	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = platformRects.begin(); rect!= platformRects.end(); ++rect)
+	std::vector<Body*> platformBodies = sdQuadTree.GetBodiesGroup("Platform");
+
+	for (std::vector<Body*>::iterator it = platformBodies.begin(); it != platformBodies.end(); ++it)
 	{
-		Platform platform(&world, rect->x, rect->y, rect->width, rect->height);
+		Platform platform(*it);
 	}
 
 	//create breakableplatform
-	std::vector<Shape::Rectangle> breakablePlatformRects = map->GetObjectGroup("BreakablePlatform")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = breakablePlatformRects.begin(); rect != breakablePlatformRects.end(); ++rect)
+	std::vector<Body*> breakablePlatformsBodies = sdQuadTree.GetBodiesGroup("BreakablePlatform");
+	for (std::vector<Body*>::iterator it = breakablePlatformsBodies.begin(); it != breakablePlatformsBodies.end(); ++it)
 	{
-		BreakablePlatform* breakablePlatform = new BreakablePlatform(&world,map, rect->x, rect->y, rect->width, rect->height);
-		breakablePlatforms.push_back(breakablePlatform);
+		BreakablePlatform* breakablePlatform = new BreakablePlatform(map, *it);
 	}
 
 	//get player position
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
-	player.Create(&world, playerRect.x,playerRect.y);
-
-	//set cam position
-	cam.SetPosition(playerRect.x, playerRect.y + 110);
+	player.Create(&world, playerRect.x, playerRect.y);
 
 	//Doors
 	doorTexture = Texture("Resources/spriteobjects.png");
@@ -62,7 +64,7 @@ void PlayScene::Create()
 	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
 	{
 		Door *door = new Door();
-		door->Create(&world, &doorTexture, rect->x , rect->y);
+		door->Create(&world, &doorTexture, rect->x, rect->y);
 		doors.push_back(door);
 	}
 
@@ -87,7 +89,7 @@ void PlayScene::Create()
 
 		zoomers.push_back(zoomer);
 	}
-	
+
 	//rio
 	std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
@@ -125,7 +127,7 @@ void PlayScene::Create()
 	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
 	{
 		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture,Cannon::Type::Left, rand()%8, rect->x, rect->y);
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, rect->x, rect->y);
 
 		cannons.push_back(cannon);
 	}
@@ -145,13 +147,13 @@ void PlayScene::Create()
 
 		cannons.push_back(cannon);
 	}
-	
+
 	//CircleCannons
 	std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
 	{
 		CircleCannon *cannon = new CircleCannon();
-		cannon->Create(&world, &enemiesTexture,&player, rect->x, rect->y);
+		cannon->Create(&world, &enemiesTexture, &player, rect->x, rect->y);
 
 		circleCannons.push_back(cannon);
 	}
@@ -179,6 +181,160 @@ void PlayScene::Create()
 	//bomb ability item
 	Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
 	bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
+
+
+#else
+
+	//create platform
+	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = platformRects.begin(); rect != platformRects.end(); ++rect)
+	{
+		Platform platform(&world, rect->x, rect->y, rect->width, rect->height);
+	}
+
+	//create breakableplatform
+	std::vector<Shape::Rectangle> breakablePlatformRects = map->GetObjectGroup("BreakablePlatform")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = breakablePlatformRects.begin(); rect != breakablePlatformRects.end(); ++rect)
+	{
+		BreakablePlatform* breakablePlatform = new BreakablePlatform(&world, map, rect->x, rect->y, rect->width, rect->height);
+		breakablePlatforms.push_back(breakablePlatform);
+	}
+
+	//get player position
+	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
+	player.Create(&world, playerRect.x, playerRect.y);
+
+	//Doors
+	doorTexture = Texture("Resources/spriteobjects.png");
+	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("Door")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
+	{
+		Door *door = new Door();
+		door->Create(&world, &doorTexture, rect->x, rect->y);
+		doors.push_back(door);
+	}
+
+	//--------------------------ENEMIES-------------------------------
+	enemiesTexture = Texture("Resources/enemies.png");
+
+	//skree
+	std::vector<Shape::Rectangle> skreeRects = map->GetObjectGroup("Skree")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = skreeRects.begin(); rect != skreeRects.end(); ++rect)
+	{
+		Skree *skree = new Skree();
+		skree->Create(&world, &enemiesTexture, rect->x, rect->y);
+		skrees.push_back(skree);
+	}
+
+	//zoomer
+	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("Zoomer")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	{
+		Zoomer *zoomer = new Zoomer();
+		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
+
+		zoomers.push_back(zoomer);
+	}
+
+	//rio
+	std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
+	{
+		Rio *rio = new Rio();
+		rio->Create(&world, &enemiesTexture, rect->x, rect->y);
+
+		rios.push_back(rio);
+	}
+
+	//ripper
+	std::vector<Shape::Rectangle> ripperRects = map->GetObjectGroup("Ripper")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = ripperRects.begin(); rect != ripperRects.end(); ++rect)
+	{
+		Ripper *ripper = new Ripper();
+		ripper->Create(&world, &enemiesTexture, rect->x, rect->y);
+		rippers.push_back(ripper);
+	}
+
+
+	//--------------------------BOSSES-------------------------------
+	bossesTexture = Texture("Resources/bosses.png");
+	//Mother Brai
+	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
+	motherBrain = new MotherBrain();
+	motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
+
+	//Kraid 
+	Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
+	kraid = new Kraid();
+	kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
+
+	//Cannons
+	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+	std::vector<Shape::Rectangle> rightCannonRects = map->GetObjectGroup("RightCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = rightCannonRects.begin(); rect != rightCannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+	std::vector<Shape::Rectangle> topCannonRects = map->GetObjectGroup("TopCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = topCannonRects.begin(); rect != topCannonRects.end(); ++rect)
+	{
+		Cannon *cannon = new Cannon();
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, rect->x, rect->y);
+
+		cannons.push_back(cannon);
+	}
+
+	//CircleCannons
+	std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
+	{
+		CircleCannon *cannon = new CircleCannon();
+		cannon->Create(&world, &enemiesTexture, &player, rect->x, rect->y);
+
+		circleCannons.push_back(cannon);
+	}
+
+	//HealthPiles
+	std::vector<Shape::Rectangle> healthPileRects = map->GetObjectGroup("HealthPile")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = healthPileRects.begin(); rect != healthPileRects.end(); ++rect)
+	{
+		HealthPile *healthPile = new HealthPile();
+		healthPile->Create(&world, &bossesTexture, rect->x, rect->y);
+
+		healthPiles.push_back(healthPile);
+	}
+
+
+
+
+	//---------------------------ITEMS------------------------------------
+	itemsTexture = Texture("Resources/items.png");
+
+	//roll ability item
+	Shape::Rectangle rollItemRect = map->GetObjectGroup("MaruMariItem")->GetRects().front();
+	maruMariItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
+
+	//bomb ability item
+	Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
+	bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
+
+
+
+#endif // USESDQUADTREEFORWORLD
+
+	
+	//set cam position
+	cam.SetPosition(player.GetPosition().x, player.GetPosition() .y + 110);
 
 	//effects
 	effectsTexture = Texture("Resources/metroidfullsheet.png");
@@ -328,6 +484,8 @@ void  PlayScene::Render()
 
 void PlayScene::Update(float dt)
 {
+	sdQuadTree.LoadObjectsInViewport(&cam, true, true);
+
 	if (stateTime < PLAYERAPPEARINGTIME) //On player appearing, don't do anything except rendering
 	{
 		stateTime += dt;

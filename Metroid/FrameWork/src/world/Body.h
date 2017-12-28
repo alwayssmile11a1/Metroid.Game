@@ -6,8 +6,8 @@
 #include "GameObject.h"
 #include<string>
 
+#include <map>
 
-#include <unordered_map>
 class CollisionInfo
 {
 public:
@@ -66,7 +66,7 @@ private:
 	
 	Vector2 _PreviousPosition;
 
-	std::unordered_map<Body*, CollisionInfo*> _CollisionPairStates;
+	std::map<Body*, CollisionInfo*> _CollisionPairStates;
 
 
 private: //friend class

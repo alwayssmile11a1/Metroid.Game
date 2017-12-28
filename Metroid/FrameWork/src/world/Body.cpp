@@ -29,7 +29,7 @@ Body::Body(float x, float y, float width, float height, float vx, float vy)
 }
 Body::~Body()
 {
-	for (std::unordered_map<Body*, CollisionInfo*>::iterator it = _CollisionPairStates.begin(); it != _CollisionPairStates.end(); it++)
+	for (std::map<Body*, CollisionInfo*>::iterator it = _CollisionPairStates.begin(); it != _CollisionPairStates.end(); it++)
 	{
 		delete it->second;
 	}

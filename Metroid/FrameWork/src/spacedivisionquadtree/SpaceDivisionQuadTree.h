@@ -12,7 +12,7 @@
 #include "..\camera\Camera.h"
 #include "..\others\Global.h"
 #include "..\shape\Rectangle.h"
-#include "..\world\World.h"
+//#include "..\world\World.h"
 #include "..\tmxmaploader\TMXTileLayer.h"
 
 
@@ -31,6 +31,7 @@ public:
 	SDQObject()
 	{
 		body = NULL;
+		tileRectangle = NULL;
 	}
 
 	SDQObject(unsigned int id, Body* body,Shape::Rectangle* tileRectangle)
@@ -129,11 +130,16 @@ private:
 
 	float minSquareSize;
 
-
 	bool loadBody;
 	bool loadTileRect;
 
+	World *world;
+
+	std::map<std::string, std::vector<Body*>> bodyGroups;
+	
+
 private:
+
 	void StartBuildingTreeNodes(const std::string &outpath, const std::string &tmxFilePath);
 	//
 	void BuildTree(SDQNode* sdqNode, rapidxml::xml_node<>* parentXmlNode);
@@ -155,15 +161,20 @@ public:
 
 	void SetMinSquareSize(float minSquareXY);
 
+	////if world is set, 
+	//void SetWorld(World *world);
+
 	//
 	void BuildTreeNodesFromTMX(const std::string &outpath, const std::string &tmxFilePath);
 
+	//Load tileRects and bodies from quadtreefile and tmxmapfile
 	void Load(const std::string &quadtreeFilePath, const std::string &tmxFilePath);
 
 	const std::map<unsigned int, SDQNode*>& GetMapQuadTree();
 
 	const std::map<unsigned int, Body*>& GetMapBody();
-	std::map<unsigned int, Shape::Rectangle*>& GetMapTileRect();
+
+	const std::map<unsigned int, Shape::Rectangle*>& GetMapTileRect();
 
 	//SDQNode* GetRootSDQNode();
 
@@ -173,6 +184,9 @@ public:
 	const std::vector<Body*>& GetBodiesInViewport();
 
 	const std::vector<Shape::Rectangle*>& GetTileRectsInViewport();
+
+
+	const std::vector<Body*>& GetBodiesGroup(const std::string &groupName);
 
 };
 

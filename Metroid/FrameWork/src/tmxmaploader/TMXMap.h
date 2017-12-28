@@ -21,7 +21,7 @@ private:
 	std::unordered_map<std::string, TMXTileLayer*> _Layers;
 	std::unordered_map<std::string, TMXObjectGroup*> _ObjectGroups;
 
-	Camera* _Cam; //hold camera reference
+	//Camera* _Cam; //hold camera reference
 
 	float _ScaleFactor;
 
@@ -38,8 +38,8 @@ public:
 	TMXMap();
 	~TMXMap();
 
-	//set camera to reduce the amount of tiles that have to be loaded 
-	void SetCamera(Camera* camera);
+	////set camera to reduce the amount of tiles that have to be loaded 
+	//void SetCamera(Camera* camera);
 
 
 	unsigned int GetWidth() const;

@@ -23,3 +23,9 @@ Platform::Platform(World *world, float x, float y, float width, float height)
 	
 }
 
+Platform::Platform(Body* body)
+{
+	body->SetBodyType(Body::BodyType::Static);
+	body->categoryBits = PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | FOOT_BIT | BULLET_BIT | SKREE_BIT | ZOOMER_BIT | HEAD_BIT | RIO_BIT | CANNON_BIT | KRAID_BIT | RIPPER_BIT;
+}

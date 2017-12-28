@@ -10,5 +10,7 @@ public:
 	~Platform();
 	Platform(World *world, float x, float y, float width, float height);
 
+	Platform(Body* body);
+
 };
 
