@@ -18,7 +18,7 @@ public:
 	Font();
 	~Font();
 
-	Font(const std::string &fontName);
+	Font(const std::string &fontName, int width, int height);
 	
 	void Release();
 };

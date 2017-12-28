@@ -186,7 +186,7 @@ void PlayScene::Create()
 	explosionEffect.SetSize(24, 24);
 
 	//--------------------------UI--------------------------------------
-	font = Font("Arial");
+	font = Font("Arial", 10, 30);
 	playerHealthLabel = Label("30", &font, cam.GetPosition().x-250, cam.GetPosition().y+300, 640, 480);
 
 

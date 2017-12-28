@@ -237,17 +237,17 @@
     <ClInclude Include="src\collisionquadtree\QuadTree.h">
       <Filter>Header Files\CollisionQuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="include\HanabiCollisionQuadTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\HanabiInput.h">
       <Filter>Header Files\_Header</Filter>
     </ClInclude>
     <ClInclude Include="src\effect\Effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\HanabiCollisionQuadTree.h">
+      <Filter>Header Files\_Header</Filter>
+    </ClInclude>
     <ClInclude Include="include\HanabiEffect.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\_Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
