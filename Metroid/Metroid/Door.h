@@ -30,4 +30,8 @@ public:
 	void Update(float dt);
 	void LOnhitBullet();
 	void ROnhitBullet();
+	void SetLeftOpen(bool state);
+	void SetRightOpen(bool state);
+	bool IsLOpen();
+	bool IsROpen();
 };

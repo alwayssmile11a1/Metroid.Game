@@ -29,7 +29,7 @@ void Player::Create(World *world, float x, float y)
 
 	jumpTime = 0;
 
-	health = 30;
+	health = 10000;
 
 	beingHitTime = -1; //not being hit
 

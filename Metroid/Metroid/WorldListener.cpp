@@ -190,16 +190,38 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 				Console::Log("Shoot right door\n");
 				door->ROnhitBullet();
 			}
-			else if (bodyB->GetID() == "left")
+			if (bodyB->GetID() == "left")
 			{
 				Console::Log("Shoot left door\n");
 				door->LOnhitBullet();
 			}
+			
 
 			//Update Bullet
 			Bullet* bullet = (Bullet*)bodyA->GetExtra();
 			bullet->OnHitEnemy();
 			//bullet->IsDestroyed();
+		}
+		break;
+	}
+	case DOOR_BIT*PLAYER_BIT:
+	{
+		if (bodyA->categoryBits == PLAYER_BIT)
+		{
+			Console::Log("The player colliding with door\n");
+			Player *player = (Player*)bodyA->GetExtra();
+			Door *door = (Door*)bodyB->GetExtra();
+			if (bodyB->GetID() == "left" && door->IsROpen()==true)
+			{
+				door->SetLeftOpen(true);
+				door->SetRightOpen(false);
+			}
+			if (bodyB->GetID() == "right" && door->IsLOpen() == true)
+			{
+				door->SetLeftOpen(false);
+				door->SetRightOpen(true);
+			}
+			
 		}
 		break;
 	}
