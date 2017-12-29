@@ -11,7 +11,6 @@ class HealthPile : public Sprite
 private:
 	std::vector<TextureRegion> regions;
 	Body* body;
-	Body* body2;
 
 	int health;
 	World *world;

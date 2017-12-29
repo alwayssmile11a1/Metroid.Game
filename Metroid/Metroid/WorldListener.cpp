@@ -225,6 +225,21 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		}
 		break;
 	}
+	case HEALTHPILE_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			//Update HealthPile
+			HealthPile* healthPile = (HealthPile*)bodyB->GetExtra();
+			healthPile->OnHitBullet();
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+
+		}
+		break;
+	}
 	}
 
 
@@ -596,21 +611,6 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 			break;
 		}
-	}
-	case HEALTHPILE_BIT*BULLET_BIT:
-	{
-		if (bodyA->categoryBits == HEALTHPILE_BIT)
-		{
-			//Update HealthPile
-			HealthPile* healthPile = (HealthPile*)bodyA->GetExtra();
-			healthPile->OnHitBullet();
-
-			//Update Bullet
-			Bullet* bullet = (Bullet*)bodyB->GetExtra();
-			bullet->OnHitEnemy();
-
-		}
-		break;
 	}
 	case KRAID_BIT*EXPLOSION_BIT:
 	{

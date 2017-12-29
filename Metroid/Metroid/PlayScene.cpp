@@ -114,15 +114,15 @@ void PlayScene::Create()
 
 	//--------------------------BOSSES-------------------------------
 	bossesTexture = Texture("Resources/bosses.png");
-	//Mother Brain
-	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
+	//Mother Brain (Use quadtree)
+	Body* motherBrainBody = sdQuadTree.GetBodiesGroup("MotherBrain").front();
 	motherBrain = new MotherBrain();
-	motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
+	motherBrain->Create(&world, &bossesTexture, motherBrainBody);
 
-	//Kraid 
-	Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
+	//Kraid (Use quadtree)
+	Body* kraidBody = sdQuadTree.GetBodiesGroup("Kraid").front();
 	kraid = new Kraid();
-	kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
+	kraid->Create(&world, &bossesTexture, &player, kraidBody);
 
 	//Cannons (Use quadtree)
 	std::vector<Body*> leftCannonBodies = sdQuadTree.GetBodiesGroup("LeftCannon");

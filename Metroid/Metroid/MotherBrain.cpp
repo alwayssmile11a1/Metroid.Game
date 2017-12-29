@@ -42,6 +42,33 @@ void MotherBrain::Create(World *world, Texture *texture, int x, int y)
 	body->PutExtra(this);
 }
 
+void MotherBrain::Create(World *world, Texture *texture, Body* body)
+{
+	this->world = world;
+	health = 20;
+
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
+
+	animation.AddRegion(p.GetRegion("motherbrain"));
+	animation.SetFrameInterval(0.2);
+
+	weakAnimation.AddRegion(p.GetRegion("weakmotherbrain"));
+	weakAnimation.SetFrameInterval(0.2);
+
+
+	SetRegion(*animation.GetKeyAnimation());
+	SetSize(160, 130);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Kinematic);
+	body->SetSize(160, 130);
+	body->IsSensor(true);
+	body->categoryBits = MOTHERBRAIN_BIT;
+	body->maskBits = PLAYER_BIT | BULLET_BIT | EXPLOSION_BIT;
+	body->PutExtra(this);
+}
 
 void MotherBrain::Render(SpriteBatch *batch)
 {

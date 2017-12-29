@@ -20,12 +20,15 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 	stateTime = -1;
 	bulletStateTime = -1;
 	boomerangStateTime = -0.5;
+	hitBulletTime = -1;
 
 	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
 
 	animation.AddRegion(p.GetRegion("kraid"));
 	animation.SetFrameInterval(0.2);
 
+	behingHitAnimation.AddRegion(p.GetRegion("beinghitkraid"));
+	behingHitAnimation.SetFrameInterval(0.2);
 
 	SetRegion(*animation.GetKeyAnimation());
 	SetSize(48, 64);
@@ -89,10 +92,88 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 		boomerangs.push_back(boomerang);
 	}
 
+}
+
+void Kraid::Create(World *world, Texture *texture, Player*player, Body* body)
+{
+	this->world = world;
+	this->player = player;
+	health = 20;
+	stateTime = -1;
+	bulletStateTime = -1;
+	boomerangStateTime = -0.5;
+	hitBulletTime = -1;
+
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
+
+	animation.AddRegion(p.GetRegion("kraid"));
+	animation.SetFrameInterval(0.2);
+
+	behingHitAnimation.AddRegion(p.GetRegion("beinghitkraid"));
+	behingHitAnimation.SetFrameInterval(0.2);
+
+	SetRegion(*animation.GetKeyAnimation());
+	SetSize(48, 64);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Kinematic);
+	body->SetSize(48, 64);
+	body->categoryBits = KRAID_BIT;
+	body->maskBits = BULLET_BIT | EXPLOSION_BIT | PLATFORM_BIT;
+	body->PutExtra(this);
 
 
+
+	//setup bullets
+	TextureRegion bulletRegion = p.GetRegion("kraidbullet").front();
+	for (int i = 0; i < 3; i++)
+	{
+		KraidBullet bullet;
+		bullet.SetRegion(bulletRegion);
+		bullet.SetSize(16, 6);
+		//setup body
+		BodyDef bulletDef;
+		bulletDef.bodyType = Body::BodyType::Kinematic;
+		bulletDef.position.Set(body->GetPosition().x, body->GetPosition().y);
+		bulletDef.size.Set(16, 6);
+		bulletDef.isSensor = true;
+		bullet.body = world->CreateBody(bulletDef);
+		bullet.body->categoryBits = KRAID_BIT;
+		bullet.body->maskBits = PLAYER_BIT;
+		bullet.body->SetID("bullet");
+		bullet.body->PutExtra(this);
+		bullets.push_back(bullet);
+	}
+
+
+	//setup boomerang
+	boomerangAnimation.AddRegion(p.GetRegion("kraidboomerang"));
+	boomerangAnimation.SetFrameInterval(0.02);
+	for (int i = 0; i < 2; i++)
+	{
+		KraidBullet boomerang;
+		boomerang.SetRegion(*boomerangAnimation.GetKeyAnimation());
+		boomerang.SetSize(16, 14);
+		//setup body
+		BodyDef boomerangDef;
+		boomerangDef.bodyType = Body::BodyType::Dynamic;
+		boomerangDef.position.Set(body->GetPosition().x, body->GetPosition().y);
+		boomerangDef.size.Set(16, 14);
+		boomerangDef.isSensor = true;
+		boomerang.body = world->CreateBody(boomerangDef);
+		boomerang.body->categoryBits = KRAID_BIT;
+		boomerang.body->maskBits = PLAYER_BIT;
+		boomerang.body->SetMass(2);
+		boomerang.body->SetLinearDrag(0.5, 1);
+		boomerang.body->SetID("boomerang");
+		boomerang.body->PutExtra(this);
+		boomerangs.push_back(boomerang);
+	}
 
 }
+
 
 void Kraid::HandlePhysics()
 {
@@ -190,7 +271,20 @@ void Kraid::Update(float dt)
 		return;
 	}
 
-	SetRegion(*animation.Next(dt));
+	if (hitBulletTime == -1) //not being hit by any bullet
+	{
+		SetRegion(*animation.Next(dt));
+	}
+	else
+	{
+		SetRegion(*behingHitAnimation.Next(dt));
+
+		hitBulletTime += 0.02;
+		if (hitBulletTime > MAXHITBULLETTIME)
+		{
+			hitBulletTime = -1; 
+		}
+	}
 
 
 	if (player->GetPosition().x > this->GetPosition().x && !this->IsFlipX() && stateTime == -1)
@@ -306,17 +400,22 @@ void Kraid::Update(float dt)
 
 
 
+
 }
 
 
 void Kraid::OnHitBullet()
 {
+	if (hitBulletTime != -1) return;
 	health--;
+	hitBulletTime = 0;
 }
 
 void Kraid::OnHitBomb()
 {
+	if (hitBulletTime != -1) return;
 	health -= 3;
+	hitBulletTime = 0;
 }
 
 bool Kraid::IsDead()

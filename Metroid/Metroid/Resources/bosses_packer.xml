@@ -60,6 +60,11 @@
 <rect left="198" top = "10" width = "24" height="31" />
 </kraid>
 
+<beinghitkraid>
+<rect left="224" top = "9" width = "24" height="32" />
+<rect left="250" top = "10" width = "24" height="31" />
+</beinghitkraid>
+
 <kraidbullet>
 <rect left="404" top = "38" width = "8" height="3" />
 </kraidbullet>
