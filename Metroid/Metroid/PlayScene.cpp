@@ -24,20 +24,20 @@ void PlayScene::Create()
 {
 	stateTime = 0;
 
-	sdQuadTree.Load("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
-	//load map
-	mapLoader.AddMap("map1", "Resources/map3.tmx",1);
-	map = mapLoader.GetMap("map1");
-	map->SetSpaceDivisionQuadTree(&sdQuadTree);
-
 	//world
 	world.SetGravity(-20);
 	world.SetContactListener(&worldListener);
-	world.SetCamera(NULL);
+	world.SetCamera(&cam);
 
 
 
 #if USESDQUADTREEFORWORLD
+
+	sdQuadTree.Load("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
+	//load map
+	mapLoader.AddMap("map1", "Resources/map3.tmx", 1);
+	map = mapLoader.GetMap("map1");
+	map->SetSpaceDivisionQuadTree(&sdQuadTree);
 
 	world.SetSpaceDivisionQuadTree(&sdQuadTree);
 
@@ -187,6 +187,11 @@ void PlayScene::Create()
 
 #else
 
+	sdQuadTree.Load("Resources/map3_2SDQuadTree.xml", "Resources/map3_2.tmx");
+	//load map
+	mapLoader.AddMap("map1", "Resources/map3_2.tmx", 1);
+	map = mapLoader.GetMap("map1");
+
 	//create platform
 	std::vector<Shape::Rectangle> platformRects = map->GetObjectGroup("Platform")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = platformRects.begin(); rect != platformRects.end(); ++rect)
@@ -334,9 +339,9 @@ void PlayScene::Create()
 
 #endif // USESDQUADTREEFORWORLD
 
-	
+
 	//set cam position
-	cam.SetPosition(player.GetPosition().x, player.GetPosition() .y + 110);
+	cam.SetPosition(player.GetPosition().x, player.GetPosition().y + 110);
 
 	//effects
 	effectsTexture = Texture("Resources/metroidfullsheet.png");
@@ -345,12 +350,12 @@ void PlayScene::Create()
 
 	//--------------------------UI--------------------------------------
 	font = Font("Arial", 10, 30);
-	playerHealthLabel = Label("30", &font, cam.GetPosition().x-250, cam.GetPosition().y+300, 640, 480);
+	playerHealthLabel = Label("30", &font, cam.GetPosition().x - 250, cam.GetPosition().y + 300, 640, 480);
 
 
 	//BrinstarTheme Sound
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
-	
+
 }
 
 void PlayScene::HandlePhysics(float dt)

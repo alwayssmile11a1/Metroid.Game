@@ -1,5 +1,6 @@
 ﻿#include "MetroidGame.h"
 
+#define USEMAP1 1
 
 MetroidGame::MetroidGame(HINSTANCE hInstance, LPWSTR windowName, int screenWidth, int screenHeight, bool isFullScreen, int frameRate)
 	:Game(hInstance, windowName, screenWidth, screenHeight, isFullScreen, frameRate)
@@ -15,8 +16,12 @@ MetroidGame::~MetroidGame()
 void MetroidGame::CreateGame()
 {
 	SpaceDivisionQuadTree quad;
-	quad.BuildTreeNodesFromTMX("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
 
+#if USEMAP1
+	quad.BuildTreeNodesFromTMX("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
+#else
+	quad.BuildTreeNodesFromTMX("Resources/map3_2SDQuadTree.xml", "Resources/map3_2.tmx");
+#endif
 
 	//create batch to draw everything
 	batch.Create();
