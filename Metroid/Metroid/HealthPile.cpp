@@ -47,6 +47,43 @@ void HealthPile::Create(World *world, Texture *texture, int x, int y)
 	body2->PutExtra(this);
 }
 
+void HealthPile::Create(World *world, Texture *texture, Body*body)
+{
+	this->world = world;
+	health = 30;
+
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
+
+	regions = p.GetRegion("healthpile");
+
+	SetRegion(regions.front());
+	SetSize(24, 64);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Static);
+	body->SetSize(24, 64);
+	body->categoryBits = PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT;
+	body->PutExtra(this);
+
+	//setup body2
+	BodyDef body2Def;
+	body2Def.bodyType = Body::BodyType::Kinematic;
+	body2Def.position.Set(body->GetPosition().x, body->GetPosition().y);
+	body2Def.size.Set(30, 64);
+	body2Def.isSensor = true;
+	body2 = world->CreateBody(body2Def);
+	body2->categoryBits = HEALTHPILE_BIT;
+	body2->maskBits = BULLET_BIT | EXPLOSION_BIT;
+	body2->PutExtra(this);
+
+
+
+
+}
+
 
 void HealthPile::Render(SpriteBatch *batch)
 {

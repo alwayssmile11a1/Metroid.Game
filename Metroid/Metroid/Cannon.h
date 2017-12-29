@@ -37,6 +37,9 @@ public:
 	~Cannon();
 	void Create(World *world, Texture *texture, Cannon::Type type, int randomIndex , int x, int y);
 
+	//used for quadtree
+	void Create(World *world, Texture *texture, Cannon::Type type, int randomIndex, Body* body);
+
 	void Render(SpriteBatch *batch);
 
 	void Update(float dt);

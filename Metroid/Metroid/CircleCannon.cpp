@@ -54,6 +54,48 @@ void CircleCannon::Create(World *world, Texture *texture,Player* player, int x, 
 
 
 }
+
+void CircleCannon::Create(World *world, Texture *texture, Player* player, Body* body)
+{
+	isBulletDestroyed = true;
+	this->world = world;
+	lastShot = 0;
+	stateTime = -1;
+	this->player = player;
+
+	TexturePacker p = TexturePacker(texture, "Resources/enemies_packer.xml");
+
+	bulletAnimation.AddRegion(p.GetRegion("circlecannon"));
+	bulletAnimation.SetFrameInterval(0.05f);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Static);
+	body->SetSize(32, 32);
+	body->categoryBits = PLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | FOOT_BIT | CANNON_BIT;
+	body->PutExtra(this);
+
+
+	//setup bullet
+	BodyDef bulletDef;
+	bulletDef.bodyType = Body::BodyType::Static;
+	bulletDef.position.Set(body->GetPosition().x, body->GetPosition().y);
+	bulletDef.size.Set(20, 20);
+	bulletDef.isSensor = true;
+	cannonBullet.body = world->CreateBody(bulletDef);
+	cannonBullet.body->categoryBits = CIRCLECANNON_BIT;
+	cannonBullet.body->maskBits = PLAYER_BIT;
+	cannonBullet.body->PutExtra(this);
+
+	cannonBullet.SetRegion(*bulletAnimation.GetKeyAnimation());
+	cannonBullet.SetSize(20, 20);
+	cannonBullet.SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+
+
+}
+
 void CircleCannon::HandlePhysics()
 {
 

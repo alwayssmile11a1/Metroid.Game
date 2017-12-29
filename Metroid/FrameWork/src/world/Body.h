@@ -50,6 +50,8 @@ private:
 	
 	std::string _ID; //The id of this body
 	
+	int id;
+
 	bool _IsSensor;
 
 	bool _IsActived;
@@ -72,6 +74,7 @@ private:
 private: //friend class
 	friend class Collision;
 	friend class World;
+	friend class SpaceDivisionQuadTree;
 
 public:
 	//The categoryBits flag can be thought of as the fixture saying 'I am a ...'

@@ -216,8 +216,8 @@ void TMXMap::Render(SpriteBatch *batch)
 	{
 	
 		Texture* texture = _TileSet->GetTexture();
-		std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();
-		for (std::vector<Shape::Rectangle*>::const_iterator it = tileRectsInViewport.begin(); it != tileRectsInViewport.end(); ++it)
+		/*std::vector<Shape::Rectangle*> tileRectsInViewport = _SDQuadTree->GetTileRectsInViewport();*/
+		for (std::vector<Shape::Rectangle*>::const_iterator it = _SDQuadTree->tileRectsInViewport.begin(); it != _SDQuadTree->tileRectsInViewport.end(); ++it)
 		{
 			float x = (*it)->x;
 			float y = (*it)->y;

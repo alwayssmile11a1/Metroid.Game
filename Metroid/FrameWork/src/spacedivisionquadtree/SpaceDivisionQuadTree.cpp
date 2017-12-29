@@ -13,20 +13,29 @@ SpaceDivisionQuadTree::~SpaceDivisionQuadTree()
 {
 	for (std::map<unsigned int, SDQNode*>::iterator it = mapQuadTree.begin(); it != mapQuadTree.end(); ++it)
 	{
-		delete it->second;
-		it->second = NULL;
+		if (it->second != NULL)
+		{
+			delete it->second;
+			it->second = NULL;
+		}
 	}
 
 	for (std::map<unsigned int, Shape::Rectangle*>::iterator it = mapTileRectangle.begin(); it != mapTileRectangle.end(); ++it)
 	{
-		delete it->second;
-		it->second = NULL;
+		if (it->second != NULL)
+		{
+			delete it->second;
+			it->second = NULL;
+		}
 	}
 
 	for (std::map<unsigned int, Body*>::iterator it = mapBody.begin(); it != mapBody.end(); ++it)
 	{
-		delete it->second;
-		it->second = NULL;
+		if (it->second != NULL)
+		{
+			delete it->second;
+			it->second = NULL;
+		}
 	}
 }
 
@@ -435,6 +444,8 @@ void SpaceDivisionQuadTree::Load(const std::string &quadtreeFilePath, const std:
 				Body* body = new Body(rect.x, rect.y, rect.width, rect.height, 0, 0);
 				body->categoryBits = 0;
 				body->maskBits = 0;
+				body->id = id;
+
 				//if (world != NULL)
 				//{
 				//	//push to world

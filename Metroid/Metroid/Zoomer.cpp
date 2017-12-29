@@ -59,10 +59,56 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool
 	hitBulletTime = -1;
 }
 
-void Zoomer::HandlePhysics()
+void Zoomer::Create(World *world, Texture *zoomerTexture, Body* body, bool Direction)
 {
+	this->world = world;
+	TexturePacker p = TexturePacker(zoomerTexture, "Resources/enemies_packer.xml");
 
+	zoomerAnimation.AddRegion(p.GetRegion("zoomer"));
+	zoomerAnimation.SetFrameInterval(0.04);
+
+	SetRegion(*zoomerAnimation.GetKeyAnimation());
+	SetSize(25, 25);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Kinematic);
+	body->SetSize(25, 25);
+	body->categoryBits = ZOOMER_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT;
+	body->PutExtra(this);
+
+	prevCollisionDirection.x = NOT_COLLIDED;
+	prevCollisionDirection.y = -prevVelocity.y * 100;
+	curCollisionDirection.x = NOT_COLLIDED;
+	curCollisionDirection.y = -prevVelocity.y * 100;
+
+	//set up intial velocity/direction
+	if (Direction)
+	{
+		prevVelocity.x = 0.7f;
+		prevVelocity.y = -0.7f;
+
+		body->SetVelocity(0.7f, -0.7f);
+	}
+	else
+	{
+		prevVelocity.x = -0.7f;
+		prevVelocity.y = -0.7f;
+
+		body->SetVelocity(-0.7f, -0.7f);
+	}
+	initalDirection = Direction;
+	cooldownAfterCollisionChange = 3;
+	health = 2;
+	hitBulletTime = -1;
 }
+
+////void Zoomer::HandlePhysics()
+////{
+////
+////}
 
 void Zoomer::Render(SpriteBatch *batch)
 {

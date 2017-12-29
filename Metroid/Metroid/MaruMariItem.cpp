@@ -38,6 +38,31 @@ void MaruMariItem::Create(World *world, Texture *itemsTexture, int x, int y)
 	isHitPlayer = false;
 }
 
+void MaruMariItem::Create(World *world, Texture *itemsTexture, Body*body)
+{
+	this->world = world;
+
+	TexturePacker p = TexturePacker(itemsTexture, "Resources/items_packer.xml");
+
+	animation.AddRegion(p.GetRegion("marumari"));
+	animation.SetFrameInterval(0.2);
+
+	SetRegion(*animation.GetKeyAnimation());
+	SetSize(25, 32);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Kinematic);
+	body->SetSize(25, 32);
+	body->IsSensor(true);
+	body->categoryBits = MARUMARIITEM_BIT;
+	body->maskBits = PLAYER_BIT;
+	body->PutExtra(this);
+
+	isHitPlayer = false;
+}
+
 void MaruMariItem::Update(float dt)
 {
 	if (body == NULL) return;

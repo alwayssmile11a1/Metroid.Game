@@ -19,7 +19,9 @@ private:
 public:
 	HealthPile();
 	~HealthPile();
-	void Create(World *world, Texture *skreeTexture, int x, int y);
+	void Create(World *world, Texture *texture, int x, int y);
+
+	void Create(World *world, Texture *texture, Body*body);
 
 	void Render(SpriteBatch *batch);
 

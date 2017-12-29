@@ -53,19 +53,22 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 void Skree::HandlePhysics(Player* player)
 {
 	if (stateTime > 0||isDead || hitBulletTime!=-1) return;
-	if (abs(player->GetPosition().x - this->GetPosition().x) < 100)
+
+	if (this->GetPosition().y - player->GetPosition().y < 500 && this->GetPosition().y > player->GetPosition().y) //if player and skree is too far apart each other, don't do anything 
 	{
-		body->SetBodyType(Body::BodyType::Dynamic);
-		if (player->GetPosition().x - body->GetPosition().x > 0)
+		if (abs(player->GetPosition().x - this->GetPosition().x) < 100)
 		{
-			body->SetVelocity(2, -4);
-		}
-		else
-		{
-			body->SetVelocity(-2, -4);
+			body->SetBodyType(Body::BodyType::Dynamic);
+			if (player->GetPosition().x - body->GetPosition().x > 0)
+			{
+				body->SetVelocity(2, -4);
+			}
+			else
+			{
+				body->SetVelocity(-2, -4);
+			}
 		}
 	}
-	
 
 
 }

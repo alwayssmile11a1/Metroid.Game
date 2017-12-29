@@ -41,10 +41,11 @@ public:
 	Zoomer();
 	~Zoomer();
 
-	//
 	void Create(World *world, Texture *zoomerTexture, float x, float y, bool Direction);
 
-	void HandlePhysics();
+	void Create(World *world, Texture *zoomerTexture, Body* body, bool Direction);
+
+	/*void HandlePhysics();*/
 
 	void Render(SpriteBatch *batch);
 

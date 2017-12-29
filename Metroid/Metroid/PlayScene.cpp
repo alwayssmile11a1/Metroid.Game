@@ -2,7 +2,7 @@
 
 #define USESDQUADTREEFORWORLD 1
 
-#define RENDERDEBUGBOX 1
+#define RENDERDEBUGBOX 0
 
 PlayScene::PlayScene()
 {
@@ -82,12 +82,12 @@ void PlayScene::Create()
 		skrees.push_back(skree);
 	}
 
-	//zoomer
-	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("Zoomer")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	//zoomer (Use quadtree)
+	std::vector<Body*> zoomerBodies = sdQuadTree.GetBodiesGroup("Zoomer");
+	for (std::vector<Body*>::iterator it = zoomerBodies.begin(); it != zoomerBodies.end(); ++it)
 	{
 		Zoomer *zoomer = new Zoomer();
-		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
+		zoomer->Create(&world, &enemiesTexture, *it, true);
 
 		zoomers.push_back(zoomer);
 	}
@@ -114,7 +114,7 @@ void PlayScene::Create()
 
 	//--------------------------BOSSES-------------------------------
 	bossesTexture = Texture("Resources/bosses.png");
-	//Mother Brai
+	//Mother Brain
 	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
 	motherBrain = new MotherBrain();
 	motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
@@ -124,48 +124,48 @@ void PlayScene::Create()
 	kraid = new Kraid();
 	kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
 
-	//Cannons
-	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
+	//Cannons (Use quadtree)
+	std::vector<Body*> leftCannonBodies = sdQuadTree.GetBodiesGroup("LeftCannon");
+	for (std::vector<Body*>::iterator it = leftCannonBodies.begin(); it != leftCannonBodies.end(); ++it)
 	{
 		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, rect->x, rect->y);
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, *it);
 
 		cannons.push_back(cannon);
 	}
-	std::vector<Shape::Rectangle> rightCannonRects = map->GetObjectGroup("RightCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = rightCannonRects.begin(); rect != rightCannonRects.end(); ++rect)
+	std::vector<Body*> rightCannonBodies = sdQuadTree.GetBodiesGroup("RightCannon");
+	for (std::vector<Body*>::iterator it = rightCannonBodies.begin(); it != rightCannonBodies.end(); ++it)
 	{
 		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, rect->x, rect->y);
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, *it);
 
 		cannons.push_back(cannon);
 	}
-	std::vector<Shape::Rectangle> topCannonRects = map->GetObjectGroup("TopCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = topCannonRects.begin(); rect != topCannonRects.end(); ++rect)
+	std::vector<Body*> topCannonBodies = sdQuadTree.GetBodiesGroup("TopCannon");
+	for (std::vector<Body*>::iterator it = topCannonBodies.begin(); it != topCannonBodies.end(); ++it)
 	{
 		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, rect->x, rect->y);
+		cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, *it);
 
 		cannons.push_back(cannon);
 	}
 
-	//CircleCannons
-	std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
+	//CircleCannons (Use quadtree)
+	std::vector<Body*> circleCannonBodies = sdQuadTree.GetBodiesGroup("CircleCannon");
+	for (std::vector<Body*>::iterator it = circleCannonBodies.begin(); it != circleCannonBodies.end(); ++it)
 	{
 		CircleCannon *cannon = new CircleCannon();
-		cannon->Create(&world, &enemiesTexture, &player, rect->x, rect->y);
+		cannon->Create(&world, &enemiesTexture, &player, *it);
 
 		circleCannons.push_back(cannon);
 	}
 
-	//HealthPiles
-	std::vector<Shape::Rectangle> healthPileRects = map->GetObjectGroup("HealthPile")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = healthPileRects.begin(); rect != healthPileRects.end(); ++rect)
+	//HealthPiles (Use quadtree)
+	std::vector<Body*> healthPileBodies = sdQuadTree.GetBodiesGroup("HealthPile");
+	for (std::vector<Body*>::iterator it = healthPileBodies.begin(); it != healthPileBodies.end(); ++it)
 	{
 		HealthPile *healthPile = new HealthPile();
-		healthPile->Create(&world, &bossesTexture, rect->x, rect->y);
+		healthPile->Create(&world, &bossesTexture, *it);
 
 		healthPiles.push_back(healthPile);
 	}
@@ -176,13 +176,13 @@ void PlayScene::Create()
 	//---------------------------ITEMS------------------------------------
 	itemsTexture = Texture("Resources/items.png");
 
-	//roll ability item
-	Shape::Rectangle rollItemRect = map->GetObjectGroup("MaruMariItem")->GetRects().front();
-	maruMariItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
+	//roll ability item (Use quadtree)
+	Body* rollItemBody = sdQuadTree.GetBodiesGroup("MaruMariItem").front();
+	maruMariItem.Create(&world, &itemsTexture, rollItemBody);
 
-	//bomb ability item
-	Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
-	bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
+	//bomb ability item (Use quadtree)
+	Body* bombItemRect = sdQuadTree.GetBodiesGroup("BombItem").front();
+	bombItem.Create(&world, &itemsTexture, bombItemRect);
 
 
 #else
@@ -364,11 +364,11 @@ void PlayScene::HandlePhysics(float dt)
 		(*it)->HandlePhysics(&player);
 	}
 
-	//handle physics zoomers
-	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
-	{
-		(*it)->HandlePhysics();
-	}
+	////handle physics zoomers
+	//for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	//{
+	//	(*it)->HandlePhysics();
+	//}
 
 	//handle physics rios
 	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)

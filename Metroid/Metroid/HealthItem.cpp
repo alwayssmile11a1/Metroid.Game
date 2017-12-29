@@ -37,6 +37,7 @@ void HealthItem::Create(World *world, Texture *itemsTexture, int x, int y)
 	isHitPlayer = false;
 }
 
+
 void HealthItem::Render(SpriteBatch *batch)
 {
 	if (isHitPlayer) return;

@@ -22,6 +22,8 @@ public:
 
 	void Create(World *world, Texture *itemsTexture, int x, int y);
 	
+	void Create(World *world, Texture *itemsTexture, Body*body);
+
 	void Update(float dt);
 
 	void OnHitPlayer();

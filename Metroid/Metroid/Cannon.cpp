@@ -79,6 +79,70 @@ void Cannon::Create(World *world, Texture *texture, Cannon::Type type, int rando
 	
 }
 
+void Cannon::Create(World *world, Texture *texture, Cannon::Type type, int randomIndex, Body* body)
+{
+	isBulletDestroyed = true;
+	this->world = world;
+	lastShot = 0;
+
+	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
+
+	cannonAnimation.AddRegion(p.GetRegion("cannon"));
+	cannonAnimation.SetIndex(randomIndex);
+	bulletAnimation.AddRegion(p.GetRegion("cannonbullet"));
+	bulletAnimation.SetIndex(randomIndex);
+
+	SetRegion(*cannonAnimation.GetKeyAnimation());
+	SetSize(25, 25);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Static);
+	body->SetSize(25, 25);
+	body->categoryBits = CANNON_BIT;
+	body->maskBits = PLAYER_BIT;
+	body->PutExtra(this);
+
+
+	//setup bullet
+	BodyDef bulletDef;
+	bulletDef.bodyType = Body::BodyType::Static;
+	bulletDef.position.Set(body->GetPosition().x, body->GetPosition().y);
+	bulletDef.size.Set(12, 12);
+	bulletDef.isSensor = true;
+	cannonBullet.body = world->CreateBody(bulletDef);
+	cannonBullet.body->categoryBits = CANNON_BIT;
+	cannonBullet.body->maskBits = PLAYER_BIT | PLATFORM_BIT;
+	cannonBullet.body->PutExtra(this);
+
+	cannonBullet.SetRegion(*bulletAnimation.GetKeyAnimation());
+	cannonBullet.SetSize(12, 12);
+	cannonBullet.SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	switch (type)
+	{
+	case Cannon::Right:
+		SetRotation(-180);
+		cannonBullet.SetRotation(-180);
+		break;
+	case Cannon::Top:
+		SetRotation(-90);
+		cannonBullet.SetRotation(-90);
+		break;
+	default:
+		break;
+	}
+
+
+	//effect
+	Animation explosionAnimation;
+	explosionAnimation.AddRegion(p.GetRegion("cannonbulletexplosion"));
+	bulletExplosionEffect = Effect(explosionAnimation);
+	bulletExplosionEffect.SetLiveTime(0.3);
+	bulletExplosionEffect.SetSize(15, 15);
+}
+
 void Cannon::Render(SpriteBatch *batch)
 {
 	if (!isBulletDestroyed)

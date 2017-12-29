@@ -112,9 +112,7 @@ void World::Update(float dt)
 		//a vector of all bodies could collide each other 
 		std::vector<Body*> bodiesCouldCollide;
 
-		std::vector<Body*> bodiesInViewport = _SDQuadTree->GetBodiesInViewport();
-
-		bodiesCouldCollide.insert(bodiesCouldCollide.end(), bodiesInViewport.begin(), bodiesInViewport.end());
+		bodiesCouldCollide.insert(bodiesCouldCollide.end(), _SDQuadTree->bodiesInViewport.begin(), _SDQuadTree->bodiesInViewport.end());
 		bodiesCouldCollide.insert(bodiesCouldCollide.end(), _Bodies.begin(), _Bodies.end());
 
 
@@ -554,8 +552,16 @@ void World::DestroyBody(Body* body)
 
 	if (_SDQuadTree != NULL && body!=NULL)
 	{
-		delete body;
-		body = NULL;
+		// Attempt to find and return a body using provided name, else return nullptr
+		std::map<unsigned int, Body*>::iterator it = _SDQuadTree->mapBody.find(body->id);
+
+		if (it != _SDQuadTree->GetMapBody().end())
+		{
+			delete it->second;
+			it->second = NULL;
+			body = NULL;
+			_SDQuadTree->mapBody.erase(it);
+		}
 	}
 }
 

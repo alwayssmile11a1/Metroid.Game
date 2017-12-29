@@ -141,6 +141,10 @@ private:
 
 private:
 
+	friend class World;
+	friend class TMXMap;
+
+
 	void StartBuildingTreeNodes(const std::string &outpath, const std::string &tmxFilePath);
 	//
 	void BuildTree(SDQNode* sdqNode, rapidxml::xml_node<>* parentXmlNode);
