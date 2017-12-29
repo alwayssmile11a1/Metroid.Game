@@ -213,11 +213,40 @@ void World::Update(float dt)
 
 			for (std::vector<Body*>::iterator body = _Bodies.begin(); body != _Bodies.end(); ++body)
 			{
-				Body *it = *body;
+				Body* it = *body;
+
 				Vector2 campos = Vector2(_Cam->GetPosition().x - (int)screenWidth / 2, _Cam->GetPosition().y - (int)screenHeight / 2);
-				if (((it->GetPosition().x + it->GetSize().x > campos.x) && (it->GetPosition().x < campos.x + screenWidth)) &&
-					((it->GetPosition().y + it->GetSize().y > campos.y) && (it->GetPosition().y < campos.y + screenWidth)))
+
+				/*if (((it->GetPosition().x + it->GetSize().x > campos.x) && (it->GetPosition().x < campos.x + screenWidth)) &&
+				((it->GetPosition().y + it->GetSize().y > campos.y) && (it->GetPosition().y < campos.y + screenHeight)))
+				_QuadTree->Insert(*body);*/
+
+				//Vector2 campos = Vector2(_Cam->GetPosition().x - screenWidth / 2, _Cam->GetPosition().y - screenHeight / 2);
+
+				/*if (((it->GetPosition().x >= campos.x && it->GetPosition().x <= campos.x + screenWidth) || (it->GetPosition().y >= campos.y && it->GetPosition().y <= campos.y + screenHeight))
+				&&
+				(!(it->GetPosition().x > campos.x + screenWidth || it->GetPosition().x + it->GetSize().x < campos.x))
+				&&
+				(!(it->GetPosition().y > campos.y + screenHeight || it->GetPosition().y + it->GetSize().y < campos.y)))
+				{
+				_QuadTree->Insert(*body);
+				}*/
+
+				bool botleft = it->GetPosition().x >= campos.x && it->GetPosition().x <= campos.x + screenWidth && it->GetPosition().y >= campos.y && it->GetPosition().y <= campos.y + screenHeight;
+				bool topleft = it->GetPosition().x >= campos.x && it->GetPosition().x <= campos.x + screenWidth && it->GetPosition().y + it->GetSize().y >= campos.y && it->GetPosition().y + it->GetSize().y <= campos.y + screenHeight;
+				bool botright = it->GetPosition().x + it->GetSize().x >= campos.x && it->GetPosition().x + it->GetSize().x <= campos.x + screenWidth && it->GetPosition().y >= campos.y && it->GetPosition().y <= campos.y + screenHeight;
+				bool topright = it->GetPosition().x + it->GetSize().x >= campos.x && it->GetPosition().x + it->GetSize().x <= campos.x + screenWidth && it->GetPosition().y + it->GetSize().y >= campos.y && it->GetPosition().y + it->GetSize().y <= campos.y + screenHeight;
+
+				if (botleft || topleft || botright || topright)
 					_QuadTree->Insert(*body);
+				else
+				{
+					bool checkx = it->GetPosition().x + it->GetSize().x > campos.x && it->GetPosition().x < campos.x + screenWidth;
+					bool checky = it->GetPosition().y + it->GetSize().y > campos.y && it->GetPosition().y < campos.y + screenHeight;
+					if (checkx && checky)
+						_QuadTree->Insert(*body);
+				}
+
 			}
 
 			std::vector<Body*> _BodiesCouldCollide;
@@ -263,7 +292,7 @@ void World::Update(float dt)
 				//Stop objects outside of window from updating
 				Vector2 campos = Vector2(_Cam->GetPosition().x - (int)screenWidth / 2, _Cam->GetPosition().y - (int)screenHeight / 2);
 				if (((body1->GetPosition().x + body1->GetSize().x > campos.x) && (body1->GetPosition().x < campos.x + screenWidth)) &&
-					((body1->GetPosition().y + body1->GetSize().y > campos.y) && (body1->GetPosition().y < campos.y + screenWidth)))
+					((body1->GetPosition().y + body1->GetSize().y > campos.y) && (body1->GetPosition().y < campos.y + screenHeight)))
 					body1->Next(dt, moveX, moveY);
 			}
 		}
