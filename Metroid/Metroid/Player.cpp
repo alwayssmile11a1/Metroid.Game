@@ -54,6 +54,8 @@ void Player::Create(World *world, float x, float y)
 	rollingAnimation.AddRegion(p.GetRegion("rolling"));
 	jumpAndRollAnimation.AddRegion(p.GetRegion("jumpandroll"));
 	beingHitAnimation.AddRegion(p.GetRegion("beinghit"));
+	rollingbeingHitAnimation.AddRegion(p.GetRegion("rollingbeinghit"));
+
 
 	//SETUP STATE MANAGER - THIS WAY IS EVEN MUCH MORE DIFFICULT THAN THE NORMAL WAY (LOL) 
 	//						BUT THIS MAYBE MORE VISUALIZABLE
@@ -119,7 +121,7 @@ void Player::Create(World *world, float x, float y)
 	//create foot
 	BodyDef footDef;
 	footDef.bodyType = Body::BodyType::Kinematic;
-	footDef.size.Set(28, 5);
+	footDef.size.Set(28, 15);
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
@@ -188,7 +190,7 @@ void Player::HandleInput()
 	{
 		if (jumpTime < MAXJUMPTIME) //continue jumping if there is still jumptime
 		{
-			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.5f);
+			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.6f);
 			jumpTime += 0.02f;
 		}
 		else
@@ -202,7 +204,7 @@ void Player::HandleInput()
 	}
 
 	//jump only if grounded
-	if (Input::GetKeyDown(DIK_Z) && isGrounded)
+	if (Input::GetKeyDown(DIK_Z) && isGrounded && !isRolling)
 	{
 		Sound::Play(jump);
 		mainBody->SetVelocity(mainBody->GetVelocity().x, 10);
@@ -458,7 +460,15 @@ void Player::Update(float dt)
 
 		if (beingHitTime < MAXUNTOUCHABLETIME)
 		{
-			SetRegion(*beingHitAnimation.Next(dt));
+			if (!isRolling)
+			{
+				SetRegion(*beingHitAnimation.Next(dt));
+			}
+			else
+			{
+				SetRegion(*rollingbeingHitAnimation.Next(dt));
+			}
+
 			beingHitTime += dt;
 		}
 		else
@@ -513,6 +523,7 @@ void Player::Update(float dt)
 
 	}
 	
+	/*isGrounded = false;*/
 }
 
 void Player::OnHeadHit()
@@ -540,7 +551,15 @@ void Player::OnHitEnemy(bool rightHit)
 {
 	if (beingHitTime != -1) return; //if beinghittime !=-1, it means player has just been hit and we don't want it to be hit in this time
 	health -= 8;
-	SetRegion(*beingHitAnimation.GetKeyAnimation());
+	if (!isRolling)
+	{
+		SetRegion(*beingHitAnimation.GetKeyAnimation());
+	}
+	else
+	{
+		SetRegion(*rollingbeingHitAnimation.GetKeyAnimation());
+	}
+
 	beingHitTime = 0;
 	beingRightHit = rightHit;
 }
@@ -582,4 +601,10 @@ void Player::Release()
 bool Player::getisGrounded()
 {
 	return isGrounded;
+}
+
+void Player::OnExitGround()
+{
+	isGrounded = false;
+	jumpTime = 0;
 }

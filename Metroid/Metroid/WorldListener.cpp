@@ -267,25 +267,6 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 {
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
-	case FOOT_BIT*PLATFORM_BIT:
-	{
-		if (bodyA->categoryBits == FOOT_BIT)
-		{
-			Player*player = (Player *)(bodyA->GetExtra());
-			player->OnGrounded();	
-		}
-		break;
-	}
-	case FOOT_BIT*BREAKABLEPLATFORM_BIT:
-	{
-		if (bodyA->categoryBits == FOOT_BIT)
-		{
-			Player*player = (Player *)(bodyA->GetExtra());
-			player->OnGrounded();
-
-		}
-		break;
-	}
 
 	case PLAYER_BIT*SKREE_BIT:
 	{
@@ -513,6 +494,25 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 {
 	switch (bodyA->categoryBits * bodyB->categoryBits)
 	{
+	case FOOT_BIT*PLATFORM_BIT:
+	{
+		if (bodyA->categoryBits == FOOT_BIT)
+		{
+			Player*player = (Player *)(bodyA->GetExtra());
+			player->OnGrounded();
+		}
+		break;
+	}
+	case FOOT_BIT*BREAKABLEPLATFORM_BIT:
+	{
+		if (bodyA->categoryBits == FOOT_BIT)
+		{
+			Player*player = (Player *)(bodyA->GetExtra());
+			player->OnGrounded();
+
+		}
+		break;
+	}
 	case HEAD_BIT*PLATFORM_BIT:
 	{
 		if (bodyA->categoryBits == HEAD_BIT)
@@ -629,5 +629,26 @@ void WorldListener::OnSersorOverlaying(Body *bodyA, Body *bodyB)
 
 void  WorldListener::OnSensorExit(Body*bodyA, Body* bodyB)
 {
-	
+	switch (bodyA->categoryBits * bodyB->categoryBits)
+	{
+	case FOOT_BIT*PLATFORM_BIT:
+	{
+		if (bodyA->categoryBits == FOOT_BIT)
+		{
+			Player*player = (Player *)(bodyA->GetExtra());
+			player->OnExitGround();
+		}
+		break;
+	}
+	case FOOT_BIT*BREAKABLEPLATFORM_BIT:
+	{
+		if (bodyA->categoryBits == FOOT_BIT)
+		{
+			Player*player = (Player *)(bodyA->GetExtra());
+			player->OnExitGround();
+
+		}
+		break;
+	}
+	}
 }

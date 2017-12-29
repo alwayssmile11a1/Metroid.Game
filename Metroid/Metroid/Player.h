@@ -9,7 +9,7 @@
 #include "HanabiSound.h"
 #include "HanabiInput.h"
 #define FIRERATE 0.1
-#define MAXJUMPTIME 1
+#define MAXJUMPTIME 1.5
 #define MAXUNTOUCHABLETIME 0.3 
 #define MAXDEADTIME 0.5
 
@@ -32,6 +32,7 @@ private:
 	Animation rollingAnimation;
 	Animation jumpAndRollAnimation;
 	Animation beingHitAnimation;
+	Animation rollingbeingHitAnimation;
 
 	StateManager characterStateManager;
 
@@ -98,6 +99,8 @@ public:
 	void OnAppearing(float dt);
 
 	void OnGrounded();
+
+	void OnExitGround();
 
 	void OnHitRollItem();
 	
