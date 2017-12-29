@@ -18,7 +18,7 @@ private:
 	bool isROpen;
 	bool isLOpen;
 
-	float pauseTime;
+	float pauseTimeL,pauseTimeR;
 
 	CSound *OpenNClose=NULL;
 public:

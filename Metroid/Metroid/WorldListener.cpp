@@ -209,7 +209,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
 			Console::Log("The player colliding with door\n");
-			Player *player = (Player*)bodyA->GetExtra();
+			//Player *player = (Player*)bodyA->GetExtra();
 			Door *door = (Door*)bodyB->GetExtra();
 			if (bodyB->GetID() == "left" && door->IsROpen()==true)
 			{

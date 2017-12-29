@@ -13,31 +13,26 @@ Door::~Door()
 
 void Door::Create(World *world,Texture* doorTexture, int x, int y)
 {
-	
-
 	this->world = world;
-	
 	TexturePacker p = TexturePacker(doorTexture, "Resources/door.xml");
-
 	doorAnimation.AddRegion(p.GetRegion("door").at(0));
 
 
 	right.SetRegion(*doorAnimation.GetKeyAnimation());
 	right.SetSize(20, 95);
 	right.SetPosition(x + 40, y - 3);
-	
 	//setup bodyRight
 	BodyDef bodyDefRight;
 	bodyDefRight.bodyType = Body::BodyType::Static;
 	bodyDefRight.position.Set(x+40, y-3);
 	bodyDefRight.size.Set(20, 95);
-	
 	//bodyDefRight.isSensor = true;
 	bodyRight = world->CreateBody(bodyDefRight);
 	bodyRight->categoryBits = DOOR_BIT;
 	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT|ZOOMER_BIT|KRAID_BIT;
 	bodyRight->SetID("right");
 	bodyRight->PutExtra(this);
+
 
 
 	left.SetRegion(*doorAnimation.GetKeyAnimation());
@@ -49,13 +44,13 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefLeft.bodyType = Body::BodyType::Static;
 	bodyDefLeft.position.Set(x - 40, y - 3);
 	bodyDefLeft.size.Set(20, 95);
-	
 	//bodyDefLeft.isSensor = true;
 	bodyLeft = world->CreateBody(bodyDefLeft);
 	bodyLeft->categoryBits = DOOR_BIT;
-	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT|ZOOMER_BIT;
+	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT|ZOOMER_BIT|KRAID_BIT;
 	bodyLeft->SetID("left");
 	bodyLeft->PutExtra(this);
+
 
 
 	//setup bodyMid
@@ -64,7 +59,6 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefMid.position.Set(x, y);
 	bodyDefMid.size.Set(20, 95);
 	//bodyDefMid.isSensor = true;
-
 	bodyMid = world->CreateBody(bodyDefMid);
 	bodyMid->categoryBits = DOOR_BIT;
 	bodyMid->maskBits = BULLET_BIT;
@@ -76,7 +70,8 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	isROpen = false;
 
 
-	pauseTime = 0;
+	pauseTimeL = 0;
+	pauseTimeR = 0;
 
 	this->OpenNClose=Sound::LoadSound("Resources/SoundEffect/OpenCloseDoor.wav");
 }
@@ -87,39 +82,32 @@ void Door::Render(SpriteBatch *batch)
 		batch->Draw(this->left);
 	if(this->isROpen==false)
 		batch->Draw(this->right);
-	if (this->isLOpen == true || this->isROpen == true)
+	if (this->isLOpen == true)
 	{
-		if (this->isLOpen == true)
-			this->bodyLeft->categoryBits = 0;
-		if (this->isROpen == true)
-			this->bodyRight->categoryBits = 0;
-
-
-		if (this->isLOpen == true)
+		this->bodyLeft->categoryBits = 0;
+		pauseTimeL++;
+		if (pauseTimeL > 50)
 		{
-			pauseTime++;
-			if (pauseTime > 50)
-			{
-				Sound::Play(this->OpenNClose);
-				this->isLOpen = false;
-				//this->isROpen = false;
-				pauseTime = 0;
-				this->bodyLeft->categoryBits = this->bodyLeft->categoryBits = DOOR_BIT;
-
-			}
+			Sound::Play(this->OpenNClose);
+			this->isLOpen = false;
+			//this->isROpen = false;
+			pauseTimeL = 0;
+			this->bodyLeft->categoryBits = DOOR_BIT;
 		}
-		if (this->isROpen == true)
+	}
+	if (this->isROpen == true)
+	{
+		this->bodyRight->categoryBits = 0;
+		pauseTimeR++;
+		if (pauseTimeR > 50)
 		{
-			pauseTime++;
-			if (pauseTime > 50)
-			{
-				Sound::Play(this->OpenNClose);
-				//this->isLOpen = false;
-				this->isROpen = false;
-				pauseTime = 0;
-				this->bodyLeft->categoryBits = this->bodyRight->categoryBits = DOOR_BIT;
-			}
+			Sound::Play(this->OpenNClose);
+			//this->isLOpen = false;
+			this->isROpen = false;
+			pauseTimeR = 0;
+			this->bodyRight->categoryBits = DOOR_BIT;
 		}
+
 	}
 }
 
@@ -142,12 +130,16 @@ void Door::ROnhitBullet()
 void Door::SetLeftOpen(bool state)
 {
 	this->isLOpen = state;
+	if (state == false)
+		this->bodyLeft->categoryBits = DOOR_BIT;
 	Sound::Play(this->OpenNClose);
 }
 
 void Door::SetRightOpen(bool state)
 {
 	this->isROpen = state;
+	if (state == false)
+		this->bodyRight->categoryBits = DOOR_BIT;
 	Sound::Play(this->OpenNClose);
 }
 
