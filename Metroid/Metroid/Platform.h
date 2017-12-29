@@ -10,6 +10,7 @@ public:
 	~Platform();
 	Platform(World *world, float x, float y, float width, float height);
 
+	//used for quadtree
 	Platform(Body* body);
 
 };

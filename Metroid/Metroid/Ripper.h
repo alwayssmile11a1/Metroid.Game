@@ -37,7 +37,10 @@ public:
 	~Ripper();
 	void Create(World *world, Texture *ripperTexture, int x, int y);
 
-	void HandlePhysics(Player* player);
+	//used for quadtree
+	void Create(World *world, Texture *ripperTexture, Body* body);
+
+	/*void HandlePhysics(Player* player);*/
 
 	void Render(SpriteBatch *batch);
 

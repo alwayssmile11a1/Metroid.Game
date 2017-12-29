@@ -2,6 +2,8 @@
 
 #define USESDQUADTREEFORWORLD 1
 
+#define RENDERDEBUGBOX 1
+
 PlayScene::PlayScene()
 {
 }
@@ -39,7 +41,7 @@ void PlayScene::Create()
 
 	world.SetSpaceDivisionQuadTree(&sdQuadTree);
 
-	//create platform
+	//create platform (Use quadtree)
 	std::vector<Body*> platformBodies = sdQuadTree.GetBodiesGroup("Platform");
 
 	for (std::vector<Body*>::iterator it = platformBodies.begin(); it != platformBodies.end(); ++it)
@@ -47,7 +49,7 @@ void PlayScene::Create()
 		Platform platform(*it);
 	}
 
-	//create breakableplatform
+	//create breakableplatform (Use quadtree)
 	std::vector<Body*> breakablePlatformsBodies = sdQuadTree.GetBodiesGroup("BreakablePlatform");
 	for (std::vector<Body*>::iterator it = breakablePlatformsBodies.begin(); it != breakablePlatformsBodies.end(); ++it)
 	{
@@ -100,12 +102,12 @@ void PlayScene::Create()
 		rios.push_back(rio);
 	}
 
-	//ripper
-	std::vector<Shape::Rectangle> ripperRects = map->GetObjectGroup("Ripper")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = ripperRects.begin(); rect != ripperRects.end(); ++rect)
+	//ripper (Use quadtree)
+	std::vector<Body*> ripperBodies = sdQuadTree.GetBodiesGroup("Ripper");
+	for (std::vector<Body*>::iterator it = ripperBodies.begin(); it != ripperBodies.end(); ++it)
 	{
 		Ripper *ripper = new Ripper();
-		ripper->Create(&world, &enemiesTexture, rect->x, rect->y);
+		ripper->Create(&world, &enemiesTexture, *it);
 		rippers.push_back(ripper);
 	}
 
@@ -467,8 +469,11 @@ void  PlayScene::Render()
 	
 	explosionEffect.Render(batch);
 
+#if RENDERDEBUGBOX
 	//draw bodies
 	world.RenderBodiesDebug(batch);
+
+#endif
 
 	//render map
 	map->Render(batch);

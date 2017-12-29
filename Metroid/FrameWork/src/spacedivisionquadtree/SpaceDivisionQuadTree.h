@@ -22,6 +22,7 @@ private:
 	bool isContainBody; //if true, contain body. if false, contain Rectangle
 	unsigned int id;
 	RECT rect;
+
 	Body* body;
 	Shape::Rectangle* tileRectangle;
 

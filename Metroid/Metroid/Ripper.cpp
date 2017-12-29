@@ -47,6 +47,46 @@ void Ripper::Create(World *world, Texture *ripperTexture, int x, int y)
 	//sound when Ripper is shot
 	isShot= Sound::LoadSound("Resources/SoundEffect/ShootRipper.wav");
 }
+
+void Ripper::Create(World *world, Texture *ripperTexture, Body* body)
+{
+	this->world = world;
+	TexturePacker p = TexturePacker(ripperTexture, "Resources/enemies_packer.xml");
+
+	ripperAnimation.AddRegion(p.GetRegion("ripper"));
+	//zoomerAnimation.SetFrameInterval(0.04);
+
+	SetRegion(*ripperAnimation.GetKeyAnimation());
+	SetSize(30, 15);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Kinematic);
+	body->SetSize(30, 15);
+	body->IsSensor(true);
+	body->categoryBits = RIPPER_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
+	body->PutExtra(this);
+
+
+	//set up intial velocity/direction
+	health = 2;
+	hitBulletTime = -1;
+
+	velocity.x = -1;
+	velocity.y = 0;
+	body->SetVelocity(velocity.x, velocity.y);
+
+
+	pauseTime = 0.5;
+
+
+	//sound when Ripper is shot
+	isShot = Sound::LoadSound("Resources/SoundEffect/ShootRipper.wav");
+}
+
+
 void Ripper::Render(SpriteBatch *batch)
 {
 	if (isDead)

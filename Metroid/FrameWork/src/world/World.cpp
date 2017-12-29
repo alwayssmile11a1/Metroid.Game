@@ -412,11 +412,6 @@ if (!body1->_IsSensor) //If body1 is a normal body
 			//perform collision
 			collision.PerformCollision(body1, body2, dt, 0, moveX, moveY);
 
-			//check overlaying (sometimes two bodies are already overlaying each other 
-			if (collision.IsOverlaying(body1, body2))
-			{
-				collision.PerformOverlaying(body1, body2, moveX, moveY);
-			}
 
 		}
 		else //if not, check collision exit callback
@@ -438,6 +433,11 @@ if (!body1->_IsSensor) //If body1 is a normal body
 
 		}
 
+		//check overlaying (sometimes two bodies are already overlaying each other 
+		if (collision.IsOverlaying(body1, body2))
+		{
+			collision.PerformOverlaying(body1, body2, moveX, moveY);
+		}
 
 	}
 

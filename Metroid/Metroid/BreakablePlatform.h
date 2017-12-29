@@ -16,6 +16,8 @@ public:
 	BreakablePlatform();
 	~BreakablePlatform();
 	BreakablePlatform(World *world,TMXMap* map , float x, float y, float width, float height);
+
+	//used for quadtree
 	BreakablePlatform(TMXMap* map, Body* body);
 
 	void OnHitBomb();
