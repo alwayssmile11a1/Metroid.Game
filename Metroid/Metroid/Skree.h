@@ -51,6 +51,9 @@ public:
 	~Skree();
 	void Create(World *world, Texture *skreeTexture, int x, int y);
 
+	//used for quadtree
+	void Create(World *world, Texture *skreeTexture, Body *body);
+
 	void HandlePhysics(Player* player);
 
 	void Render(SpriteBatch *batch);

@@ -49,6 +49,42 @@ void Skree::Create(World *world, Texture *skreeTexture, int x, int y)
 
 }
 
+//used for quadtree
+void Skree::Create(World *world, Texture *skreeTexture, Body* body)
+{
+	stateTime = 0;
+	hitBulletTime = -1;
+	health = 2;
+
+	this->world = world;
+
+	TexturePacker p = TexturePacker(skreeTexture, "Resources/enemies_packer.xml");
+
+	skreeAnimation.AddRegion(p.GetRegion("skree"));
+	skreeAnimation.SetFrameInterval(0.04);
+
+	skreeHitAnimation.AddRegion(p.GetRegion("skreehit"));
+	skreeHitAnimation.SetFrameInterval(0.04);
+
+	skreeBulletAnimation.AddRegion(p.GetRegion("skreebullet"));
+
+
+	SetRegion(*skreeAnimation.GetKeyAnimation());
+	SetSize(16, 33);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+
+	//setup body
+	this->body = body;
+	body->SetBodyType(Body::BodyType::Static);
+	body->SetSize(16, 33);
+	body->IsSensor(true);
+	body->categoryBits = SKREE_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | EXPLOSION_BIT;
+	body->PutExtra(this);
+
+}
+
 
 void Skree::HandlePhysics(Player* player)
 {

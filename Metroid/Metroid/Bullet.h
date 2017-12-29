@@ -2,7 +2,7 @@
 #include"HanabiWorld.h"
 #include "CollisionBit.h"
 #include "HanabiSprite.h"
-#define BULLETLIVETIME 0.2f
+#define BULLETLIVETIME 0.3f
 #define BULLETSPEED 5.0f
 
 class Bullet: public Sprite

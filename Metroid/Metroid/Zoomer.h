@@ -43,6 +43,7 @@ public:
 
 	void Create(World *world, Texture *zoomerTexture, float x, float y, bool Direction);
 
+	//used for quadtree
 	void Create(World *world, Texture *zoomerTexture, Body* body, bool Direction);
 
 	/*void HandlePhysics();*/

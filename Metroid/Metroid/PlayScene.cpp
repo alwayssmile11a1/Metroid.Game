@@ -2,7 +2,7 @@
 
 #define USESDQUADTREEFORWORLD 1
 
-#define RENDERDEBUGBOX 0
+#define RENDERDEBUGBOX 1
 
 PlayScene::PlayScene()
 {
@@ -74,11 +74,11 @@ void PlayScene::Create()
 	enemiesTexture = Texture("Resources/enemies.png");
 
 	//skree
-	std::vector<Shape::Rectangle> skreeRects = map->GetObjectGroup("Skree")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = skreeRects.begin(); rect != skreeRects.end(); ++rect)
+	std::vector<Body*> skreeBodies = sdQuadTree.GetBodiesGroup("Skree");
+	for (std::vector<Body*>::iterator it = skreeBodies.begin(); it != skreeBodies.end(); ++it)
 	{
 		Skree *skree = new Skree();
-		skree->Create(&world, &enemiesTexture, rect->x, rect->y);
+		skree->Create(&world, &enemiesTexture, *it);
 		skrees.push_back(skree);
 	}
 

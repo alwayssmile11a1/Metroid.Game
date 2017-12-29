@@ -101,7 +101,7 @@ void Player::Create(World *world, float x, float y)
 	//setup mainbody
 	BodyDef bodyDef;
 	bodyDef.bodyType = Body::BodyType::Dynamic;
-	bodyDef.linearDrag.Set(10, 0);
+	bodyDef.linearDrag.Set(10, 1);
 	bodyDef.mass = 2;
 	bodyDef.size.Set(30, 60);
 	bodyDef.position.Set(x, y);
@@ -119,7 +119,7 @@ void Player::Create(World *world, float x, float y)
 	//create foot
 	BodyDef footDef;
 	footDef.bodyType = Body::BodyType::Kinematic;
-	footDef.size.Set(30, 5);
+	footDef.size.Set(28, 5);
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
@@ -188,7 +188,7 @@ void Player::HandleInput()
 	{
 		if (jumpTime < MAXJUMPTIME) //continue jumping if there is still jumptime
 		{
-			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.3f);
+			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.5f);
 			jumpTime += 0.02f;
 		}
 		else
@@ -293,21 +293,29 @@ void Player::Fire()
 		Vector2 velocity;
 		if (isLookingup) //shoot up
 		{
-			position.x = GetPosition().x;
-			position.y = GetPosition().y + GetSize().y / 2 + bullet->GetSize().y / 2;
+			if (!IsFlipX()) //shoot right
+			{
+				position.x = GetPosition().x + 4;
+			}
+			else
+			{
+				position.x = GetPosition().x - 4;
+			}
+
+			position.y = GetPosition().y + GetSize().y / 2 + bullet->GetSize().y / 2 - 10;
 			velocity.Set(0, BULLETSPEED);
 		}
 		else
 		{
 			if (!IsFlipX()) //shoot right
 			{
-				position.x = GetPosition().x + GetSize().x / 2 + bullet->GetSize().x / 2;
+				position.x = GetPosition().x + GetSize().x / 2 + bullet->GetSize().x / 2 - 10;
 				position.y = GetPosition().y + 10;
 				velocity.Set(BULLETSPEED, 0);
 			}
 			else //shoot left
 			{
-				position.x = GetPosition().x - GetSize().x / 2 - bullet->GetSize().x / 2;
+				position.x = GetPosition().x - GetSize().x / 2 - bullet->GetSize().x / 2 + 10;
 				position.y = GetPosition().y + 10;
 				velocity.Set(-BULLETSPEED, 0);
 			}
