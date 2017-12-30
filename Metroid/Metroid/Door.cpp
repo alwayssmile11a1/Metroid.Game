@@ -61,7 +61,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	//bodyDefMid.isSensor = true;
 	bodyMid = world->CreateBody(bodyDefMid);
 	bodyMid->categoryBits = DOOR_BIT;
-	bodyMid->maskBits = BULLET_BIT;
+	bodyMid->maskBits = BULLET_BIT | PLAYER_BIT;
 	bodyMid->SetID("mid");
 	bodyMid->PutExtra(this);
 
@@ -93,6 +93,8 @@ void Door::Render(SpriteBatch *batch)
 			//this->isROpen = false;
 			pauseTimeL = 0;
 			this->bodyLeft->categoryBits = DOOR_BIT;
+			//this->bodyMid->categoryBits = DOOR_BIT;
+			this->canPassLeft=false;
 		}
 	}
 	if (this->isROpen == true)
@@ -106,8 +108,14 @@ void Door::Render(SpriteBatch *batch)
 			this->isROpen = false;
 			pauseTimeR = 0;
 			this->bodyRight->categoryBits = DOOR_BIT;
+			//this->bodyMid->categoryBits = DOOR_BIT;
+			this->canPassRight = false;
 		}
+	}
 
+	if (this->isLOpen == false && this->isROpen==false)
+	{
+		this->bodyMid->categoryBits = DOOR_BIT;
 	}
 }
 
@@ -152,3 +160,24 @@ bool Door::IsLOpen()
 {
 	return this->isLOpen;
 }
+
+void Door::SetCanPassLeft(bool flag)
+{
+	this->canPassLeft = flag;
+}
+
+bool Door::GetCanPassLeft()
+{
+	return this->canPassLeft;
+}
+
+void Door::SetCanPassRight(bool flag)
+{
+	this->canPassRight = flag;
+}
+
+bool Door::GetCanPassRight()
+{
+	return this->canPassRight;
+}
+

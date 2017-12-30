@@ -95,6 +95,7 @@ private:
 	Texture effectsTexture;
 	ExplosionEffect explosionEffect;
 
+	float passTime; // the time the player need to pass the door
  
 public:
 	PlayScene();

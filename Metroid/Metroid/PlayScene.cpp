@@ -353,6 +353,9 @@ void PlayScene::Create()
 	playerHealthLabel = Label("30", &font, cam.GetPosition().x - 250, cam.GetPosition().y + 300, 640, 480);
 
 
+	//passTime
+	passTime = 0;
+
 	//BrinstarTheme Sound
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
 
@@ -505,8 +508,8 @@ void PlayScene::Update(float dt)
 	}
 
 	HandlePhysics(dt);
-
-	player.Update(dt);
+	if(passTime==0)
+		player.Update(dt);
 
 	//update skrees
 	for (int i= 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
@@ -686,7 +689,8 @@ void PlayScene::Update(float dt)
 			cam.SetPosition(cam.GetPosition().x, player.GetPosition().y + 150);
 		}
 	}
-	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
+	if (passTime == 0)
+		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 
 	//update Label
 	if (player.GetHealth() < 0)
@@ -705,6 +709,31 @@ void PlayScene::Update(float dt)
 	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
 	{
 		(*it)->Update(dt);
+		if ((*it)->GetCanPassLeft() == true)
+		{
+			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+			cam.SetPosition(cam.GetPosition().x - 10, cam.GetPosition().y);
+			player.SetPosition(player.GetPosition().x-4,player.GetPosition().y);
+			passTime++;
+			if (passTime > 25)
+			{
+				(*it)->SetCanPassLeft(false);
+				passTime = 0;
+			}
+		}
+
+		if ((*it)->GetCanPassRight() == true)
+		{
+			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+			cam.SetPosition(cam.GetPosition().x + 10, cam.GetPosition().y);
+			player.SetPosition(player.GetPosition().x + 4, player.GetPosition().y);
+			passTime++;
+			if (passTime > 25)
+			{
+				(*it)->SetCanPassRight(false);
+				passTime = 0;
+			}
+		}
 	}
 	//RENDER
 	Render();

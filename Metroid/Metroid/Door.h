@@ -17,6 +17,7 @@ private:
 
 	bool isROpen;
 	bool isLOpen;
+	bool canPassLeft, canPassRight;
 
 	float pauseTimeL,pauseTimeR;
 
@@ -34,4 +35,8 @@ public:
 	void SetRightOpen(bool state);
 	bool IsLOpen();
 	bool IsROpen();
+	void SetCanPassRight(bool flag);
+	bool GetCanPassRight();
+	void SetCanPassLeft(bool flag);
+	bool GetCanPassLeft();
 };

@@ -215,13 +215,32 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			{
 				door->SetLeftOpen(true);
 				door->SetRightOpen(false);
+				//door->SetCanPassRight(false);
+				//door->SetCanPassLeft(true);
+				//Console::Log("Can't pass right\n");
 			}
 			if (bodyB->GetID() == "right" && door->IsLOpen() == true)
 			{
 				door->SetLeftOpen(false);
 				door->SetRightOpen(true);
+				//door->SetCanPassRight(true);
+				//door->SetCanPassLeft(false);
+				//Console::Log("Can't pass left\n");
 			}
-			
+			if (bodyB->GetID() == "mid")
+			{
+				bodyB->categoryBits = 0;
+				if (door->IsROpen() == true)
+				{
+					door->SetCanPassLeft(true);
+					Console::Log("You can pass left\n");
+				}
+				if (door->IsLOpen() == true)
+				{
+					door->SetCanPassRight(true);
+					Console::Log("You can pass right\n");
+				}
+			}
 		}
 		break;
 	}
@@ -273,8 +292,7 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 
 void WorldListener::OnCollisionExit(Body* bodyA, Body* bodyB, const Vector2 &collisionDirection)
 {
-
-
+	
 }
 
 
@@ -420,12 +438,10 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 			{
 				player->OnHitEnemy(false);
 			}
-
 		}
 
 		break;
 	}
-
 	case CANNON_BIT*PLAYER_BIT:
 	{
 		if (bodyA->categoryBits == CANNON_BIT)
