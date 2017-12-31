@@ -35,7 +35,6 @@ private:
 	//Sound sound;
 	CSound *BrinstarTheme = NULL;
 	CSound *BossKraid = NULL;
-	Sound sound;
 	//Camera
 	Camera cam;
 	//load map
