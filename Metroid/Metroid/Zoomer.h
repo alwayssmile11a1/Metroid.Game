@@ -22,6 +22,7 @@ private:
 	float hitBulletTime;
 	float hitPlayerTime;
 	bool initalDirection;
+	bool outsideOfCamera;
 
 	Vector2 prevCollisionDirection;
 	Vector2 curCollisionDirection;
@@ -50,7 +51,7 @@ public:
 
 	void Render(SpriteBatch *batch);
 
-	void Update(float dt);
+	void Update(float dt, Camera *cam);
 
 	void OnHitBullet();
 

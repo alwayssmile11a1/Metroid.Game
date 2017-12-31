@@ -580,7 +580,7 @@ void PlayScene::Update(float dt)
 	for (int i = 0; i < zoomers.size(); i++)
 	{
 		Zoomer* zoomer = zoomers[i];
-		zoomer->Update(dt);
+		zoomer->Update(dt, &cam);
 		if (zoomer->GetHealth() <= 0)
 		{
 			explosionEffect.SetSize(32, 32);

@@ -113,7 +113,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 			zoomer->SetCurCollisionDirection(CollisionDirection, 0);
-
 		}
 		break;
 
@@ -122,12 +121,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 			zoomer->SetCurCollisionDirection(CollisionDirection, 1);
-
-		}
-		else if (bodyA->categoryBits == RIPPER_BIT)
-		{
-			Ripper* ripper = (Ripper*)bodyA->GetExtra();
-			ripper->ChangeDirection();
 		}
 		break;
 
@@ -136,7 +129,8 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
 			zoomer->OnHitBullet();
-
+			Bullet* bullet = (Bullet*)bodyB->GetExtra();
+			bullet->OnHitEnemy();
 		}
 		else
 		{
@@ -144,6 +138,8 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			{
 				Zoomer* zoomer = (Zoomer*)bodyB->GetExtra();
 				zoomer->OnHitBullet();
+				Bullet* bullet = (Bullet*)bodyA->GetExtra();
+				bullet->OnHitEnemy();
 			}
 		}
 		break;
