@@ -190,7 +190,7 @@ void Player::HandleInput()
 	{
 		if (jumpTime < MAXJUMPTIME) //continue jumping if there is still jumptime
 		{
-			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.6f);
+			mainBody->SetVelocity(mainBody->GetVelocity().x, mainBody->GetVelocity().y + 0.5f);
 			jumpTime += 0.02f;
 		}
 		else

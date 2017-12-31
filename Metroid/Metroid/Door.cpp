@@ -115,7 +115,7 @@ void Door::Render(SpriteBatch *batch)
 
 	if (this->isLOpen == false && this->isROpen==false)
 	{
-		this->bodyMid->categoryBits = DOOR_BIT;
+		this->bodyMid->maskBits = BULLET_BIT | PLAYER_BIT | ZOOMER_BIT;
 	}
 }
 

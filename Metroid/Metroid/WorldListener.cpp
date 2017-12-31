@@ -205,7 +205,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			//}
 			if (bodyB->GetID() == "mid")
 			{
-				bodyB->categoryBits = 0;
+				bodyB->maskBits = ZOOMER_BIT|BULLET_BIT; //collide with zoomer and bullet only (let the player pass by)
 				if (door->IsROpen() == true)
 				{
 					door->SetCanPassLeft(true);
@@ -221,6 +221,15 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			}
 		}
 		break;
+	}
+	case DOOR_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+		}
 	}
 	case HEALTHPILE_BIT*BULLET_BIT:
 	{

@@ -25,7 +25,7 @@ void PlayScene::Create()
 	stateTime = 0;
 
 	//world
-	world.SetGravity(-20);
+	world.SetGravity(-19);
 	world.SetContactListener(&worldListener);
 	world.SetCamera(&cam);
 
