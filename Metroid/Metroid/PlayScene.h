@@ -26,6 +26,7 @@
 #include "Kraid.h"
 #include "Door.h"
 #define PLAYERAPPEARINGTIME 3
+enum SoundTheme { Brinstar, KraidTheme, MotherBrainTheme};
 
 class PlayScene: public Scene
 {
@@ -35,6 +36,8 @@ private:
 	//Sound sound;
 	CSound *BrinstarTheme = NULL;
 	CSound *BossKraid = NULL;
+	CSound *BossMotherBrain = NULL;
+	int flagsound;
 	//Camera
 	Camera cam;
 	//load map

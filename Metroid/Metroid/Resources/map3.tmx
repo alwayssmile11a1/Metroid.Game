@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="607">
+<map version="1.0" tiledversion="2017.11.22" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="607">
  <tileset firstgid="1" name="metroidTileMap" tilewidth="32" tileheight="32" tilecount="48" columns="8">
   <image source="metroidTileMap2.png" width="258" height="193"/>
  </tileset>
@@ -606,6 +606,6 @@
   <object id="654" x="2624" y="7392" width="160" height="128"/>
  </objectgroup>
  <objectgroup name="Player">
-  <object id="605" x="5172" y="1666" width="32" height="32"/>
+  <object id="605" x="2950.06" y="7898.73" width="32" height="32"/>
  </objectgroup>
 </map>

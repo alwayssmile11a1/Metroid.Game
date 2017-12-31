@@ -155,13 +155,13 @@ void Player::Create(World *world, float x, float y)
 
 
 
-	//Iteam Acquisition Sound
-	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
+	//Sound
 	jump = Sound::LoadSound("Resources/SoundEffect/Jump.wav");
 	move = Sound::LoadSound("Resources/SoundEffect/Move.wav");
 	appearance =Sound::LoadSound("Resources/SoundEffect/Appearance.wav");
 	fire=Sound::LoadSound("Resources/SoundEffect/Fire.wav");
 	death=Sound::LoadSound("Resources/SoundEffect/Death.wav");
+	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 }
 
 

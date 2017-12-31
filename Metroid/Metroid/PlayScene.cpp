@@ -380,9 +380,11 @@ void PlayScene::Create()
 	kraidDoorPassTime = -1;
 	motherBrainDoorPassTime = -1;
 
-	//BrinstarTheme Sound
+	//Load Sounds
+	flagsound = SoundTheme::Brinstar;
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
 	BossKraid = Sound::LoadSound("Resources/SoundEffect/BossKraid.wav");
+	BossMotherBrain = Sound::LoadSound("Resources/SoundEffect/MotherBrain.wav");
 
 }
 
@@ -676,9 +678,7 @@ void PlayScene::Update(float dt)
 			{
 				kraidDoor->SetCanPassLeft(false);
 				kraidDoorPassTime = -1;
-				
-				Sound::Stop(BossKraid);
-				Sound::Loop(BrinstarTheme);
+				flagsound = SoundTheme::Brinstar;
 			}
 		}
 	}
@@ -701,9 +701,7 @@ void PlayScene::Update(float dt)
 		{
 			kraidDoor->SetCanPassRight(false);
 			kraidDoorPassTime = 0; //move kraid
-			
-			Sound::Stop(BrinstarTheme);
-			Sound::Loop(BossKraid);
+			flagsound = SoundTheme::KraidTheme;
 		}
 	}
 
@@ -770,6 +768,7 @@ void PlayScene::Update(float dt)
 			{
 				motherBrainDoor->SetCanPassRight(false);
 				motherBrainDoorPassTime = -1;
+				flagsound = SoundTheme::Brinstar;
 			}
 		}
 
@@ -793,6 +792,7 @@ void PlayScene::Update(float dt)
 		{
 			motherBrainDoor->SetCanPassLeft(false);
 			motherBrainDoorPassTime = 0;  //move mother brain
+			flagsound = SoundTheme::MotherBrainTheme;
 		}
 	}
 
@@ -845,6 +845,7 @@ void PlayScene::Update(float dt)
 			delete healthItem;
 			healthItem = NULL;
 			healthItems.erase(healthItems.begin() + i);
+			//flagsound = SoundTheme::ItemTheme;
 		}
 	}
 
@@ -881,11 +882,25 @@ void PlayScene::Update(float dt)
 	//RENDER
 	Render();
 
-
-	//play sound BrinstarTheme
-	if (BrinstarTheme != NULL)
-	Sound::Loop(BrinstarTheme);
-
+	//play sound
+	if (flagsound == SoundTheme::Brinstar)
+	{
+		Sound::Stop(BossMotherBrain);
+		Sound::Stop(BossKraid);
+		Sound::Loop(BrinstarTheme);
+	}
+	else if (flagsound == SoundTheme::KraidTheme)
+	{
+		Sound::Stop(BossMotherBrain);
+		Sound::Stop(BrinstarTheme);
+		Sound::Loop(BossKraid);
+	}
+	else if (flagsound==SoundTheme::MotherBrainTheme)
+	{
+		Sound::Stop(BrinstarTheme);
+		Sound::Stop(BossKraid);
+		Sound::Loop(BossMotherBrain);
+	}
 }
 
 void PlayScene::Release()
