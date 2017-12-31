@@ -185,24 +185,7 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
 			Console::Log("The player colliding with door\n");
-			//Player *player = (Player*)bodyA->GetExtra();
 			Door *door = (Door*)bodyB->GetExtra();
-			//if (bodyB->GetID() == "left" && door->IsROpen()==true)
-			//{
-			//	door->SetLeftOpen(true);
-			//	door->SetRightOpen(false);
-			//	//door->SetCanPassRight(false);
-			//	//door->SetCanPassLeft(true);
-			//	//Console::Log("Can't pass right\n");
-			//}
-			//if (bodyB->GetID() == "right" && door->IsLOpen() == true)
-			//{
-			//	door->SetLeftOpen(false);
-			//	door->SetRightOpen(true);
-			//	//door->SetCanPassRight(true);
-			//	//door->SetCanPassLeft(false);
-			//	//Console::Log("Can't pass left\n");
-			//}
 			if (bodyB->GetID() == "mid")
 			{
 				bodyB->maskBits = ZOOMER_BIT|BULLET_BIT; //collide with zoomer and bullet only (let the player pass by)
@@ -511,12 +494,10 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 			Door *door = (Door*)bodyA->GetExtra();
 			if (bodyA->GetID() == "right")
 			{
-				Console::Log("Shoot right door\n");
 				door->ROnhitBullet();
 			}
 			if (bodyA->GetID() == "left")
 			{
-				Console::Log("Shoot left door\n");
 				door->LOnhitBullet();
 			}
 

@@ -84,6 +84,7 @@ void Cannon::Create(World *world, Texture *texture, Cannon::Type type, int rando
 	isBulletDestroyed = true;
 	this->world = world;
 	lastShot = 0;
+	stateTime = -1;
 
 	TexturePacker p = TexturePacker(texture, "Resources/bosses_packer.xml");
 
@@ -155,6 +156,12 @@ void Cannon::Render(SpriteBatch *batch)
 	bulletExplosionEffect.Render(batch);
 }
 
+void Cannon::Destroy()
+{
+	world->DestroyBody(body);
+	world->DestroyBody(cannonBullet.body);
+}
+
 void Cannon::Update(float dt)
 {
 	float currentTime = GetTickCount() / 1000.0f;
@@ -186,6 +193,21 @@ void Cannon::Update(float dt)
 
 		}
 
+	}
+
+	if (isBulletDestroyed == false)
+	{
+		stateTime += dt;
+		if (stateTime > MAXBULLETLIVETIME)
+		{
+			stateTime = -1;
+			isBulletDestroyed = true;
+		}
+
+	}
+	else
+	{
+		stateTime = -1;
 	}
 
 
