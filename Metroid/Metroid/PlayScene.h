@@ -25,7 +25,6 @@
 #include "CircleCannon.h"
 #include "Kraid.h"
 #include "Door.h"
-
 #define PLAYERAPPEARINGTIME 3
 
 class PlayScene: public Scene
@@ -35,8 +34,8 @@ private:
 	float stateTime;
 	//Sound sound;
 	CSound *BrinstarTheme = NULL;
-	//CSound *Jump = NULL;
-
+	CSound *BossKraid = NULL;
+	Sound sound;
 	//Camera
 	Camera cam;
 	//load map

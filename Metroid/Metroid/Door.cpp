@@ -26,7 +26,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefRight.bodyType = Body::BodyType::Kinematic;
 	bodyDefRight.position.Set(x+40, y-3);
 	bodyDefRight.size.Set(20, 95);
-	bodyDefRight.isSensor = true;
+	//bodyDefRight.isSensor = true;
 	bodyRight = world->CreateBody(bodyDefRight);
 	bodyRight->categoryBits = DOOR_BIT;
 	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT;
@@ -44,7 +44,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefLeft.bodyType = Body::BodyType::Kinematic;
 	bodyDefLeft.position.Set(x - 40, y - 3);
 	bodyDefLeft.size.Set(20, 95);
-	bodyDefLeft.isSensor = true;
+	//bodyDefLeft.isSensor = true;
 	bodyLeft = world->CreateBody(bodyDefLeft);
 	bodyLeft->categoryBits = DOOR_BIT;
 	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT;

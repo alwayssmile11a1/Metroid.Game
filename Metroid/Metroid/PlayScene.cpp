@@ -382,6 +382,7 @@ void PlayScene::Create()
 
 	//BrinstarTheme Sound
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
+	BossKraid = Sound::LoadSound("Resources/SoundEffect/BossKraid.wav");
 
 }
 
@@ -572,7 +573,6 @@ void PlayScene::Update(float dt)
 			delete skree;
 			skree = NULL;
 			skrees.erase(skrees.begin() + i);
-
 		}
 	}
 
@@ -676,6 +676,9 @@ void PlayScene::Update(float dt)
 			{
 				kraidDoor->SetCanPassLeft(false);
 				kraidDoorPassTime = -1;
+				
+				Sound::Stop(BossKraid);
+				Sound::Loop(BrinstarTheme);
 			}
 		}
 	}
@@ -698,6 +701,9 @@ void PlayScene::Update(float dt)
 		{
 			kraidDoor->SetCanPassRight(false);
 			kraidDoorPassTime = 0; //move kraid
+			
+			Sound::Stop(BrinstarTheme);
+			Sound::Loop(BossKraid);
 		}
 	}
 
@@ -860,6 +866,7 @@ void PlayScene::Update(float dt)
 
 
 	//play sound BrinstarTheme
+	if (BrinstarTheme != NULL)
 	Sound::Loop(BrinstarTheme);
 
 }
