@@ -710,7 +710,7 @@ void SpaceDivisionQuadTree::LoadObjectsInViewport(const RECT &viewport, SDQNode*
 			for (std::vector<SDQObject>::iterator it = sdqNode->sdqObjects.begin(); it != sdqNode->sdqObjects.end(); ++it)
 			{
 				Body *body = it->body;
-				if (it->body != NULL)
+				if (it->body != NULL && it->body->categoryBits!=0)
 				{
 					if (!loadBody) continue;
 
