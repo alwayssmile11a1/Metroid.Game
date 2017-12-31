@@ -2,7 +2,7 @@
 
 #define USESDQUADTREEFORWORLD 1
 
-#define RENDERDEBUGBOX 0
+#define RENDERDEBUGBOX 1
 
 PlayScene::PlayScene()
 {
@@ -62,13 +62,25 @@ void PlayScene::Create()
 
 	//Doors
 	doorTexture = Texture("Resources/spriteobjects.png");
-	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("Door")->GetRects();
+	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
 	{
 		Door *door = new Door();
 		door->Create(&world, &doorTexture, rect->x, rect->y);
 		doors.push_back(door);
 	}
+
+	//Kraid Door
+	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
+	kraidDoor = new Door();
+	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
+
+	//Mother Brain Door
+	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	motherBrainDoor = new Door();
+	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
+
+
 
 	//--------------------------ENEMIES-------------------------------
 	enemiesTexture = Texture("Resources/enemies.png");
@@ -213,13 +225,23 @@ void PlayScene::Create()
 
 	//Doors
 	doorTexture = Texture("Resources/spriteobjects.png");
-	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("Door")->GetRects();
+	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
 	{
 		Door *door = new Door();
 		door->Create(&world, &doorTexture, rect->x, rect->y);
 		doors.push_back(door);
 	}
+
+	//Kraid Door
+	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
+	kraidDoor = new Door();
+	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
+
+	//Mother Brain Door
+	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	motherBrainDoor = new Door();
+	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
 
 	//--------------------------ENEMIES-------------------------------
 	enemiesTexture = Texture("Resources/enemies.png");
@@ -354,7 +376,9 @@ void PlayScene::Create()
 
 
 	//passTime
-	passTime = 0;
+	passTime = -1;
+	kraidDoorPassTime = -1;
+	motherBrainDoorPassTime = -1;
 
 	//BrinstarTheme Sound
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
@@ -363,8 +387,11 @@ void PlayScene::Create()
 
 void PlayScene::HandlePhysics(float dt)
 {
-	//handle input of player
-	player.HandleInput();
+	if (passTime < 1 && kraidDoorPassTime < 1 && motherBrainDoorPassTime < 1)
+	{
+		//handle input of player
+		player.HandleInput();
+	}
 	
 	//handle physics skrees
 	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
@@ -386,7 +413,10 @@ void PlayScene::HandlePhysics(float dt)
 
 	if (kraid != NULL)
 	{
-		kraid->HandlePhysics();
+		if (kraidDoorPassTime == 0)
+		{
+			kraid->HandlePhysics();
+		}
 	}
 
 
@@ -409,6 +439,8 @@ void  PlayScene::Render()
 	{
 		(*it)->Render(batch);
 	}
+	kraidDoor->Render(batch);
+	motherBrainDoor->Render(batch);
 
 	//render skrees
 	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
@@ -508,17 +540,25 @@ void PlayScene::Update(float dt)
 	}
 
 	HandlePhysics(dt);
-	if(passTime==0)
+
+	if (passTime < 1 && kraidDoorPassTime < 1 && motherBrainDoorPassTime < 1)
+	{
 		player.Update(dt);
+	}
+	else
+	{
+		player.SetPosition(player.GetMainBody()->GetPosition().x, player.GetMainBody()->GetPosition().y);
+	}
+	
 
 	//update skrees
-	for (int i= 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
+	for (int i = 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
 	{
 		Skree* skree = skrees[i];
 		skree->Update(dt);
 		if (skree->IsDead())
 		{
-			if (skree->GetHealth()<=0)
+			if (skree->GetHealth() <= 0)
 			{
 				explosionEffect.SetSize(32, 32);
 				explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
@@ -535,7 +575,7 @@ void PlayScene::Update(float dt)
 
 		}
 	}
-	
+
 	//update zoomers
 	for (int i = 0; i < zoomers.size(); i++)
 	{
@@ -605,55 +645,164 @@ void PlayScene::Update(float dt)
 		}
 	}
 
-	
 
-	//update kraid
-	if (kraid!=NULL )
+
+	//--------------UPDATE KRAID-------------------
+	if (kraid != NULL)
 	{
-		kraid->Update(dt);
-		if (kraid->IsDead())
+		if (kraidDoorPassTime == 0) //only move kraid if enter left door (can pass right door)
 		{
-			explosionEffect.SetSize(64, 64);
-			explosionEffect.SetPosition(kraid->GetPosition().x, kraid->GetPosition().y);
-			explosionEffect.Play();
-			delete kraid;
-			kraid = NULL;
+			kraid->Update(dt);
+			if (kraid->IsDead())
+			{
+				explosionEffect.SetSize(64, 64);
+				explosionEffect.SetPosition(kraid->GetPosition().x, kraid->GetPosition().y);
+				explosionEffect.Play();
+				delete kraid;
+				kraid = NULL;
+			}
 		}
 	}
 
-	//mother brain
+	//update kraid door
+	if (kraid == NULL) //if kraid is dead -> just like normal door
+	{
+		if (kraidDoor->GetCanPassLeft() == true)
+		{
+			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+
+			kraidDoorPassTime += 2;
+			if (kraidDoorPassTime > 60)
+			{
+				kraidDoor->SetCanPassLeft(false);
+				kraidDoorPassTime = -1;
+			}
+		}
+	}
+	else
+	{
+		//if we are fighting kraid, don't open this door until the kraid is dead
+		kraidDoor->SetCanPassLeft(false);
+		if (kraidDoorPassTime == 0)
+		{
+			kraidDoor->SetRightOpen(false);
+		}
+	}
+
+	if (kraidDoor->GetCanPassRight() == true)
+	{
+		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+
+		kraidDoorPassTime += 2;
+		if (kraidDoorPassTime > 60)
+		{
+			kraidDoor->SetCanPassRight(false);
+			kraidDoorPassTime = 0; //move kraid
+		}
+	}
+
+
+	//-------------UPDATE MOTHER BRAIN-------------------
 	if (motherBrain != NULL)
 	{
-		motherBrain->Update(dt);
-		if (motherBrain->IsDead())
+		if (motherBrainDoorPassTime == 0)
 		{
-			explosionEffect.SetSize(64, 64);
-			explosionEffect.SetPosition(motherBrain->GetPosition().x, motherBrain->GetPosition().y);
-			explosionEffect.Play();
-			delete motherBrain;
-			motherBrain = NULL;
-		}
+			motherBrain->Update(dt);
+			if (motherBrain->IsDead())
+			{
+				explosionEffect.SetSize(64, 64);
+				explosionEffect.SetPosition(motherBrain->GetPosition().x, motherBrain->GetPosition().y);
+				explosionEffect.Play();
+				delete motherBrain;
+				motherBrain = NULL;
+			}
 
-		//update cannons
-		for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-		{
-			(*it)->Update(dt);
-		}
-		//update circle cannons
-		for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-		{
-			(*it)->Update(dt);
-		}
+			//update cannons
+			for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+			{
+				(*it)->Update(dt);
+			}
+			//update circle cannons
+			for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+			{
+				(*it)->Update(dt);
+			}
 
-		//update healthPiles
-		for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
-		{
-			(*it)->Update(dt);
+			//update healthPiles
+			for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+			{
+				(*it)->Update(dt);
+			}
 		}
+	}
 
+	//update kraid door
+	if (motherBrain == NULL) //if mother brain is dead -> just like normal door
+	{
+		if (motherBrainDoor->GetCanPassLeft() == true)
+		{
+			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+
+			motherBrainDoorPassTime += 2;
+			if (kraidDoorPassTime > 60)
+			{
+				motherBrainDoor->SetCanPassLeft(false);
+				motherBrainDoorPassTime = -1;
+			}
+		}
+	}
+	else
+	{
+		//if we are fighting mother brain, don't open this door until the kraid is dead
+		motherBrainDoor->SetCanPassLeft(false);
+		if (motherBrainDoorPassTime == 0)
+		{
+			motherBrainDoor->SetRightOpen(false);
+		}
+	}
+
+	if (motherBrainDoor->GetCanPassRight() == true)
+	{
+		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+
+		motherBrainDoorPassTime += 2;
+		if (motherBrainDoorPassTime > 60)
+		{
+			motherBrainDoor->SetCanPassRight(false);
+			motherBrainDoorPassTime = 0; //move mother brain
+		}
 	}
 
 
+	//update other doors
+	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
+	{
+		if ((*it)->GetCanPassLeft() == true)
+		{
+			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+			//cam.SetPosition(cam.GetPosition().x - 10, cam.GetPosition().y);
+			//player.SetPosition(player.GetPosition().x - 4, player.GetPosition().y);
+			passTime += 2;
+			if (passTime > 50)
+			{
+				(*it)->SetCanPassLeft(false);
+				passTime = -1;
+			}
+		}
+
+		if ((*it)->GetCanPassRight() == true)
+		{
+			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+			//cam.SetPosition(cam.GetPosition().x + 10, cam.GetPosition().y);
+			//player.SetPosition(player.GetPosition().x + 4, player.GetPosition().y);
+			passTime += 2;
+			if (passTime > 50)
+			{
+				(*it)->SetCanPassRight(false);
+				passTime = -1;
+			}
+		}
+	}
 
 
 	//update effect
@@ -664,7 +813,7 @@ void PlayScene::Update(float dt)
 	maruMariItem.Update(dt);
 	bombItem.Update(dt);
 
-	for (int i =0; i< healthItems.size(); i++)
+	for (int i = 0; i < healthItems.size(); i++)
 	{
 		HealthItem* healthItem = healthItems[i];
 		healthItem->Update(dt);
@@ -675,7 +824,8 @@ void PlayScene::Update(float dt)
 			healthItems.erase(healthItems.begin() + i);
 		}
 	}
-	
+
+
 
 	//update camera
 	if (player.GetPosition().y > cam.GetPosition().y + 150)
@@ -689,8 +839,8 @@ void PlayScene::Update(float dt)
 			cam.SetPosition(cam.GetPosition().x, player.GetPosition().y + 150);
 		}
 	}
-	if (passTime == 0)
-		cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
+
+	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
 
 	//update Label
 	if (player.GetHealth() < 0)
@@ -705,36 +855,6 @@ void PlayScene::Update(float dt)
 	playerHealthLabel.SetPosition(cam.GetPosition().x - 250, cam.GetPosition().y + 200);
 
 
-	//update doors
-	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
-	{
-		(*it)->Update(dt);
-		if ((*it)->GetCanPassLeft() == true)
-		{
-			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
-			cam.SetPosition(cam.GetPosition().x - 10, cam.GetPosition().y);
-			player.SetPosition(player.GetPosition().x-4,player.GetPosition().y);
-			passTime++;
-			if (passTime > 25)
-			{
-				(*it)->SetCanPassLeft(false);
-				passTime = 0;
-			}
-		}
-
-		if ((*it)->GetCanPassRight() == true)
-		{
-			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
-			cam.SetPosition(cam.GetPosition().x + 10, cam.GetPosition().y);
-			player.SetPosition(player.GetPosition().x + 4, player.GetPosition().y);
-			passTime++;
-			if (passTime > 25)
-			{
-				(*it)->SetCanPassRight(false);
-				passTime = 0;
-			}
-		}
-	}
 	//RENDER
 	Render();
 
@@ -796,6 +916,10 @@ void PlayScene::Release()
 		delete *it;
 		*it = NULL;
 	}
+
+	delete kraidDoor;
+
+	delete motherBrainDoor;
 
 	font.Release();
 }

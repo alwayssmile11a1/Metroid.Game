@@ -23,13 +23,13 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	right.SetPosition(x + 40, y - 3);
 	//setup bodyRight
 	BodyDef bodyDefRight;
-	bodyDefRight.bodyType = Body::BodyType::Static;
+	bodyDefRight.bodyType = Body::BodyType::Kinematic;
 	bodyDefRight.position.Set(x+40, y-3);
 	bodyDefRight.size.Set(20, 95);
-	//bodyDefRight.isSensor = true;
+	bodyDefRight.isSensor = true;
 	bodyRight = world->CreateBody(bodyDefRight);
 	bodyRight->categoryBits = DOOR_BIT;
-	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT|ZOOMER_BIT|KRAID_BIT;
+	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT;
 	bodyRight->SetID("right");
 	bodyRight->PutExtra(this);
 
@@ -41,13 +41,13 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	left.Flip(true, false);
 	//setup bodyLeft
 	BodyDef bodyDefLeft;
-	bodyDefLeft.bodyType = Body::BodyType::Static;
+	bodyDefLeft.bodyType = Body::BodyType::Kinematic;
 	bodyDefLeft.position.Set(x - 40, y - 3);
 	bodyDefLeft.size.Set(20, 95);
-	//bodyDefLeft.isSensor = true;
+	bodyDefLeft.isSensor = true;
 	bodyLeft = world->CreateBody(bodyDefLeft);
 	bodyLeft->categoryBits = DOOR_BIT;
-	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT|ZOOMER_BIT|KRAID_BIT;
+	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT;
 	bodyLeft->SetID("left");
 	bodyLeft->PutExtra(this);
 
@@ -57,11 +57,11 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	BodyDef bodyDefMid;
 	bodyDefMid.bodyType = Body::BodyType::Static;
 	bodyDefMid.position.Set(x, y);
-	bodyDefMid.size.Set(20, 95);
+	bodyDefMid.size.Set(2*32, 3*32);
 	//bodyDefMid.isSensor = true;
 	bodyMid = world->CreateBody(bodyDefMid);
 	bodyMid->categoryBits = DOOR_BIT;
-	bodyMid->maskBits = BULLET_BIT | PLAYER_BIT;
+	bodyMid->maskBits = BULLET_BIT | PLAYER_BIT | ZOOMER_BIT;
 	bodyMid->SetID("mid");
 	bodyMid->PutExtra(this);
 
@@ -140,7 +140,7 @@ void Door::SetLeftOpen(bool state)
 	this->isLOpen = state;
 	if (state == false)
 		this->bodyLeft->categoryBits = DOOR_BIT;
-	Sound::Play(this->OpenNClose);
+	//Sound::Play(this->OpenNClose);
 }
 
 void Door::SetRightOpen(bool state)
@@ -148,7 +148,7 @@ void Door::SetRightOpen(bool state)
 	this->isROpen = state;
 	if (state == false)
 		this->bodyRight->categoryBits = DOOR_BIT;
-	Sound::Play(this->OpenNClose);
+	//Sound::Play(this->OpenNClose);
 }
 
 bool Door::IsROpen()

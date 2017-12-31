@@ -62,6 +62,10 @@ private:
 	//Door
 	Texture doorTexture;
 	std::vector<Door*> doors;
+
+	Door* kraidDoor;
+	Door* motherBrainDoor;
+
 	//enemies
 	Texture enemiesTexture;
 
@@ -96,7 +100,11 @@ private:
 	ExplosionEffect explosionEffect;
 
 	float passTime; // the time the player need to pass the door
- 
+	
+	float kraidDoorPassTime; 
+	float motherBrainDoorPassTime;
+
+
 public:
 	PlayScene();
 	~PlayScene();

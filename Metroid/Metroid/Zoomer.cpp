@@ -30,7 +30,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, float x, float y, bool
 	bodyDef.size.Set(25, 25);
 	body = world->CreateBody(bodyDef);
 	body->categoryBits = ZOOMER_BIT;
-	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT| DOOR_BIT;
 	body->PutExtra(this);
 
 	prevCollisionDirection.x = NOT_COLLIDED;
@@ -76,7 +76,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, Body* body, bool Direc
 	body->SetBodyType(Body::BodyType::Kinematic);
 	body->SetSize(25, 25);
 	body->categoryBits = ZOOMER_BIT;
-	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT | BREAKABLEPLATFORM_BIT|DOOR_BIT;
 	body->PutExtra(this);
 
 	prevCollisionDirection.x = NOT_COLLIDED;

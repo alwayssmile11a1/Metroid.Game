@@ -155,6 +155,10 @@ void QuadTree::Insert(Body *body)
 					if (getIndexNotFitted(_SubQuadTrees[x], _ListBodies[i]))
 						_SubQuadTrees[x]->Insert(_ListBodies[i]);
 				}
+
+				_ListBodies.erase(_ListBodies.begin() + i);
+				i--;
+
 			}
 		}
 	}
