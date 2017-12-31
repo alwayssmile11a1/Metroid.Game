@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="604">
+<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="607">
  <tileset firstgid="1" name="metroidTileMap" tilewidth="32" tileheight="32" tilecount="48" columns="8">
   <image source="metroidTileMap2.png" width="258" height="193"/>
  </tileset>
@@ -372,7 +372,7 @@
   <object id="139" x="5568" y="0" width="64" height="2592"/>
   <object id="140" x="5120" y="0" width="448" height="64"/>
   <object id="141" x="5090" y="320" width="94" height="1312"/>
-  <object id="142" x="5088" y="1728" width="96" height="4064"/>
+  <object id="142" x="5088" y="1765" width="96" height="4027"/>
   <object id="204" x="2848" y="5856" width="32" height="32"/>
   <object id="205" x="2688" y="5984" width="64" height="32"/>
   <object id="206" x="2880" y="5984" width="64" height="32"/>
@@ -441,7 +441,6 @@
   <object id="348" x="5184" y="1984" width="96" height="32"/>
   <object id="349" x="5312" y="1824" width="96" height="32"/>
   <object id="350" x="5504" y="1760" width="64" height="32"/>
-  <object id="352" x="5184" y="1728" width="96" height="32"/>
   <object id="353" x="5344" y="1600" width="128" height="32"/>
   <object id="354" x="5248" y="1472" width="96" height="32"/>
   <object id="355" x="5312" y="1344" width="128" height="32"/>
@@ -477,7 +476,7 @@
   <object id="421" x="4224" y="5856" width="256" height="320"/>
   <object id="424" x="3617" y="1888" width="1471" height="64"/>
   <object id="425" x="3584" y="1472" width="1504" height="64"/>
-  <object id="426" x="4832" y="1728" width="256" height="32"/>
+  <object id="426" x="4832" y="1728" width="447" height="32"/>
   <object id="427" x="4928" y="1760" width="32" height="128"/>
   <object id="428" x="4640" y="1760" width="32" height="128"/>
   <object id="432" x="4640" y="1536" width="32" height="160"/>
@@ -607,6 +606,6 @@
   <object id="654" x="2624" y="7392" width="160" height="128"/>
  </objectgroup>
  <objectgroup name="Player">
-  <object id="472" x="2936.12" y="7896.85" width="32" height="64"/>
+  <object id="605" x="5172" y="1666" width="32" height="32"/>
  </objectgroup>
 </map>

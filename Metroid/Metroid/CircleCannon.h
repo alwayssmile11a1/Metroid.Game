@@ -37,6 +37,8 @@ public:
 	void Create(World *world, Texture *texture, Player* player, int x, int y);
 
 	void Create(World *world, Texture *texture, Player* player, Body* body);
+	
+	void Destroy();
 
 	void HandlePhysics();
 

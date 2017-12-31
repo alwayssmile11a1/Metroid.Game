@@ -5,6 +5,7 @@
 #include "HanabiEffect.h"
 
 #define CANNOTFIRERATE 1.5
+#define MAXBULLETLIVETIME 1
 
 class CannonBullet: public Sprite
 {
@@ -30,6 +31,8 @@ private:
 	bool isBulletDestroyed;
 	
 	Effect bulletExplosionEffect;
+
+	float stateTime; //
 	
 
 public:
@@ -43,6 +46,8 @@ public:
 	void Render(SpriteBatch *batch);
 
 	void Update(float dt);
+
+	void Destroy();
 
 	void OnHitGround();
 

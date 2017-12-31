@@ -96,6 +96,11 @@ void CircleCannon::Create(World *world, Texture *texture, Player* player, Body* 
 
 }
 
+void CircleCannon::Destroy()
+{
+	world->DestroyBody(cannonBullet.body);
+}
+
 void CircleCannon::HandlePhysics()
 {
 

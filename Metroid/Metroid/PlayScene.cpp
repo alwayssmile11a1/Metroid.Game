@@ -478,25 +478,25 @@ void  PlayScene::Render()
 	if (motherBrain != NULL)
 	{
 		motherBrain->Render(batch);
-	}
-	//render cannons
-	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
 
-	//render circle cannons
-	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
+		//render cannons
+		for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+		{
+			(*it)->Render(batch);
+		}
 
-	//render healthPiles
-	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
+		//render circle cannons
+		for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+		{
+			(*it)->Render(batch);
+		}
 
+		//render healthPiles
+		for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+		{
+			(*it)->Render(batch);
+		}
+	}
 	
 	//draw items
 	batch->Draw(maruMariItem);
@@ -723,59 +723,76 @@ void PlayScene::Update(float dt)
 				motherBrain = NULL;
 			}
 
-			//update cannons
-			for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+			if (motherBrain != NULL)
 			{
-				(*it)->Update(dt);
-			}
-			//update circle cannons
-			for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-			{
-				(*it)->Update(dt);
-			}
+				//update cannons
+				for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+				{
+					(*it)->Update(dt);
+				}
+				//update circle cannons
+				for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+				{
+					(*it)->Update(dt);
+				}
 
-			//update healthPiles
-			for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+				//update healthPiles
+				for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+				{
+					(*it)->Update(dt);
+				}
+			}
+			else
 			{
-				(*it)->Update(dt);
+				//update cannons
+				for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+				{
+					(*it)->Destroy();
+				}
+				//update circle cannons
+				for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+				{
+					(*it)->Destroy();
+				}
 			}
 		}
 	}
 
-	//update kraid door
+	//update mother brain door
 	if (motherBrain == NULL) //if mother brain is dead -> just like normal door
 	{
-		if (motherBrainDoor->GetCanPassLeft() == true)
+		if (motherBrainDoor->GetCanPassRight() == true)
 		{
-			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
 
 			motherBrainDoorPassTime += 2;
-			if (kraidDoorPassTime > 60)
+			if (motherBrainDoorPassTime > 60)
 			{
-				motherBrainDoor->SetCanPassLeft(false);
+				motherBrainDoor->SetCanPassRight(false);
 				motherBrainDoorPassTime = -1;
 			}
 		}
+
 	}
 	else
 	{
 		//if we are fighting mother brain, don't open this door until the kraid is dead
-		motherBrainDoor->SetCanPassLeft(false);
+		motherBrainDoor->SetCanPassRight(false);
 		if (motherBrainDoorPassTime == 0)
 		{
-			motherBrainDoor->SetRightOpen(false);
+			motherBrainDoor->SetLeftOpen(false);
 		}
 	}
 
-	if (motherBrainDoor->GetCanPassRight() == true)
+	if (motherBrainDoor->GetCanPassLeft() == true)
 	{
-		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+		player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
 
 		motherBrainDoorPassTime += 2;
 		if (motherBrainDoorPassTime > 60)
 		{
-			motherBrainDoor->SetCanPassRight(false);
-			motherBrainDoorPassTime = 0; //move mother brain
+			motherBrainDoor->SetCanPassLeft(false);
+			motherBrainDoorPassTime = 0;  //move mother brain
 		}
 	}
 
