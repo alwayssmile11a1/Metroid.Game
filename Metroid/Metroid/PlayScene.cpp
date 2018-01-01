@@ -30,7 +30,6 @@ void PlayScene::Create()
 	world.SetCamera(&cam);
 
 
-
 #if USESDQUADTREEFORWORLD
 
 	sdQuadTree.Load("Resources/map3SDQuadTree.xml", "Resources/map3.tmx");
