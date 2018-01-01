@@ -105,6 +105,7 @@ void Zoomer::Create(World *world, Texture *zoomerTexture, Body* body, bool Direc
 	cooldownAfterCollisionChange = 3;
 	health = 2;
 	hitBulletTime = -1;
+	prevSource = -1;
 }
 
 ////void Zoomer::HandlePhysics()
@@ -215,8 +216,8 @@ void Zoomer::SetCurCollisionDirection(Vector2 collisionDirection, int source)
 			break;
 
 		case 2:
-			prevSource = 1;
-			cooldownAfterCollisionChange = 3;
+			prevSource = 2;
+			cooldownAfterCollisionChange = 2;
 			break;
 		}
 	}
@@ -332,6 +333,10 @@ void Zoomer::StickToGround()
 			body->SetVelocity(prevVelocity.x, prevVelocity.y);
 			if (cooldownAfterCollisionChange > 0)
 				cooldownAfterCollisionChange--;
+			if (cooldownAfterCollisionChange == 0 && prevSource == 2)
+			{
+				health = -1;
+			}
 			prevSource = -1;
 		}
 	}

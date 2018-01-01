@@ -247,7 +247,7 @@ void  WorldListener::OnColliding(Body* bodyA, Body* bodyB, const Vector2 &collis
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
 			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
-			zoomer->SetCurCollisionDirection(collisionDirection, 1);
+			zoomer->SetCurCollisionDirection(collisionDirection, 2);
 
 		}
 		break;
