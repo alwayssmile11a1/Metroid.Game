@@ -60,6 +60,51 @@ void Rio::Create(World *world, Texture *rioTexture, float x, float y)
 	body->PutExtra(this);
 }
 
+//use for quadtree
+void Rio::Create(World *world, Texture *rioTexture, Body* body)
+{
+	isHitRoof = true;
+	isHitGround = false;
+	isHitLeft = false;
+	isHitRight = false;
+	jumpCheck = true;
+	health = 4;
+	phase1 = true;
+	phase2 = true;
+	right = true;
+	still = false;
+	delayTime = 0.5;
+	delayTimeDuringGame = 0;
+
+	hitBulletTime = -1;
+
+	startVelo1 = Vector2(2, -6);
+	startVelo2 = Vector2(-2, -6);
+	deacceleration = (float)0.05;
+
+	midVelo1 = Vector2(2, (float)0.05);
+	midVelo2 = Vector2(-2, (float)0.05);
+	acceleration = (float)0.5;
+
+	this->world = world;
+
+	TexturePacker p = TexturePacker(rioTexture, "Resources/enemies_packer.xml");
+
+	rioAnimation.AddRegion(p.GetRegion("rio"));
+	rioAnimation.SetFrameInterval((float)0.04);
+
+	SetRegion(*rioAnimation.GetKeyAnimation());
+	SetSize(45, 40);
+	SetPosition(body->GetPosition().x, body->GetPosition().y);
+
+	//setup body
+	this->body = body;
+	body->SetBodyType( Body::BodyType::Kinematic);
+	body->SetSize(45, 40);
+	body->categoryBits = RIO_BIT;
+	body->maskBits = PLAYER_BIT | PLATFORM_BIT | BULLET_BIT;
+	body->PutExtra(this);
+}
 
 void Rio::HandlePhysics(Player *player)
 {

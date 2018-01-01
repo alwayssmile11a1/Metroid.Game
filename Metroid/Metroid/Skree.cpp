@@ -94,7 +94,7 @@ void Skree::HandlePhysics(Player* player)
 	{
 		if (abs(player->GetPosition().x - this->GetPosition().x) < 100)
 		{
-			body->SetBodyType(Body::BodyType::Dynamic);
+			body->SetBodyType(Body::BodyType::Kinematic);
 			if (player->GetPosition().x - body->GetPosition().x > 0)
 			{
 				body->SetVelocity(2, -4);
@@ -185,7 +185,7 @@ void Skree::Update(float dt)
 					bodyDef.size.Set(6, 7);
 					bodyDef.isSensor = true;
 					skreeBullet.body = world->CreateBody(bodyDef);
-					skreeBullet.body->SetVelocity(3 * cos(45 * i*PI / 180), 3 * sin(45 * i*Pi / 180));
+					skreeBullet.body->SetVelocity(4 * cos(45 * i*PI / 180), 4 * sin(45 * i*Pi / 180));
 					skreeBullet.body->categoryBits = SKREE_BIT;
 					skreeBullet.body->maskBits = PLAYER_BIT;
 					//sprite

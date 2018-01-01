@@ -328,7 +328,7 @@
   <object id="34" x="864" y="5984" width="128" height="128"/>
   <object id="35" x="896" y="6048" width="128" height="128"/>
   <object id="36" x="1184" y="6176" width="224" height="32"/>
-  <object id="41" x="704" y="5792" width="448" height="64"/>
+  <object id="41" x="482" y="5792" width="670" height="64"/>
   <object id="42" x="1024" y="5856" width="32" height="32"/>
   <object id="43" x="2368" y="6048" width="318" height="32"/>
   <object id="45" x="2496" y="5792" width="128.667" height="160"/>
@@ -522,8 +522,8 @@
   <object id="602" x="3040" y="7872" width="64" height="96"/>
  </objectgroup>
  <objectgroup name="Rio">
-  <object id="275" x="3232" y="5856" width="32" height="32"/>
-  <object id="277" x="1536" y="5888" width="32" height="32"/>
+  <object id="275" x="3256" y="5558" width="1498" height="644"/>
+  <object id="277" x="932" y="5432" width="1310" height="774"/>
  </objectgroup>
  <objectgroup name="Ripper">
   <object id="530" x="2754.33" y="7709" width="253.333" height="32"/>

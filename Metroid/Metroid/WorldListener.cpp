@@ -41,20 +41,16 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		break;
 
 	case BULLET_BIT*RIO_BIT:
-		if (bodyA->categoryBits == RIO_BIT)
+		if (bodyA->categoryBits == BULLET_BIT)
 		{
-			Rio* rio = (Rio*)bodyA->GetExtra();
+			Rio* rio = (Rio*)bodyB->GetExtra();
 			rio->OnHitBullet();
 
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+
 		}
-		else
-		{
-			if (bodyB->categoryBits == RIO_BIT)
-			{
-				Rio* rio = (Rio*)bodyB->GetExtra();
-				rio->OnHitBullet();
-			}
-		}
+
 		break;
 
 	case RIO_BIT*PLATFORM_BIT:

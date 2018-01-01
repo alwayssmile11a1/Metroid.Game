@@ -101,7 +101,7 @@ void PlayScene::Create()
 		zoomers.push_back(zoomer);
 	}
 
-	//zoomer
+	//global zoomer
 	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("GlobalZoomer")->GetRects();
 	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
 	{
@@ -111,12 +111,12 @@ void PlayScene::Create()
 		zoomers.push_back(zoomer);
 	}
 
-	//rio
-	std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
+	//rio (Use quadtree)
+	std::vector<Body*> rioBodies = sdQuadTree.GetBodiesGroup("Rio");
+	for (std::vector<Body*>::iterator it = rioBodies.begin(); it != rioBodies.end(); ++it)
 	{
 		Rio *rio = new Rio();
-		rio->Create(&world, &enemiesTexture, rect->x, rect->y);
+		rio->Create(&world, &enemiesTexture, *it);
 
 		rios.push_back(rio);
 	}
@@ -452,12 +452,6 @@ void  PlayScene::Render()
 	kraidDoor->Render(batch);
 	motherBrainDoor->Render(batch);
 
-	//render skrees
-	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
-
 	//render zoomers
 	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
 	{
@@ -519,14 +513,21 @@ void  PlayScene::Render()
 	
 	explosionEffect.Render(batch);
 
+	//render map
+	map->Render(batch);
+
+	//render skrees
+	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	{
+		(*it)->Render(batch);
+	}
+
+
 #if RENDERDEBUGBOX
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
 #endif
-
-	//render map
-	map->Render(batch);
 
 	//end drawing
 	batch->End();

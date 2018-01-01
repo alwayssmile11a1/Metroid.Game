@@ -61,6 +61,9 @@ public:
 	~Rio();
 	void Create(World *world, Texture *rioTexture, float x, float y);
 
+	//use for quadtree
+	void Create(World *world, Texture *rioTexture, Body *body);
+
 	void HandlePhysics(Player *player);
 
 	void Render(SpriteBatch *batch);
