@@ -123,6 +123,15 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			zoomer->SetCurCollisionDirection(CollisionDirection, 1);
 		}
 		break;
+
+	case ZOOMER_BIT*DOOR_BIT:
+		if (bodyA->categoryBits == ZOOMER_BIT)
+		{
+			Zoomer* zoomer = (Zoomer*)bodyA->GetExtra();
+			zoomer->SetCurCollisionDirection(CollisionDirection, 0);
+		}
+		break;
+
 	case BULLET_BIT*ZOOMER_BIT:
 		if (bodyA->categoryBits == ZOOMER_BIT)
 		{
@@ -175,14 +184,56 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 
 		break;
 	}
+	case DOOR_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			Door *door = (Door*)bodyB->GetExtra();
+			if (bodyB->GetID() == "right")
+			{
+				Console::Log("Shoot right door\n");
+				door->ROnhitBullet();
+			}
+			if (bodyB->GetID() == "left")
+			{
+				Console::Log("Shoot left door\n");
+				door->LOnhitBullet();
+			}
+			
+
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+			//bullet->IsDestroyed();
+		}
+		break;
+	}
 	case DOOR_BIT*PLAYER_BIT:
 	{
 		if (bodyA->categoryBits == PLAYER_BIT)
 		{
+			Console::Log("The player colliding with door\n");
+			//Player *player = (Player*)bodyA->GetExtra();
 			Door *door = (Door*)bodyB->GetExtra();
+			if (bodyB->GetID() == "left" && door->IsROpen()==true)
+			{
+				door->SetLeftOpen(true);
+				door->SetRightOpen(false);
+				//door->SetCanPassRight(false);
+				//door->SetCanPassLeft(true);
+				//Console::Log("Can't pass right\n");
+			}
+			if (bodyB->GetID() == "right" && door->IsLOpen() == true)
+			{
+				door->SetLeftOpen(false);
+				door->SetRightOpen(true);
+				//door->SetCanPassRight(true);
+				//door->SetCanPassLeft(false);
+				//Console::Log("Can't pass left\n");
+			}
 			if (bodyB->GetID() == "mid")
 			{
-				bodyB->maskBits = ZOOMER_BIT|BULLET_BIT;
+				bodyB->categoryBits = 0;
 				if (door->IsROpen() == true)
 				{
 					door->SetCanPassLeft(true);
@@ -209,16 +260,6 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 			Bullet* bullet = (Bullet*)bodyA->GetExtra();
 			bullet->OnHitEnemy();
 
-		}
-		break;
-	}
-	case PLATFORM_BIT*BULLET_BIT:
-	{
-		if (bodyA->categoryBits == BULLET_BIT)
-		{
-			//Update Bullet
-			Bullet* bullet = (Bullet*)bodyA->GetExtra();
-			bullet->OnHitEnemy();
 		}
 		break;
 	}
@@ -403,7 +444,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		}
 
 		break;
-	}	
+	}
 	case CANNON_BIT*PLAYER_BIT:
 	{
 		if (bodyA->categoryBits == CANNON_BIT)
@@ -478,30 +519,6 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 
 			break;
 		}
-	}
-	case DOOR_BIT*BULLET_BIT:
-	{
-		if (bodyA->categoryBits == DOOR_BIT)
-		{
-			Door *door = (Door*)bodyA->GetExtra();
-			if (bodyA->GetID() == "right")
-			{
-				Console::Log("Shoot right door\n");
-				door->ROnhitBullet();
-			}
-			if (bodyA->GetID() == "left")
-			{
-				Console::Log("Shoot left door\n");
-				door->LOnhitBullet();
-			}
-
-
-			//Update Bullet
-			Bullet* bullet = (Bullet*)bodyB->GetExtra();
-			bullet->OnHitEnemy();
-			//bullet->IsDestroyed();
-		}
-		break;
 	}
 
 	}

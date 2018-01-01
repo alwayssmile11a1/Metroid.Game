@@ -26,7 +26,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefRight.bodyType = Body::BodyType::Kinematic;
 	bodyDefRight.position.Set(x+40, y-3);
 	bodyDefRight.size.Set(20, 95);
-	bodyDefRight.isSensor = true;
+	//bodyDefRight.isSensor = true;
 	bodyRight = world->CreateBody(bodyDefRight);
 	bodyRight->categoryBits = DOOR_BIT;
 	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT;
@@ -44,7 +44,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefLeft.bodyType = Body::BodyType::Kinematic;
 	bodyDefLeft.position.Set(x - 40, y - 3);
 	bodyDefLeft.size.Set(20, 95);
-	bodyDefLeft.isSensor = true;
+	//bodyDefLeft.isSensor = true;
 	bodyLeft = world->CreateBody(bodyDefLeft);
 	bodyLeft->categoryBits = DOOR_BIT;
 	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT;
@@ -74,69 +74,6 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	pauseTimeR = 0;
 
 	this->OpenNClose=Sound::LoadSound("Resources/SoundEffect/OpenCloseDoor.wav");
-}
-
-void Door::Create(World *world, Texture* doorTexture, Body* body)
-{
-	this->world = world;
-	TexturePacker p = TexturePacker(doorTexture, "Resources/door.xml");
-	doorAnimation.AddRegion(p.GetRegion("door").at(0));
-
-
-	right.SetRegion(*doorAnimation.GetKeyAnimation());
-	right.SetSize(20, 95);
-	right.SetPosition(body->GetPosition().x + 40, body->GetPosition().y - 3);
-	//setup bodyRight
-	BodyDef bodyDefRight;
-	bodyDefRight.bodyType = Body::BodyType::Kinematic;
-	bodyDefRight.position.Set(body->GetPosition().x + 40, body->GetPosition().y - 3);
-	bodyDefRight.size.Set(20, 95);
-	bodyDefRight.isSensor = true;
-	bodyRight = world->CreateBody(bodyDefRight);
-	bodyRight->categoryBits = DOOR_BIT;
-	bodyRight->maskBits = BULLET_BIT | PLAYER_BIT;
-	bodyRight->SetID("right");
-	bodyRight->PutExtra(this);
-
-
-
-	left.SetRegion(*doorAnimation.GetKeyAnimation());
-	left.SetSize(20, 95);
-	left.SetPosition(body->GetPosition().x - 40, body->GetPosition().y - 3);
-	left.Flip(true, false);
-	//setup bodyLeft
-	BodyDef bodyDefLeft;
-	bodyDefLeft.bodyType = Body::BodyType::Kinematic;
-	bodyDefLeft.position.Set(body->GetPosition().x - 40, body->GetPosition().y - 3);
-	bodyDefLeft.size.Set(20, 95);
-	bodyDefLeft.isSensor = true;
-	bodyLeft = world->CreateBody(bodyDefLeft);
-	bodyLeft->categoryBits = DOOR_BIT;
-	bodyLeft->maskBits = BULLET_BIT | PLAYER_BIT;
-	bodyLeft->SetID("left");
-	bodyLeft->PutExtra(this);
-
-
-
-	//setup bodyMid
-	this->bodyMid = body;
-	bodyMid->SetBodyType(Body::BodyType::Static);
-	bodyMid->SetSize(2 * 32, 3 * 32);
-	//bodyDefMid.isSensor = true;
-	bodyMid->categoryBits = DOOR_BIT;
-	bodyMid->maskBits = BULLET_BIT | PLAYER_BIT | ZOOMER_BIT;
-	bodyMid->SetID("mid");
-	bodyMid->PutExtra(this);
-
-
-	isLOpen = false;
-	isROpen = false;
-
-
-	pauseTimeL = 0;
-	pauseTimeR = 0;
-
-	this->OpenNClose = Sound::LoadSound("Resources/SoundEffect/OpenCloseDoor.wav");
 }
 
 void Door::Render(SpriteBatch *batch)

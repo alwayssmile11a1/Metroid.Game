@@ -48,7 +48,7 @@ void Kraid::Create(World *world, Texture *texture,Player*player, int x, int y)
 
 	//setup bullets
 	TextureRegion bulletRegion = p.GetRegion("kraidbullet").front();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		KraidBullet bullet;
 		bullet.SetRegion(bulletRegion);
@@ -350,13 +350,13 @@ void Kraid::Update(float dt)
 		{
 			if (player->GetPosition().x > this->GetPosition().x)
 			{
-				it->body->SetPosition(this->GetPosition().x + this->GetSize().x / 2 + it->GetSize().x / 2 - i * 5, this->GetPosition().y + i * 20);
+				it->body->SetPosition(this->GetPosition().x + this->GetSize().x / 2 + it->GetSize().x / 2 - i * 10, this->GetPosition().y + i * 20);
 				it->Flip(true, false);
 				it->body->SetVelocity(5, 0);
 			}
 			else
 			{
-				it->body->SetPosition(this->GetPosition().x - this->GetSize().x / 2 - it->GetSize().x / 2 + i * 5, this->GetPosition().y + i * 20);
+				it->body->SetPosition(this->GetPosition().x - this->GetSize().x / 2 - it->GetSize().x / 2 + i * 10, this->GetPosition().y + i * 20);
 				it->Flip(false, false);
 				it->body->SetVelocity(-5, 0);
 			}

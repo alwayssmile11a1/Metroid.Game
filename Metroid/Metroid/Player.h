@@ -74,12 +74,13 @@ private:
 	float deadTime;
 
 	//sound
+	CSound *itemAcquisition=NULL;
 	CSound *jump = NULL;
 	CSound *move = NULL;
 	CSound *appearance = NULL;
 	CSound *fire = NULL;
 	CSound *death = NULL;
-	CSound *itemAcquisition = NULL;
+
 
 public:
 	Player();

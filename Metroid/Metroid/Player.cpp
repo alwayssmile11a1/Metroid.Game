@@ -21,15 +21,15 @@ void Player::Create(World *world, float x, float y)
 	isGrounded = true;
 	isLookingup = false;
 	isShooting = false;
-	canRoll = false;
-	canBomb = false;
+	canRoll = true;
+	canBomb = true;
 	isBombing = false;
 
 	lastShot = 0;
 
 	jumpTime = 0;
 
-	health = 30;
+	health = 10000;
 
 	beingHitTime = -1; //not being hit
 
@@ -121,7 +121,7 @@ void Player::Create(World *world, float x, float y)
 	//create foot
 	BodyDef footDef;
 	footDef.bodyType = Body::BodyType::Kinematic;
-	footDef.size.Set(30, 15);
+	footDef.size.Set(28, 15);
 	footDef.isSensor= true;
 	foot = world->CreateBody(footDef);
 	foot->categoryBits = FOOT_BIT;
@@ -155,13 +155,13 @@ void Player::Create(World *world, float x, float y)
 
 
 
-	//Sound
+	//Iteam Acquisition Sound
+	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 	jump = Sound::LoadSound("Resources/SoundEffect/Jump.wav");
 	move = Sound::LoadSound("Resources/SoundEffect/Move.wav");
 	appearance =Sound::LoadSound("Resources/SoundEffect/Appearance.wav");
 	fire=Sound::LoadSound("Resources/SoundEffect/Fire.wav");
 	death=Sound::LoadSound("Resources/SoundEffect/Death.wav");
-	itemAcquisition = Sound::LoadSound("Resources/SoundEffect/ItemAcquisition.wav");
 }
 
 

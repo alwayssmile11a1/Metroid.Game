@@ -4,7 +4,7 @@
 #include "CollisionBit.h"
 #include "Player.h"
 
-#define TURNINGDELAYTIME 1.5
+#define TURNINGDELAYTIME 0.5
 #define KRAIDBULLETLIVETIME 1.5
 #define KRAIDBOOMERANGLIVETIME 1
 #define MAXHITBULLETTIME 0.2
