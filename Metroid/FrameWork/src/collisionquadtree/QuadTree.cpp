@@ -77,6 +77,8 @@ int QuadTree::getIndexFitted(Body *body)
 	Vector2 Position = body->GetPosition();
 	Vector2 Size = body->GetSize();
 
+	Position.Set(Position.x - Size.x / 2, Position.y - Size.y / 2);
+
 	bool bottomQuadrant = (Position.y < horizontalMidpoint && Position.y + Size.y < horizontalMidpoint);
 	bool topQuadrant = (Position.y > horizontalMidpoint);
 	bool leftQuadrant = (Position.x < verticalMidpoint && Position.x + Size.x < verticalMidpoint);
@@ -98,6 +100,8 @@ bool QuadTree::getIndexNotFitted(QuadTree *quadrant, Body *body)
 {
 	Vector2 Position = body->GetPosition();
 	Vector2 Size = body->GetSize();
+
+	Position.Set(Position.x - Size.x / 2, Position.y - Size.y / 2);
 
 	bool CheckX = (Position.x + Size.x > quadrant->_Position.x) && (Position.x < quadrant->_Position.x + quadrant->_Size.x);
 
@@ -147,6 +151,7 @@ void QuadTree::Insert(Body *body)
 			{
 				_SubQuadTrees[index]->Insert(_ListBodies[i]);
 				_ListBodies.erase(_ListBodies.begin() + i);
+				i--;
 			}
 			else
 			{

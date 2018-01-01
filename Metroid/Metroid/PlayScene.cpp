@@ -2,7 +2,7 @@
 
 #define USESDQUADTREEFORWORLD 1
 
-#define RENDERDEBUGBOX 1
+#define RENDERDEBUGBOX 0
 
 PlayScene::PlayScene()
 {
@@ -59,25 +59,23 @@ void PlayScene::Create()
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x, playerRect.y);
 
-	//Doors
+	//Doors (Use QuadTree)
 	doorTexture = Texture("Resources/spriteobjects.png");
-	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
+	std::vector<Body*> doorBodies = sdQuadTree.GetBodiesGroup("NormalDoor");
+	for (std::vector<Body*>::iterator it = doorBodies.begin(); it != doorBodies.end(); ++it)
 	{
 		Door *door = new Door();
-		door->Create(&world, &doorTexture, rect->x, rect->y);
+		door->Create(&world, &doorTexture, *it);
 		doors.push_back(door);
 	}
-
-	//Kraid Door
-	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
+	//Kraid Door (Use QuadTree)
+	Body* kraidDoorBody = sdQuadTree.GetBodiesGroup("KraidDoor").front();
 	kraidDoor = new Door();
-	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
-
-	//Mother Brain Door
-	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	kraidDoor->Create(&world, &doorTexture, kraidDoorBody);
+	//Mother Brain Door (Use QuadTree)
+	Body* motherBrainDoorBody = sdQuadTree.GetBodiesGroup("MotherBrainDoor").front();
 	motherBrainDoor = new Door();
-	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
+	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorBody);
 
 
 
@@ -99,6 +97,16 @@ void PlayScene::Create()
 	{
 		Zoomer *zoomer = new Zoomer();
 		zoomer->Create(&world, &enemiesTexture, *it, true);
+
+		zoomers.push_back(zoomer);
+	}
+
+	//zoomer
+	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("GlobalZoomer")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	{
+		Zoomer *zoomer = new Zoomer();
+		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
 
 		zoomers.push_back(zoomer);
 	}
@@ -379,9 +387,11 @@ void PlayScene::Create()
 	kraidDoorPassTime = -1;
 	motherBrainDoorPassTime = -1;
 
-	//BrinstarTheme Sound
+	//Load Sounds
+	flagsound = SoundTheme::Brinstar;
 	BrinstarTheme = Sound::LoadSound("Resources/SoundEffect/BrinstarTheme.wav");
 	BossKraid = Sound::LoadSound("Resources/SoundEffect/BossKraid.wav");
+	BossMotherBrain = Sound::LoadSound("Resources/SoundEffect/MotherBrain.wav");
 
 }
 
@@ -392,7 +402,7 @@ void PlayScene::HandlePhysics(float dt)
 		//handle input of player
 		player.HandleInput();
 	}
-	
+
 	//handle physics skrees
 	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
 	{
@@ -675,9 +685,7 @@ void PlayScene::Update(float dt)
 			{
 				kraidDoor->SetCanPassLeft(false);
 				kraidDoorPassTime = -1;
-				
-				Sound::Stop(BossKraid);
-				Sound::Loop(BrinstarTheme);
+				flagsound = SoundTheme::Brinstar;
 			}
 		}
 	}
@@ -700,9 +708,7 @@ void PlayScene::Update(float dt)
 		{
 			kraidDoor->SetCanPassRight(false);
 			kraidDoorPassTime = 0; //move kraid
-			
-			Sound::Stop(BrinstarTheme);
-			Sound::Loop(BossKraid);
+			flagsound = SoundTheme::KraidTheme;
 		}
 	}
 
@@ -769,6 +775,7 @@ void PlayScene::Update(float dt)
 			{
 				motherBrainDoor->SetCanPassRight(false);
 				motherBrainDoorPassTime = -1;
+				flagsound = SoundTheme::Brinstar;
 			}
 		}
 
@@ -792,6 +799,7 @@ void PlayScene::Update(float dt)
 		{
 			motherBrainDoor->SetCanPassLeft(false);
 			motherBrainDoorPassTime = 0;  //move mother brain
+			flagsound = SoundTheme::MotherBrainTheme;
 		}
 	}
 
@@ -844,6 +852,7 @@ void PlayScene::Update(float dt)
 			delete healthItem;
 			healthItem = NULL;
 			healthItems.erase(healthItems.begin() + i);
+			//flagsound = SoundTheme::ItemTheme;
 		}
 	}
 
@@ -880,11 +889,25 @@ void PlayScene::Update(float dt)
 	//RENDER
 	Render();
 
-
-	//play sound BrinstarTheme
-	if (BrinstarTheme != NULL)
-	Sound::Loop(BrinstarTheme);
-
+	//play sound
+	if (flagsound == SoundTheme::Brinstar)
+	{
+		Sound::Stop(BossMotherBrain);
+		Sound::Stop(BossKraid);
+		Sound::Loop(BrinstarTheme);
+	}
+	else if (flagsound == SoundTheme::KraidTheme)
+	{
+		Sound::Stop(BossMotherBrain);
+		Sound::Stop(BrinstarTheme);
+		Sound::Loop(BossKraid);
+	}
+	else if (flagsound==SoundTheme::MotherBrainTheme)
+	{
+		Sound::Stop(BrinstarTheme);
+		Sound::Stop(BossKraid);
+		Sound::Loop(BossMotherBrain);
+	}
 }
 
 void PlayScene::Release()
