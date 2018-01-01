@@ -68,11 +68,6 @@ void MotherBrain::Create(World *world, Texture *texture, Body* body)
 	body->categoryBits = MOTHERBRAIN_BIT;
 	body->maskBits = PLAYER_BIT | BULLET_BIT | EXPLOSION_BIT;
 	body->PutExtra(this);
-
-
-
-	//Dead Sound of Mother Brain
-	deadSound = Sound::LoadSound("Resources/SoundEffect/MotherBrainDeath.wav");
 }
 
 void MotherBrain::Render(SpriteBatch *batch)
@@ -87,7 +82,6 @@ void MotherBrain::Update(float dt)
 	if (health <= 0)
 	{
 		world->DestroyBody(body);
-		Sound::Play(deadSound);
 		body = NULL;
 
 	}
