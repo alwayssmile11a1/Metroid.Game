@@ -29,7 +29,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefRight.isSensor = true;
 	bodyRight = world->CreateBody(bodyDefRight);
 	bodyRight->categoryBits = DOOR_BIT;
-	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT;
+	bodyRight->maskBits = BULLET_BIT|PLAYER_BIT | ZOOMER_BIT;
 	bodyRight->SetID("right");
 	bodyRight->PutExtra(this);
 
@@ -47,7 +47,7 @@ void Door::Create(World *world,Texture* doorTexture, int x, int y)
 	bodyDefLeft.isSensor = true;
 	bodyLeft = world->CreateBody(bodyDefLeft);
 	bodyLeft->categoryBits = DOOR_BIT;
-	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT;
+	bodyLeft->maskBits = BULLET_BIT|PLAYER_BIT | ZOOMER_BIT;
 	bodyLeft->SetID("left");
 	bodyLeft->PutExtra(this);
 
