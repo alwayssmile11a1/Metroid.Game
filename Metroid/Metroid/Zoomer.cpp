@@ -339,7 +339,6 @@ void Zoomer::StickToGround()
 
 void Zoomer::OnHitBullet()
 {
-	if (hitBulletTime != -1) return;
 	health--;
 	hitBulletTime = 0;
 	//stop this body a little bit 
