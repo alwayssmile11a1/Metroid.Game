@@ -2,7 +2,7 @@
 #include "HanabiWorld.h"
 #include "HanabiSprite.h"
 #include "CollisionBit.h"
-
+#include "HanabiSound.h"
 
 
 class MotherBrain : public Sprite
@@ -16,7 +16,7 @@ private:
 
 	int health;
 
-
+	CSound *deadSound;
 public:
 	MotherBrain();
 	~MotherBrain();
