@@ -436,7 +436,7 @@ void WorldListener::OnSersorEnter(Body *bodyA, Body *bodyB)
 		}
 
 		break;
-	}
+	}	
 	case CANNON_BIT*PLAYER_BIT:
 	{
 		if (bodyA->categoryBits == CANNON_BIT)
