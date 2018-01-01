@@ -2,7 +2,7 @@
 
 #define USESDQUADTREEFORWORLD 1
 
-#define RENDERDEBUGBOX 1
+#define RENDERDEBUGBOX 0
 
 PlayScene::PlayScene()
 {
@@ -60,25 +60,23 @@ void PlayScene::Create()
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x, playerRect.y);
 
-	//Doors
+	//Doors (Use QuadTree)
 	doorTexture = Texture("Resources/spriteobjects.png");
-	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
+	std::vector<Body*> doorBodies = sdQuadTree.GetBodiesGroup("NormalDoor");
+	for (std::vector<Body*>::iterator it = doorBodies.begin(); it != doorBodies.end(); ++it)
 	{
 		Door *door = new Door();
-		door->Create(&world, &doorTexture, rect->x, rect->y);
+		door->Create(&world, &doorTexture, *it);
 		doors.push_back(door);
 	}
-
-	//Kraid Door
-	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
+	//Kraid Door (Use QuadTree)
+	Body* kraidDoorBody = sdQuadTree.GetBodiesGroup("KraidDoor").front();
 	kraidDoor = new Door();
-	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
-
-	//Mother Brain Door
-	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	kraidDoor->Create(&world, &doorTexture, kraidDoorBody);
+	//Mother Brain Door (Use QuadTree)
+	Body* motherBrainDoorBody = sdQuadTree.GetBodiesGroup("MotherBrainDoor").front();
 	motherBrainDoor = new Door();
-	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
+	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorBody);
 
 
 
@@ -100,6 +98,16 @@ void PlayScene::Create()
 	{
 		Zoomer *zoomer = new Zoomer();
 		zoomer->Create(&world, &enemiesTexture, *it, true);
+
+		zoomers.push_back(zoomer);
+	}
+
+	//zoomer
+	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("GlobalZoomer")->GetRects();
+	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	{
+		Zoomer *zoomer = new Zoomer();
+		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
 
 		zoomers.push_back(zoomer);
 	}
@@ -395,7 +403,7 @@ void PlayScene::HandlePhysics(float dt)
 		//handle input of player
 		player.HandleInput();
 	}
-	
+
 	//handle physics skrees
 	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
 	{

@@ -27,6 +27,8 @@ public:
 	~Door();
 	//Door(World *world, float x, float y, float width, float height);
 	void Create(World *world,Texture* doorTexture, int x, int y);
+	//Use for quadtree
+	void Create(World *world, Texture* doorTexture, Body* body);
 	void Render(SpriteBatch *batch);
 	void Update(float dt);
 	void LOnhitBullet();

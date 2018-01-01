@@ -32,7 +32,7 @@ Bullet::Bullet(World *world, Texture* texture)
 	//create body
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = BULLET_BIT;
-	mainBody->maskBits = SKREE_BIT|ZOOMER_BIT|RIO_BIT|MOTHERBRAIN_BIT| HEALTHPILE_BIT|BREAKABLEPLATFORM_BIT|KRAID_BIT| RIPPER_BIT|DOOR_BIT;
+	mainBody->maskBits = SKREE_BIT|ZOOMER_BIT|RIO_BIT|MOTHERBRAIN_BIT| HEALTHPILE_BIT|BREAKABLEPLATFORM_BIT|KRAID_BIT| RIPPER_BIT|DOOR_BIT|PLATFORM_BIT;
 	mainBody->PutExtra(this);
 	
 }

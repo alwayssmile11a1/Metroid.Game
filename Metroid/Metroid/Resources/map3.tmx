@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="611">
+<map version="1.0" tiledversion="2017.09.13" orientation="orthogonal" renderorder="right-down" width="500" height="257" tilewidth="32" tileheight="32" infinite="0" nextobjectid="631">
  <tileset firstgid="1" name="metroidTileMap" tilewidth="32" tileheight="32" tilecount="48" columns="8">
   <image source="metroidTileMap2.png" width="258" height="193"/>
  </tileset>
@@ -330,7 +330,7 @@
   <object id="36" x="1184" y="6176" width="224" height="32"/>
   <object id="41" x="704" y="5792" width="448" height="64"/>
   <object id="42" x="1024" y="5856" width="32" height="32"/>
-  <object id="43" x="2368" y="6048" width="128" height="32"/>
+  <object id="43" x="2368" y="6048" width="318" height="32"/>
   <object id="45" x="2496" y="5792" width="128.667" height="160"/>
   <object id="47" x="2240" y="5792" width="256" height="64"/>
   <object id="75" x="1376" y="5888" width="32" height="224"/>
@@ -358,11 +358,11 @@
   <object id="107" x="2624" y="6304" width="96" height="32"/>
   <object id="112" x="2624" y="5792" width="2558.67" height="64"/>
   <object id="115" x="3008" y="5856" width="128" height="96"/>
-  <object id="116" x="3008" y="6048" width="62.5" height="1822.33"/>
+  <object id="116" x="3008" y="6080" width="62.5" height="1790.33"/>
   <object id="118" x="3712" y="7712" width="62.6667" height="444"/>
   <object id="120" x="3072" y="7712" width="641.333" height="32"/>
   <object id="126" x="3072" y="7744" width="32" height="128"/>
-  <object id="129" x="3072" y="6048" width="160" height="32"/>
+  <object id="129" x="2946" y="6048" width="286" height="32"/>
   <object id="130" x="3072" y="6080" width="64" height="192"/>
   <object id="131" x="3136" y="6208" width="1922" height="64"/>
   <object id="134" x="4928" y="6048" width="352" height="32"/>
@@ -382,8 +382,8 @@
   <object id="269" x="640" y="6176" width="32" height="32"/>
   <object id="270" x="768" y="6176" width="32" height="32"/>
   <object id="271" x="800" y="6144" width="32" height="64"/>
-  <object id="272" x="2624" y="6048" width="64" height="128"/>
-  <object id="273" x="2496" y="6048" width="128" height="2176"/>
+  <object id="272" x="2624" y="6078" width="64" height="98"/>
+  <object id="273" x="2496" y="6078" width="128" height="2146"/>
   <object id="274" x="5056" y="5856" width="128" height="96"/>
   <object id="285" x="1728" y="5824" width="192" height="32"/>
   <object id="283" x="1472" y="5824" width="192" height="32"/>
@@ -454,7 +454,7 @@
   <object id="365" x="5184" y="544" width="96" height="32"/>
   <object id="366" x="4929" y="288" width="351" height="32"/>
   <object id="367" x="5504" y="320" width="64" height="32"/>
-  <object id="368" x="2944" y="6048" width="64" height="128"/>
+  <object id="368" x="2944" y="6080" width="64" height="96"/>
   <object id="369" x="5056" y="320" width="64" height="128"/>
   <object id="370" x="4096" y="448" width="1023" height="64"/>
   <object id="371" x="5056" y="64" width="128" height="128"/>
@@ -571,16 +571,16 @@
  <objectgroup name="BombItem">
   <object id="209" x="1664" y="6175" width="32" height="32"/>
  </objectgroup>
+ <objectgroup name="GlobalZoomer">
+  <object id="611" x="608" y="6112" width="32" height="32"/>
+  <object id="612" x="2080" y="6176" width="32" height="32"/>
+  <object id="613" x="2368" y="6016" width="32" height="32"/>
+  <object id="616" x="3456" y="6176" width="32" height="32"/>
+  <object id="617" x="3904" y="6176" width="32" height="32"/>
+  <object id="618" x="4928" y="6016" width="32" height="32"/>
+  <object id="620" x="4704" y="6176" width="32" height="32"/>
+ </objectgroup>
  <objectgroup name="Zoomer">
-  <object id="153" x="2367" y="6015" width="32" height="32"/>
-  <object id="154" x="2112" y="6174" width="32" height="32"/>
-  <object id="161" x="608" y="6112" width="32" height="32"/>
-  <object id="185" x="3264" y="6176" width="32" height="32"/>
-  <object id="186" x="3424" y="6176" width="32" height="32"/>
-  <object id="187" x="4128" y="6176" width="32" height="32"/>
-  <object id="188" x="4384" y="6176" width="32" height="32"/>
-  <object id="189" x="4832" y="6176" width="32" height="32"/>
-  <object id="190" x="4960" y="6016" width="32" height="32"/>
   <object id="602" x="1152" y="5602" width="128" height="542"/>
   <object id="603" x="1312" y="5605" width="128" height="539"/>
   <object id="631" x="2720" y="7520" width="192" height="128"/>
@@ -605,8 +605,11 @@
   <object id="652" x="5312" y="4384" width="160" height="128"/>
   <object id="653" x="5312" y="2752" width="192" height="128"/>
   <object id="654" x="2624" y="7392" width="160" height="128"/>
+  <object id="626" x="5312" y="1984" width="160" height="128"/>
+  <object id="627" x="5312" y="1024" width="160" height="128"/>
+  <object id="628" x="5280" y="320" width="160" height="128"/>
  </objectgroup>
  <objectgroup name="Player">
-  <object id="607" x="2944" y="7904" width="64" height="32"/>
+  <object id="629" x="1280" y="6110" width="30" height="50"/>
  </objectgroup>
 </map>
