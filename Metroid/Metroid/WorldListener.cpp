@@ -199,6 +199,16 @@ void WorldListener::OnCollisionEnter(Body* bodyA, Body *bodyB, const Vector2 &Co
 		}
 		break;
 	}
+	case DOOR_BIT*BULLET_BIT:
+	{
+		if (bodyA->categoryBits == BULLET_BIT)
+		{
+			//Update Bullet
+			Bullet* bullet = (Bullet*)bodyA->GetExtra();
+			bullet->OnHitEnemy();
+		}
+		break;
+	}
 	case HEALTHPILE_BIT*BULLET_BIT:
 	{
 		if (bodyA->categoryBits == BULLET_BIT)

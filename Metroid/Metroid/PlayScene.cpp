@@ -68,15 +68,15 @@ void PlayScene::Create()
 		door->Create(&world, &doorTexture, *it);
 		doors.push_back(door);
 	}
-	//Kraid Door (Use QuadTree)
-	Body* kraidDoorBody = sdQuadTree.GetBodiesGroup("KraidDoor").front();
+	//Kraid Door
+	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
 	kraidDoor = new Door();
-	kraidDoor->Create(&world, &doorTexture, kraidDoorBody);
-	//Mother Brain Door (Use QuadTree)
-	Body* motherBrainDoorBody = sdQuadTree.GetBodiesGroup("MotherBrainDoor").front();
-	motherBrainDoor = new Door();
-	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorBody);
+	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
 
+	//Mother Brain Door
+	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	motherBrainDoor = new Door();
+	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
 
 
 	//--------------------------ENEMIES-------------------------------
