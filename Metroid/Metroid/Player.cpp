@@ -105,7 +105,7 @@ void Player::Create(World *world, float x, float y)
 	bodyDef.bodyType = Body::BodyType::Dynamic;
 	bodyDef.linearDrag.Set(10, 1);
 	bodyDef.mass = 2;
-	bodyDef.size.Set(30, 60);
+	bodyDef.size.Set(40, 60);
 	bodyDef.position.Set(x, y);
 	mainBody = world->CreateBody(bodyDef);
 	mainBody->categoryBits = PLAYER_BIT;

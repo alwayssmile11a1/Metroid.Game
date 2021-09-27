@@ -202,7 +202,7 @@ void World::Update(float dt)
 
 			}
 		}
-		else
+		else //DEPRECATED
 		{
 
 			//_QuadTree = new QuadTree(0, Vector2((float)screenWidth, (float)screenHeight), );

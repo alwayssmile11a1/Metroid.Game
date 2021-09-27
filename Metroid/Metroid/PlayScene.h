@@ -25,7 +25,7 @@
 #include "CircleCannon.h"
 #include "Kraid.h"
 #include "Door.h"
-#define PLAYERAPPEARINGTIME 3
+#define PLAYERAPPEARINGTIME 0.1
 enum SoundTheme { Brinstar, KraidTheme, MotherBrainTheme};
 
 class PlayScene: public Scene

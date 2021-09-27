@@ -1,8 +1,8 @@
 #include "PlayScene.h"
 
-#define USESDQUADTREEFORWORLD 1
+#define USESDQUADTREEFORWORLD 0
 
-#define RENDERDEBUGBOX 0
+#define RENDERDEBUGBOX 1
 
 PlayScene::PlayScene()
 {
@@ -27,7 +27,7 @@ void PlayScene::Create()
 	//world
 	world.SetGravity(-19);
 	world.SetContactListener(&worldListener);
-	world.SetCamera(&cam);
+	//world.SetCamera(&cam);
 
 
 #if USESDQUADTREEFORWORLD
@@ -206,9 +206,9 @@ void PlayScene::Create()
 
 #else
 
-	sdQuadTree.Load("Resources/map3_2SDQuadTree.xml", "Resources/map3_2.tmx");
+	//sdQuadTree.Load("Resources/map3_2SDQuadTree.xml", "Resources/map3_2.tmx");
 	//load map
-	mapLoader.AddMap("map1", "Resources/map3_2.tmx", 1);
+	mapLoader.AddMap("map1", "Resources/mariomap1.tmx", 1);
 	map = mapLoader.GetMap("map1");
 
 	//create platform
@@ -218,151 +218,151 @@ void PlayScene::Create()
 		Platform platform(&world, rect->x, rect->y, rect->width, rect->height);
 	}
 
-	//create breakableplatform
-	std::vector<Shape::Rectangle> breakablePlatformRects = map->GetObjectGroup("BreakablePlatform")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = breakablePlatformRects.begin(); rect != breakablePlatformRects.end(); ++rect)
-	{
-		BreakablePlatform* breakablePlatform = new BreakablePlatform(&world, map, rect->x, rect->y, rect->width, rect->height);
-		breakablePlatforms.push_back(breakablePlatform);
-	}
+	////create breakableplatform
+	//std::vector<Shape::Rectangle> breakablePlatformRects = map->GetObjectGroup("BreakablePlatform")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = breakablePlatformRects.begin(); rect != breakablePlatformRects.end(); ++rect)
+	//{
+	//	BreakablePlatform* breakablePlatform = new BreakablePlatform(&world, map, rect->x, rect->y, rect->width, rect->height);
+	//	breakablePlatforms.push_back(breakablePlatform);
+	//}
 
 	//get player position
 	Shape::Rectangle playerRect = map->GetObjectGroup("Player")->GetRects().front();
 	player.Create(&world, playerRect.x, playerRect.y);
 
-	//Doors
-	doorTexture = Texture("Resources/spriteobjects.png");
-	std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
-	{
-		Door *door = new Door();
-		door->Create(&world, &doorTexture, rect->x, rect->y);
-		doors.push_back(door);
-	}
+	////Doors
+	//doorTexture = Texture("Resources/spriteobjects.png");
+	//std::vector<Shape::Rectangle> doorRects = map->GetObjectGroup("NormalDoor")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = doorRects.begin(); rect != doorRects.end(); ++rect)
+	//{
+	//	Door *door = new Door();
+	//	door->Create(&world, &doorTexture, rect->x, rect->y);
+	//	doors.push_back(door);
+	//}
 
-	//Kraid Door
-	Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
-	kraidDoor = new Door();
-	kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
+	////Kraid Door
+	//Shape::Rectangle kraidDoorRect = map->GetObjectGroup("KraidDoor")->GetRects().front();
+	//kraidDoor = new Door();
+	//kraidDoor->Create(&world, &doorTexture, kraidDoorRect.x, kraidDoorRect.y);
 
-	//Mother Brain Door
-	Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
-	motherBrainDoor = new Door();
-	motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
+	////Mother Brain Door
+	//Shape::Rectangle motherBrainDoorRect = map->GetObjectGroup("MotherBrainDoor")->GetRects().front();
+	//motherBrainDoor = new Door();
+	//motherBrainDoor->Create(&world, &doorTexture, motherBrainDoorRect.x, motherBrainDoorRect.y);
 
-	//--------------------------ENEMIES-------------------------------
-	enemiesTexture = Texture("Resources/enemies.png");
+	////--------------------------ENEMIES-------------------------------
+	//enemiesTexture = Texture("Resources/enemies.png");
 
-	//skree
-	std::vector<Shape::Rectangle> skreeRects = map->GetObjectGroup("Skree")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = skreeRects.begin(); rect != skreeRects.end(); ++rect)
-	{
-		Skree *skree = new Skree();
-		skree->Create(&world, &enemiesTexture, rect->x, rect->y);
-		skrees.push_back(skree);
-	}
+	////skree
+	//std::vector<Shape::Rectangle> skreeRects = map->GetObjectGroup("Skree")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = skreeRects.begin(); rect != skreeRects.end(); ++rect)
+	//{
+	//	Skree *skree = new Skree();
+	//	skree->Create(&world, &enemiesTexture, rect->x, rect->y);
+	//	skrees.push_back(skree);
+	//}
 
-	//zoomer
-	std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("Zoomer")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
-	{
-		Zoomer *zoomer = new Zoomer();
-		zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
+	////zoomer
+	//std::vector<Shape::Rectangle> zoomerRects = map->GetObjectGroup("Zoomer")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = zoomerRects.begin(); rect != zoomerRects.end(); ++rect)
+	//{
+	//	Zoomer *zoomer = new Zoomer();
+	//	zoomer->Create(&world, &enemiesTexture, rect->x, rect->y, true);
 
-		zoomers.push_back(zoomer);
-	}
+	//	zoomers.push_back(zoomer);
+	//}
 
-	//rio
-	std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
-	{
-		Rio *rio = new Rio();
-		rio->Create(&world, &enemiesTexture, rect->x, rect->y);
+	////rio
+	//std::vector<Shape::Rectangle> rioRects = map->GetObjectGroup("Rio")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = rioRects.begin(); rect != rioRects.end(); ++rect)
+	//{
+	//	Rio *rio = new Rio();
+	//	rio->Create(&world, &enemiesTexture, rect->x, rect->y);
 
-		rios.push_back(rio);
-	}
+	//	rios.push_back(rio);
+	//}
 
-	//ripper
-	std::vector<Shape::Rectangle> ripperRects = map->GetObjectGroup("Ripper")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = ripperRects.begin(); rect != ripperRects.end(); ++rect)
-	{
-		Ripper *ripper = new Ripper();
-		ripper->Create(&world, &enemiesTexture, rect->x, rect->y);
-		rippers.push_back(ripper);
-	}
-
-
-	//--------------------------BOSSES-------------------------------
-	bossesTexture = Texture("Resources/bosses.png");
-	//Mother Brai
-	Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
-	motherBrain = new MotherBrain();
-	motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
-
-	//Kraid 
-	Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
-	kraid = new Kraid();
-	kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
-
-	//Cannons
-	std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
-	{
-		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, rect->x, rect->y);
-
-		cannons.push_back(cannon);
-	}
-	std::vector<Shape::Rectangle> rightCannonRects = map->GetObjectGroup("RightCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = rightCannonRects.begin(); rect != rightCannonRects.end(); ++rect)
-	{
-		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, rect->x, rect->y);
-
-		cannons.push_back(cannon);
-	}
-	std::vector<Shape::Rectangle> topCannonRects = map->GetObjectGroup("TopCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = topCannonRects.begin(); rect != topCannonRects.end(); ++rect)
-	{
-		Cannon *cannon = new Cannon();
-		cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, rect->x, rect->y);
-
-		cannons.push_back(cannon);
-	}
-
-	//CircleCannons
-	std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
-	{
-		CircleCannon *cannon = new CircleCannon();
-		cannon->Create(&world, &enemiesTexture, &player, rect->x, rect->y);
-
-		circleCannons.push_back(cannon);
-	}
-
-	//HealthPiles
-	std::vector<Shape::Rectangle> healthPileRects = map->GetObjectGroup("HealthPile")->GetRects();
-	for (std::vector<Shape::Rectangle>::iterator rect = healthPileRects.begin(); rect != healthPileRects.end(); ++rect)
-	{
-		HealthPile *healthPile = new HealthPile();
-		healthPile->Create(&world, &bossesTexture, rect->x, rect->y);
-
-		healthPiles.push_back(healthPile);
-	}
+	////ripper
+	//std::vector<Shape::Rectangle> ripperRects = map->GetObjectGroup("Ripper")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = ripperRects.begin(); rect != ripperRects.end(); ++rect)
+	//{
+	//	Ripper *ripper = new Ripper();
+	//	ripper->Create(&world, &enemiesTexture, rect->x, rect->y);
+	//	rippers.push_back(ripper);
+	//}
 
 
+	////--------------------------BOSSES-------------------------------
+	//bossesTexture = Texture("Resources/bosses.png");
+	////Mother Brai
+	//Shape::Rectangle motherBrainRect = map->GetObjectGroup("MotherBrain")->GetRects().front();
+	//motherBrain = new MotherBrain();
+	//motherBrain->Create(&world, &bossesTexture, motherBrainRect.x, motherBrainRect.y);
+
+	////Kraid 
+	//Shape::Rectangle kraidRect = map->GetObjectGroup("Kraid")->GetRects().front();
+	//kraid = new Kraid();
+	//kraid->Create(&world, &bossesTexture, &player, kraidRect.x, kraidRect.y);
+
+	////Cannons
+	//std::vector<Shape::Rectangle> leftCannonRects = map->GetObjectGroup("LeftCannon")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = leftCannonRects.begin(); rect != leftCannonRects.end(); ++rect)
+	//{
+	//	Cannon *cannon = new Cannon();
+	//	cannon->Create(&world, &bossesTexture, Cannon::Type::Left, rand() % 8, rect->x, rect->y);
+
+	//	cannons.push_back(cannon);
+	//}
+	//std::vector<Shape::Rectangle> rightCannonRects = map->GetObjectGroup("RightCannon")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = rightCannonRects.begin(); rect != rightCannonRects.end(); ++rect)
+	//{
+	//	Cannon *cannon = new Cannon();
+	//	cannon->Create(&world, &bossesTexture, Cannon::Type::Right, rand() % 8, rect->x, rect->y);
+
+	//	cannons.push_back(cannon);
+	//}
+	//std::vector<Shape::Rectangle> topCannonRects = map->GetObjectGroup("TopCannon")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = topCannonRects.begin(); rect != topCannonRects.end(); ++rect)
+	//{
+	//	Cannon *cannon = new Cannon();
+	//	cannon->Create(&world, &bossesTexture, Cannon::Type::Top, rand() % 8, rect->x, rect->y);
+
+	//	cannons.push_back(cannon);
+	//}
+
+	////CircleCannons
+	//std::vector<Shape::Rectangle> circleCannonRects = map->GetObjectGroup("CircleCannon")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = circleCannonRects.begin(); rect != circleCannonRects.end(); ++rect)
+	//{
+	//	CircleCannon *cannon = new CircleCannon();
+	//	cannon->Create(&world, &enemiesTexture, &player, rect->x, rect->y);
+
+	//	circleCannons.push_back(cannon);
+	//}
+
+	////HealthPiles
+	//std::vector<Shape::Rectangle> healthPileRects = map->GetObjectGroup("HealthPile")->GetRects();
+	//for (std::vector<Shape::Rectangle>::iterator rect = healthPileRects.begin(); rect != healthPileRects.end(); ++rect)
+	//{
+	//	HealthPile *healthPile = new HealthPile();
+	//	healthPile->Create(&world, &bossesTexture, rect->x, rect->y);
+
+	//	healthPiles.push_back(healthPile);
+	//}
 
 
-	//---------------------------ITEMS------------------------------------
-	itemsTexture = Texture("Resources/items.png");
 
-	//roll ability item
-	Shape::Rectangle rollItemRect = map->GetObjectGroup("MaruMariItem")->GetRects().front();
-	maruMariItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
 
-	//bomb ability item
-	Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
-	bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
+	////---------------------------ITEMS------------------------------------
+	//itemsTexture = Texture("Resources/items.png");
+
+	////roll ability item
+	//Shape::Rectangle rollItemRect = map->GetObjectGroup("MaruMariItem")->GetRects().front();
+	//maruMariItem.Create(&world, &itemsTexture, rollItemRect.x, rollItemRect.y);
+
+	////bomb ability item
+	//Shape::Rectangle bombItemRect = map->GetObjectGroup("BombItem")->GetRects().front();
+	//bombItem.Create(&world, &itemsTexture, bombItemRect.x, bombItemRect.y);
 
 
 
@@ -370,7 +370,7 @@ void PlayScene::Create()
 
 
 	//set cam position
-	cam.SetPosition(player.GetPosition().x, player.GetPosition().y + 110);
+	cam.SetPosition(640/2, 480/2);
 
 	//effects
 	effectsTexture = Texture("Resources/metroidfullsheet.png");
@@ -403,11 +403,11 @@ void PlayScene::HandlePhysics(float dt)
 		player.HandleInput();
 	}
 
-	//handle physics skrees
-	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
-	{
-		(*it)->HandlePhysics(&player);
-	}
+	////handle physics skrees
+	//for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	//{
+	//	(*it)->HandlePhysics(&player);
+	//}
 
 	////handle physics zoomers
 	//for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
@@ -415,19 +415,19 @@ void PlayScene::HandlePhysics(float dt)
 	//	(*it)->HandlePhysics();
 	//}
 
-	//handle physics rios
-	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
-	{
-		(*it)->HandlePhysics(&player);
-	}
+	////handle physics rios
+	//for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	//{
+	//	(*it)->HandlePhysics(&player);
+	//}
 
-	if (kraid != NULL)
-	{
-		if (kraidDoorPassTime == 0)
-		{
-			kraid->HandlePhysics();
-		}
-	}
+	//if (kraid != NULL)
+	//{
+	//	if (kraidDoorPassTime == 0)
+	//	{
+	//		kraid->HandlePhysics();
+	//	}
+	//}
 
 
 	//Update world
@@ -444,90 +444,89 @@ void  PlayScene::Render()
 	//render player
 	player.Render(batch);
 
-	//render doors
-	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
-	kraidDoor->Render(batch);
-	motherBrainDoor->Render(batch);
+	////render doors
+	//for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
+	//kraidDoor->Render(batch);
+	//motherBrainDoor->Render(batch);
 
-	//render zoomers
-	for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
+	////render zoomers
+	//for (std::vector<Zoomer*>::iterator it = zoomers.begin(); it != zoomers.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
 
-	//render rios
-	for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
+	////render rios
+	//for (std::vector<Rio*>::iterator it = rios.begin(); it != rios.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
 
-	//render rippers
-	for (std::vector<Ripper*>::iterator it = rippers.begin(); it != rippers.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
-
-
-	//kraid
-	if (kraid != NULL)
-	{
-		kraid->Render(batch);
-	}
-
-	//mother brain
-	if (motherBrain != NULL)
-	{
-		motherBrain->Render(batch);
-
-		//render cannons
-		for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-		{
-			(*it)->Render(batch);
-		}
-
-		//render circle cannons
-		for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-		{
-			(*it)->Render(batch);
-		}
-
-		//render healthPiles
-		for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
-		{
-			(*it)->Render(batch);
-		}
-	}
-	
-	//draw items
-	batch->Draw(maruMariItem);
-	batch->Draw(bombItem);
+	////render rippers
+	//for (std::vector<Ripper*>::iterator it = rippers.begin(); it != rippers.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
 
 
-	for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
+	////kraid
+	//if (kraid != NULL)
+	//{
+	//	kraid->Render(batch);
+	//}
+
+	////mother brain
+	//if (motherBrain != NULL)
+	//{
+	//	motherBrain->Render(batch);
+
+	//	//render cannons
+	//	for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	//	{
+	//		(*it)->Render(batch);
+	//	}
+
+	//	//render circle cannons
+	//	for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+	//	{
+	//		(*it)->Render(batch);
+	//	}
+
+	//	//render healthPiles
+	//	for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+	//	{
+	//		(*it)->Render(batch);
+	//	}
+	//}
+	//
+	////draw items
+	//batch->Draw(maruMariItem);
+	//batch->Draw(bombItem);
+
+
+	//for (std::vector<HealthItem*>::iterator it = healthItems.begin(); it != healthItems.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
 	
 	explosionEffect.Render(batch);
-
-	//render map
-	map->Render(batch);
-
-	//render skrees
-	for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
-	{
-		(*it)->Render(batch);
-	}
-
 
 #if RENDERDEBUGBOX
 	//draw bodies
 	world.RenderBodiesDebug(batch);
 
 #endif
+
+	//render map
+	map->Render(batch);
+
+	////render skrees
+	//for (std::vector<Skree*>::iterator it = skrees.begin(); it != skrees.end(); ++it)
+	//{
+	//	(*it)->Render(batch);
+	//}
 
 	//end drawing
 	batch->End();
@@ -540,7 +539,9 @@ void  PlayScene::Render()
 
 void PlayScene::Update(float dt)
 {
+#if USESDQUADTREEFORWORLD
 	sdQuadTree.LoadObjectsInViewport(&cam, true, true);
+#endif
 
 	if (stateTime < PLAYERAPPEARINGTIME) //On player appearing, don't do anything except rendering
 	{
@@ -562,300 +563,300 @@ void PlayScene::Update(float dt)
 	}
 	
 
-	//update skrees
-	for (int i = 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
-	{
-		Skree* skree = skrees[i];
-		skree->Update(dt);
-		if (skree->IsDead())
-		{
-			if (skree->GetHealth() <= 0)
-			{
-				explosionEffect.SetSize(32, 32);
-				explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
-				explosionEffect.Play();
-				//instantiate health item
-				HealthItem *healthItem = new HealthItem();
-				healthItem->Create(&world, &itemsTexture, skree->GetPosition().x, skree->GetPosition().y);
-				healthItems.push_back(healthItem);
-			}
-			//delete skree
-			delete skree;
-			skree = NULL;
-			skrees.erase(skrees.begin() + i);
-		}
-	}
+	////update skrees
+	//for (int i = 0; i < skrees.size(); i++) //not use iterator for the sake of erase dead skree (we can't delete an element in skrees if we use iterator loop) 
+	//{
+	//	Skree* skree = skrees[i];
+	//	skree->Update(dt);
+	//	if (skree->IsDead())
+	//	{
+	//		if (skree->GetHealth() <= 0)
+	//		{
+	//			explosionEffect.SetSize(32, 32);
+	//			explosionEffect.SetPosition(skree->GetPosition().x, skree->GetPosition().y);
+	//			explosionEffect.Play();
+	//			//instantiate health item
+	//			HealthItem *healthItem = new HealthItem();
+	//			healthItem->Create(&world, &itemsTexture, skree->GetPosition().x, skree->GetPosition().y);
+	//			healthItems.push_back(healthItem);
+	//		}
+	//		//delete skree
+	//		delete skree;
+	//		skree = NULL;
+	//		skrees.erase(skrees.begin() + i);
+	//	}
+	//}
 
-	//update zoomers
-	for (int i = 0; i < zoomers.size(); i++)
-	{
-		Zoomer* zoomer = zoomers[i];
-		zoomer->Update(dt, &cam);
-		if (zoomer->GetHealth() <= 0)
-		{
-			explosionEffect.SetSize(32, 32);
-			explosionEffect.SetPosition(zoomer->GetPosition().x, zoomer->GetPosition().y);
-			explosionEffect.Play();
-			//instantiate health item
-			HealthItem *healthItem = new HealthItem();
-			healthItem->Create(&world, &itemsTexture, zoomer->GetPosition().x, zoomer->GetPosition().y);
-			healthItems.push_back(healthItem);
+	////update zoomers
+	//for (int i = 0; i < zoomers.size(); i++)
+	//{
+	//	Zoomer* zoomer = zoomers[i];
+	//	zoomer->Update(dt, &cam);
+	//	if (zoomer->GetHealth() <= 0)
+	//	{
+	//		explosionEffect.SetSize(32, 32);
+	//		explosionEffect.SetPosition(zoomer->GetPosition().x, zoomer->GetPosition().y);
+	//		explosionEffect.Play();
+	//		//instantiate health item
+	//		HealthItem *healthItem = new HealthItem();
+	//		healthItem->Create(&world, &itemsTexture, zoomer->GetPosition().x, zoomer->GetPosition().y);
+	//		healthItems.push_back(healthItem);
 
-			//delete skree
-			delete zoomer;
-			zoomer = NULL;
-			zoomers.erase(zoomers.begin() + i);
+	//		//delete skree
+	//		delete zoomer;
+	//		zoomer = NULL;
+	//		zoomers.erase(zoomers.begin() + i);
 
-		}
-	}
+	//	}
+	//}
 
-	//update rios
-	for (int i = 0; i < rios.size(); i++)
-	{
-		Rio* rio = rios[i];
-		rio->Update(dt);
-		if (rio->GetHealth() <= 0)
-		{
-			explosionEffect.SetSize(32, 32);
-			explosionEffect.SetPosition(rio->GetPosition().x, rio->GetPosition().y);
-			explosionEffect.Play();
-			//instantiate health item
-			HealthItem *healthItem = new HealthItem();
-			healthItem->Create(&world, &itemsTexture, rio->GetPosition().x, rio->GetPosition().y);
-			healthItems.push_back(healthItem);
+	////update rios
+	//for (int i = 0; i < rios.size(); i++)
+	//{
+	//	Rio* rio = rios[i];
+	//	rio->Update(dt);
+	//	if (rio->GetHealth() <= 0)
+	//	{
+	//		explosionEffect.SetSize(32, 32);
+	//		explosionEffect.SetPosition(rio->GetPosition().x, rio->GetPosition().y);
+	//		explosionEffect.Play();
+	//		//instantiate health item
+	//		HealthItem *healthItem = new HealthItem();
+	//		healthItem->Create(&world, &itemsTexture, rio->GetPosition().x, rio->GetPosition().y);
+	//		healthItems.push_back(healthItem);
 
-			//delete skree
-			delete rio;
-			rio = NULL;
-			rios.erase(rios.begin() + i);
+	//		//delete skree
+	//		delete rio;
+	//		rio = NULL;
+	//		rios.erase(rios.begin() + i);
 
-		}
-	}
+	//	}
+	//}
 
-	//update rippers
-	for (int i = 0; i < rippers.size(); i++)
-	{
-		Ripper* ripper = rippers[i];
-		ripper->Update(dt);
-		if (ripper->GetHealth() <= 0)
-		{
-			explosionEffect.SetSize(32, 32);
-			explosionEffect.SetPosition(ripper->GetPosition().x, ripper->GetPosition().y);
-			explosionEffect.Play();
-			//instantiate health item
-			HealthItem *healthItem = new HealthItem();
-			healthItem->Create(&world, &itemsTexture, ripper->GetPosition().x, ripper->GetPosition().y);
-			healthItems.push_back(healthItem);
+	////update rippers
+	//for (int i = 0; i < rippers.size(); i++)
+	//{
+	//	Ripper* ripper = rippers[i];
+	//	ripper->Update(dt);
+	//	if (ripper->GetHealth() <= 0)
+	//	{
+	//		explosionEffect.SetSize(32, 32);
+	//		explosionEffect.SetPosition(ripper->GetPosition().x, ripper->GetPosition().y);
+	//		explosionEffect.Play();
+	//		//instantiate health item
+	//		HealthItem *healthItem = new HealthItem();
+	//		healthItem->Create(&world, &itemsTexture, ripper->GetPosition().x, ripper->GetPosition().y);
+	//		healthItems.push_back(healthItem);
 
-			//delete skree
-			delete ripper;
-			ripper = NULL;
-			rippers.erase(rippers.begin() + i);
+	//		//delete skree
+	//		delete ripper;
+	//		ripper = NULL;
+	//		rippers.erase(rippers.begin() + i);
 
-		}
-	}
-
-
-
-	//--------------UPDATE KRAID-------------------
-	if (kraid != NULL)
-	{
-		if (kraidDoorPassTime == 0) //only move kraid if enter left door (can pass right door)
-		{
-			kraid->Update(dt);
-			if (kraid->IsDead())
-			{
-				explosionEffect.SetSize(64, 64);
-				explosionEffect.SetPosition(kraid->GetPosition().x, kraid->GetPosition().y);
-				explosionEffect.Play();
-				delete kraid;
-				kraid = NULL;
-			}
-		}
-	}
-
-	//update kraid door
-	if (kraid == NULL) //if kraid is dead -> just like normal door
-	{
-		if (kraidDoor->GetCanPassLeft() == true)
-		{
-			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
-
-			kraidDoorPassTime += 2;
-			if (kraidDoorPassTime > 60)
-			{
-				kraidDoor->SetCanPassLeft(false);
-				kraidDoorPassTime = -1;
-				flagsound = SoundTheme::Brinstar;
-			}
-		}
-	}
-	else
-	{
-		//if we are fighting kraid, don't open this door until the kraid is dead
-		kraidDoor->SetCanPassLeft(false);
-		if (kraidDoorPassTime == 0)
-		{
-			kraidDoor->SetRightOpen(false);
-		}
-	}
-
-	if (kraidDoor->GetCanPassRight() == true)
-	{
-		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
-
-		kraidDoorPassTime += 2;
-		if (kraidDoorPassTime > 60)
-		{
-			kraidDoor->SetCanPassRight(false);
-			kraidDoorPassTime = 0; //move kraid
-			flagsound = SoundTheme::KraidTheme;
-		}
-	}
+	//	}
+	//}
 
 
-	//-------------UPDATE MOTHER BRAIN-------------------
-	if (motherBrain != NULL)
-	{
-		if (motherBrainDoorPassTime == 0)
-		{
-			motherBrain->Update(dt);
-			if (motherBrain->IsDead())
-			{
-				explosionEffect.SetSize(64, 64);
-				explosionEffect.SetPosition(motherBrain->GetPosition().x, motherBrain->GetPosition().y);
-				explosionEffect.Play();
-				delete motherBrain;
-				motherBrain = NULL;
-			}
 
-			if (motherBrain != NULL)
-			{
-				//update cannons
-				for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-				{
-					(*it)->Update(dt);
-				}
-				//update circle cannons
-				for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-				{
-					(*it)->Update(dt);
-				}
+	////--------------UPDATE KRAID-------------------
+	//if (kraid != NULL)
+	//{
+	//	if (kraidDoorPassTime == 0) //only move kraid if enter left door (can pass right door)
+	//	{
+	//		kraid->Update(dt);
+	//		if (kraid->IsDead())
+	//		{
+	//			explosionEffect.SetSize(64, 64);
+	//			explosionEffect.SetPosition(kraid->GetPosition().x, kraid->GetPosition().y);
+	//			explosionEffect.Play();
+	//			delete kraid;
+	//			kraid = NULL;
+	//		}
+	//	}
+	//}
 
-				//update healthPiles
-				for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
-				{
-					(*it)->Update(dt);
-				}
-			}
-			else
-			{
-				//update cannons
-				for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
-				{
-					(*it)->Destroy();
-				}
-				//update circle cannons
-				for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
-				{
-					(*it)->Destroy();
-				}
-			}
-		}
-	}
+	////update kraid door
+	//if (kraid == NULL) //if kraid is dead -> just like normal door
+	//{
+	//	if (kraidDoor->GetCanPassLeft() == true)
+	//	{
+	//		player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
 
-	//update mother brain door
-	if (motherBrain == NULL) //if mother brain is dead -> just like normal door
-	{
-		if (motherBrainDoor->GetCanPassRight() == true)
-		{
-			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+	//		kraidDoorPassTime += 2;
+	//		if (kraidDoorPassTime > 60)
+	//		{
+	//			kraidDoor->SetCanPassLeft(false);
+	//			kraidDoorPassTime = -1;
+	//			flagsound = SoundTheme::Brinstar;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	//if we are fighting kraid, don't open this door until the kraid is dead
+	//	kraidDoor->SetCanPassLeft(false);
+	//	if (kraidDoorPassTime == 0)
+	//	{
+	//		kraidDoor->SetRightOpen(false);
+	//	}
+	//}
 
-			motherBrainDoorPassTime += 2;
-			if (motherBrainDoorPassTime > 60)
-			{
-				motherBrainDoor->SetCanPassRight(false);
-				motherBrainDoorPassTime = -1;
-				flagsound = SoundTheme::Brinstar;
-			}
-		}
+	//if (kraidDoor->GetCanPassRight() == true)
+	//{
+	//	player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
 
-	}
-	else
-	{
-		//if we are fighting mother brain, don't open this door until the kraid is dead
-		motherBrainDoor->SetCanPassRight(false);
-		if (motherBrainDoorPassTime == 0)
-		{
-			motherBrainDoor->SetLeftOpen(false);
-		}
-	}
-
-	if (motherBrainDoor->GetCanPassLeft() == true)
-	{
-		player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
-
-		motherBrainDoorPassTime += 2;
-		if (motherBrainDoorPassTime > 60)
-		{
-			motherBrainDoor->SetCanPassLeft(false);
-			motherBrainDoorPassTime = 0;  //move mother brain
-			flagsound = SoundTheme::MotherBrainTheme;
-		}
-	}
+	//	kraidDoorPassTime += 2;
+	//	if (kraidDoorPassTime > 60)
+	//	{
+	//		kraidDoor->SetCanPassRight(false);
+	//		kraidDoorPassTime = 0; //move kraid
+	//		flagsound = SoundTheme::KraidTheme;
+	//	}
+	//}
 
 
-	//update other doors
-	for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
-	{
-		if ((*it)->GetCanPassLeft() == true)
-		{
-			player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
-			//cam.SetPosition(cam.GetPosition().x - 10, cam.GetPosition().y);
-			//player.SetPosition(player.GetPosition().x - 4, player.GetPosition().y);
-			passTime += 2;
-			if (passTime > 50)
-			{
-				(*it)->SetCanPassLeft(false);
-				passTime = -1;
-			}
-		}
+	////-------------UPDATE MOTHER BRAIN-------------------
+	//if (motherBrain != NULL)
+	//{
+	//	if (motherBrainDoorPassTime == 0)
+	//	{
+	//		motherBrain->Update(dt);
+	//		if (motherBrain->IsDead())
+	//		{
+	//			explosionEffect.SetSize(64, 64);
+	//			explosionEffect.SetPosition(motherBrain->GetPosition().x, motherBrain->GetPosition().y);
+	//			explosionEffect.Play();
+	//			delete motherBrain;
+	//			motherBrain = NULL;
+	//		}
 
-		if ((*it)->GetCanPassRight() == true)
-		{
-			player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
-			//cam.SetPosition(cam.GetPosition().x + 10, cam.GetPosition().y);
-			//player.SetPosition(player.GetPosition().x + 4, player.GetPosition().y);
-			passTime += 2;
-			if (passTime > 50)
-			{
-				(*it)->SetCanPassRight(false);
-				passTime = -1;
-			}
-		}
-	}
+	//		if (motherBrain != NULL)
+	//		{
+	//			//update cannons
+	//			for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	//			{
+	//				(*it)->Update(dt);
+	//			}
+	//			//update circle cannons
+	//			for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+	//			{
+	//				(*it)->Update(dt);
+	//			}
+
+	//			//update healthPiles
+	//			for (std::vector<HealthPile*>::iterator it = healthPiles.begin(); it != healthPiles.end(); ++it)
+	//			{
+	//				(*it)->Update(dt);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			//update cannons
+	//			for (std::vector<Cannon*>::iterator it = cannons.begin(); it != cannons.end(); ++it)
+	//			{
+	//				(*it)->Destroy();
+	//			}
+	//			//update circle cannons
+	//			for (std::vector<CircleCannon*>::iterator it = circleCannons.begin(); it != circleCannons.end(); ++it)
+	//			{
+	//				(*it)->Destroy();
+	//			}
+	//		}
+	//	}
+	//}
+
+	////update mother brain door
+	//if (motherBrain == NULL) //if mother brain is dead -> just like normal door
+	//{
+	//	if (motherBrainDoor->GetCanPassRight() == true)
+	//	{
+	//		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+
+	//		motherBrainDoorPassTime += 2;
+	//		if (motherBrainDoorPassTime > 60)
+	//		{
+	//			motherBrainDoor->SetCanPassRight(false);
+	//			motherBrainDoorPassTime = -1;
+	//			flagsound = SoundTheme::Brinstar;
+	//		}
+	//	}
+
+	//}
+	//else
+	//{
+	//	//if we are fighting mother brain, don't open this door until the kraid is dead
+	//	motherBrainDoor->SetCanPassRight(false);
+	//	if (motherBrainDoorPassTime == 0)
+	//	{
+	//		motherBrainDoor->SetLeftOpen(false);
+	//	}
+	//}
+
+	//if (motherBrainDoor->GetCanPassLeft() == true)
+	//{
+	//	player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+
+	//	motherBrainDoorPassTime += 2;
+	//	if (motherBrainDoorPassTime > 60)
+	//	{
+	//		motherBrainDoor->SetCanPassLeft(false);
+	//		motherBrainDoorPassTime = 0;  //move mother brain
+	//		flagsound = SoundTheme::MotherBrainTheme;
+	//	}
+	//}
 
 
-	//update effect
-	explosionEffect.Update(dt);
+	////update other doors
+	//for (std::vector<Door*>::iterator it = doors.begin(); it != doors.end(); ++it)
+	//{
+	//	if ((*it)->GetCanPassLeft() == true)
+	//	{
+	//		player.GetMainBody()->SetVelocity(-4, player.GetMainBody()->GetVelocity().y);
+	//		//cam.SetPosition(cam.GetPosition().x - 10, cam.GetPosition().y);
+	//		//player.SetPosition(player.GetPosition().x - 4, player.GetPosition().y);
+	//		passTime += 2;
+	//		if (passTime > 50)
+	//		{
+	//			(*it)->SetCanPassLeft(false);
+	//			passTime = -1;
+	//		}
+	//	}
+
+	//	if ((*it)->GetCanPassRight() == true)
+	//	{
+	//		player.GetMainBody()->SetVelocity(4, player.GetMainBody()->GetVelocity().y);
+	//		//cam.SetPosition(cam.GetPosition().x + 10, cam.GetPosition().y);
+	//		//player.SetPosition(player.GetPosition().x + 4, player.GetPosition().y);
+	//		passTime += 2;
+	//		if (passTime > 50)
+	//		{
+	//			(*it)->SetCanPassRight(false);
+	//			passTime = -1;
+	//		}
+	//	}
+	//}
 
 
-	//update items
-	maruMariItem.Update(dt);
-	bombItem.Update(dt);
+	////update effect
+	//explosionEffect.Update(dt);
 
-	for (int i = 0; i < healthItems.size(); i++)
-	{
-		HealthItem* healthItem = healthItems[i];
-		healthItem->Update(dt);
-		if (healthItem->IsHitPlayer())
-		{
-			delete healthItem;
-			healthItem = NULL;
-			healthItems.erase(healthItems.begin() + i);
-			//flagsound = SoundTheme::ItemTheme;
-		}
-	}
+
+	////update items
+	//maruMariItem.Update(dt);
+	//bombItem.Update(dt);
+
+	//for (int i = 0; i < healthItems.size(); i++)
+	//{
+	//	HealthItem* healthItem = healthItems[i];
+	//	healthItem->Update(dt);
+	//	if (healthItem->IsHitPlayer())
+	//	{
+	//		delete healthItem;
+	//		healthItem = NULL;
+	//		healthItems.erase(healthItems.begin() + i);
+	//		//flagsound = SoundTheme::ItemTheme;
+	//	}
+	//}
 
 
 
@@ -872,7 +873,7 @@ void PlayScene::Update(float dt)
 		}
 	}
 
-	cam.SetPosition(player.GetPosition().x, cam.GetPosition().y);
+	cam.SetPosition(player.GetPosition().x > 640/2 ? player.GetPosition().x : 640/2, 480/2);
 
 	//update Label
 	if (player.GetHealth() < 0)
